@@ -1,0 +1,91 @@
+configuration {
+    display-drun: "Application:";
+    display-window: "Windows:";
+    drun-display-format: "{icon} {name}";
+    hover-select: true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+    show-icons: true;
+}
+
+// Dynamic colors from pywal
+@theme "./default.rasi"
+
+* {
+    background-color: @color2;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    width: 40%;
+    height: 47%;
+    border-radius: 10px;
+}
+
+textbox-prompt-colon {
+    enabled: true;
+    expand: false;
+    padding: 0px 5px 0px 0px;
+    str: " ";
+    background-color: transparent;
+    text-color: inherit;
+}
+
+inputbar {
+    text-color: white;
+    padding: 12px;
+    children: ["textbox-prompt-colon", "entry"];
+    padding: 12px;
+}
+
+entry {
+    enabled: true;
+    background-color: transparent;
+    text-color: inherit;
+    cursor: text;
+    placeholder: "Search...";
+    placeholder-color: inherit;
+}
+
+element {
+    margin: 5px 10px;
+    padding: 7px;
+    border-radius: 10px;
+}
+
+element selected,
+element-text selected,
+element-icon selected {
+    background-color: @color8;
+    color: black;
+}
+
+element-text {
+    color: white;
+}
+
+element-icon {
+    size: 30;
+}
+
+prompt,
+entry {
+    color: white;
+    margin: 0px 2px;
+}
+
+#listview {
+    scrollbar: true;
+}
+
+scrollbar {
+    width: 4px;
+    border: 0;
+    handle-color: @color8;
+    handle-width: 8px;
+    padding: 0;
+    margin: 3px;
+}

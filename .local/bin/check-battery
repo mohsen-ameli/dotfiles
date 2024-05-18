@@ -1,0 +1,21 @@
+#!/bin/sh
+##########################
+## To check the battery of the system.
+##########################
+
+bat=/sys/class/power_supply/BAT0
+CRIT=${1:-15}
+
+FILE=~/notified
+
+stat=$(cat $bat/status)
+perc=$(cat $bat/capacity)
+
+if [[ $perc -le $CRIT ]] && [[ $stat == "Discharging" ]]; then
+  if [[ ! -f "$FILE" ]]; then
+    notify-send "Battery Low" "Current charge: $perc%" -u critical
+    touch $FILE
+  fi
+elif [[ -f "$FILE" ]]; then
+  rm $FILE
+fi

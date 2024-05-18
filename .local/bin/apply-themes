@@ -1,0 +1,27 @@
+#!/bin/bash
+
+THEME=$(grep "gtk-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+ICONS=$(grep "icon-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+FONT=$(grep "font-name" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+CURSOR=$(grep "cursor-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+CURSOR_SIZE=$(grep "cursor-size" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+SCHEMA="gsettings set org.gnome.desktop.interface"
+
+# gsettings set org.gnome.desktop.interface document-font-name 'JetBrainsMonoNL NF 10'
+# gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL NF 11'
+
+apply_themes() {
+	${SCHEMA} gtk-theme "$THEME"
+	${SCHEMA} icon-theme "$ICONS"
+	${SCHEMA} font-name "$FONT"
+	${SCHEMA} cursor-theme "$CURSOR"
+	${SCHEMA} cursor-size "$CURSOR_SIZE"
+
+	echo -e """
+	[[ -f ~/.bashrc ]] && . ~/.bashrc
+	export XCURSOR_THEME=\"$CURSOR\"
+	export XCURSOR_SIZE=\"$CURSOR_SIZE\"
+	""" > $HOME/.bash_profile
+}
+
+apply_themes

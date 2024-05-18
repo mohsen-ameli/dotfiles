@@ -1,0 +1,229 @@
+{
+    "height": 20,
+    "margin": "6 0 0 6", // top right bot left
+    "layer": "top",
+    "modules-left": [
+        "custom/pacman",
+        "temperature",
+        "custom/mem",
+        "cpu",
+        "custom/rog",
+        "tray"
+    ],
+    "modules-center": [
+        "hyprland/workspaces"
+    ],
+    "modules-right": [
+        "custom/weather",
+        "custom/swaync",
+        // "bluetooth",
+        // "custom/network",
+        "pulseaudio",
+        "custom/mic",
+        "battery",
+        "clock",
+        "custom/power"
+    ],
+    //***************************
+    //*  Modules configuration  *
+    //***************************
+    "tray": {
+        "icon-size": 21,
+        "spacing": 10
+    },
+    "hyprland/workspaces" : {
+        "on-click": "activate",
+        "active-only": false,
+        "all-outputs": true,
+        "format": "{icon}"
+        // "format-icons": {
+        //     "1": "",
+        //     "2": "󰨞",
+        //     "3": "",
+        //     "4": "",
+        //     "5": "",
+        //     "6": "󰲪",
+        //     "7": "󰲬",
+        //     "8": "󰲮",
+        //     "9": "󰲰",
+        //     "10": "󰿬"
+        // }
+        // "persistent-workspaces": {
+        //     "*": 5
+        // }
+    },
+    "custom/pacman": {
+        "format": "{} ",
+        "escape": true,
+        "return-type": "json",
+        "interval": 3600,
+        "tooltip": true,
+        "exec": "$HOME/.local/bin/updates", // # of updates
+        "on-click": "alacritty --class floating -e $HOME/.local/bin/install-updates" // update system
+    },
+    "custom/swaync": {
+        "format":"{icon}",
+        "format-icons": {
+            "notification": "󰂚",
+            "none": "",
+            "dnd-notification": "",
+            "dnd-none": "",
+            "inhibited-notification": "",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "",
+            "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "format-alt": "{:%A, %B %d, %Y}",
+        "tooltip-format": "<tt><span size='large'>{calendar}</span></tt>",
+        "calendar": {
+            "mode"          : "month",
+            "mode-mon-col"  : 2,
+            "weeks-pos"     : "right",
+            "on-scroll"     : 1,
+            "on-click-right": "mode",
+            "format": {
+                "months":     "<span color='#ffead3'><b>{}</b></span>",
+                "days":       "<span color='#ecc6d9'><b>{}</b></span>",
+                "weeks":      "<span color='#99ffdd'><b></b></span>",
+                "weekdays":   "<span color='#ffcc66'><b>{}</b></span>",
+                "today":      "<span color='#ff6699'><b><u>{}</u></b></span>"
+            }
+        },
+        "actions":  {
+            "on-click-right": "mode",
+            "on-click-forward": "tz_up",
+            "on-click-backward": "tz_down",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down"
+        },
+        "interval": 60
+    },
+    "custom/weather": {
+        "format": "{}",
+        "tooltip": true,
+        "interval": 1800,
+        "exec": "$HOME/.local/bin/weather",
+        "return-type": "json"
+    },
+    "bluetooth": {
+        "format": "",
+        "format-connected": "󰂱",
+        "format-off": "󰂲",
+        "format-connected-battery": "󰁹󰂱",
+        // "format-device-preference": [ "device1", "device2" ], // preference list deciding the displayed device
+        "tooltip-format": "Bluetooth is {status}\n\n{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+        "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+        "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+        "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%",
+        "on-click": "alacritty --class floating -e bluetuith"
+    },
+    "custom/network": {
+        "format": "{}",
+        "return-type": "json",
+        "interval": 5,
+        "tooltip": true,
+        "exec": "$HOME/.local/bin/network",
+        "on-click": "$HOME/.local/bin/dmenu-wifi"
+    },
+    "pulseaudio": {
+        "scroll-step": 2,
+        "reverse-scrolling": 1,
+        "format": "{volume}% {icon}",
+        "format-bluetooth": "{volume}% {icon}",
+        "format-bluetooth-muted": "0% {icon}",
+        "format-muted": "0% 󰖁",
+        "format-source": "{volume}% ",
+        "format-source-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": ["󰕿", "󰖀", "󰕾", ""]
+        },
+        "on-click": "$HOME/.local/bin/volume --toggle",
+        "on-click-right": "pavucontrol"
+    },
+    "custom/mic": {
+        "format": "{}",
+        "return-type": "json",
+        "exec-on-event": true,
+        "exec": "$HOME/.local/bin/volume --get-mic",
+        "on-click": "$HOME/.local/bin/volume --toggle-mic",
+        "on-click-right": "pavucontrol",
+        "tooltip": false,
+        "signal": 10 // using the following, we can update the text: pkill -SIGRTMIN+10 waybar
+    },
+    "temperature": {
+        // "thermal-zone": 2,
+        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        // "format-critical": "{temperatureC}°C {icon}",
+        "on-click":"alacritty --class floating -e btop",
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": [
+           "",
+           "",
+           "",
+           "",
+           ""
+        ],
+        "tooltip": false
+    },
+    "custom/mem": {
+        "format": "{} ",
+        "interval": 5,
+        "exec": "$HOME/.local/bin/used-mem",
+        "on-click":"alacritty --class floating -e btop",
+        "tooltip": false
+    },
+    "cpu": {
+        "format": "{usage}% 󰍛",
+        "on-click":"alacritty --class floating -e btop",
+        "tooltip": false
+    },
+    "battery": {
+        "states": {
+	        "good": 80,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            " ", // 0%
+            " ", // 25%
+            " ", // 50%
+            " ", // 75%
+            " "
+        ],
+        "on-update": "$HOME/.local/bin/check-battery"
+    },
+    "custom/power": {
+        "format": "",
+        "on-click": "$HOME/.local/bin/dmenu-power",
+        "tooltip": false
+    },
+    "custom/rog": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "$HOME/.local/bin/rog --get",
+        "on-click": "$HOME/.local/bin/rog --profile-toggle",
+        // "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "signal": 8
+    }
+}

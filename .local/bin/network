@@ -1,0 +1,32 @@
+#!/bin/bash
+##########################
+## Shows network connectivity used for waybar
+##########################
+
+interface=$(ip addr | grep BROADCAST | awk '{print $2}' | cut -f1 -d:)
+
+connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
+if [[ $connected == "disconnected" ]]; then
+    echo "{\"text\": \"󰤭\", \"class\": \"disconnected\", \"tooltip\": \"Disconnected\"}"
+    exit 0
+fi
+
+strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
+connection=$(nmcli connection show)
+essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
+ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
+
+# if [[ $strength -ge 75 ]]; then
+#     text="󰤨"
+# elif [[ $strength -ge 50 ]]; then
+#     text="󰤥"
+# elif [[ $strength -ge 25 ]]; then
+#     text="󰤢"
+# else
+#     text="󰤟"
+# fi
+text=" "
+
+tooltip="ESSID: $essid\n\nInterface: $interface\n\nStrength: $strength%\n\nLocal IP: $ipaddr"
+
+echo "{\"text\": \"$text\", \"class\": \"low\", \"tooltip\": \"$tooltip\"}"

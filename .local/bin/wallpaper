@@ -1,0 +1,80 @@
+#!/bin/bash
+##########################
+## Chooses a random wallpaper, sets it as the background, generates
+## color scheme using wal, 
+## Inspired by Stephan Raabe (2023)
+##########################
+
+print_usage() {
+    echo -e """Usage: $0 [arguments]
+	
+arguments:
+    --random: \t\t\t get a random wallpaper
+    --img [path-to-image]: \t specify an image as the wallpaper"""
+}
+
+# $1: title
+# $2: text
+# $3: progress
+notify() {
+    notify-send "$1" "$2" -h string:x-canonical-private-synchronous:sys-notify -h int:value:$3
+}
+
+path_to_wallpapers="$HOME/wallpapers/"
+session="$(echo $XDG_SESSION_TYPE)"
+
+if [[ $1 == "--random" ]]; then
+    wallpaper="$(ls $path_to_wallpapers | shuf -n 1)"
+elif [[ $1 == "--img" ]]; then
+    if [[ ! $2 ]]; then
+        echo "Please specify the path to the wallpaper."
+        exit 1
+    elif [[ ! -f $path_to_wallpapers$2 ]]; then
+        echo "Wallpaper path is not valid :("
+        exit 1
+    fi
+    wallpaper=$2
+else
+    print_usage
+    exit 0
+fi
+
+# Send notification
+wall_name=$wallpaper
+notify "Wallpaper" "$wall_name" 10
+
+# Kill old background daemons
+if [[ $session == "x11" ]]; then
+    killall feh
+else
+    killall swaybg
+fi
+notify "Wallpaper: Removed Old Daemons" "$wall_name" 30
+
+# Set the new wallpaper
+if [[ $session == "x11" ]]; then
+    feh --bg-fill $path_to_wallpapers$wallpaper &
+else
+    swaybg -m fill -i $path_to_wallpapers$wallpaper &
+fi
+notify "Wallpaper: Set Successfully!" "$wall_name" 50
+
+# Select random wallpaper and create color scheme
+wal -q -i $path_to_wallpapers$wallpaper
+notify "Wallpaper: Generating PyWal Colors" "$wall_name" 70
+
+# Genearting colors for hyprland and vscode
+$HOME/.local/bin/generate-wal
+notify "Wallpaper: Generating PyWal Colors" "$wall_name" 80
+
+# Load current pywal color scheme
+source "$HOME/.cache/wal/colors.sh"
+notify "Wallpaper: Loading Colors" "$wall_name" 90
+
+# Copy selected wallpaper into .cache folder
+cp $wallpaper ~/.cache/current_wallpaper.jpg
+magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png
+notify "Wallpaper Changed Successfully!" "$wall_name" 100
+
+# Restart waybar
+$HOME/.local/bin/run-waybar

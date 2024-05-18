@@ -1,0 +1,232 @@
+@import "/home/moe/.cache/wal/colors-waybar.css";
+
+/* old tempreture color */
+/* background: #0bd2cf; */
+/* old memory color */
+/* background: #eba23c; */
+/* old pacman colors */
+/*
+#custom-pacman.green {background: #26A65B;}
+#custom-pacman.yellow {background: #ffbe61;}
+#custom-pacman.red {background: #f53c3c;}
+*/
+/* old cpu color */
+/* background: #a77ecd; */
+
+window {
+    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    min-height: 30px;
+}
+
+window#waybar {
+    background: transparent;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+tooltip {
+    background: rgba(43, 48, 59, 0.8);
+    border-radius: 10px;
+    border: 1px solid rgba(100, 114, 125, 0.5);
+}
+
+tooltip label {
+    color: white;
+}
+
+#workspaces {
+    font-size: 13pt;
+    background: @color1;
+    border-radius: 10px;
+    transition: none;
+    border: 1px solid @foreground;
+}
+
+#workspaces button:first-child {
+    margin-left: 5px;
+}
+
+#workspaces button {
+    background: transparent;
+    color: @color7;
+    transition: none;
+    margin: 3px 3px 3px 0px;
+    padding: 1px 12px;
+}
+
+#workspaces button.active {
+    background: @color7;
+    color: @background;
+    padding: 0px 25px;
+    border-radius: 10px;
+}
+
+#workspaces button:hover {
+    transition: none;
+    box-shadow: inherit;
+    text-shadow: inherit;
+    border-radius: inherit;
+    color: @background;
+    background: @color8;
+}
+
+#clock,
+#tray,
+#custom-weather,
+#custom-pacman,
+#custom-swaync,
+#custom-power,
+#custom-wallapaper,
+#custom-rog,
+#backlight,
+#battery {
+    margin-right: 8px;
+    padding: 5px 16px;
+    border-radius: 10px;
+    border: 1px solid @foreground;
+    transition: none;
+    color: @color7;
+    background: @color1;
+}
+
+#custom-rog,
+#custom-power {
+    padding: 0px 18px 0px 15px;
+}
+
+#custom-network {
+    margin-right: 8px;
+    margin-left: 2px;
+    padding-left: 12px;
+    padding-right: 20px;
+    border-radius: 0px 10px 10px 0px;
+    /* background: #06a3f9; */
+    background: @color1;
+    border: 1px solid @foreground;
+    transition: none;
+    /* color: @color7; */
+    background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain; 
+
+}
+
+#custom-network.low { background-image: url('/usr/share/icons/Papirus/16x16/panel/network-wireless-100.svg'); }
+#custom-network.mid { background-image: url('../icons/wifi-mid.svg'); }
+#custom-network.high { background-image: url('../icons/wifi-high.svg'); }
+
+#bluetooth {
+    padding: 5px 16px;
+    border-radius: 10px 0px 0px 10px;
+    background: #06a3f9;
+    transition: none;
+    border: 1px solid @foreground;
+    color: @color7;
+}
+
+#bluetooth.off,
+#network.disconnected,
+#netowkr.disabled,
+#custom-network.disconnected {
+    color: #06a3f9;
+    background: #85c1c1;
+}
+
+#temperature {
+    padding: 5px 12px;
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid @foreground;
+    transition: none;
+    color: @color7;
+    background: @color1;
+}
+
+#temperature.critical {
+    color: black;
+    background-color: #eb4d4b;
+}
+
+#custom-mem {
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 5px 12px;
+    border: 1px solid @foreground;
+    transition: none;
+    color: @color7;
+    background: @color1;
+}
+
+#cpu {
+    margin-right: 8px;
+    padding: 5px 12px;
+    border-radius: 0px 10px 10px 0px;
+    border: 1px solid @foreground;
+    transition: none;
+    color: @color7;
+    background: @color1;
+}
+
+#battery {
+    background: #3fce14;
+    color: @background;
+}
+
+#battery.charging {
+    background-color: #26A65B;
+}
+
+#battery.warning:not(.charging) {
+    background-color: #ffbe61;
+    color: black;
+}
+
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: @color1;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#pulseaudio {
+    margin-right: 2px;
+    padding: 5px 16px;
+    border-radius: 10px 0px 0px 10px;
+    border: 1px solid @foreground;
+    transition: none;
+    color: @color7;
+    background: @color1;
+}
+
+#pulseaudio.muted {
+    background-color: #85c1c1;
+    color: #2a5c45;
+}
+
+#custom-mic {
+    margin-right: 8px;
+    padding-right: 15px;
+    padding-left: 15px;
+    border-radius: 0px 10px 10px 0px;
+    border: 1px solid @foreground;
+    transition: none;
+    color: @color7;
+    background: @color1;
+}
+
+#custom-mic.muted {
+    background-color: #85c1c1;
+    color: #2a5c45;
+}
+
+@keyframes blink {
+    to {
+        background-color: @color1;
+        color: #000000;
+    }
+}

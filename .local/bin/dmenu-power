@@ -1,0 +1,38 @@
+#!/bin/bash
+
+schema="rofi -dmenu -no-show-icons -i -p Search:"
+lock_="  Lock"
+shutdown_="⏻  Shutdown"
+reboot_="󰑓  Restart"
+logout_="󰍃  Logout"
+suspend_="󰒲  Suspend"
+
+choice=$(echo "$lock_
+$shutdown_
+$reboot_
+$logout_
+$suspend_" | $schema)
+
+if [[ $choice == "" ]]; then
+    exit 0
+fi
+
+action=$(echo $choice | cut -d " " -f2)
+action_lower=$(echo $action | tr '[:upper:]' '[:lower:]')
+
+if zenity --question --text="Are you sure you want to $action_lower?" --title="$action" --ok-label="$action" --cancel-label="Cancel"
+then
+    if [[ $choice == $lock_ ]]; then
+        hyprlock
+    elif [[ $choice == $suspend_ ]]; then
+        systemctl suspend
+    elif [[ $choice == $logout_ ]]; then
+        loginctl terminate-user $USER
+    elif [[ $choice == $shutdown_ ]]; then
+        systemctl poweroff
+    elif [[ $choice == $reboot_ ]]; then
+        systemctl reboot
+    fi
+else
+    exit 0
+fi

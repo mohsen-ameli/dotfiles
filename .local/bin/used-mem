@@ -1,0 +1,6 @@
+#!/bin/sh
+##########################
+## Shows how much memory is being used.
+##########################
+
+free --giga --human | awk '/Mem:/{printf $3}' | cut -c -4

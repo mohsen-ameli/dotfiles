@@ -1,0 +1,14 @@
+[window.padding]
+x = 6
+y = 6
+
+[window]
+dynamic_padding = false
+opacity = 0.7
+title = "Alacritty"
+
+[font]
+size = 14.0
+
+[scrolling]
+history = 5000

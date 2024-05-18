@@ -1,0 +1,128 @@
+#!/usr/bin/env python3
+##########################
+## Shows the current weather using the open-meteo.in api
+##########################
+
+import json
+import requests
+from datetime import datetime
+
+curr_time = int(datetime.now().strftime("%H"))
+city = "Toronto"
+hourly_limit = 12 # how many hours ahead to show
+
+# https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
+# These icons are based on wmo-code which open-meteo uses
+icons = {
+    "Cloudy": "<span color='white'></span>",
+    "Haze": "<span color='white'></span>",
+    "Fog": "<span color='white'>󰖑</span>",
+    "Sandstorm": "<span color='white'></span>",
+    "Sunny": "<span color='white'></span>",
+    "Clear Night": "<span color='white'>󰖔</span>",
+    "Thunder": "<span color='white'></span>",
+    "Hail": "<span color='white'>󰖒</span>",
+    "Patly Cloudy Day": "<span color='white'></span>",
+    "Patly Cloudy Night": "<span color='white'></span>",
+    "Light Rain": "<span color='white'>󰖗</span>",
+    "Rainy Day": "<span color='white'></span>",
+    "Rainy Night": "<span color='white'></span>",
+    "Light Snow": "<span color='white'></span>",
+    "Snow": "<span color='white'></span>",
+}
+
+def get_icon(code: int, is_day: int) -> str:
+    if code == 0:
+        return "Sunny" if is_day == 1 else "Clear Night"
+    elif code <= 2:
+        return "Patly Cloudy Day" if is_day == 1 else "Patly Cloudy Night"
+    elif code <= 4:
+        return "Cloudy"
+    elif code <= 9:
+        return "Haze"
+    elif code <= 19:
+        return "Fog"
+    elif code <= 21:
+        return "Rainy Day" if is_day == 1 else "Rainy Night"
+    elif code == 22:
+        return "Snow"
+    elif code <= 28:
+        return "Hail"
+    elif code == 29:
+        return "Thunder"
+    elif code <= 35:
+        return "Sandstorm"
+    elif code <= 37:
+        return "Light Snow"
+    elif code <= 39:
+        return "Snow"
+    elif code <= 49:
+        return "Fog"
+    elif code <= 59:
+        return "Light Rain"
+    elif code <= 69:
+        return "Rainy Day" if is_day == 1 else "Rainy Night"
+    elif code <= 79:
+        return "Light Snow"
+    elif code <= 92:
+        return "Rainy Day" if is_day == 1 else "Rainy Night"
+    elif code <= 94:
+        return "Snow"
+    else:
+        return "Thunder"
+
+
+def get_am_pm(time: int):
+    if time == curr_time:
+        return "now"
+    elif time == 0:
+        return "12AM"
+    elif time <= 12:
+        return f"{time}AM"
+    else:
+        return f"{time-12}PM"
+
+weather = requests.get("https://api.open-meteo.com/v1/forecast?latitude=43.7001&longitude=-79.4163&current=temperature_2m,is_day,precipitation,weather_code&hourly=temperature_2m,weather_code,is_day&timezone=America%2FNew_York&forecast_days=3").json()
+# def js_r():
+#    with open("/home/moe/toronto.json") as f_in:
+#        return(json.load(f_in))
+# weather = js_r()
+
+# Current weather
+curr_temp = weather["current"]["temperature_2m"]
+high = max(weather["hourly"]["temperature_2m"])
+low = min(weather["hourly"]["temperature_2m"])
+curr_condition = get_icon(weather["current"]["weather_code"], weather["current"]["is_day"])
+curr_icon = icons[curr_condition]
+
+hours = ["\t", "\t", "\t", "\t"]
+conditions = ["\t", "\t", "\t", "\t"]
+temps = ["\t", "\t", "\t", "\t"]
+
+# To fill out the three above variables
+i,j = 0,0
+for t in range(curr_time, curr_time + hourly_limit):
+    if i != 0 and i % 6 == 0:
+        j += 1
+    hours[j] += f"{get_am_pm(t%24)}\t"
+    conditions[j] += f"&#8201;&#8201;{icons[get_icon(weather["hourly"]["weather_code"][t], weather["hourly"]["is_day"][t])]}\t\t"
+    temps[j] += f" {round(weather["hourly"]["temperature_2m"][t])}°\t\t"
+    i += 1
+
+# To concatenate the hours, conditions, and tempretures.
+hourly = ""
+for i in range(j+1):
+    hourly += f"{hours[i]}\n{conditions[i]}\n{temps[i]}\n\n"
+
+data = {
+    "text": f"{curr_icon}   {round(curr_temp)}°",
+    "tooltip": f"""
+    {"\t"*5}<span size="xx-large">{city}</span>{"\t"*6}
+    {"\t"*5}<span size="xx-large">\t{round(curr_temp)}°</span>{"\t"*6}
+    {"\t"*5}<span>      {curr_condition} {curr_icon}</span>{"\t"*6}
+    {"\t"*5}   H: {round(high)}° L: {round(low)}°
+
+{hourly}"""
+}
+
+print(json.dumps(data))

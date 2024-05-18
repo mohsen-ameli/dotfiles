@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Brave
+Exec=/home/moe/.local/bin/launch-app brave
+Icon=brave
+Type=Application
+StartupNotify=True

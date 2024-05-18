@@ -1,0 +1,7 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Balena Etcher
+Exec=/home/moe/.local/bin/launch-app /home/moe/.local/bin/balena-etcher.AppImage
+Icon=balena-etcher-electron
+Type=Application
+StartupNotify=True

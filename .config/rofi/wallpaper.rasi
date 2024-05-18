@@ -1,0 +1,157 @@
+/* Inspired from Stephan Raabe */
+
+configuration {
+    modi: "drun,run";
+    show-icons: true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
+    drun-display-format: "{name}";
+}
+
+// Dynamic colors from pywal
+@theme "./default.rasi"
+
+* {
+    image-size: 250px;
+    columns: 4;
+    rows: 2;
+
+    background-color: @color2;
+    border: 0;
+    margin: 0;
+    padding: 0;
+    spacing: 0;
+}
+
+window {
+    width: 70%;
+    border-radius: 10px;
+    background-color: @color2;
+    padding: 10px;
+}
+
+imagebox {
+    background-color: transparent;
+    orientation: vertical;
+    children: ["inputbar", "dummy", "mode-switcher"];
+}
+
+listbox {
+    spacing: 0px;
+    background-color: transparent;
+    orientation: vertical;
+    children: ["inputbar", "message", "listview"];
+}
+
+inputbar {
+    text-color: white;
+    padding: 12px;
+    children: ["textbox-prompt-colon", "entry"];
+}
+
+textbox-prompt-colon {
+    enabled: true;
+    expand: false;
+    padding: 0px 5px 0px 0px;
+    str: " ";
+    background-color: transparent;
+    text-color: inherit;
+}
+
+entry {
+    enabled: true;
+    background-color: transparent;
+    text-color: inherit;
+    cursor: text;
+    placeholder: "Search...";
+    placeholder-color: inherit;
+}
+
+mode-switcher{
+    enabled: true;
+    background-color: transparent;
+    text-color: white;
+}
+
+button {
+    border-radius: 10px;
+    background-color: black;
+    text-color: inherit;
+    cursor: pointer;
+    border: 0px;
+}
+
+button selected {
+    background-color: @color8;
+    text-color: white;
+}
+
+listview {
+    enabled: true;
+    columns: @columns;
+    lines: @rows;
+    background-color: @color2;
+    border: 0px;
+}
+
+element {
+    margin: 2px;
+    expand: false;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px;
+    orientation: vertical;
+}
+
+element normal.normal,
+element normal.urgent,
+element normal.active,
+element alternate.normal,
+element alternate.urgent,
+element alternate.active {
+    border-color: transparent;
+    background-color: inherit;
+    text-color: white;
+}
+
+element selected.normal,
+element selected.urgent,
+element selected.active {
+    border-color: @color8;
+    background-color: inherit;
+    text-color: white;
+}
+
+element-icon {
+    background-color: transparent;
+    text-color: inherit;
+    size: @image-size;
+    cursor: inherit;
+    horizontal-align: 0.5;
+}
+
+element-text {
+    enabled: false;
+}
+
+textbox {
+    padding: 15px;
+    margin: 0px;
+    background-color: black;
+    text-color: white;
+    vertical-align: 0.5;
+    horizontal-align: 0.0;
+}
+
+#listview {
+    scrollbar: true;
+}
+
+scrollbar {
+    width: 4px;
+    border: 0;
+    handle-color: @color8;
+    handle-width: 8px;
+    padding: 0;
+    margin: 3px;
+}

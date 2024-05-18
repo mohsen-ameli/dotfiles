@@ -1,0 +1,60 @@
+#!/usr/bin/env python3
+##########################
+## Gets AUR and arch updates and puts them in the tooltip.
+## Inspried by Stephan Raabe
+##########################
+
+import subprocess, json
+
+aur_updates = 0
+arch_updates = 0
+updates = 0
+threshhold_green=0
+threshhold_yellow=25
+threshhold_red=100
+tooltip = "=====> AUR Updates\n"
+session="$(echo $XDG_SESSION_TYPE)"
+
+p = subprocess.Popen("echo $XDG_SESSION_TYPE", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+line = p.stdout.readlines()[0]
+session = line.decode("UTF-8").split("\n")[0]
+
+p = subprocess.Popen('trizen -Qua -i 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+for line in p.stdout.readlines():
+    aur_updates += 1
+    tooltip += str(line.decode("UTF-8"))
+tooltip += "\n\n=====> Arch Update\n"
+retval = p.wait()
+
+p2 = subprocess.Popen('checkupdates 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+for line in p2.stdout.readlines():
+    arch_updates += 1
+    tooltip += str(line.decode("UTF-8"))
+retval2 = p2.wait()
+
+updates = aur_updates + arch_updates
+
+if session == "x11":
+    print(updates)
+    exit(0)
+
+css_class = "green"
+if updates > threshhold_yellow:
+    css_class = "yellow"
+if updates > threshhold_red:
+    css_class = "red"
+
+if updates > threshhold_green:
+    print(json.dumps({
+        "text": f"{updates}",
+        "alt": f"{updates}",
+        "tooltip": f"{tooltip}",
+        "class": f"{css_class}"
+    }))
+else:
+    print(json.dumps({
+        "text": "0",
+        "alt": "0",
+        "tooltip": f"0 Updates... Yay",
+        "class": "green"
+    }))

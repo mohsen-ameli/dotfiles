@@ -1,0 +1,30 @@
+#!/bin/bash
+##########################
+## Screenshot utilities brought together.
+## Need grim, slurp, and swappy installed.
+##########################
+
+print_usage() {
+	echo -e """Usage: $0 [arguments]
+	
+arguments:
+    --portion: \t screenshot a portion of the screen
+    --full: \t screenshot the whole screen"""
+}
+
+base="$HOME/Pictures"
+name="$base/$(date +'%F_%T').png"
+
+if [[ $1 == "--portion" ]]; then
+    grim -g "$(slurp)" $name
+elif [[ $1 == "--full" ]]; then
+    grim $name
+else
+    print_usage
+    exit 0
+fi
+
+if [[ $? == 0 ]]; then
+    swappy -f $name
+    notify-send -u normal "Screenshot taken successfully!" "It was saved in $base"
+fi

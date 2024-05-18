@@ -1,0 +1,69 @@
+#!/bin/bash
+##########################
+## Manage keyboard lighting and switch asus power profiles.
+##########################
+
+print_usage() {
+    echo -e """Usage: $0 [arguments]
+	
+arguments:
+    --get: \t\t get the profile with icons
+    --dec: \t\t to decrease keyboard brightness
+    --inc: \t\t to increase keyboard brightness
+    --aura: \t\t change the keyboard lighting effets
+    --profile-toggle: \t toggle power profiles"""
+}
+
+get_keyboard_brightness() {
+    echo $(asusctl -k | awk '/brightness/ {print $5}')
+}
+
+notify_user() {
+	notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i asus "$@"
+}
+
+get_profile() {
+    profile=$(asusctl profile -p | cut -f 4 -d ' ')
+}
+
+
+get_waybar() {
+    get_profile
+    if [ $profile == "Quiet" ]; then
+        echo "{\"text\": \"\", \"tooltip\": \"Quiet \"}"
+    elif [ $profile == "Performance" ]; then
+        echo "{\"text\": \"\", \"tooltip\": \"Performance \"}"
+    else
+        echo "{\"text\": \"\", \"tooltip\": \"Balanced \"}"
+    fi
+}
+
+curr=$(get_keyboard_brightness)
+
+if [ "$1" == "--inc" ]; then
+    if [ $curr == "High" ]; then
+        exit 0;
+    else
+        asusctl -n
+        notify_user "Keyboard Light: $(get_keyboard_brightness)"
+    fi
+elif [ "$1" == "--dec" ]; then
+    if [ $curr == "Off" ]; then
+        exit 0;
+    else
+        asusctl -p
+        notify_user "Keyboard Light: $(get_keyboard_brightness)"
+    fi
+elif [ "$1" == "--get" ]; then
+    get_waybar
+elif [ "$1" == "--aura" ]; then
+    asusctl led-mode -n
+    notify_user "Aura Keyboard Changed" "Static, Pulse, Breathe.\nIdk which one we are currently on ;("
+elif [ "$1" == "--profile-toggle" ]; then
+    asusctl profile -n
+    get_profile
+    notify_user "Power Profile: $profile"
+    pkill -SIGRTMIN+8 waybar
+else
+    print_usage
+fi

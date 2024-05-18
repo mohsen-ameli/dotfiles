@@ -1,0 +1,12 @@
+#!/bin/bash
+##########################
+## Launches an app based on display server
+##########################
+
+session="$(echo $XDG_SESSION_TYPE)"
+
+if [[ $session == "x11" ]]; then
+  $1
+else
+  $1 --enable-features=UseOzonePlatform --ozone-platform=wayland
+fi

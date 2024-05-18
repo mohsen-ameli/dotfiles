@@ -1,0 +1,60 @@
+#!/bin/bash
+
+schema="rofi -dmenu -no-show-icons -i -p Search:"
+
+# $1 is the message to be shown
+notify() {
+	notify-send "WiFi" "$@" -i "$HOME/.local/share/icons/custom/wifi-icon.png" -t 3000
+}
+
+notify "Launching..."
+
+interface="wlan0"
+wifis=$(nmcli -f IN-USE,SSID,FREQ,SECURITY,SIGNAL,BARS dev wifi | awk '!/--/ {if (NR>1) {print $0}}')
+connection=$(nmcli device status | awk "/^$interface/ {print \$3}")
+
+prompt="NMTUI\n$wifis"
+if [[ $connection != "disconnected" ]]; then
+	prompt="Disconnect WiFi\n$prompt"
+fi
+
+choice=$(echo -e "$prompt" | $schema)
+
+if [[ $choice == "" ]]; then
+	exit 0
+elif [[ $choice == "Disconnect WiFi" ]]; then
+	nmcli dev disconnect $interface
+	notify "Disconnected from WiFi."
+	exit 0
+elif [[ $choice == "NMTUI" ]]; then
+	alacritty --class floating -e nmtui
+	exit 0
+fi
+
+ssid=$(echo "$choice" | awk '{print $1}')
+
+if [[ $ssid == "*" ]]; then
+	notify "Already connected!"
+	exit 0
+elif [[ $ssid == "IN-USE" ]]; then
+	notify "Wrong row selected!"
+	exit 1
+fi
+
+nmcli dev wifi connect "$ssid"
+
+if [[ $? -eq 0 ]]; then
+	notify "Successfully connected to $ssid"
+	exit 0
+fi
+
+pass=$(zenity --password 2> /dev/null)
+
+nmcli dev wifi connect "$ssid" password "$pass"
+
+if [[ $? -eq 0 ]]; then
+	notify "Successfully connected to $ssid"
+else
+	notify "Could not connect to $ssid"
+fi
+
