@@ -1,5 +1,5 @@
-# https://github.com/JaKooLit/Ja_HyprLanD-dots/tree/main
 #!/bin/bash
+# https://github.com/JaKooLit/Ja_HyprLanD-dots/tree/main
 
 iDIR="$HOME/.config/icons"
 vol_segment=2 # How much to increase or decrease the volume by
@@ -9,6 +9,7 @@ print_usage() {
 	
 arguments:
 	--get: \t\t get current volume status
+	--get-full: \t get current volume with icon
 	--get-mic: \t get current mic status
 	--dec: \t\t to decrease volume
 	--inc: \t\t to increase volume
@@ -19,9 +20,22 @@ arguments:
 	--get-icon: \t get the icon for the currrent volume"""
 }
 
-# Get Volume
 get_volume() {
 	echo "$(pamixer --get-volume)"
+}
+
+get_volume_full() {
+	vol=$(get_volume)
+	if [[ $vol -lt 25 ]]; then
+		icon="󰕿"
+	elif [[ $vol -lt 50 ]]; then
+		icon="󰖀"
+	elif [[ $vol -lt 75 ]]; then
+		icon="󰕾"
+	else
+		icon=""
+	fi
+	echo "$icon  $vol"
 }
 
 get_mic() {
@@ -132,6 +146,8 @@ dec_mic_volume() {
 # Execute accordingly
 if [[ "$1" == "--get" ]]; then
 	get_volume
+elif [[ "$1" == "--get-full" ]]; then
+	get_volume_full
 elif [[ "$1" == "--get-mic" ]]; then
 	get_mic
 elif [[ "$1" == "--inc" ]]; then

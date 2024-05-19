@@ -22,6 +22,9 @@ apply_themes() {
 	export XCURSOR_THEME=\"$CURSOR\"
 	export XCURSOR_SIZE=\"$CURSOR_SIZE\"
 	""" > $HOME/.bash_profile
+
+	notify-send "Themes" "Applied all themes successfully!"
+	echo "Done!"
 }
 
 apply_themes

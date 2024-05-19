@@ -51,7 +51,7 @@ function setup_yay() {
 	cd ..
 
 	notify "Installing AUR packages"
-	yay -S $music_player $cursor_theme $rofi_plugins swaync hyprlock hypridle vesktop trizen bluetuith auto-cpufreq asusctl-git xdg-desktop-portal-hyprland-git
+	yay -S $music_player $cursor_theme $rofi_plugins swaync hyprlock hypridle vesktop trizen bluetuith auto-cpufreq asusctl-git xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
 
 function setup_zsh() {

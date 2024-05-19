@@ -13,6 +13,9 @@ Nvidia drivers on wayland: https://comfy.guide/client/nvidia/
 Screen sharing on hyprland:
 https://gist.github.com/brunoanc/2dea6ddf6974ba4e5d26c3139ffb7580
 
+latex:
+https://mathjiajia.github.io/vscode-and-latex/
+
 If an app is blury, add this line to the "exec" option of the app
 found in either /usr/share/applications or /usr/share/local/applications
 --enable-features=UseOzonePlatform --ozone-platform=wayland
@@ -48,10 +51,14 @@ TODO:
 DONE: fix firefox crashing with hardware accelaration turned on
     + switched to brave
 DONE: fix vscode python syntax highliting not working
+    + removed env = GBM_BACKEND,nvidia-drm from hyprland config
     + installed the "syntax highlighter" extension
 fix hypridle issues
     clicking twice to bring up hyprlock
     firefox videos playing, after a while, activates hypridle
     waybar doesn't restart
 fix thunar not opening terminal with proper emulator
+fix arch freezing randomly
+configure qtile
+when opening apps (mainly from waybar), they open in different workplaces
 

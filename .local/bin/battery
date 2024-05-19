@@ -1,5 +1,21 @@
 #!/bin/bash
 
-capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-echo "$capacity%"
+run() {
+    capacity=$(cat /sys/class/power_supply/BAT0/capacity)
 
+    if [[ $capacity -lt 10 ]]; then
+        icon=""
+    elif [[ $capacity -lt 25 ]]; then
+        icon=""
+    elif [[ $capacity -lt 50 ]]; then
+        icon=""
+    elif [[ $capacity -lt 75 ]]; then
+        icon=""
+    else
+        icon=""
+    fi
+
+    echo "$icon   $capacity%"
+}
+
+run

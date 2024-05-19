@@ -5,10 +5,10 @@
 #[╰─cmd────❯](bold green) 
 #"""
 
-[git_status]
-disabled = true
-
 command_timeout = 5000
+
+[git_status]
+disabled = false
 
 [username]
 style_user = "green bold"

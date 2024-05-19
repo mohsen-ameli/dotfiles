@@ -6,6 +6,11 @@
 ##########################
 
 print_usage() {
+    if [[ $(is-wayland) == 1 ]]; then
+        echo "wayland"
+    else
+        echo "x11"
+    fi
     echo -e """Usage: $0 [arguments]
 	
 arguments:
@@ -21,7 +26,7 @@ notify() {
 }
 
 path_to_wallpapers="$HOME/wallpapers/"
-session="$(echo $XDG_SESSION_TYPE)"
+wayland=$($HOME/.local/bin/is-wayland)
 
 if [[ $1 == "--random" ]]; then
     wallpaper="$(ls $path_to_wallpapers | shuf -n 1)"
@@ -44,18 +49,13 @@ wall_name=$wallpaper
 notify "Wallpaper" "$wall_name" 10
 
 # Kill old background daemons
-if [[ $session == "x11" ]]; then
-    killall feh
-else
+if [[ $wayland -eq "1" ]]; then
+    echo "$path_to_wallpapers$wallpaper"
     killall swaybg
-fi
-notify "Wallpaper: Removed Old Daemons" "$wall_name" 30
-
-# Set the new wallpaper
-if [[ $session == "x11" ]]; then
-    feh --bg-fill $path_to_wallpapers$wallpaper &
-else
     swaybg -m fill -i $path_to_wallpapers$wallpaper &
+else
+    killall feh
+    feh --bg-fill $path_to_wallpapers$wallpaper &
 fi
 notify "Wallpaper: Set Successfully!" "$wall_name" 50
 
@@ -77,4 +77,6 @@ magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png
 notify "Wallpaper Changed Successfully!" "$wall_name" 100
 
 # Restart waybar
-$HOME/.local/bin/run-waybar
+if [[ $wayland -eq "1" ]]; then
+    $HOME/.local/bin/run-waybar
+fi

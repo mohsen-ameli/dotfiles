@@ -3,10 +3,10 @@
 ## Launches an app based on display server
 ##########################
 
-session="$(echo $XDG_SESSION_TYPE)"
+wayland=$($HOME/.local/bin/is-wayland)
 
-if [[ $session == "x11" ]]; then
-  $1
-else
+if [[ $wayland -eq "1" ]]; then
   $1 --enable-features=UseOzonePlatform --ozone-platform=wayland
+else
+  $1
 fi

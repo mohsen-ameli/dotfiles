@@ -13,7 +13,7 @@ source $ZSH/oh-my-zsh.sh
 export ELECTRON_OZONE_PLATFORM_HINT="wayland"
 export VCPKG_ROOT="/opt/vcpkg"
 export VCPKG_DOWNLOADS="/var/cache/vcpkg"
-export PATH="$PATH:/home/moe/.local/bin/"
+export PATH="$PATH:/home/moe/.local/bin:/usr/bin/pdflatex:/usr/bin/latex"
 
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
@@ -25,9 +25,9 @@ alias ex='chmod u+x'
 eval "$(starship init zsh)"
 
 # Pywal
-#(cat ~/.cache/wal/sequences &)
-#cat ~/.cache/wal/sequences
-#source ~/.cache/wal/colors-tty.sh
+# (cat ~/.cache/wal/sequences &)
+# cat ~/.cache/wal/sequences
+# source ~/.cache/wal/colors-tty.sh
 
 # idk man
 cowsay "Welcome Back Soldier"

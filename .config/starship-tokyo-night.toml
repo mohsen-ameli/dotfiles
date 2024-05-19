@@ -1,5 +1,7 @@
+command_timeout = 5000
+
 [git_status]
-disabled = true
+disabled = false
 
 format = """
 [░▒▓](#a3aed2)\

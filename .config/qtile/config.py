@@ -44,13 +44,39 @@ MARGIN = 7
 mod = "mod4"
 terminal = guess_terminal()
 
+
 @hook.subscribe.startup_once
 def autostart():
-    subprocess.Popen('/home/moe/.config/qtile/autostart.sh', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    # home = os.path.expanduser('/home/moe/.config/qtile/autostart.sh')
-    # subprocess.Popen([home])
+    subprocess.Popen(
+        "/home/moe/.config/qtile/autostart.sh",
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT,
+    )
+
+
+def run_script(file: str):
+    p = subprocess.Popen(
+        file, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+    )
+    line = p.stdout.readlines()[0]
+    return line.decode("UTF-8").split("\n")[0]
+
 
 keys = [
+    Key([], "XF86AudioLowerVolume", lazy.spawn(".local/bin/volume --dec")),
+    Key([], "XF86AudioRaiseVolume", lazy.spawn(".local/bin/volume --inc")),
+    Key([], "XF86AudioMicMute", lazy.spawn(".local/bin/volume --toggle-mic")), #not working
+    Key([], "XF86Launch1", lazy.spawn(".local/bin/rog-control-center")),
+
+    Key([], "XF86AudioMute", lazy.spawn(".local/bin/volume --toggle")), #F1
+    Key([], "XF86KbdBrightnessUp", lazy.spawn(".local/bin/rog --inc")), #F2
+    Key([], "XF86KbdBrightnessDown", lazy.spawn(".local/bin/rog --dec")), #F3
+    # Key(["mod1"], "F4", lazy.spawn(".local/bin/rog --aura")), #F4 not working
+    Key(["mod1"], "F5", lazy.spawn(".local/bin/rog --profile-toggle")), #F5 not working
+    Key(["mod1"], "F6", lazy.spawn(".local/bin/screenshot --portion")), #F6 not working
+    Key([], "XF86MonBrightnessUp", lazy.spawn(".local/bin/brightness --inc")), #F7
+    Key([], "XF86MonBrightnessDown", lazy.spawn(".local/bin/brightness --dec")), #F8
     Key([mod], "q", lazy.window.kill()),
     Key([mod, "shift"], "r", lazy.restart()),
     Key([mod], "e", lazy.spawn("thunar")),
@@ -149,7 +175,9 @@ for i in groups:
     )
 
 layouts = [
-    layout.Columns(border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4, margin=MARGIN),
+    layout.Columns(
+        border_focus_stack=["#d75f5f", "#8f3d3d"], border_width=4, margin=MARGIN
+    ),
     layout.Max(),
     # Try more layouts by unleashing below layouts.
     # layout.Stack(num_stacks=2),
@@ -171,13 +199,6 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-def run_script(file: str):
-    p = subprocess.Popen(file, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    line = p.stdout.readlines()[0]
-    return line.decode("UTF-8").split("\n")[0]
-
-def get_updates():
-    return run_script("/home/moe/.local/bin/updates")
 
 def get_mem():
     # i = 0
@@ -185,35 +206,50 @@ def get_mem():
     #     print(i)
     #     sleep(0.5)
     #     i += 1
-    return run_script("/home/moe/.local/bin/used-mem")
+    return run_script(".local/bin/used-mem")
+
 
 def get_weather():
-    text = run_script("/home/moe/.local/bin/weather")
+    text = run_script(".local/bin/weather")
     return json.loads(text)["text"]
 
+
 def show_powermenu():
-    qtile.spawn("/home/moe/.local/bin/dmenu-power")
+    qtile.spawn(".local/bin/dmenu-power")
 
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.TextBox(fmt=f"  {get_updates()}", foreground=TEXT_COLOR),
-                widget.ThermalSensor(format=" {temp:.1f}{unit}", foreground=TEXT_COLOR),
-                widget.Memory(measure_mem='G', format='  {MemUsed: .1f}{mm}', foreground=TEXT_COLOR),
+                # widget.TextBox(fmt=f"  {run_script(".local/bin/updates")}", foreground=TEXT_COLOR),
+                widget.ThermalSensor(
+                    format=" {temp:.1f}{unit}", foreground=TEXT_COLOR
+                ),
+                widget.Memory(
+                    measure_mem="G",
+                    format="  {MemUsed: .1f}{mm}",
+                    foreground=TEXT_COLOR,
+                ),
                 widget.CPU(format="󰍛 {load_percent}%", foreground=TEXT_COLOR),
                 widget.Systray(icon_size=28, padding=4),
-                widget.TextBox(fmt=f"{get_weather()}", foreground=TEXT_COLOR),
                 widget.Spacer(),
-                widget.GroupBox(hide_unused=True, active=TEXT_COLOR, inactive=TEXT_COLOR, highlight_method="block"),
+                widget.GroupBox(
+                    hide_unused=True,
+                    active=TEXT_COLOR,
+                    inactive=TEXT_COLOR,
+                    highlight_method="block",
+                ),
                 widget.Spacer(),
-                widget.Wlan(format='{essid} {percent:2.0%}', foreground=TEXT_COLOR),
-                widget.Volume(fmt='VOL: {}', emoji=True, emoji_list=['🔇', '🔈', '🔉', '🔊'], foreground=TEXT_COLOR),
-                widget.Battery(format="  {percent:2.0%}", foreground=TEXT_COLOR),
+                # widget.TextBox(fmt=f"{get_weather()}", foreground=TEXT_COLOR),
+                widget.Wlan(format="{essid} {percent:2.0%}", foreground=TEXT_COLOR),
+                widget.PulseVolume(unmute_format="{}{volume}%", limit_max_volume=True, emoji_list=['🔇', '󰕿', '󰖀', '󰕾', ''], emoji=True),
+                widget.TextBox(fmt=f"{run_script(".local/bin/battery")}", foreground=TEXT_COLOR),
                 widget.Clock(format="%_I:%M %p", foreground=TEXT_COLOR),
-                widget.TextBox(fmt="", foreground=TEXT_COLOR, mouse_callbacks={
-                    "Button1": show_powermenu
-                }),
+                widget.TextBox(
+                    fmt="",
+                    foreground=TEXT_COLOR,
+                    mouse_callbacks={"Button1": show_powermenu},
+                ),
             ],
             25,
             margin=MARGIN,
