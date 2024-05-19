@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [[ $WAYLAND_DISPLAY == "" ]]; then
+  echo "0"
+else
+  echo "1"
+fi
+
