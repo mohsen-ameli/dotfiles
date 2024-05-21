@@ -5,9 +5,9 @@ browser="firefox"
 emulator="alacritty"
 shell="zsh"
 editor="code nano vim"
-file_explorer="thunar"
+file_explorer="thunar tumbler ffmpegthumbnailer"
+image_viewer="loupe swappy"
 themes="breeze-icons arc-gtk-theme papirus-icon-theme"
-theme_manager="nwg-look"
 cursor_theme="bibata-cursor-theme-bin"
 fonts="noto-fonts ttf-jetbrains-mono-nerd"
 music_player="amberol"
@@ -22,6 +22,7 @@ rofi_plugins="rofi-calc-git"
 
 setup_pacman
 setup_yay
+setup_latex
 setup_zsh
 setup_autocpufreq
 setup_cursor
@@ -40,7 +41,11 @@ function notify() {
 function setup_pacman() {
 	notify "Installing pacman packages.\nMake sure multilib is enabled in /etc/pacman.conf"
 	sudo pacman -Syu
-	sudo pacman -S base-devel git $themes $login_manager $shell $file_explorer $media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall hyprland python-pywal swaybg waybar $app_launcher $theme_manager zenity pacman-contrib btop htop yt-dlp ffmpeg wget neofetch jq grim slurp swappy cliphist net-tools glmark2 brightnessctl cowsay ntfs-3g 
+	sudo pacman -S base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
+	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
+	nwg-look hyprland python-pywal swaybg waybar zenity pacman-contrib btop htop yt-dlp \
+	ffmpeg wget neofetch jq grim slurp cliphist net-tools glmark2 brightnessctl cowsay ntfs-3g \
+	powertop
 }
 
 function setup_yay() {
@@ -51,7 +56,12 @@ function setup_yay() {
 	cd ..
 
 	notify "Installing AUR packages"
-	yay -S $music_player $cursor_theme $rofi_plugins swaync hyprlock hypridle vesktop trizen bluetuith auto-cpufreq asusctl-git xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
+	yay -S $music_player $cursor_theme $rofi_plugins swaync hyprlock hypridle vesktop trizen\
+	bluetuith auto-cpufreq asusctl-git xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
+}
+
+function setup_latex() {
+  sudo pacman -S texlive-doc texlive-latexrecommended texlive-latexextra texlive-latex texlive-basic texlive-binary
 }
 
 function setup_zsh() {
@@ -72,7 +82,6 @@ function setup_cursor() {
 	notify "Setting cursor theme"
 	mkdir $HOME/.icons
 	tar -xf Bibata-Modern-Ice.tar.xz
-  tar -xf Bibata-Modern-Ice.tar.xz
 	mv Bibata-Modern-Ice $HOME/.icons
 }
 

@@ -5,72 +5,120 @@
 
 import json
 import requests
+import pytz
 from datetime import datetime
+from geopy.geocoders import Nominatim
 
-curr_time = int(datetime.now().strftime("%H"))
+
 city = "Toronto"
-hourly_limit = 12 # how many hours ahead to show
+timezone = "America/Toronto"
+g = Nominatim(user_agent="agent_smith")
+location = g.geocode(city)
+latitude = (location.latitude)
+longitude = (location.longitude)
+curr_time = int(datetime.now(pytz.timezone(timezone)).strftime("%H"))
+hourly_limit = 24 # how many hours ahead to show
 
 # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 # These icons are based on wmo-code which open-meteo uses
 icons = {
-    "Cloudy": "<span color='white'></span>",
-    "Haze": "<span color='white'></span>",
-    "Fog": "<span color='white'>󰖑</span>",
-    "Sandstorm": "<span color='white'></span>",
-    "Sunny": "<span color='white'></span>",
-    "Clear Night": "<span color='white'>󰖔</span>",
-    "Thunder": "<span color='white'></span>",
-    "Hail": "<span color='white'>󰖒</span>",
-    "Patly Cloudy Day": "<span color='white'></span>",
-    "Patly Cloudy Night": "<span color='white'></span>",
-    "Light Rain": "<span color='white'>󰖗</span>",
-    "Rainy Day": "<span color='white'></span>",
-    "Rainy Night": "<span color='white'></span>",
-    "Light Snow": "<span color='white'></span>",
-    "Snow": "<span color='white'></span>",
+    "overcast": {
+        "name": "Cloudy",
+        "icon": "<span color='white'>☁️</span>"
+    },
+    "partly-cloudy-day": {
+        "name": "Mostly Cloudy",
+        "icon": "<span color='white'>🌤️</span>"
+    },
+    "partly-cloudy-night": {
+        "name": "Mostly Cloudy",
+        "icon": "<span color='white'> </span>"
+    },
+    "haze": {
+        "name": "Haze",
+        "icon": "<span color='white'></span>"
+    },
+    "fog": {
+        "name": "Fog",
+        "icon": "<span color='white'>🌫️</span>"
+    },
+    "sandstorm": {
+        "name": "Sandstorm",
+        "icon": "<span color='white'>🌪️</span>"
+    },
+    "clear-day": {
+        "name": "Sunny",
+        "icon": "<span color='white'>☀️</span>"
+    },
+    "clear-night": {
+        "name": "Clear",
+        "icon": "<span color='white'>🌙</span>"
+    },
+    "thunderstorm": {
+        "name": "Thunderstorm",
+        "icon": "<span color='white'>⛈️</span>"
+    },
+    "hail": {
+        "name": "Hail",
+        "icon": "<span color='white'>󰖒</span>"
+    },
+    "rain-shower": {
+        "name": "Shower",
+        "icon": "<span color='white'>☔</span>"
+    },
+    "rain": {
+        "name": "Rain",
+        "icon": "<span color='white'>🌧️</span>"
+    },
+    "snow-light": {
+        "name": "Light Snow",
+        "icon": "<span color='white'>🌨️</span>"
+    },
+    "snow": {
+        "name": "Snow",
+        "icon": "<span color='white'>❄️</span>"
+    },
 }
 
 def get_icon(code: int, is_day: int) -> str:
-    if code == 0:
-        return "Sunny" if is_day == 1 else "Clear Night"
-    elif code <= 2:
-        return "Patly Cloudy Day" if is_day == 1 else "Patly Cloudy Night"
-    elif code <= 4:
-        return "Cloudy"
+    if code <= 2:
+        return "clear-day" if is_day == 1 else "clear-night"
+    elif code == 3:
+        return "partly-cloudy-day" if is_day == 1 else "partly-cloudy-night"
+    elif code == 4:
+        return "cloudy"
     elif code <= 9:
-        return "Haze"
+        return "haze"
     elif code <= 19:
-        return "Fog"
+        return "fog"
     elif code <= 21:
-        return "Rainy Day" if is_day == 1 else "Rainy Night"
+        return "rain"
     elif code == 22:
-        return "Snow"
+        return "snow"
     elif code <= 28:
-        return "Hail"
+        return "hail"
     elif code == 29:
-        return "Thunder"
+        return "thunderstorm"
     elif code <= 35:
-        return "Sandstorm"
+        return "sandstorm"
     elif code <= 37:
-        return "Light Snow"
+        return "snow-light"
     elif code <= 39:
-        return "Snow"
+        return "snow"
     elif code <= 49:
-        return "Fog"
+        return "fog"
     elif code <= 59:
-        return "Light Rain"
+        return "rain-shower"
     elif code <= 69:
-        return "Rainy Day" if is_day == 1 else "Rainy Night"
+        return "rain"
     elif code <= 79:
-        return "Light Snow"
+        return "snow-light"
     elif code <= 92:
-        return "Rainy Day" if is_day == 1 else "Rainy Night"
+        return "rain"
     elif code <= 94:
-        return "Snow"
+        return "snow"
     else:
-        return "Thunder"
-
+        return "thunderstorm"
 
 def get_am_pm(time: int):
     if time == curr_time:
@@ -82,47 +130,71 @@ def get_am_pm(time: int):
     else:
         return f"{time-12}PM"
 
-weather = requests.get("https://api.open-meteo.com/v1/forecast?latitude=43.7001&longitude=-79.4163&current=temperature_2m,is_day,precipitation,weather_code&hourly=temperature_2m,weather_code,is_day&timezone=America%2FNew_York&forecast_days=3").json()
-# def js_r():
-#    with open("/home/moe/toronto.json") as f_in:
-#        return(json.load(f_in))
-# weather = js_r()
+def get_data(live: bool) -> dict:
+    if live:
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code&hourly=temperature_2m,weather_code,is_day&timezone={timezone}&forecast_days=3"
+        weather = requests.get(url).json()
+    else:
+        with open("/tmp/toronto.json") as f_in:
+            weather = json.load(f_in)
+    return weather
 
-# Current weather
-curr_temp = weather["current"]["temperature_2m"]
-high = max(weather["hourly"]["temperature_2m"])
-low = min(weather["hourly"]["temperature_2m"])
-curr_condition = get_icon(weather["current"]["weather_code"], weather["current"]["is_day"])
-curr_icon = icons[curr_condition]
+def format_data(weather: dict):
+    # Current weather
+    curr_temp = weather["current"]["temperature_2m"]
+    high = max(weather["hourly"]["temperature_2m"][:24])
+    low = min(weather["hourly"]["temperature_2m"][:24])
+    curr_condition = get_icon(weather["current"]["weather_code"], weather["current"]["is_day"])
+    curr_condition_name = icons[curr_condition]["name"]
+    curr_icon = icons[curr_condition]["icon"]
 
-hours = ["\t", "\t", "\t", "\t"]
-conditions = ["\t", "\t", "\t", "\t"]
-temps = ["\t", "\t", "\t", "\t"]
+    hours = ["\t", "\t", "\t", "\t"]
+    conditions = ["\t", "\t", "\t", "\t"]
+    temps = ["\t", "\t", "\t", "\t"]
 
-# To fill out the three above variables
-i,j = 0,0
-for t in range(curr_time, curr_time + hourly_limit):
-    if i != 0 and i % 6 == 0:
-        j += 1
-    hours[j] += f"{get_am_pm(t%24)}\t"
-    conditions[j] += f"&#8201;&#8201;{icons[get_icon(weather["hourly"]["weather_code"][t], weather["hourly"]["is_day"][t])]}\t\t"
-    temps[j] += f" {round(weather["hourly"]["temperature_2m"][t])}°\t\t"
-    i += 1
+    # To fill out the three above variables
+    i,j = 0,0
+    for t in range(curr_time, curr_time + hourly_limit):
+        if i != 0 and i % 6 == 0:
+            j += 1
+        condition = get_icon(weather["hourly"]["weather_code"][t], weather["hourly"]["is_day"][t])
+        hours[j] += f"{get_am_pm(t%24)}\t"
+        conditions[j] += f"&#8201;&#8201;{icons[condition]["icon"]}\t\t"
+        temps[j] += f" {round(weather["hourly"]["temperature_2m"][t])}°\t\t"
+        i += 1
 
-# To concatenate the hours, conditions, and tempretures.
-hourly = ""
-for i in range(j+1):
-    hourly += f"{hours[i]}\n{conditions[i]}\n{temps[i]}\n\n"
+    # To concatenate the hours, conditions, and tempretures.
+    hourly = ""
+    for i in range(j+1):
+        hourly += f"{hours[i]}\n{conditions[i]}\n{temps[i]}\n\n"
 
-data = {
-    "text": f"{curr_icon}   {round(curr_temp)}°",
-    "tooltip": f"""
-    {"\t"*5}<span size="xx-large">{city}</span>{"\t"*6}
+    space_before_condition = " "
+    if len(curr_condition_name) < 6:
+        space_before_condition = f"{' '*6}"
+    elif len(curr_condition_name) < 10:
+        space_before_condition = f"{' '*4}"
+
+    space_before_city = " "
+    if len(city) <= 5:
+        space_before_city = f"{' '*8}"
+    elif len(city) <= 8:
+        space_before_city = f"{' '*5}"
+        
+
+    data = {
+        "text": f"{curr_icon}  {round(curr_temp)}°",
+        "tooltip": f"""
+    {"\t"*4}<span size="xx-large">{space_before_city}{city}</span>
     {"\t"*5}<span size="xx-large">\t{round(curr_temp)}°</span>{"\t"*6}
-    {"\t"*5}<span>      {curr_condition} {curr_icon}</span>{"\t"*6}
+    {"\t"*5}<span>{space_before_condition}{curr_condition_name} {curr_icon}</span>{"\t"*6}
     {"\t"*5}   H: {round(high)}° L: {round(low)}°
 
 {hourly}"""
-}
+    }
 
+    return data
+
+
+weather = get_data(live=True)
+data = format_data(weather)
 print(json.dumps(data))
