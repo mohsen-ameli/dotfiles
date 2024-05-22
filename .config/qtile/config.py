@@ -62,6 +62,10 @@ def run_script(file: str):
     line = p.stdout.readlines()[0]
     return line.decode("UTF-8").split("\n")[0]
 
+def reload():
+    run_script(".local/bin/run-polybar")
+    lazy.reload_config()
+
 
 keys = [
     Key([], "XF86AudioLowerVolume", lazy.spawn(".local/bin/volume --dec")),
@@ -135,7 +139,7 @@ keys = [
         lazy.window.toggle_floating(),
         desc="Toggle floating on the focused window",
     ),
-    Key([mod], "r", lazy.reload_config(), desc="Reload the config"),
+    Key([mod], "r", reload(), desc="Reload the config"),
     Key([mod], "m", lazy.shutdown(), desc="Shutdown Qtile"),
 ]
 
@@ -219,47 +223,47 @@ def show_powermenu():
 
 screens = [
     Screen(
-        top=bar.Bar(
-            [
-                # widget.TextBox(fmt=f"  {run_script(".local/bin/updates")}", foreground=TEXT_COLOR),
-                widget.ThermalSensor(
-                    format=" {temp:.1f}{unit}", foreground=TEXT_COLOR
-                ),
-                widget.Memory(
-                    measure_mem="G",
-                    format="  {MemUsed: .1f}{mm}",
-                    foreground=TEXT_COLOR,
-                ),
-                widget.CPU(format="󰍛 {load_percent}%", foreground=TEXT_COLOR),
-                widget.Systray(icon_size=28, padding=4),
-                widget.Spacer(),
-                widget.GroupBox(
-                    hide_unused=True,
-                    active=TEXT_COLOR,
-                    inactive=TEXT_COLOR,
-                    highlight_method="block",
-                ),
-                widget.Spacer(),
-                # widget.TextBox(fmt=f"{get_weather()}", foreground=TEXT_COLOR),
-                widget.Wlan(format="{essid} {percent:2.0%}", foreground=TEXT_COLOR),
-                widget.PulseVolume(unmute_format="{}{volume}%", limit_max_volume=True, emoji_list=['🔇', '󰕿', '󰖀', '󰕾', ''], emoji=True),
-                widget.TextBox(fmt=f"{run_script(".local/bin/battery")}", foreground=TEXT_COLOR),
-                widget.Clock(format="%_I:%M %p", foreground=TEXT_COLOR),
-                widget.TextBox(
-                    fmt="",
-                    foreground=TEXT_COLOR,
-                    mouse_callbacks={"Button1": show_powermenu},
-                ),
-            ],
-            25,
-            margin=MARGIN,
-            opacity=0.8,
-            background=BG_COLOR,
-            color="000000",
-            border_color=BG_COLOR,
-            border_width=10,
-            border_radius=10,
-        ),
+        # top=bar.Bar(
+        #     [
+        #         # widget.TextBox(fmt=f"  {run_script(".local/bin/updates")}", foreground=TEXT_COLOR),
+        #         widget.ThermalSensor(
+        #             format=" {temp:.1f}{unit}", foreground=TEXT_COLOR
+        #         ),
+        #         widget.Memory(
+        #             measure_mem="G",
+        #             format="  {MemUsed: .1f}{mm}",
+        #             foreground=TEXT_COLOR,
+        #         ),
+        #         widget.CPU(format="󰍛 {load_percent}%", foreground=TEXT_COLOR),
+        #         widget.Systray(icon_size=28, padding=4),
+        #         widget.Spacer(),
+        #         widget.GroupBox(
+        #             hide_unused=True,
+        #             active=TEXT_COLOR,
+        #             inactive=TEXT_COLOR,
+        #             highlight_method="block",
+        #         ),
+        #         widget.Spacer(),
+        #         # widget.TextBox(fmt=f"{get_weather()}", foreground=TEXT_COLOR),
+        #         widget.Wlan(format="{essid} {percent:2.0%}", foreground=TEXT_COLOR),
+        #         widget.PulseVolume(unmute_format="{}{volume}%", limit_max_volume=True, emoji_list=['🔇', '󰕿', '󰖀', '󰕾', ''], emoji=True),
+        #         widget.TextBox(fmt=f"{run_script(".local/bin/battery")}", foreground=TEXT_COLOR),
+        #         widget.Clock(format="%_I:%M %p", foreground=TEXT_COLOR),
+        #         widget.TextBox(
+        #             fmt="",
+        #             foreground=TEXT_COLOR,
+        #             mouse_callbacks={"Button1": show_powermenu},
+        #         ),
+        #     ],
+        #     25,
+        #     margin=MARGIN,
+        #     opacity=0.8,
+        #     background=BG_COLOR,
+        #     color="000000",
+        #     border_color=BG_COLOR,
+        #     border_width=10,
+        #     border_radius=10,
+        # ),
         # gap=bar.Gap(5)
         # You can uncomment this variable if you see that on X11 floating resize/moving is laggy
         # By default we handle these events delayed to already improve performance, however your system might still be struggling

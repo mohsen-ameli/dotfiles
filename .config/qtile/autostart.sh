@@ -6,3 +6,4 @@ dunst &
 nm-applet &
 blueman-applet &
 picom &
+polybar &

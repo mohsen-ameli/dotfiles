@@ -53,12 +53,13 @@ DONE: fix firefox crashing with hardware accelaration turned on
 DONE: fix vscode python syntax highliting not working
     + removed env = GBM_BACKEND,nvidia-drm from hyprland config
     + installed the "syntax highlighter" extension
-fix hypridle issues
-    clicking twice to bring up hyprlock
-    firefox videos playing, after a while, activates hypridle
-    waybar doesn't restart
+DONE:  fix hypridle issues
+    - clicking twice to bring up hyprlock
+    - firefox videos playing, after a while, activates hypridle
+waybar doesn't restart when logging in after locking device
 fix thunar not opening terminal with proper emulator
-fix arch freezing randomly
+DONE: fix arch freezing randomly
+    + switched to linux-lts kernel
 configure qtile
 when opening apps (mainly from waybar), they open in different workplaces
 

@@ -6,6 +6,7 @@
 import json
 import requests
 import pytz
+import sys
 from datetime import datetime
 from geopy.geocoders import Nominatim
 
@@ -24,59 +25,59 @@ hourly_limit = 24 # how many hours ahead to show
 icons = {
     "overcast": {
         "name": "Cloudy",
-        "icon": "<span color='white'>☁️</span>"
+        "icon": "☁️"
     },
     "partly-cloudy-day": {
         "name": "Mostly Cloudy",
-        "icon": "<span color='white'>🌤️</span>"
+        "icon": "🌤️"
     },
     "partly-cloudy-night": {
         "name": "Mostly Cloudy",
-        "icon": "<span color='white'> </span>"
+        "icon": " "
     },
     "haze": {
         "name": "Haze",
-        "icon": "<span color='white'></span>"
+        "icon": ""
     },
     "fog": {
         "name": "Fog",
-        "icon": "<span color='white'>🌫️</span>"
+        "icon": "🌫️"
     },
     "sandstorm": {
         "name": "Sandstorm",
-        "icon": "<span color='white'>🌪️</span>"
+        "icon": "🌪️"
     },
     "clear-day": {
         "name": "Sunny",
-        "icon": "<span color='white'>☀️</span>"
+        "icon": "☀️"
     },
     "clear-night": {
         "name": "Clear",
-        "icon": "<span color='white'>🌙</span>"
+        "icon": "🌙"
     },
     "thunderstorm": {
         "name": "Thunderstorm",
-        "icon": "<span color='white'>⛈️</span>"
+        "icon": "⛈️"
     },
     "hail": {
         "name": "Hail",
-        "icon": "<span color='white'>󰖒</span>"
+        "icon": "󰖒"
     },
     "rain-shower": {
         "name": "Shower",
-        "icon": "<span color='white'>☔</span>"
+        "icon": "☔"
     },
     "rain": {
         "name": "Rain",
-        "icon": "<span color='white'>🌧️</span>"
+        "icon": "🌧️"
     },
     "snow-light": {
         "name": "Light Snow",
-        "icon": "<span color='white'>🌨️</span>"
+        "icon": "🌨️"
     },
     "snow": {
         "name": "Snow",
-        "icon": "<span color='white'>❄️</span>"
+        "icon": "❄️"
     },
 }
 
@@ -182,7 +183,7 @@ def format_data(weather: dict):
         
 
     data = {
-        "text": f"{curr_icon}  {round(curr_temp)}°",
+        "text": f"{curr_icon} {round(curr_temp)}°",
         "tooltip": f"""
     {"\t"*4}<span size="xx-large">{space_before_city}{city}</span>
     {"\t"*5}<span size="xx-large">\t{round(curr_temp)}°</span>{"\t"*6}
@@ -195,6 +196,10 @@ def format_data(weather: dict):
     return data
 
 
-weather = get_data(live=True)
+weather = get_data(live=False)
 data = format_data(weather)
-print(json.dumps(data))
+
+if len(sys.argv) > 1 and sys.argv[1] == "--text":
+    print(data["text"])
+else:
+    print(json.dumps(data))
