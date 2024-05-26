@@ -8,14 +8,18 @@ CRIT=${1:-15}
 
 FILE=~/notified
 
-stat=$(cat $bat/status)
-perc=$(cat $bat/capacity)
+while true; do
+  stat=$(cat $bat/status)
+  perc=$(cat $bat/capacity)
 
-if [[ $perc -le $CRIT ]] && [[ $stat == "Discharging" ]]; then
-  if [[ ! -f "$FILE" ]]; then
-    notify-send "Battery Low" "Current charge: $perc%" -u critical
-    touch $FILE
+  if [[ $perc -le $CRIT ]] && [[ $stat == "Discharging" ]]; then
+    if [[ ! -f "$FILE" ]]; then
+      notify-send "Battery Low" "Current charge: $perc%" -u critical
+      touch $FILE
+    fi
+  elif [[ -f "$FILE" ]]; then
+    rm $FILE
   fi
-elif [[ -f "$FILE" ]]; then
-  rm $FILE
-fi
+
+  sleep 10
+done

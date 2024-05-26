@@ -135,7 +135,7 @@ tooltip label {
     background: #85c1c1;
 }
 
-#temperature {
+#custom-temp {
     padding: 5px 12px;
     border-radius: 10px 0px 0px 10px;
     border: 1px solid @foreground;
@@ -144,7 +144,7 @@ tooltip label {
     background: @color1;
 }
 
-#temperature.critical {
+#custom-temp.critical {
     color: black;
     background-color: #eb4d4b;
 }

@@ -4,7 +4,7 @@
     "layer": "top",
     "modules-left": [
         "custom/pacman",
-        "temperature",
+        "custom/temp",
         "custom/mem",
         "cpu",
         "custom/rog",
@@ -14,7 +14,7 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-        "custom/weather",
+        // "custom/weather",
         "custom/swaync",
         // "bluetooth",
         // "custom/network",
@@ -165,32 +165,23 @@
         "tooltip": false,
         "signal": 10 // using the following, we can update the text: pkill -SIGRTMIN+10 waybar
     },
-    "temperature": {
-        // "thermal-zone": 2,
-        // "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-        "critical-threshold": 80,
-        // "format-critical": "{temperatureC}°C {icon}",
+    "custom/temp": {
+        "format": "{}",
         "on-click":"alacritty --class floating -e btop",
-        "format": "{temperatureC}°C {icon}",
-        "format-icons": [
-           "",
-           "",
-           "",
-           "",
-           ""
-        ],
-        "tooltip": false
+        "exec": "$HOME/.local/bin/temperature",
+        "interval": 2
     },
     "custom/mem": {
         "format": "{} ",
-        "interval": 5,
+        "interval": 2,
         "exec": "$HOME/.local/bin/used-mem",
         "on-click":"alacritty --class floating -e btop",
         "tooltip": false
     },
     "cpu": {
         "format": "{usage}% 󰍛",
-        "on-click":"alacritty --class floating -e btop",
+        "on-click": "alacritty --class floating -e btop",
+        "interval": 2,
         "tooltip": false
     },
     "battery": {
@@ -201,7 +192,7 @@
         },
         "format": "{capacity}% {icon}",
         "format-charging": "{capacity}% ",
-        "format-plugged": "{capacity}% ",
+        // "format-plugged": "{capacity}% ",
         "format-alt": "{time} {icon}",
         "format-icons": [
             " ", // 0%
@@ -209,8 +200,8 @@
             " ", // 50%
             " ", // 75%
             " "
-        ],
-        "on-update": "$HOME/.local/bin/check-battery"
+        ]
+        // "on-update": "$HOME/.local/bin/check-battery"
     },
     "custom/power": {
         "format": "",

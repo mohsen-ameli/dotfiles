@@ -1,9 +1,12 @@
 #!/bin/bash
 
 $HOME/.local/bin/wallpaper --random
+polybar &
 $HOME/.local/bin/apply-themes
 dunst &
+picom &
 nm-applet &
 blueman-applet &
-picom &
-polybar &
+asusctl profile --profile-set Quiet
+asusctl --chg-limit 80
+$HOME/.local/bin/check-battery &

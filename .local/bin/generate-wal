@@ -71,7 +71,7 @@ generate_discord() {
     bg=$(cat $HOME/.cache/wal/colors | head -n 1 | cut -f 2 -d "#")
     
     # A slightly different color variation of the background color
-    color16=$(curl -s -k -X GET --header 'Content-Type: application/json' "https://www.thecolorapi.com/id?format=json&hex=$bg" | jq -r '.hsl.value' | awk -F, '{u = $3 - 4; print $1","$2", "u"%)"}')
+    color16=$(curl -s -k -X GET --header 'Content-Type: application/json' "https://www.thecolorapi.com/id?format=json&hex=$bg" | jq -r '.hsl.value' | awk -F, '{u = $3 - 6; print $1","$2", "u"%)"}')
 
     # Update all colors in the vesktop css file
     while read p; do

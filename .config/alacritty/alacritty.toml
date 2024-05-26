@@ -9,6 +9,7 @@ title = "Alacritty"
 
 [font]
 size = 14.0
+#normal = { family = "JetBrains Mono Nerd Font", style = "Regular" }
 
 [scrolling]
 history = 5000

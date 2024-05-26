@@ -29,6 +29,7 @@ setup_cursor
 setup_shell
 setup_firewall
 setup_bluetooth
+setup_printer
 
 notify "Installation complete! Please reboot your system"
 
@@ -108,3 +109,10 @@ function setup_samba() {
 	sudo systemctl enable --now smb
 	sudo systemctl enable --now avahi-daemon
 }
+
+function setup_printer() {
+  sudo pacman -S cups cups-pdf hplip
+  sudo systemctl enable cups
+  sudo hp-setup -i
+}
+

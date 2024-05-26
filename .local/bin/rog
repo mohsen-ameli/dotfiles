@@ -8,6 +8,7 @@ print_usage() {
 	
 arguments:
     --get: \t\t get the profile with icons
+    --get-text: \t get the icon
     --dec: \t\t to decrease keyboard brightness
     --inc: \t\t to increase keyboard brightness
     --aura: \t\t change the keyboard lighting effets
@@ -30,11 +31,23 @@ get_profile() {
 get_waybar() {
     get_profile
     if [ $profile == "Quiet" ]; then
-        echo "{\"text\": \"\", \"tooltip\": \"Quiet \"}"
+        if [ $1 == 1 ]; then
+            echo ""
+        else
+            echo "{\"text\": \"\", \"tooltip\": \"Quiet \"}"
+        fi
     elif [ $profile == "Performance" ]; then
-        echo "{\"text\": \"\", \"tooltip\": \"Performance \"}"
+        if [ $1 == 1 ]; then
+            echo ""
+        else
+            echo "{\"text\": \"\", \"tooltip\": \"Performance \"}"
+        fi
     else
-        echo "{\"text\": \"\", \"tooltip\": \"Balanced \"}"
+        if [ $1 == 1 ]; then
+            echo ""
+        else
+            echo "{\"text\": \"\", \"tooltip\": \"Balanced \"}"
+        fi
     fi
 }
 
@@ -56,6 +69,8 @@ elif [ "$1" == "--dec" ]; then
     fi
 elif [ "$1" == "--get" ]; then
     get_waybar
+elif [ "$1" == "--get-text" ]; then
+    get_waybar 1
 elif [ "$1" == "--aura" ]; then
     asusctl led-mode -n
     notify_user "Aura Keyboard Changed" "Static, Pulse, Breathe.\nIdk which one we are currently on ;("

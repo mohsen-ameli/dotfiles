@@ -1,0 +1,18 @@
+#!/bin/bash
+
+low=40
+high=80
+
+temp=$(($(cat /sys/class/thermal/thermal_zone0/temp)/1000))
+
+if [ $temp -le $low ]; then
+    echo "$temp°C "
+elif [ $temp -le 60 ]; then
+    echo "$temp°C "
+elif [ $temp -le 70 ]; then
+    echo "$temp°C "
+elif [ $temp -le $high ]; then
+    echo "$temp°C "
+else
+    echo "$temp°C "
+fi

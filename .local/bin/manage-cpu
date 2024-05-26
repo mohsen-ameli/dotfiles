@@ -1,0 +1,41 @@
+#!/bin/bash
+
+if [[ $(whoami) != "root" ]]; then
+  echo "run as root"
+  exit 0
+fi
+
+cores=16      #16 cores total
+
+if [[ $1 == "powersave" ]]; then
+  enabled=12    #12 cores enabled, keep it divisible by 4
+  low_freq=0.4  #GHz
+  high_freq=2.0 #GHz
+  mode="powersave"
+elif [[ $1 == "performance" ]]; then
+  enabled=16    #all cores enabled
+  low_freq=0.4  #GHz
+  high_freq=4.0 #GHz
+  mode="performance"
+else
+  echo "Please specify a mode: powersave | performance"
+  exit 0
+fi
+
+for ((i = 0; i < $cores ;i++)); do
+  if [[ $i -le $(($enabled-1)) ]]; then
+        echo 1 > /sys/devices/system/cpu/cpu$i/online
+  else
+    echo 0 > /sys/devices/system/cpu/cpu$i/online
+  fi
+done
+
+for ((i = 0; i < $cores ;i++)); do
+  if [[ $i -le $(($enabled-1)) ]]; then
+    cpufreq-set -c "$i" -d "$low_freq"G -u "$high_freq"G -g "$mode"
+  fi
+done
+
+for ((i = 1; i < $cores; i++)); do
+  cat /sys/devices/system/cpu/cpu$i/online
+done
