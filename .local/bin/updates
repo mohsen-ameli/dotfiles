@@ -4,7 +4,9 @@
 ## Inspried by Stephan Raabe
 ##########################
 
-import subprocess, json
+import subprocess
+import json
+from tabulate import tabulate
 
 aur_updates = 0
 arch_updates = 0
@@ -12,49 +14,72 @@ updates = 0
 threshhold_green=0
 threshhold_yellow=25
 threshhold_red=100
-tooltip = "=====> AUR Updates\n"
-session="$(echo $XDG_SESSION_TYPE)"
+rows = []
 
-p = subprocess.Popen("echo $XDG_SESSION_TYPE", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+p = subprocess.Popen("$HOME/.local/bin/is-wayland", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 line = p.stdout.readlines()[0]
-session = line.decode("UTF-8").split("\n")[0]
+is_wayland = line.decode("UTF-8").split("\n")[0]
 
 p = subprocess.Popen('trizen -Qua -i 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-for line in p.stdout.readlines():
-    aur_updates += 1
-    tooltip += str(line.decode("UTF-8"))
-tooltip += "\n\n=====> Arch Update\n"
+lines = p.stdout.readlines()
+aur_updates = len(lines)
+for i in range(0, len(lines), 2):
+    name, curr_v, _, update_v = str(lines[i].decode("UTF-8")).strip().split(" ")
+    if i+1 < len(lines):
+        name2, curr_v2, _, update_v2 = str(lines[i+1].decode("UTF-8")).strip().split(" ")
+        rows.append([f"{name} (AUR)", update_v, f"{name2} (AUR)", update_v2])
+    else:
+        rows.append([f"{name} (AUR)", update_v])
 retval = p.wait()
 
-p2 = subprocess.Popen('checkupdates 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-for line in p2.stdout.readlines():
-    arch_updates += 1
-    tooltip += str(line.decode("UTF-8"))
-retval2 = p2.wait()
+p = subprocess.Popen('checkupdates 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+lines = []
+ll = p.stdout.readlines()
+arch_updates = len(ll)
+
+# ignoreing lib and qt updates
+for line in ll:
+    name = str(line.decode("UTF-8")).strip().split(" ")[0]
+    if "lib" not in name and "qt" not in name:
+        lines.append(line)
+
+for i in range(0, len(lines), 2):
+    name, curr_v, _, update_v = str(lines[i].decode("UTF-8")).strip().split(" ")
+    if i+1 < len(lines):
+        name2, curr_v2, _, update_v2 = str(lines[i+1].decode("UTF-8")).strip().split(" ")
+        rows.append([name, update_v, name2, update_v2])
+    else:
+        rows.append([name, update_v])
+retval = p.wait()
+
+tooltip = f"{'\t'*27}\n"
+tooltip += "<tt>"
+tooltip += tabulate(rows, ['Name', 'New Version', 'Name', 'New Version'], tablefmt='rounded_outline')
+tooltip += "</tt>"
 
 updates = aur_updates + arch_updates
 
-if session == "x11":
+if is_wayland == "0":
     print(updates)
     exit(0)
 
-css_class = "green"
-if updates > threshhold_yellow:
-    css_class = "yellow"
-if updates > threshhold_red:
-    css_class = "red"
+# css_class = "green"
+# if updates > threshhold_yellow:
+#     css_class = "yellow"
+# if updates > threshhold_red:
+#     css_class = "red"
 
 if updates > threshhold_green:
     print(json.dumps({
         "text": f"{updates}",
         "alt": f"{updates}",
         "tooltip": f"{tooltip}",
-        "class": f"{css_class}"
+        # "class": f"{css_class}"
     }))
 else:
     print(json.dumps({
         "text": "0",
         "alt": "0",
         "tooltip": f"0 Updates... Yay",
-        "class": "green"
+        # "class": "green"
     }))

@@ -1,5 +1,5 @@
 {
-    "height": 20,
+    // "height": 20,
     "margin": "6 0 0 6", // top right bot left
     "layer": "top",
     "modules-left": [
@@ -14,7 +14,7 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-        // "custom/weather",
+        "custom/weather",
         "custom/swaync",
         // "bluetooth",
         // "custom/network",
@@ -54,7 +54,6 @@
     },
     "custom/pacman": {
         "format": "{} ",
-        "escape": true,
         "return-type": "json",
         "interval": 3600,
         "tooltip": true,
@@ -172,14 +171,14 @@
         "interval": 2
     },
     "custom/mem": {
-        "format": "{} ",
+        "format": "{}  ",
         "interval": 2,
         "exec": "$HOME/.local/bin/used-mem",
         "on-click":"alacritty --class floating -e btop",
         "tooltip": false
     },
     "cpu": {
-        "format": "{usage}% 󰍛",
+        "format": "{usage:2}% ",
         "on-click": "alacritty --class floating -e btop",
         "interval": 2,
         "tooltip": false

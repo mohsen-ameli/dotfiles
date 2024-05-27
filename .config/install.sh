@@ -10,6 +10,7 @@ image_viewer="loupe swappy"
 themes="breeze-icons arc-gtk-theme papirus-icon-theme"
 cursor_theme="bibata-cursor-theme-bin"
 fonts="noto-fonts ttf-jetbrains-mono-nerd noto-fonts-emoji"
+other_fonts="vazirmatn-fonts"
 music_player="amberol"
 media_player="vlc"
 network="networkmanager net-tools"
@@ -45,7 +46,7 @@ function setup_pacman() {
 	sudo pacman -S base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
 	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
 	nwg-look hyprland python-pywal swaybg waybar zenity pacman-contrib btop htop yt-dlp \
-	ffmpeg wget neofetch jq grim slurp cliphist net-tools glmark2 brightnessctl cowsay ntfs-3g \
+	ffmpeg wget neofetch eza jq grim slurp cliphist net-tools glmark2 brightnessctl cowsay ntfs-3g \
 	powertop
 }
 
@@ -57,8 +58,8 @@ function setup_yay() {
 	cd ..
 
 	notify "Installing AUR packages"
-	yay -S $music_player $cursor_theme $rofi_plugins swaync hyprlock hypridle vesktop trizen\
-	bluetuith auto-cpufreq asusctl-git xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
+	yay -S $music_player $cursor_theme $rofi_plugins $other_fonts swaync hyprlock hypridle vesktop\
+	trizen bluetuith auto-cpufreq asusctl-git xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
 
 function setup_latex() {

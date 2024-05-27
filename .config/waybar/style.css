@@ -14,9 +14,9 @@
 /* background: #a77ecd; */
 
 window {
-    font-family: FontAwesome, Roboto, Helvetica, Arial, sans-serif;
+    /* font-family: 'JetBrains Mono Nerd Font'; */
     font-size: 16px;
-    min-height: 30px;
+    /* min-height: 30px; */
 }
 
 window#waybar {
@@ -28,13 +28,14 @@ window#waybar.hidden {
 }
 
 tooltip {
-    background: rgba(43, 48, 59, 0.8);
+    background: @color1;
     border-radius: 10px;
-    border: 1px solid rgba(100, 114, 125, 0.5);
+    border: 1px solid @foreground;
+    font-size: 14px;
 }
 
 tooltip label {
-    color: white;
+    color: @color7;
 }
 
 #workspaces {
@@ -54,7 +55,7 @@ tooltip label {
     color: @color7;
     transition: none;
     margin: 3px 3px 3px 0px;
-    padding: 1px 12px;
+    padding: 0px 12px;
 }
 
 #workspaces button.active {
@@ -82,9 +83,15 @@ tooltip label {
 #custom-wallapaper,
 #custom-rog,
 #backlight,
-#battery {
+#battery,
+#bluetooth,
+#custom-temp,
+#custom-mem,
+#cpu,
+#pulseaudio,
+#custom-mic {
     margin-right: 8px;
-    padding: 5px 16px;
+    padding: 0px 12px;
     border-radius: 10px;
     border: 1px solid @foreground;
     transition: none;
@@ -98,7 +105,7 @@ tooltip label {
 }
 
 #custom-network {
-    margin-right: 8px;
+    margin-right: 5px;
     margin-left: 2px;
     padding-left: 12px;
     padding-right: 20px;
@@ -109,9 +116,8 @@ tooltip label {
     transition: none;
     /* color: @color7; */
     background-position: center;
-  background-repeat: no-repeat;
-  background-size: contain; 
-
+    background-repeat: no-repeat;
+    background-size: contain; 
 }
 
 #custom-network.low { background-image: url('/usr/share/icons/Papirus/16x16/panel/network-wireless-100.svg'); }
@@ -119,12 +125,8 @@ tooltip label {
 #custom-network.high { background-image: url('../icons/wifi-high.svg'); }
 
 #bluetooth {
-    padding: 5px 16px;
     border-radius: 10px 0px 0px 10px;
     background: #06a3f9;
-    transition: none;
-    border: 1px solid @foreground;
-    color: @color7;
 }
 
 #bluetooth.off,
@@ -136,12 +138,8 @@ tooltip label {
 }
 
 #custom-temp {
-    padding: 5px 12px;
+    margin-right: 2px;
     border-radius: 10px 0px 0px 10px;
-    border: 1px solid @foreground;
-    transition: none;
-    color: @color7;
-    background: @color1;
 }
 
 #custom-temp.critical {
@@ -150,23 +148,12 @@ tooltip label {
 }
 
 #custom-mem {
-    margin-left: 2px;
     margin-right: 2px;
-    padding: 5px 12px;
-    border: 1px solid @foreground;
-    transition: none;
-    color: @color7;
-    background: @color1;
+    border-radius: 0;
 }
 
 #cpu {
-    margin-right: 8px;
-    padding: 5px 12px;
     border-radius: 0px 10px 10px 0px;
-    border: 1px solid @foreground;
-    transition: none;
-    color: @color7;
-    background: @color1;
 }
 
 #battery {
@@ -195,12 +182,7 @@ tooltip label {
 
 #pulseaudio {
     margin-right: 2px;
-    padding: 5px 16px;
     border-radius: 10px 0px 0px 10px;
-    border: 1px solid @foreground;
-    transition: none;
-    color: @color7;
-    background: @color1;
 }
 
 #pulseaudio.muted {
@@ -209,14 +191,9 @@ tooltip label {
 }
 
 #custom-mic {
-    margin-right: 8px;
     padding-right: 15px;
     padding-left: 15px;
     border-radius: 0px 10px 10px 0px;
-    border: 1px solid @foreground;
-    transition: none;
-    color: @color7;
-    background: @color1;
 }
 
 #custom-mic.muted {

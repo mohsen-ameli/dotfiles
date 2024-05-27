@@ -26,6 +26,14 @@ sudo timedatectl set-ntp 1
 If starting apps with sudo, use
 xhost | DISPLAY=:0 sudo command
 
+fonts
+Downloads fonts into either /usr/share/fonts or .local/share/fonts
+use sudo fc-cache -fv to install all fonts
+use fc-list to list the installed fonts
+    fc-list : family style
+edit .config/fontconfig/fonts.conf to use different fonts
+https://www.baeldung.com/linux/configure-multilingual-fonts
+
 wifi icons
 https://www.figma.com/file/eJgx1YTG2WdQ41B1fZ2wd8/Wifi?type=design&node-id=0%3A1&mode=design&t=Rfg5ME7eZDOHPh7k-1
 
