@@ -21,9 +21,11 @@ alias ssh='TERM=xterm-256color ssh'
 #alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ex='chmod u+x'
-alias ls='eza -al --color=always --group-directories-first' # my preferred listing
-alias la='eza -a --color=always --group-directories-first'  # all files and dirs
-alias ll='eza -l --color=always --group-directories-first'  # long format
+alias ls='eza -l --color=always --group-directories-first' # my preferred listing
+alias la='eza -la --color=always --group-directories-first'  # all files and dirs
+alias ll='eza -a --color=always --group-directories-first'  # long format
+alias cp="cp -i"
+alias mv="mv -i"
 
 # Starship
 eval "$(starship init zsh)"

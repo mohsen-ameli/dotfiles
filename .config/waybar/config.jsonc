@@ -167,7 +167,7 @@
     "custom/temp": {
         "format": "{}",
         "on-click":"alacritty --class floating -e btop",
-        "exec": "$HOME/.local/bin/temperature",
+        "exec": "$HOME/.local/bin/temperature --text-icon",
         "interval": 2
     },
     "custom/mem": {
@@ -212,6 +212,7 @@
         "return-type": "json",
         "exec": "$HOME/.local/bin/rog --get",
         "on-click": "$HOME/.local/bin/rog --profile-toggle",
+        "on-click-right": "rog-control-center",
         // "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
         "tooltip": true,
         "signal": 8

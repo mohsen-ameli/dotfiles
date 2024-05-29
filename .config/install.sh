@@ -41,13 +41,13 @@ function notify() {
 }
 
 function setup_pacman() {
-	notify "Installing pacman packages.\nMake sure multilib is enabled in /etc/pacman.conf"
+	notify "Installing pacman packages.\nMake sure multilib and g14 repos in /etc/pacman.conf"
 	sudo pacman -Syu
 	sudo pacman -S base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
 	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
-	nwg-look hyprland python-pywal swaybg waybar zenity pacman-contrib btop htop yt-dlp \
-	ffmpeg wget neofetch eza jq grim slurp cliphist net-tools glmark2 brightnessctl cowsay ntfs-3g \
-	powertop
+	asusctl rog-control-center nwg-look hyprland python-pywal swaybg waybar zenity pacman-contrib \
+  btop htop yt-dlp ffmpeg wget neofetch eza jq grim slurp cliphist net-tools glmark2 brightnessctl \
+  cowsay ntfs-3g powertop
 }
 
 function setup_yay() {
@@ -59,7 +59,7 @@ function setup_yay() {
 
 	notify "Installing AUR packages"
 	yay -S $music_player $cursor_theme $rofi_plugins $other_fonts swaync hyprlock hypridle vesktop\
-	trizen bluetuith auto-cpufreq asusctl-git xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
+	trizen bluetuith auto-cpufreq xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
 
 function setup_latex() {

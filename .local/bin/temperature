@@ -1,4 +1,16 @@
 #!/bin/bash
+##########################
+## Get the cpu temperature and its icon
+##########################
+
+print_usage() {
+	echo -e """Usage: $0 [arguments]
+	
+arguments:
+    --text: \t print temperature text only
+    --icon: \t print temperature icon only
+    --text-icon: \t print both icon and percentage"""
+}
 
 low=40
 high=80
@@ -6,13 +18,23 @@ high=80
 temp=$(($(cat /sys/class/thermal/thermal_zone0/temp)/1000))
 
 if [ $temp -le $low ]; then
-    echo "$temp°C "
+    icon=""
 elif [ $temp -le 60 ]; then
-    echo "$temp°C "
+    icon=""
 elif [ $temp -le 70 ]; then
-    echo "$temp°C "
+    icon=""
 elif [ $temp -le $high ]; then
-    echo "$temp°C "
+    icon=""
 else
-    echo "$temp°C "
+    icon=""
+fi
+
+if [[ $1 == "--text" ]]; then
+    echo "$temp°C"
+elif [[ $1 == "--icon" ]]; then
+    echo "$icon"
+elif [[ $1 == "--text-icon" ]]; then
+    echo "$icon $temp°C"
+else
+    print_usage
 fi

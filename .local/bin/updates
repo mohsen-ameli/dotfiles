@@ -20,7 +20,7 @@ p = subprocess.Popen("$HOME/.local/bin/is-wayland", shell=True, stdout=subproces
 line = p.stdout.readlines()[0]
 is_wayland = line.decode("UTF-8").split("\n")[0]
 
-p = subprocess.Popen('trizen -Qua -i 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+p = subprocess.Popen('yay -Qua -i 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 lines = p.stdout.readlines()
 aur_updates = len(lines)
 for i in range(0, len(lines), 2):

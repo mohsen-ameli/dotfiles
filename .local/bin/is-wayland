@@ -1,4 +1,7 @@
 #!/bin/bash
+##########################
+## Are we on wayland or not
+##########################
 
 if [[ $WAYLAND_DISPLAY == "" ]]; then
   echo "0"

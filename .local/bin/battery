@@ -1,21 +1,37 @@
 #!/bin/bash
+##########################
+## Get the battery capacity and its icon
+##########################
 
-run() {
-    capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-
-    if [[ $capacity -lt 10 ]]; then
-        icon=""
-    elif [[ $capacity -lt 25 ]]; then
-        icon=""
-    elif [[ $capacity -lt 50 ]]; then
-        icon=""
-    elif [[ $capacity -lt 75 ]]; then
-        icon=""
-    else
-        icon=""
-    fi
-
-    echo "$icon   $capacity%"
+print_usage() {
+	echo -e """Usage: $0 [arguments]
+	
+arguments:
+    --text: \t print battery percentage text only
+    --icon: \t print battery icon only
+    --text-icon: \t print both icon and percentage"""
 }
 
-run
+capacity=$(cat /sys/class/power_supply/BAT0/capacity)
+
+if [[ $capacity -lt 10 ]]; then
+    icon=""
+elif [[ $capacity -lt 25 ]]; then
+    icon=""
+elif [[ $capacity -lt 50 ]]; then
+    icon=""
+elif [[ $capacity -lt 75 ]]; then
+    icon=""
+else
+    icon=""
+fi
+
+if [[ $1 == "--text" ]]; then
+    echo "$capacity"
+elif [[ $1 == "--icon" ]]; then
+    echo "$icon"
+elif [[ $1 == "--text-icon" ]]; then
+    echo "$color$icon$nc   $capacity%"
+else
+    print_usage
+fi

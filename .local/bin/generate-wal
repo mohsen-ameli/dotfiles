@@ -26,7 +26,7 @@ generate_hyprland() {
 # Generates colors and settings for vscode
 generate_vscode() {
     font="JetBrainsMono NF"
-    code="Code" #Code\ -\ OSS
+    code="Code - OSS"
     settings="$HOME/.config/$code/User/settings.json"
     bg=$(cat $HOME/.cache/wal/colors | head -n 1)
 
@@ -51,7 +51,11 @@ generate_vscode() {
     \"explorer.confirmDelete\": false,
     \"workbench.startupEditor\": \"none\",
     \"workbench.sideBar.location\": \"right\",
-    \"workbench.iconTheme\": \"material-icon-theme\"
+    \"workbench.iconTheme\": \"material-icon-theme\",
+    \"python.terminal.activateEnvInCurrentTerminal\": true,
+    \"files.associations\": {
+        \"dunstrc\": \"properties\"
+    }
     }"""
 
     # \"workbench.list.mouseWheelScrollSensitivity\": 3,
@@ -62,7 +66,7 @@ generate_vscode() {
     #   jq --argjson jsonString "$objJSON" \
     #     '."workbench.colorCustomizations" += $jsonString')
 
-    (echo "$json" | jq) > $HOME/.config/$code/User/settings.json
+    (echo "$json" | jq) > "$HOME/.config/$code/User/settings.json"
 }
 
 # Generates colors for discord

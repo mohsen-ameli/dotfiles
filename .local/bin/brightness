@@ -1,4 +1,7 @@
 #!/bin/bash
+##########################
+## Change the brightness of the screen
+##########################
 
 iDIR="$HOME/.config/icons"
 vol_segment=2 # How much to increase or decrease the volume by
