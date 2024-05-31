@@ -2,6 +2,18 @@ Have to run these to get wireless mouse to work.
 sudo echo N> /sys/module/drm_kms_helper/parameters/poll
 sudo echo "options drm_kms_helper poll=N">/etc/modprobe.d/local.conf
 
+
+Natural scrolling and tapping for Xorg.
+Add the following to /etc/X11/xorg.conf.d/30-touchpad.conf
+Section "InputClass"
+	Identifier "touchpad"
+	Driver "libinput"
+	MatchIsTouchpad "on"
+	Option "Tapping" "on"
+	Option "NaturalScrolling" "true"
+EndSection
+
+
 start samba/smb service (also remember to turn off ufw)
 sudo systemctl start smb
 
@@ -19,7 +31,7 @@ https://gist.github.com/brunoanc/2dea6ddf6974ba4e5d26c3139ffb7580
 latex:
 https://mathjiajia.github.io/vscode-and-latex/
 
-If an app is blury, add this line to the "exec" option of the app
+To force an app to use wayland, add this line to the "exec" option of the app
 found in either /usr/share/applications or /usr/share/local/applications
 --enable-features=UseOzonePlatform --ozone-platform=wayland
 
@@ -64,12 +76,11 @@ DONE: fix firefox crashing with hardware accelaration turned on
 DONE: fix vscode python syntax highliting not working
     + removed env = GBM_BACKEND,nvidia-drm from hyprland config
     + installed the "syntax highlighter" extension
-DONE:  fix hypridle issues
-    - clicking twice to bring up hyprlock
-    - firefox videos playing, after a while, activates hypridle
+    + firefox videos playing, after a while, activates hypridle
+clicking twice to bring up hyprlock (hypridle)
 waybar doesn't restart when logging in after locking device
-fix thunar not opening terminal with proper emulator
-DONE: fix arch freezing randomly
+thunar not opening terminal with proper emulator
+DONE: arch freezing randomly
     + switched to linux-lts kernel
 configure qtile
 when opening apps (mainly from waybar), they open in different workplaces

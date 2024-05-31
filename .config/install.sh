@@ -45,7 +45,7 @@ function setup_pacman() {
 	sudo pacman -Syu
 	sudo pacman -S base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
 	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
-	asusctl rog-control-center nwg-look hyprland python-pywal swaybg waybar zenity pacman-contrib \
+	asusctl rog-control-center nwg-look hyprland hyprpicker python-pywal swaybg waybar zenity pacman-contrib \
   btop htop yt-dlp ffmpeg wget neofetch eza jq grim slurp cliphist net-tools glmark2 brightnessctl \
   cowsay ntfs-3g powertop
 }
@@ -60,6 +60,10 @@ function setup_yay() {
 	notify "Installing AUR packages"
 	yay -S $music_player $cursor_theme $rofi_plugins $other_fonts swaync hyprlock hypridle vesktop\
 	trizen bluetuith auto-cpufreq xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
+}
+
+function setup_qtile() {
+	sudo pacman -S qtile xorg maim xclip
 }
 
 function setup_latex() {

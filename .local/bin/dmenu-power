@@ -28,13 +28,13 @@ then
     if [[ $choice == $lock_ ]]; then
         hyprlock
     elif [[ $choice == $suspend_ ]]; then
-        systemctl suspend
+        suspend
     elif [[ $choice == $logout_ ]]; then
         loginctl terminate-user $USER
     elif [[ $choice == $shutdown_ ]]; then
-        systemctl poweroff
+        shutdown
     elif [[ $choice == $reboot_ ]]; then
-        systemctl reboot
+        reboot
     fi
 else
     exit 0
