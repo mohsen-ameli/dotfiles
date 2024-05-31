@@ -9,4 +9,5 @@ nm-applet &
 blueman-applet &
 asusctl profile --profile-set Quiet
 asusctl --chg-limit 80
-$HOME/.local/bin/check-battery &
+$HOME/.local/bin/battery-alert &
+sudo $HOME/.local/bin/manage-cpu powersave &

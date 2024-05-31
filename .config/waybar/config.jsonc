@@ -199,8 +199,8 @@
             " ", // 50%
             " ", // 75%
             " "
-        ]
-        // "on-update": "$HOME/.local/bin/check-battery"
+        ],
+        "interval": 30
     },
     "custom/power": {
         "format": "",

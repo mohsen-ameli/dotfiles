@@ -1,4 +1,7 @@
 #!/bin/bash
+##########################
+## Shows a dmenu page for power management.
+##########################
 
 schema="rofi -dmenu -no-show-icons -i -p Search:"
 lock_="  Lock"

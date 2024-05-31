@@ -1,4 +1,7 @@
 #!/bin/bash
+##########################
+## Applies most important themes based on the settings set by the nwg-look GUI app
+##########################
 
 THEME=$(grep "gtk-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
 ICONS=$(grep "icon-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)

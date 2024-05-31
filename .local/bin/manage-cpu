@@ -1,4 +1,8 @@
 #!/bin/bash
+##########################
+## Script to manage how many CPUs are active
+## and to manage their low and high frequencies.
+##########################
 
 if [[ $(whoami) != "root" ]]; then
   echo "run as root"
@@ -22,23 +26,22 @@ else
   exit 0
 fi
 
-for ((i = 0; i < $cores ;i++)); do
+for ((i = 1; i < $cores ;i++)); do
   if [[ $i -le $(($enabled-1)) ]]; then
-        echo 1 > /sys/devices/system/cpu/cpu$i/online
+    echo 1 > /sys/devices/system/cpu/cpu$i/online
   else
     echo 0 > /sys/devices/system/cpu/cpu$i/online
   fi
 done
 
-# for ((i = 0; i < $cores ;i++)); do
-#   if [[ $i -le $(($enabled-1)) ]]; then
-    # cpupower frequency-set -c "$i" -d "$low_freq"G -u "$high_freq"G -g "$mode"
-#   fi
-# done
-
+# changing all cores at the same time
 cpupower frequency-set -d "$low_freq"G -u "$high_freq"G -g "$mode"
 
-
+# showing the online cpus
+echo "CPU 0: ON" # for the first core since it's always online
 for ((i = 1; i < $cores; i++)); do
-  cat /sys/devices/system/cpu/cpu$i/online
+  status=$([[ $(cat "/sys/devices/system/cpu/cpu$i/online") == "1" ]] && echo "ON" || echo "OFF")
+  echo "CPU $i: $status"
 done
+
+exit 0

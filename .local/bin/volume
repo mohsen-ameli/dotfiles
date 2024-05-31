@@ -1,5 +1,8 @@
 #!/bin/bash
-# https://github.com/JaKooLit/Ja_HyprLanD-dots/tree/main
+##########################
+## All of the things to do with volume and microphone controls and waybar.
+## https://github.com/JaKooLit/Ja_HyprLanD-dots/tree/main
+##########################
 
 iDIR="$HOME/.config/icons"
 vol_segment=2 # How much to increase or decrease the volume by

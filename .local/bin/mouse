@@ -1,4 +1,9 @@
 #!/bin/bash
+##########################
+## Old script that supposedly helped with wireless mouse connection.
+## I no longer use this since I've had no issues with the mouse so far
+## eversince I made linux my main OS. Still going to keep this script tho.
+##########################
 
 if [[ "$(whoami)" != "root" ]]; then
 	echo "run as root"

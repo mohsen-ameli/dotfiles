@@ -85,6 +85,7 @@ keys = [
     Key([mod, "shift"], "r", lazy.restart()),
     Key([mod], "e", lazy.spawn("thunar")),
     Key([mod], "d", lazy.spawn("rofi -show drun")),
+    Key([mod], "i", lazy.spawn(".local/bin/dmenu-wifi")),
     Key([mod], "w", lazy.spawn(".local/bin/dmenu-wallpaper")),
     Key([mod], "h", lazy.layout.left(), desc="Move focus to left"),
     Key([mod], "l", lazy.layout.right(), desc="Move focus to right"),

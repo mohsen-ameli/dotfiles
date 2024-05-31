@@ -1,6 +1,6 @@
 #!/bin/bash
 ##########################
-## Generates proper configuration for other tools using pywal.
+## Generates proper color configuration for other tools using pywal.
 ## Saves the config file to the wal cache directory.
 ##########################
 
