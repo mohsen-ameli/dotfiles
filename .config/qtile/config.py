@@ -204,16 +204,6 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-
-def get_mem():
-    # i = 0
-    # while True:
-    #     print(i)
-    #     sleep(0.5)
-    #     i += 1
-    return run_script(".local/bin/used-mem")
-
-
 def get_weather():
     text = run_script(".local/bin/weather")
     return json.loads(text)["text"]

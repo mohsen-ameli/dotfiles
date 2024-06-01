@@ -34,7 +34,9 @@ if [[ $1 == "--text" ]]; then
 elif [[ $1 == "--icon" ]]; then
     echo "$icon"
 elif [[ $1 == "--text-icon" ]]; then
-    echo "$icon $temp°C"
+    echo "$temp°C $icon"
+elif [[ $1 == "--full" ]]; then
+    echo "{\"text\": \"$temp°C $icon\", \"tooltip\": \"CPU Temperature is $temp°C\"}"
 else
     print_usage
 fi

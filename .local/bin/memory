@@ -1,0 +1,21 @@
+#!/bin/sh
+##########################
+## Shows how much memory is being used.
+##########################
+
+free=$(free --giga --human)
+mem=$(echo "$free" | awk '/Mem:/{printf $3}' | cut -c -4)
+total=$(echo "$free" | awk '/Mem:/{printf $2}')
+icon=" "
+
+if [[ $1 == "--text" ]]; then
+    echo "$mem"
+elif [[ $1 == "--icon" ]]; then
+    echo "$icon"
+elif [[ $1 == "--text-icon" ]]; then
+    echo "$mem $icon"
+elif [[ $1 == "--full" ]]; then
+    echo "{\"text\": \"$mem $icon\", \"tooltip\": \"Memory Usage is $mem/$total\"}"
+else
+    print_usage
+fi

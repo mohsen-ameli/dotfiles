@@ -32,9 +32,9 @@ then
     elif [[ $choice == $logout_ ]]; then
         loginctl terminate-user $USER
     elif [[ $choice == $shutdown_ ]]; then
-        shutdown
+        sudo shutdown now
     elif [[ $choice == $reboot_ ]]; then
-        reboot
+        sudo reboot now
     fi
 else
     exit 0

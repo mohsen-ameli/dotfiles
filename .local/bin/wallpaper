@@ -73,7 +73,7 @@ notify "Wallpaper: Loading Colors" "$wall_name" 90
 
 # Copy selected wallpaper into .cache folder
 cp $wallpaper ~/.cache/current_wallpaper.jpg
-magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png
+magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png &
 notify "Wallpaper Changed Successfully!" "$wall_name" 100
 
 # Restart waybar

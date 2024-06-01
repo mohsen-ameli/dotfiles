@@ -14,7 +14,7 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-        "custom/weather",
+        // "custom/weather",
         "custom/swaync",
         // "bluetooth",
         // "custom/network",
@@ -161,27 +161,32 @@
         "exec": "$HOME/.local/bin/volume --get-mic",
         "on-click": "$HOME/.local/bin/volume --toggle-mic",
         "on-click-right": "pavucontrol",
-        "tooltip": false,
+        "tooltip": true,
+        "tooltip-format": "Toggle Mic",
         "signal": 10 // using the following, we can update the text: pkill -SIGRTMIN+10 waybar
     },
     "custom/temp": {
         "format": "{}",
         "on-click":"alacritty --class floating -e btop",
-        "exec": "$HOME/.local/bin/temperature --text-icon",
-        "interval": 2
+        "exec": "$HOME/.local/bin/temperature --full",
+        "interval": 2,
+        "return-type": "json",
+        "tooltip": true
     },
     "custom/mem": {
-        "format": "{}  ",
+        "format": "{}",
         "interval": 2,
-        "exec": "$HOME/.local/bin/used-mem",
+        "exec": "$HOME/.local/bin/memory --full",
         "on-click":"alacritty --class floating -e btop",
-        "tooltip": false
+        "return-type": "json",
+        "tooltip": true
     },
     "cpu": {
         "format": "{usage:2}% ",
         "on-click": "alacritty --class floating -e btop",
         "interval": 2,
-        "tooltip": false
+        "return-type": "json",
+        "tooltip": true
     },
     "battery": {
         "states": {
@@ -205,7 +210,8 @@
     "custom/power": {
         "format": "",
         "on-click": "$HOME/.local/bin/dmenu-power",
-        "tooltip": false
+        "tooltip": true,
+        "tooltip-format": "Power Menu"
     },
     "custom/rog": {
         "format": "{}",
