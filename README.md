@@ -13,6 +13,8 @@ Section "InputClass"
 	Option "NaturalScrolling" "true"
 EndSection
 
+Set default browser:
+xdg-settings set default-web-browser brave-browser.desktop
 
 start samba/smb service (also remember to turn off ufw)
 sudo systemctl start smb

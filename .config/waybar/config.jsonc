@@ -14,7 +14,7 @@
         "hyprland/workspaces"
     ],
     "modules-right": [
-        // "custom/weather",
+        "custom/weather",
         "custom/swaync",
         // "bluetooth",
         // "custom/network",

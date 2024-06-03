@@ -5,4 +5,4 @@ Exec=/home/moe/.local/bin/launch-app brave
 Icon=brave
 Type=Application
 StartupNotify=True
-MimeType=x-scheme-handler/mailto;
+MimeType=x-scheme-handler/unknown;x-scheme-handler/about;x-scheme-handler/https;x-scheme-handler/http;text/html;x-scheme-handler/mailto;

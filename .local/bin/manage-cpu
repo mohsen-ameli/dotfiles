@@ -14,7 +14,7 @@ cores=16      #16 cores total
 if [[ $1 == "powersave" ]]; then
   enabled=12    #12 cores enabled, keep it divisible by 4
   low_freq=0.4  #GHz
-  high_freq=2.2 #GHz
+  high_freq=2.0 #GHz
   mode="powersave"
 elif [[ $1 == "performance" ]]; then
   enabled=16    #all cores enabled
