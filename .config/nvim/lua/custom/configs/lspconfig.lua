@@ -7,7 +7,7 @@ local lspconfig = require("lspconfig")
 
 local servers = {
   "pyright",
-  "ruff_lsp",
+  "ruff_lsp"
 }
 
 for _, lsp in ipairs(servers) do
@@ -17,3 +17,14 @@ for _, lsp in ipairs(servers) do
     filetypes = {"python"},
   })
 end
+
+lspconfig.tsserver.setup {
+  on_attach = on_attach,
+  capabilities = capabilities,
+  init_options = {
+    preferences = {
+      disableSuggestions = true,
+    }
+  }
+}
+

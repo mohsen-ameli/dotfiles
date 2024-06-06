@@ -24,14 +24,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
 import subprocess
 import json
-from libqtile import bar, layout, qtile, widget
+from libqtile import layout, qtile
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-from time import sleep
 from libqtile import hook
 
 BG_COLOR = "3B7A57"
