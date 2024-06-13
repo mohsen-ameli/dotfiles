@@ -95,7 +95,7 @@ def get_am_pm(time: int):
 
 def get_data(live: bool) -> dict:
     if live:
-        url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code&hourly=temperature_2m,weather_code,is_day&timezone={timezone}&forecast_days=3"
+        url = f"https://api.open-meteo.com/v1/gem?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code&hourly=temperature_2m,weather_code,is_day&timezone={timezone}&forecast_days=3"
         weather = requests.get(url).json()
     else:
         with open("/tmp/toronto.json") as f_in:

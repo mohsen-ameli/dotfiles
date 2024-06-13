@@ -28,19 +28,19 @@ window#waybar.hidden {
 }
 
 tooltip {
-    background: @color1;
+    background: @color4;
     border-radius: 10px;
     border: 1px solid @foreground;
     font-size: 14px;
 }
 
 tooltip label {
-    color: @color7;
+    color: @text_color;
 }
 
 #workspaces {
     font-size: 13pt;
-    background: @color1;
+    background: @color4;
     border-radius: 10px;
     transition: none;
     border: 1px solid @foreground;
@@ -52,7 +52,7 @@ tooltip label {
 
 #workspaces button {
     background: transparent;
-    color: @color7;
+    color: @text_color;
     transition: none;
     margin: 3px 3px 3px 0px;
     padding: 0px 12px;
@@ -60,7 +60,7 @@ tooltip label {
 
 #workspaces button.active {
     background: @color7;
-    color: @background;
+    color: @color0;
     padding: 0px 25px;
     border-radius: 10px;
 }
@@ -70,8 +70,8 @@ tooltip label {
     box-shadow: inherit;
     text-shadow: inherit;
     border-radius: inherit;
-    color: @background;
-    background: @color8;
+    color: @text_color;
+    background: @color7;
 }
 
 #clock,
@@ -95,8 +95,8 @@ tooltip label {
     border-radius: 10px;
     border: 1px solid @foreground;
     transition: none;
-    color: @color7;
-    background: @color1;
+    color: @text_color;
+    background: @color4;
 }
 
 #custom-rog,
@@ -111,10 +111,9 @@ tooltip label {
     padding-right: 20px;
     border-radius: 0px 10px 10px 0px;
     /* background: #06a3f9; */
-    background: @color1;
+    background: @color4;
     border: 1px solid @foreground;
     transition: none;
-    /* color: @color7; */
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain; 
@@ -158,7 +157,7 @@ tooltip label {
 
 #battery {
     background: #3fce14;
-    color: @background;
+    color: black;
 }
 
 #battery.charging {
@@ -170,9 +169,13 @@ tooltip label {
     color: black;
 }
 
+#battery.low:not(.charging) {
+    background-color: #e65555;
+}
+
 #battery.critical:not(.charging) {
     background-color: #f53c3c;
-    color: @color1;
+    color: @color4;
     animation-name: blink;
     animation-duration: 0.5s;
     animation-timing-function: linear;
@@ -203,7 +206,7 @@ tooltip label {
 
 @keyframes blink {
     to {
-        background-color: @color1;
+        background-color: @color4;
         color: #000000;
     }
 }

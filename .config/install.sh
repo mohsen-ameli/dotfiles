@@ -46,7 +46,7 @@ function setup_pacman() {
 	sudo pacman -S base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
 	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
 	asusctl rog-control-center nwg-look hyprland hyprpicker python-pywal swaybg waybar zenity pacman-contrib \
-  btop htop yt-dlp ffmpeg wget neofetch eza jq grim slurp cliphist net-tools glmark2 brightnessctl \
+  btop htop bat yt-dlp ffmpeg wget fastfetch eza jq grim slurp cliphist net-tools glmark2 brightnessctl \
   cowsay ntfs-3g powertop
 }
 

@@ -2,15 +2,27 @@ Have to run these to get wireless mouse to work.
 sudo echo N> /sys/module/drm_kms_helper/parameters/poll
 sudo echo "options drm_kms_helper poll=N">/etc/modprobe.d/local.conf
 
+Secure Boot:
+If dual booting, make sure to have windows's Bitlock password.
+Then go to bios and remove secure boot keys (aka put into setup mode)
+Then do the following:
+sudo pacman -S sbctl
+sudo sbctl status - Make sure you are in setup mode
+sudo sbctl create-keys
+sudo sbctl enroll-keys -m
+sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
+sudo sbctl sign -s <path-to-kernel> - path to kernel for me was: /boot/vmlinuz-linux-lts
+sudo sbctl sign -s <path-to-boot-manager> - path to boot manager for me was: /boot/efi/EFI/GRUB/grubx64.EFI
+sudo sbctl verify - make sure it's all green
 
 Natural scrolling and tapping for Xorg.
 Add the following to /etc/X11/xorg.conf.d/30-touchpad.conf
 Section "InputClass"
-	Identifier "touchpad"
-	Driver "libinput"
-	MatchIsTouchpad "on"
-	Option "Tapping" "on"
-	Option "NaturalScrolling" "true"
+Identifier "touchpad"
+Driver "libinput"
+MatchIsTouchpad "on"
+Option "Tapping" "on"
+Option "NaturalScrolling" "true"
 EndSection
 
 Set default browser:
@@ -47,7 +59,7 @@ fonts
 Downloads fonts into either /usr/share/fonts or .local/share/fonts
 use sudo fc-cache -fv to install all fonts
 use fc-list to list the installed fonts
-    fc-list : family style
+fc-list : family style
 edit .config/fontconfig/fonts.conf to use different fonts
 https://www.baeldung.com/linux/configure-multilingual-fonts
 
@@ -67,23 +79,17 @@ Dotfiles inspired from:
 https://github.com/JaKooLit/Ja_HyprLanD-dots
 
 nvim stuff:
-control + h|l   --> go between editor and file manager
-control + b     --> toggle file manager
-control + j     --> open terminal
-tab             --> switch between tabs
+control + h|l --> go between editor and file manager
+control + b --> toggle file manager
+control + j --> open terminal
+tab --> switch between tabs
 
 TODO:
-DONE: fix firefox crashing with hardware accelaration turned on
-    + switched to brave
-DONE: fix vscode python syntax highliting not working
-    + removed env = GBM_BACKEND,nvidia-drm from hyprland config
-    + installed the "syntax highlighter" extension
-    + firefox videos playing, after a while, activates hypridle
+DONE: fix firefox crashing with hardware accelaration turned on + switched to brave
+DONE: fix vscode python syntax highliting not working + removed env = GBM_BACKEND,nvidia-drm from hyprland config + installed the "syntax highlighter" extension + firefox videos playing, after a while, activates hypridle
 clicking twice to bring up hyprlock (hypridle)
 waybar doesn't restart when logging in after locking device
 thunar not opening terminal with proper emulator
-DONE: arch freezing randomly
-    + switched to linux-lts kernel
+DONE: arch freezing randomly + switched to linux-lts kernel
 configure qtile
 when opening apps (mainly from waybar), they open in different workplaces
-

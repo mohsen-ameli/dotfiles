@@ -19,6 +19,7 @@ export PATH="$PATH:/home/moe/.local/bin:/usr/bin/pdflatex:/usr/bin/latex"
 alias serve='sudo python -m http.server'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
+alias cat='bat'
 #alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ex='chmod u+x'

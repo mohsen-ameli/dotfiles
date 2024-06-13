@@ -22,6 +22,7 @@ fi
 
 action=$(echo $choice | cut -d " " -f2)
 action_lower=$(echo $action | tr '[:upper:]' '[:lower:]')
+wayland=$($HOME/.local/bin/is-wayland)
 
 if zenity --question --text="Are you sure you want to $action_lower?" --title="$action" --ok-label="$action" --cancel-label="Cancel"
 then
@@ -30,7 +31,11 @@ then
     elif [[ $choice == $suspend_ ]]; then
         suspend
     elif [[ $choice == $logout_ ]]; then
-        loginctl terminate-user $USER
+        if [[ $wayland -eq "1" ]]; then
+            hyprctl dispatch exit
+        else
+            loginctl terminate-user $USER
+        fi
     elif [[ $choice == $shutdown_ ]]; then
         sudo shutdown now
     elif [[ $choice == $reboot_ ]]; then
