@@ -6,6 +6,7 @@
 
 import subprocess
 import json
+import sys
 from tabulate import tabulate
 
 aur_updates = 0
@@ -15,6 +16,10 @@ threshhold_green=0
 threshhold_yellow=25
 threshhold_red=100
 rows = []
+
+if len(sys.argv) > 1 and sys.argv[1] in ["-h", "--help", "-H", "help"]:
+    print("Usage: aur_updates.py [--updates]")
+    exit(0)
 
 p = subprocess.Popen("$HOME/.local/bin/is-wayland", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 line = p.stdout.readlines()[0]
@@ -59,6 +64,10 @@ tooltip += "</tt>"
 
 updates = aur_updates + arch_updates
 
+if len(sys.argv) > 1 and sys.argv[1] == "--updates":
+    print(updates)
+    exit(0)
+
 if is_wayland == "0":
     print(updates)
     exit(0)
@@ -70,6 +79,10 @@ if is_wayland == "0":
 #     css_class = "red"
 
 if updates > threshhold_green:
+    if len(sys.argv) > 1 and sys.argv[1] == "--updates":
+        print(updates)
+        exit(0)
+        
     print(json.dumps({
         "text": f"{updates}",
         "alt": f"{updates}",

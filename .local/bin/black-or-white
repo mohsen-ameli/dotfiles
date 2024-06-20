@@ -1,4 +1,8 @@
 #!/bin/bash
+##########################
+## Utility used with waybar and pywal. It will choose
+## either black or white to be the text color of waybar widgets.
+##########################
 
 # Function to convert hex color to RGB values
 hex_to_rgb() {

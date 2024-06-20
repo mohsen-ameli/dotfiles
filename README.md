@@ -1,3 +1,14 @@
+Go in /etc/udev/rules.d and create two files. (replace USERNAME with your username)
+power.rules:
+ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="0", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/battery-charging discharging'"
+ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/battery-charging charging'"
+
+usb.rules:
+ACTION=="add",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 1 %E{DEVNAME}'"
+ACTION=="remove",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 0 %E{DEVNAME}'"
+
+This will make sure to give notifications whenever a device is plugged or unplugged in (as well as chargin/discharging).
+
 Have to run these to get wireless mouse to work.
 sudo echo N> /sys/module/drm_kms_helper/parameters/poll
 sudo echo "options drm_kms_helper poll=N">/etc/modprobe.d/local.conf
@@ -34,8 +45,9 @@ sudo systemctl start smb
 To add themes to SDDM login manager, add theme name to the themes parameter
 in /usr/lib/sddm/sddm.conf.d/default.conf (e.g tokyo-night-sddm)
 
-Run this command to get gparted to work properly on wayland:
-xhost +SI:localuser:root
+Run this command to run apps as sudo on wayland:
+xhost si:localuser:root
+xhost | DISPLAY=:0 sudo command
 
 Nvidia drivers on wayland: https://comfy.guide/client/nvidia/
 
@@ -51,9 +63,6 @@ found in either /usr/share/applications or /usr/share/local/applications
 
 If clock is messed up, run the following to enable network based time:
 sudo timedatectl set-ntp 1
-
-If starting apps with sudo, use
-xhost | DISPLAY=:0 sudo command
 
 fonts
 Downloads fonts into either /usr/share/fonts or .local/share/fonts

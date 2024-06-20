@@ -1,0 +1,23 @@
+#!/bin/bash
+##########################
+## Send a notification when a USB is plugged/unplugged
+## Add the following to /etc/udev/rules.d/usb.rules (replace USERNAME with your user)
+# ACTION=="add",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 1 %E{DEVNAME}'"
+# ACTION=="remove",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 0 %E{DEVNAME}'"
+##########################
+
+export XAUTHORITY=~/.Xauthority
+export DISPLAY=:0
+export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
+
+DEVICE=$2
+
+# Extract device name using udevadm
+DEVPATH=$(udevadm info -q path -n "$DEVICE")
+DEVICE_NAME=$(udevadm info -q property --path="$DEVPATH" | grep 'ID_SERIAL=' | awk -F= '{gsub(/_/," ");print $2}')
+
+if [[ $1 == "1" ]] && [[ $DEVICE_NAME != "" ]]; then
+    notify-send "USB Connected" "$DEVICE_NAME" -r 8123
+elif [[ $1 == "0" ]]; then
+    notify-send "USB Disonnected" "$DEVICE_NAME" -r 8123
+fi

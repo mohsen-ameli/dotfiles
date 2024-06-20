@@ -1,0 +1,228 @@
+(defvar open_time_cal true)
+(defvar open_control false)
+(defvar open_wifi true)
+(defvar open_bluetooth false)
+(defvar open_battery false)
+(defvar open_weather false)
+
+(defwidget bar []
+  (centerbox :orientation "h"
+    (lefthand)
+    (workspaces)
+    (righthand)
+  )
+)
+
+(defwidget wifi []
+  (revealer :reveal {open_wifi} 
+    (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
+      (button :class "control-box" :onclick "nmcli dev disconnect wlan0" "Power Off WiFi  ")
+      (button :class "control-box" :onclick "nmcli dev connect wlan0" "Power On WiFi  ")
+      (button :class "control-box" :timeout "20000s" :onclick "alacritty --class floating -e nmtui" "NMTUI  ")
+    )
+  )
+)
+
+(defwidget lefthand []
+  (box :class "sidestuff" :orientation "h" :space-evenly false :halign "start" :spacing 8
+    (label  :text temperature :class "widget")
+    (label  :text memory :class "widget")
+    (label  :text {round(EWW_CPU.avg, 0) + "% "} :class "widget")
+    (systray :class "widget" :visible true)
+  )
+)
+
+(defwidget control []
+  (revealer :reveal {open_control} 
+    (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
+      (box :orientation "h" :space-evenly true :spacing 12
+        (button :class "control-box" :onclick '$HOME/.local/bin/dmenu-power' "Power  ")
+        (button :class "control-box" :onclick 'alacritty --class floating -e $HOME/.local/bin/install-updates' "${updates} Updates ")
+      )
+      (box :orientation "h" :space-evenly true :spacing 12
+        (button :class "control-box" :timeout "5s" :onclick "$HOME/.local/bin/rog --profile-toggle" rog)
+        (button :class "control-box" :onclick "" battery_text_icon)
+      )
+      (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
+        (label :text "")
+        (metric :label "" :onchange 'pamixer --set-volume {}' :min 0 :max 100 :active true :value {volume})
+        (label :text "" :class "label")
+      )
+      
+      (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
+        (label :text "")
+        (metric :label "" :onchange 'brightnessctl set "{}%"' :min 0 :max 100 :active true :value 100)
+        (label :text "" :class "label")
+      )
+      (box
+        :orientation "v"
+        :space-evenly false
+        :spacing 8
+        (image :visible {music_title != ""} :class "music-img" :image-width 300 :image-height 300 :path {replace(music_url, "file://", "")})
+        (box :visible {music_title != ""} :orientation "v" :space-evenly false
+          {music_artist}
+          {music_title}
+        )
+        (box 
+          :orientation "h"
+          :visible {music_title != ""}
+          (button :class "btn" :onclick "playerctl previous" "")
+          (button :class "btn" :onclick "playerctl play-pause" {music_status == "Playing" ? "" : ""})
+          (button :class "btn" :onclick "playerctl next" "")
+        )
+      )
+    )
+  )
+)
+
+(include "dunst.yuck")
+
+(defwidget time_cal []
+  (revealer :reveal {open_time_cal} 
+    (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
+      (calendar)
+      (box :orientation "h" :space-evenly true :spacing 12
+        (button :class "control-box" :onclick "dunstctl history-clear" "Clear")
+        (button :class "control-box" :onclick "dunstctl set-paused toggle" "Do Not Disturb")
+      )
+      (scroll :height 390 (dunst))
+    )
+  )
+)
+
+(defwidget righthand []
+    (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end" :spacing 8
+      (label :text volume_icon :class "widget")
+      (button :class "widget" :onclick "$HOME/.local/bin/volume --toggle-mic" mic)
+      (button :class "widget" :css "button {padding-right: 20px;}" :onclick "scripts/toggle_wifi.sh" "")
+      (button :class "widget" :onclick "scripts/toggle_bluetooth.sh" "")
+      (button :class {'widget battery ' + battery_status} :css "button {padding-right: 20px;}" :onclick "scripts/toggle_battery.sh" battery_text_icon)
+      (button :class "widget" :onclick "scripts/toggle_time_cal.sh" time)
+      (button :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :onclick "scripts/toggle_control.sh" "")
+      ; (button :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :onclick "[[ $(eww get open_control) == true ]] && (eww update open_control=false && eww close control) || (eww update open_control=true && eww open control)" "")
+  )
+)
+
+(defwidget workspaces []
+  (box :class "workspaces"
+        :orientation "h"
+        :space-evenly false
+        :spacing 0
+        :halign "start"
+    (button :class {active_work == 1 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 1" 1)
+    (button :class {active_work == 2 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 2" 2)
+    (button :class {active_work == 3 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 3" 3)
+    (button :class {active_work == 4 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 4" 4)
+    (button :class {active_work == 5 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 5" 5)
+    ; (button :class {active_work == 6 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 5" 6)
+    ; (button :class {active_work == 7 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 5" 7)
+    ; (button :class {active_work == 8 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 5" 8)
+    ; (button :class {active_work == 9 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 5" 9)
+    ; (button :class {active_work == 10 ? "active" : ""} :visible true :onclick "hyprctl dispatch workspace 5" 10)
+  )
+)
+
+(defwidget metric [label value onchange]
+  (box :orientation "h"
+        :class "metric"
+        :space-evenly false
+    (box :class "label" label)
+    (scale :min 0
+            :max 101
+            :active {onchange != ""}
+            :value value
+            :onchange onchange
+    )
+  )
+)
+
+(deflisten volume "$HOME/.local/bin/volume --live")
+
+(deflisten volume_icon "$HOME/.local/bin/volume --live --icon")
+
+(deflisten mic "$HOME/.local/bin/volume --live-mic")
+
+(deflisten music_status :initial "Paused" "playerctl --follow status || true")
+
+(deflisten music_url "playerctl --follow metadata --format '{{ mpris:artUrl }}' || true")
+
+(deflisten music_artist "playerctl --follow metadata --format '{{ artist }}' || true")
+
+(deflisten music_title "playerctl --follow metadata --format '{{ title }}' || true")
+
+(deflisten active_work :initial "1" "scripts/workspaces.sh")
+
+(deflisten battery_text_icon "$HOME/.local/bin/battery --text-icon-live")
+
+(deflisten battery_capacity "$HOME/.local/bin/battery --capacity-live")
+
+(deflisten battery_status "$HOME/.local/bin/battery --status-live")
+
+; (defpoll brightness 'echo "$(printf "%.0f" $(echo "$(brightnessctl get) / $(brightnessctl max) * 100" | bc -l))"')
+
+(defpoll rog :interval "5s" "$HOME/.local/bin/rog --get-full")
+
+; "$HOME/.local/bin/updates --updates"
+(defpoll updates :interval "3600s" "echo 32")
+
+(defpoll temperature :interval "2s" "$HOME/.local/bin/temperature --text-icon")
+
+(defpoll memory :interval "2s" "$HOME/.local/bin/memory --text-icon")
+
+(defpoll time :interval "60s" "date '+%-I:%M %p'")
+
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (
+    geometry  :x "0%"
+              :y "6px"
+              :width "1520px"
+              ; :height "0px"
+              :anchor "top center"
+    )
+  :wm-ignore false
+  :exclusive true
+  :reserve (struts :side "top" :distance "4%")
+  (bar)
+)
+
+(defwindow time_cal
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry 
+                  :anchor "top right"
+                  :width "300px"
+                  :height "100px"
+                  :x "5px"
+                  :y "5px"
+              )
+  (time_cal)
+)
+
+(defwindow control
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry
+                  :anchor "top right"
+                  :width "300px"
+                  :height "100px"
+                  :x "5px"
+                  :y "5px"
+              )
+  (control)
+)
+
+(defwindow wifi
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry 
+                  :anchor "top right"
+                  :width "300px"
+                  :height "100px"
+                  :x "150px"
+                  :y "5px"
+              )
+  (wifi)
+)
+  

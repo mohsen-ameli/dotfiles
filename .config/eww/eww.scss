@@ -1,0 +1,156 @@
+* {
+  all: unset; //Unsets everything so you can style everything from scratch
+}
+
+//Global Styles
+.bar {
+  background-color: transparent;
+  // background-color: #4e4e4e;
+  color: #b0b4bc;
+  font-size: 16px;
+}
+
+.widget {
+  background-color: blueviolet;
+  padding: 0px 12px;
+  border-radius: 10px;
+}
+
+.time-reveal {
+  background-color: blueviolet;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.time-reveal metric {
+  all: unset;
+  color: #000000;
+}
+
+.control-box {
+  background-color: cyan;
+  color: black;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.control-box:hover {
+  background-color: azure;
+  color: black;
+}
+
+.label {
+  padding-right: 5px;
+}
+
+.workspaces {
+  background-color: blueviolet;
+  border-radius: 10px;
+  padding: 3px;
+}
+
+.workspaces button,
+.btn {
+  color: black;
+  padding: 0px 18px;
+  border-radius: 10px;
+  margin: 0px 2px;
+}
+
+// .tooltips {
+//   background-color: #4e4e4e;
+//   color: #b0b4bc;
+//   border-radius: 10px;
+//   padding: 5px;
+// }
+
+.workspaces > button.active {
+  border-radius: 8px;
+  background-color: chocolate;
+  color: white;
+  padding: 2px 30px;
+}
+
+.workspaces button:hover,
+.btn:hover {
+  background-color: #6fd35d;
+  color: white;
+}
+
+.music-img {
+  border-radius: 10px;
+}
+
+// .sidestuff slider {
+//   all: unset;
+//   color: #ffd5cd;
+// }
+
+.metric scale trough highlight {
+  all: unset;
+  background-color: #D35D6E;
+  color: #000000;
+  border-radius: 10px;
+}
+
+// .metric scale trough {
+//   all: unset;
+//   background-color: #4e4e4e;
+//   border-radius: 50px;
+//   min-height: 3px;
+//   min-width: 100px;
+//   margin-left: 10px;
+//   margin-right: 20px;
+// }
+
+// .metric scale trough highlight {
+//   all: unset;
+//   background-color: #D35D6E;
+//   color: #000000;
+//   border-radius: 10px;
+// }
+
+.metric scale trough {
+  all: unset;
+  background-color: #4e4e4e;
+  border-radius: 50px;
+  min-height: 15px;
+  min-width: 200px;
+  margin: 0px 10px;
+}
+
+.battery {
+  color: black;
+}
+
+.battery.discharging {
+  background-color: #3FCE14;
+}
+
+.battery.charging {
+  background-color: #26A65B;
+}
+
+.battery.warning {
+  background-color: #ffbe61;
+}
+
+.battery.low {
+  background-color: #e65555;
+}
+
+.battery.critical {
+  background-color: #f53c3c;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes blink {
+  to {
+      background-color: chocolate;
+      color: #000000;
+  }
+}

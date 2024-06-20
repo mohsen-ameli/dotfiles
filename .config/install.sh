@@ -23,6 +23,8 @@ rofi_plugins="rofi-calc-git"
 
 setup_pacman
 setup_yay
+setup_extra_optional
+# setup_qtile
 setup_latex
 setup_zsh
 setup_autocpufreq
@@ -31,6 +33,7 @@ setup_shell
 setup_firewall
 setup_bluetooth
 setup_printer
+setup_udev
 
 notify "Installation complete! Please reboot your system"
 
@@ -46,8 +49,7 @@ function setup_pacman() {
 	sudo pacman -S base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
 	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
 	asusctl rog-control-center nwg-look hyprland hyprpicker python-pywal swaybg waybar zenity pacman-contrib \
-  btop htop bat yt-dlp ffmpeg wget fastfetch eza jq grim slurp cliphist net-tools glmark2 brightnessctl \
-  cowsay ntfs-3g powertop
+  	btop htop yt-dlp ffmpeg wget eza jq grim slurp cliphist net-tools glmark2 brightnessctl ntfs-3g powertop socat
 }
 
 function setup_yay() {
@@ -62,7 +64,13 @@ function setup_yay() {
 	trizen bluetuith auto-cpufreq xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
 
+function setup_extra_optional() {
+  notify "Installing extra packages that are fun"
+  yay -S fastfetch bat tldr cowsay pipes.sh unimatrix lolcat cava
+}
+
 function setup_qtile() {
+  notify "Installing qtile and XORG"
 	sudo pacman -S qtile xorg maim xclip
 }
 
@@ -121,3 +129,15 @@ function setup_printer() {
   sudo hp-setup -i
 }
 
+function setup_udev() {
+	# For power and usb plug/unplug notifications
+	echo -e """
+	=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="0", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/battery-charging discharging'"
+	ACTION=="change", SUBSYSTEM=="power_supply", ATTR{type}=="Mains", ATTR{online}=="1", ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/battery-charging charging'"
+	""" > /etc/udev/rules.d/power.rules
+
+	echo -e """
+	ACTION=="add",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 1 %E{DEVNAME}'"
+	ACTION=="remove",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 0 %E{DEVNAME}'"
+	""" > /etc/udev/rules.d/usb.rules
+}

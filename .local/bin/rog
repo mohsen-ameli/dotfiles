@@ -9,6 +9,7 @@ print_usage() {
 arguments:
     --get: \t\t get the profile with icons
     --get-text: \t get the icon
+    --get-full: \t get the text and icon
     --dec: \t\t to decrease keyboard brightness
     --inc: \t\t to increase keyboard brightness
     --aura: \t\t change the keyboard lighting effets
@@ -20,33 +21,39 @@ get_keyboard_brightness() {
 }
 
 notify_user() {
-	notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i asus "$@"
+	# notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i asus "$@"
+	notify-send -u low -i asus "$@"
 }
 
 get_profile() {
     profile=$(asusctl profile -p | cut -f 4 -d ' ')
 }
 
-
-get_waybar() {
+get_data() {
     get_profile
     if [ $profile == "Quiet" ]; then
-        if [ $1 == 1 ]; then
+        if [ $1 == 0 ]; then
+            echo "{\"text\": \"\", \"tooltip\": \"Quiet \"}"
+        elif [ $1 == 1 ]; then
             echo ""
         else
-            echo "{\"text\": \"\", \"tooltip\": \"Quiet \"}"
+            echo "Quiet "
         fi
     elif [ $profile == "Performance" ]; then
-        if [ $1 == 1 ]; then
+        if [ $1 == 0 ]; then
+            echo "{\"text\": \"\", \"tooltip\": \"Performance \"}"
+        elif [ $1 == 1 ]; then
             echo ""
         else
-            echo "{\"text\": \"\", \"tooltip\": \"Performance \"}"
+            echo "Performance "
         fi
     else
-        if [ $1 == 1 ]; then
+        if [ $1 == 0 ]; then
+            echo "{\"text\": \"\", \"tooltip\": \"Balanced \"}"
+        elif [ $1 == 1 ]; then
             echo ""
         else
-            echo "{\"text\": \"\", \"tooltip\": \"Balanced \"}"
+            echo "Balanced "
         fi
     fi
 }
@@ -68,9 +75,11 @@ elif [ "$1" == "--dec" ]; then
         notify_user "Keyboard Light: $(get_keyboard_brightness)"
     fi
 elif [ "$1" == "--get" ]; then
-    get_waybar
+    get_data 0
 elif [ "$1" == "--get-text" ]; then
-    get_waybar 1
+    get_data 1
+elif [ "$1" == "--get-full" ]; then
+    get_data 2
 elif [ "$1" == "--aura" ]; then
     asusctl led-mode -n
     notify_user "Aura Keyboard Changed" "Static, Pulse, Breathe.\nIdk which one we are currently on ;("

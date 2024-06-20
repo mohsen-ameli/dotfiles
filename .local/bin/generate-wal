@@ -26,7 +26,12 @@ generate_hyprland() {
 # Generates colors and settings for vscode
 generate_vscode() {
     font="JetBrainsMono NF"
-    code="Code - OSS"
+    # if code - oss folder is in .config
+    if [ -d "$HOME/.config/Code - OSS" ]; then
+        code="Code - OSS"
+    elif [ -d "$HOME/.config/Code" ]; then
+        code="Code"
+    fi
     settings="$HOME/.config/$code/User/settings.json"
     bg=$(cat $HOME/.cache/wal/colors | head -n 1)
 
@@ -58,6 +63,20 @@ generate_vscode() {
     }
     }"""
 
+    # Keybindings
+    keybindings="""[
+        {
+            \"key\": \"shift+alt+down\",
+            \"command\": \"editor.action.copyLinesDownAction\",
+            \"when\": \"editorTextFocus && !editorReadonly\"
+        },
+        {
+            \"key\": \"shift+alt+up\",
+            \"command\": \"editor.action.copyLinesUpAction\",
+            \"when\": \"editorTextFocus && !editorReadonly\"
+        },
+    ]"""
+
     # \"workbench.list.mouseWheelScrollSensitivity\": 3,
     # \"editor.mouseWheelScrollSensitivity\": 3,
 
@@ -66,7 +85,8 @@ generate_vscode() {
     #   jq --argjson jsonString "$objJSON" \
     #     '."workbench.colorCustomizations" += $jsonString')
 
-    (echo "$json" | jq) > "$HOME/.config/$code/User/settings.json"
+    echo "$json" > "$HOME/.config/$code/User/settings.json"
+    echo "$keybindings" > "$HOME/.config/$code/User/keybindings.json"
 }
 
 # Generates colors for discord
@@ -88,12 +108,12 @@ generate_discord() {
 }
 
 generate_rofi() {
-    color2=$(awk 'NR==2 {print}' $HOME/.cache/wal/colors)
+    color4=$(awk 'NR==4 {print}' $HOME/.cache/wal/colors)
     color8=$(awk 'NR==8 {print}' $HOME/.cache/wal/colors)
     
     echo -e """
     * {
-        color2: $color2;
+        color2: $color4;
         color8: $color8;
     }""" > $HOME/.config/rofi/default.rasi
 }
@@ -103,7 +123,7 @@ generate_rofi() {
 # based on the background color
 generate_waybar() {
     color4=$(awk 'NR==2 {print}' $HOME/.cache/wal/colors)
-    color=$($HOME/.local/bin/black_or_white $color4)
+    color=$($HOME/.local/bin/black-or-white $color4)
     echo "@define-color text_color $color;" >> $HOME/.cache/wal/colors-waybar.css
 }
 
