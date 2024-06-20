@@ -1,0 +1,22 @@
+#!/bin/bash
+##########################
+## Bluetooth connectivity information
+##########################
+
+print_usage() {
+	echo -e """Usage: $0 [arguments]
+	
+arguments:
+	--status: \t\t Status of bluetooth
+    --icon: \t\t Icon of bluetooth"""
+}
+
+powered=$(bluetoothctl show | grep -i powered | cut -f2 -d: | xargs)
+
+if [[ $1 == "--status" ]]; then
+    [[ $powered == "yes" ]] && echo "1" || echo "0"
+elif [[ $1 == "--icon" ]]; then
+    [[ $powered == "yes" ]] && echo "" || echo "󰂲"
+else
+    print_usage
+fi

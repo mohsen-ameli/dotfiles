@@ -1,0 +1,79 @@
+(defwindow bar
+  :monitor 0
+  :windowtype "dock"
+  :geometry (geometry 
+          :x "0%"
+          :y "6px"
+          :width "1520px"
+          ; :height "0px"
+          :anchor "top center"
+    )
+  :wm-ignore false
+  :exclusive true
+  :reserve (struts :side "top" :distance "4%")
+  (bar)
+)
+  
+(defwindow time_cal
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry 
+          :anchor "top right"
+          :width "300px"
+          :height "100px"
+          :x "5px"
+          :y "5px"
+      )
+  (time_cal)
+)
+
+(defwindow control
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry
+          :anchor "top right"
+          :width "300px"
+          :height "100px"
+          :x "5px"
+          :y "5px"
+      )
+  (control)
+)
+
+(defwindow wifi
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry 
+          :anchor "top right"
+          :width "300px"
+          :height "100px"
+          :x "150px"
+          :y "5px"
+      )
+  (wifi)
+)
+
+(defwindow bluetooth
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry 
+          :anchor "top right"
+          :width "300px"
+          :height "100px"
+          :x "150px"
+          :y "5px"
+      )
+  (bluetooth)
+)
+
+(defwindow weather
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry 
+          :anchor "top left"
+          :width "450px"
+          :x "150px"
+          :y "5px"
+      )
+  (weather)
+)

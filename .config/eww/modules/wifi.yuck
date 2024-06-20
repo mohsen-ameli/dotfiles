@@ -1,0 +1,24 @@
+(defwidget wifi []
+    (revealer :reveal {open_wifi}
+        (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
+            (button
+                :class "control-box"
+                :onclick {network_status == "disconnected" ? "nmcli dev connect wlan0" : "nmcli dev disconnect wlan0"}
+                {network_status == "disconnected" ? "Power On WiFi  " : "Power Off WiFi  "}
+            )
+            (button
+                :class "control-box"
+                :timeout "24h"
+                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; $HOME/.local/bin/dmenu-wifi"
+                "Dmenu WiFi"
+            )
+            (button
+                :class "control-box"
+                :timeout "24h"
+                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; alacritty --class floating -e nmtui"
+                "Network Manager TUI"
+            )
+            (label :markup {'<span size="large">' + network + '</span>'} :xalign 0)
+        )
+    )
+)

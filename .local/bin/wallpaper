@@ -76,7 +76,7 @@ cp $wallpaper ~/.cache/current_wallpaper.jpg
 magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png &
 notify "Wallpaper Changed Successfully!" "$wall_name" 100
 
-# Restart waybar
+# Restart the bar
 if [[ $wayland -eq "1" ]]; then
-    $HOME/.local/bin/run-waybar
+    $HOME/.local/bin/run-bar
 fi

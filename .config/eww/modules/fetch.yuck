@@ -1,0 +1,52 @@
+(deflisten volume "$HOME/.local/bin/volume --live")
+
+(deflisten volume_icon "$HOME/.local/bin/volume --live --icon")
+
+(deflisten mic "$HOME/.local/bin/volume --live-mic")
+
+(deflisten music_status :initial "Paused" "playerctl --follow status || true")
+
+(deflisten music_url "playerctl --follow metadata --format '{{ mpris:artUrl }}' || true")
+
+(deflisten music_artist "playerctl --follow metadata --format '{{ artist }}' || true")
+
+(deflisten music_title "playerctl --follow metadata --format '{{ title }}' || true")
+
+(deflisten current_workspace "scripts/workspaces.sh")
+
+(deflisten active_workspaces "scripts/workspaces-active.sh")
+
+(deflisten battery_text_icon "$HOME/.local/bin/battery --text-icon-live")
+
+(deflisten battery_capacity "$HOME/.local/bin/battery --capacity-live")
+
+(deflisten battery_status "$HOME/.local/bin/battery --status-live")
+
+; (defpoll brightness 'echo "$(printf "%.0f" $(echo "$(brightnessctl get) / $(brightnessctl max) * 100" | bc -l))"')
+
+(defpoll rog :interval "5s" "$HOME/.local/bin/rog --get-full")
+
+; "$HOME/.local/bin/updates --updates"
+(defpoll updates :interval "3600s" "echo 32")
+
+(defpoll calendarr :interval "3600s" "cal")
+
+(defpoll weather_tooltip :interval "3600s" "$HOME/.local/bin/weather --tooltip")
+
+(defpoll weather_text :interval "3600s" "$HOME/.local/bin/weather --text")
+
+(defpoll network :interval "20s" "$HOME/.local/bin/network --info")
+
+(defpoll network_icon :interval "5s" "$HOME/.local/bin/network --icon")
+
+(defpoll network_status :interval "5s" "$HOME/.local/bin/network --status")
+
+(defpoll bluetooth_icon :interval "5s" "$HOME/.local/bin/bluetooth --icon")
+
+(defpoll bluetooth_status :interval "5s" "$HOME/.local/bin/bluetooth --status")
+
+(defpoll temperature :interval "2s" "$HOME/.local/bin/temperature --text-icon")
+
+(defpoll memory :interval "2s" "$HOME/.local/bin/memory --text-icon")
+
+(defpoll time :interval "60s" "date '+%-I:%M %p'")

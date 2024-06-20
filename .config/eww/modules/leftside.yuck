@@ -1,0 +1,9 @@
+(defwidget leftside []
+    (box :class "sidestuff" :orientation "h" :space-evenly false :halign "start" :spacing 8
+        (label  :text temperature :class "widget")
+        (button :timeout "24h" :onclick "alacritty --class floating -e btop" :class "widget" memory)
+        (label  :text {round(EWW_CPU.avg, 0) + "% "} :class "widget")
+        (button :timeout "24h" :onclick "scripts/toggle_weather.sh" :class "widget" weather_text)
+        (systray :class "widget"  :spacing 4)
+    )
+)

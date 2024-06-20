@@ -1,0 +1,13 @@
+(defwidget time_cal []
+    (revealer :reveal {open_time_cal} 
+        (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
+            (calendar)
+            ; (label :markup {"<tt><span size='large'>" + calendarr + "</span></tt>"})
+            (box :orientation "h" :space-evenly true :spacing 12
+                (button :class "control-box" :onclick "dunstctl history-clear" "Clear")
+                (button :class "control-box" :onclick "dunstctl set-paused toggle" "Do Not Disturb")
+            )
+            (scroll :height 390 (dunst))
+        )
+    )
+)

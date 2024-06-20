@@ -1,23 +1,29 @@
+@import "/home/moe/.cache/wal/colors.scss";
+
 * {
   all: unset; //Unsets everything so you can style everything from scratch
 }
 
-//Global Styles
 .bar {
   background-color: transparent;
-  // background-color: #4e4e4e;
-  color: #b0b4bc;
+  color: $text_color;
   font-size: 16px;
 }
 
 .widget {
-  background-color: blueviolet;
+  background: $color4;
+  border: 1px solid $foreground;
   padding: 0px 12px;
   border-radius: 10px;
 }
 
+.widget:hover {
+  background: $color3;
+}
+
 .time-reveal {
-  background-color: blueviolet;
+  background: $color4;
+  color: $text_color;
   border-radius: 10px;
   padding: 12px;
 }
@@ -28,15 +34,15 @@
 }
 
 .control-box {
-  background-color: cyan;
-  color: black;
+  background-color: $color2;
+  color: $text_color;
   border-radius: 10px;
   padding: 12px;
 }
 
 .control-box:hover {
-  background-color: azure;
-  color: black;
+  background-color: $color3;
+  color: $text_color;
 }
 
 .label {
@@ -44,37 +50,31 @@
 }
 
 .workspaces {
-  background-color: blueviolet;
+  background-color: $color4;
+  border: 1px solid $foreground;
   border-radius: 10px;
   padding: 3px;
 }
 
 .workspaces button,
 .btn {
-  color: black;
+  color: $text_color;
   padding: 0px 18px;
   border-radius: 10px;
   margin: 0px 2px;
 }
 
-// .tooltips {
-//   background-color: #4e4e4e;
-//   color: #b0b4bc;
-//   border-radius: 10px;
-//   padding: 5px;
-// }
-
 .workspaces > button.active {
   border-radius: 8px;
-  background-color: chocolate;
-  color: white;
-  padding: 2px 30px;
+  background-color: $color7;
+  color: $color0;
+  padding: 3px 32px;
 }
 
 .workspaces button:hover,
 .btn:hover {
-  background-color: #6fd35d;
-  color: white;
+  background-color: $color7;
+  color: $color0;
 }
 
 .music-img {
@@ -88,8 +88,8 @@
 
 .metric scale trough highlight {
   all: unset;
-  background-color: #D35D6E;
-  color: #000000;
+  background-color: $color3;
+  color: $color0;
   border-radius: 10px;
 }
 
@@ -117,6 +117,10 @@
   min-height: 15px;
   min-width: 200px;
   margin: 0px 10px;
+}
+
+.weather-label {
+  padding: 30px 0px;
 }
 
 .battery {
@@ -150,7 +154,7 @@
 
 @keyframes blink {
   to {
-      background-color: chocolate;
-      color: #000000;
+    background-color: chocolate;
+    color: #000000;
   }
 }

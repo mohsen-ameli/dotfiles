@@ -121,14 +121,15 @@ generate_rofi() {
 # This gets auto-populated by pywal, but for waybar 
 # I need the foreground color to by dynamically chosen
 # based on the background color
-generate_waybar() {
+generate_bar() {
     color4=$(awk 'NR==2 {print}' $HOME/.cache/wal/colors)
     color=$($HOME/.local/bin/black-or-white $color4)
     echo "@define-color text_color $color;" >> $HOME/.cache/wal/colors-waybar.css
+    echo "\$text_color: $color;" >> $HOME/.cache/wal/colors.scss
 }
 
 generate_discord
 generate_hyprland
 generate_vscode
 generate_rofi
-generate_waybar
+generate_bar

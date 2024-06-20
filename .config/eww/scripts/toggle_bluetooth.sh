@@ -1,28 +1,28 @@
 #!/bin/bash
 
-state=$(eww get open_battery)
+state=$(eww get open_bluetooth)
 
-open_battery() {
-    # if [[ -z $(eww windows | grep '*battery') ]]; then
-    eww open battery
+open_bluetooth() {
+    # if [[ -z $(eww windows | grep '*bluetooth') ]]; then
+    eww open bluetooth
     # fi
-    eww update open_battery=true
+    eww update open_bluetooth=true
 }
 
-close_battery() {
-    eww update open_battery=false
-    eww close battery
+close_bluetooth() {
+    eww update open_bluetooth=false
+    eww close bluetooth
 }
 
 case $1 in
     close)
-        close_battery
+        close_bluetooth
         exit 0;;
 esac
 
 case $state in
     true)
-        close_battery;;
+        close_bluetooth;;
     false)
-        open_battery;;
+        open_bluetooth;;
 esac

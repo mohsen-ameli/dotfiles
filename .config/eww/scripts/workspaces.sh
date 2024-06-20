@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+
+# print the active workspace
+hyprctl activeworkspace | grep "^workspace ID " | cut -d" " -f3
 
 handle() {
     echo $1 | grep "^workspace>>" | awk -F">>" '{print $2}'

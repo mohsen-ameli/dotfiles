@@ -16,10 +16,11 @@ arguments:
 }
 
 UPDATE_TIME=20
-capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-status=$(cat /sys/class/power_supply/BAT0/status)
 
 get_icon() {
+    capacity=$(cat /sys/class/power_supply/BAT0/capacity)
+    status=$(cat /sys/class/power_supply/BAT0/status)
+    
     if [[ $status == "Charging" ]]; then
         icon=""
     elif [[ $capacity -lt 10 ]]; then

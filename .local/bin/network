@@ -1,13 +1,36 @@
 #!/bin/bash
 ##########################
-## Shows network connectivity used for waybar
+## Network connectivity information
 ##########################
+
+print_usage() {
+	echo -e """Usage: $0 [arguments]
+	
+arguments:
+	--waybar: \t\t Prints the info for waybar
+	--full: \t\t Shows wifi icon and strength percentage
+	--icon: \t\t Shows only the wifi icon
+	--info: \t\t Shows all the information
+    --status: \t\t Shows the status of the connection"""
+}
 
 interface=$(ip addr | grep BROADCAST | awk '{print $2}' | cut -f1 -d:)
 
 connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
+
+if [[ $1 == "--status" ]]; then
+    echo $connected
+    exit 0
+fi
+
 if [[ $connected == "disconnected" ]]; then
-    echo "{\"text\": \"󰤭\", \"class\": \"disconnected\", \"tooltip\": \"Disconnected\"}"
+    if [[ $1 == "--waybar" ]]; then
+        echo "{\"text\": \"󰤭\", \"class\": \"disconnected\", \"tooltip\": \"Disconnected\"}"
+    elif [[ $1 == "--info" ]]; then
+        echo "Disconnected From WiFi."
+    else
+        echo "󰤭"
+    fi
     exit 0
 fi
 
@@ -16,17 +39,30 @@ connection=$(nmcli connection show)
 essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
 ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
 
-# if [[ $strength -ge 75 ]]; then
-#     text="󰤨"
-# elif [[ $strength -ge 50 ]]; then
-#     text="󰤥"
-# elif [[ $strength -ge 25 ]]; then
-#     text="󰤢"
-# else
-#     text="󰤟"
-# fi
+if [[ $strength -ge 75 ]]; then
+    icon="󰤨"
+elif [[ $strength -ge 50 ]]; then
+    icon="󰤥"
+elif [[ $strength -ge 25 ]]; then
+    icon="󰤢"
+else
+    icon="󰤟"
+fi
+
 text=" "
 
-tooltip="ESSID: $essid\n\nInterface: $interface\n\nStrength: $strength%\n\nLocal IP: $ipaddr"
-
-echo "{\"text\": \"$text\", \"class\": \"low\", \"tooltip\": \"$tooltip\"}"
+if [[ $1 == "--waybar" ]]; then
+    tooltip="ESSID: $essid\n\nInterface: $interface\n\nStrength: $strength%\n\nLocal IP: $ipaddr"
+    echo "{\"text\": \"$text\", \"class\": \"low\", \"tooltip\": \"$tooltip\"}"
+elif [[ $1 == "--info" ]]; then
+    echo "Interface: $interface"
+    echo "ESSID: $essid"
+    echo "Strength: $strength%"
+    echo "Local IP: $ipaddr"
+elif [[ $1 == "--icon" ]]; then
+    echo "$icon"
+elif [[ $1 == "--full" ]]; then
+    echo "$icon$text$strength%"
+else
+    print_usage
+fi
