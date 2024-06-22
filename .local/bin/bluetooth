@@ -7,16 +7,30 @@ print_usage() {
 	echo -e """Usage: $0 [arguments]
 	
 arguments:
-	--status: \t\t Status of bluetooth
-    --icon: \t\t Icon of bluetooth"""
+	--status: \t Status of bluetooth
+    --icon: \t\t Icon of bluetooth
+    --live: \t\t Live status of bluetooth"""
 }
 
 powered=$(bluetoothctl show | grep -i powered | cut -f2 -d: | xargs)
+
+live() {
+    while true; do
+        on=$(bluetoothctl show | grep -i powered | cut -f2 -d: | xargs)
+        [[ $on == "yes" ]] && powered="1" || powered="0"
+        [[ $on == "yes" ]] && icon="" || icon="󰂲"
+
+        echo "{ \"powered\": \"$powered\", \"icon\": \"$icon\" }"
+        sleep 5
+    done
+}
 
 if [[ $1 == "--status" ]]; then
     [[ $powered == "yes" ]] && echo "1" || echo "0"
 elif [[ $1 == "--icon" ]]; then
     [[ $powered == "yes" ]] && echo "" || echo "󰂲"
+elif [[ $1 == "--live" ]]; then
+    live
 else
     print_usage
 fi

@@ -3,9 +3,9 @@
 state=$(eww get open_wifi)
 
 open_wifi() {
-    # if [[ -z $(eww windows | grep '*wifi') ]]; then
-    eww open wifi
-    # fi
+    if [[ -z $(eww windows | grep '*wifi') ]]; then
+        eww open wifi
+    fi
     eww update open_wifi=true
 }
 

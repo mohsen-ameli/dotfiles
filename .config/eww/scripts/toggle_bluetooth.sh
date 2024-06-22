@@ -3,9 +3,9 @@
 state=$(eww get open_bluetooth)
 
 open_bluetooth() {
-    # if [[ -z $(eww windows | grep '*bluetooth') ]]; then
-    eww open bluetooth
-    # fi
+    if [[ -z $(eww windows | grep '*bluetooth') ]]; then
+        eww open bluetooth
+    fi
     eww update open_bluetooth=true
 }
 

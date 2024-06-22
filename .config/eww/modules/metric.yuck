@@ -1,15 +1,16 @@
-(defwidget metric [label value onchange]
+(defwidget metric [first last value onchange]
     (box
         :orientation "h"
         :class "metric"
         :space-evenly false
-      (box :class "label" label)
+      (box :class "label" first)
       (scale
         :min 0
-        :max 101
+        :max 100
         :active {onchange != ""}
         :value value
         :onchange onchange
       )
+      (box :class "label" last)
     )
 )

@@ -3,9 +3,9 @@
 state=$(eww get open_control)
 
 open_control() {
-    # if [[ -z $(eww windows | grep '*control') ]]; then
-    eww open control
-    # fi
+    if [[ -z $(eww windows | grep '*control') ]]; then
+        eww open control
+    fi
     eww update open_control=true
 }
 

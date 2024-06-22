@@ -1,5 +1,5 @@
 (defwidget weather []
     (revealer :reveal {open_weather}
-        (label :class "time-reveal weather-label" :markup weather_tooltip)
+        (label :class "time-reveal weather-label" :markup {weather.tooltip})
     )
 )

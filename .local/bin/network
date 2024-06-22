@@ -7,7 +7,7 @@ print_usage() {
 	echo -e """Usage: $0 [arguments]
 	
 arguments:
-	--waybar: \t\t Prints the info for waybar
+	--live: \t\t Prints the info for live
 	--full: \t\t Shows wifi icon and strength percentage
 	--icon: \t\t Shows only the wifi icon
 	--info: \t\t Shows all the information
@@ -24,7 +24,7 @@ if [[ $1 == "--status" ]]; then
 fi
 
 if [[ $connected == "disconnected" ]]; then
-    if [[ $1 == "--waybar" ]]; then
+    if [[ $1 == "--live" ]]; then
         echo "{\"text\": \"󰤭\", \"class\": \"disconnected\", \"tooltip\": \"Disconnected\"}"
     elif [[ $1 == "--info" ]]; then
         echo "Disconnected From WiFi."
@@ -39,30 +39,52 @@ connection=$(nmcli connection show)
 essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
 ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
 
-if [[ $strength -ge 75 ]]; then
-    icon="󰤨"
-elif [[ $strength -ge 50 ]]; then
-    icon="󰤥"
-elif [[ $strength -ge 25 ]]; then
-    icon="󰤢"
-else
-    icon="󰤟"
-fi
+icon() {
+    strength=$1
+    if [[ $strength -ge 75 ]]; then
+        icon="󰤨"
+    elif [[ $strength -ge 50 ]]; then
+        icon="󰤥"
+    elif [[ $strength -ge 25 ]]; then
+        icon="󰤢"
+    else
+        icon="󰤟"
+    fi
 
-text=" "
-
-if [[ $1 == "--waybar" ]]; then
-    tooltip="ESSID: $essid\n\nInterface: $interface\n\nStrength: $strength%\n\nLocal IP: $ipaddr"
-    echo "{\"text\": \"$text\", \"class\": \"low\", \"tooltip\": \"$tooltip\"}"
-elif [[ $1 == "--info" ]]; then
-    echo "Interface: $interface"
-    echo "ESSID: $essid"
-    echo "Strength: $strength%"
-    echo "Local IP: $ipaddr"
-elif [[ $1 == "--icon" ]]; then
     echo "$icon"
+}
+
+full() {
+    strength=$1
+    echo "$(icon $strength) $strength%"
+}
+
+info() {
+    strength=$1
+    # echo "ESSID: $essid"
+    # echo "Interface: $interface"
+    # echo "Strength: $strength%"
+    # echo "Local IP: $ipaddr"
+
+    echo "ESSID: $essid\n\nInterface: $interface\n\nStrength: $strength%\n\nLocal IP: $ipaddr"
+}
+
+live() {
+    while true; do
+        strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
+        echo "{\"full\": \"$(full $strength)\", \"icon\": \"$(icon $strength)\" , \"info\": \"$(info $strength)\"}"
+        sleep 5
+    done
+}
+
+if [[ $1 == "--live" ]]; then
+    live
+elif [[ $1 == "--info" ]]; then
+    info $strength
+elif [[ $1 == "--icon" ]]; then
+    icon $strength
 elif [[ $1 == "--full" ]]; then
-    echo "$icon$text$strength%"
+    full $strength
 else
     print_usage
 fi

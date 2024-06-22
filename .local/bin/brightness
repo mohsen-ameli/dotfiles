@@ -4,25 +4,38 @@
 ##########################
 
 iDIR="$HOME/.config/icons"
-vol_segment=2 # How much to increase or decrease the volume by
+segment="10%" # How much to increase or decrease the brightness by
 
 print_usage() {
 	echo -e """Usage: $0 [arguments]
 	
 arguments:
-	--get: \t get current backlight
+	--live: \t get the backlight live
+	--get: \t get current backlight 
+	--get-text: \t get current backlight without the %
 	--dec: \t to decrease backlight
 	--inc: \t to increase backlight"""
 }
 
-get_backlight() {
-	echo $(brightnessctl -m | cut -d, -f4)
+live() {
+	get_brightness_text
+	inotifywait -e modify -m -q /sys/class/backlight/amdgpu_bl0/brightness | while read -r line; do
+		get_brightness_text
+	done
+}
+
+get_brightness_text() {
+	printf "%.0f\n" $(echo "$(brightnessctl get) / $(brightnessctl max) * 100" | bc -l)
+}
+
+get_brightness() {
+	echo "$(get_brightness_text)%"
 }
 
 # Get icons
 get_icon() {
 	icon="brightness"
-	current=$(get_backlight | sed 's/%//')
+	current=$(get_brightness | sed 's/%//')
 	# if   [ "$current" -le "20" ]; then
 	# 	icon="$iDIR/brightness-20.png"
 	# elif [ "$current" -le "40" ]; then
@@ -37,13 +50,13 @@ get_icon() {
 }
 
 inc_backlight() {
-    brightnessctl set "+10%"
+    brightnessctl set "+$segment"
     get_icon
     notify_user
 }
 
 dec_backlight() {
-    brightnessctl set "10%-"
+    brightnessctl set "$segment-"
     get_icon
     notify_user
 }
@@ -54,11 +67,15 @@ notify_user() {
 }
 
 # Execute accordingly
-if [ "$1" == "--get" ]; then
-	get_backlight
-elif [ "$1" == "--inc" ]; then
+if [[ $1 == "--live" ]]; then
+	live
+elif [[ $1 == "--get" ]]; then
+	get_brightness
+elif [[ $1 == "--get-text" ]]; then
+	get_brightness_text
+elif [[ $1 == "--inc" ]]; then
 	inc_backlight
-elif [ "$1" == "--dec" ]; then
+elif [[ $1 == "--dec" ]]; then
 	dec_backlight
 else
 	print_usage

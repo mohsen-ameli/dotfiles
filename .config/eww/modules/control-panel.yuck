@@ -3,38 +3,36 @@
         (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
             (box :orientation "h" :space-evenly true :spacing 12
                 (button :class "control-box" :timeout "24h" :onclick '$HOME/.local/bin/dmenu-power' "Power  ")
-                (button :class "control-box" :timeout "24h" :onclick 'alacritty --class floating -e $HOME/.local/bin/install-updates' "${updates} Updates ")
+                (button :class "control-box" :timeout "24h" :onclick 'alacritty --class floating -e $HOME/.local/bin/install-updates' "${updates.text} Updates ")
             )
             (box :orientation "h" :space-evenly true :spacing 12
                 (button :class "control-box" :timeout "5s" :onclick "$HOME/.local/bin/rog --profile-toggle" rog)
-                (button :class "control-box" :onclick "" battery_text_icon)
+                (button :class "control-box" :onclick "" {battery.icon})
             )
             (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
-                (label :text "")
-                (metric :label "" :onchange 'pamixer --set-volume {}' :min 0 :max 100 :active true :value {volume})
-                (label :text "" :class "label")
+                (metric :first "" :last "" :onchange 'pamixer --set-volume {}' :value {volume.text})
             )
             
             (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
-                (label :text "")
-                (metric :label "" :onchange 'brightnessctl set "{}%"' :min 0 :max 100 :active true :value 100)
-                (label :text "" :class "label")
+                (metric :first "" :last "" :onchange 'brightnessctl set "{}%"' :value {brightness})
             )
             (box
                 :orientation "v"
                 :space-evenly false
-                :spacing 8
+                :spacing 10
+                :class "control-box"
+                :visible {music_title != ""}
                 (image :visible {music_title != ""} :class "music-img" :image-width 300 :image-height 300 :path {replace(music_url, "file://", "")})
                 (box :visible {music_title != ""} :orientation "v" :space-evenly false
+                    (label :markup {'<b><span size="large">' + music_title + '</span></b>'})
                     {music_artist}
-                    {music_title}
+                    {music_album}
                 )
                 (box 
                     :orientation "h"
-                    :visible {music_title != ""}
-                    (button :class "btn" :onclick "playerctl previous" "")
-                    (button :class "btn" :onclick "playerctl play-pause" {music_status == "Playing" ? "" : ""})
-                    (button :class "btn" :onclick "playerctl next" "")
+                    (button :class "music-btn" :onclick "playerctl previous" "")
+                    (button :class "music-btn" :onclick "playerctl play-pause" {music_status == "Playing" ? "" : ""})
+                    (button :class "music-btn" :onclick "playerctl next" "")
                 )
             )
         )

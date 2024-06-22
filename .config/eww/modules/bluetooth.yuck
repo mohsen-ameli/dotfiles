@@ -3,14 +3,14 @@
         (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
             (button
                 :class "control-box"
-                :onclick {bluetooth_status == "0" ? "bluetoothctl power on" : "bluetoothctl power off"}
-                {bluetooth_status == "0" ? "Power On Bluetooth " : "Power Off Bluetooth "}
+                :onclick {bluetooth.status == "0" ? "bluetoothctl power on" : "bluetoothctl power off"}
+                {bluetooth.status == "0" ? "Power On Bluetooth " : "Power Off Bluetooth 󰂲"}
             )
             (button
                 :class "control-box"
                 :timeout "24h"
                 :onclick "$HOME/.config/eww/scripts/toggle_bluetooth.sh; alacritty --class floating -e bluetuith"
-                "Bluetooth TUI "
+                "Bluetooth TUI"
             )
         )
     )

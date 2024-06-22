@@ -4,7 +4,6 @@
 (include "modules/fetch.yuck")
 (include "modules/windows.yuck")
 
-(include "dunst.yuck")
 (include "modules/wifi.yuck")
 (include "modules/bluetooth.yuck")
 (include "modules/weather.yuck")

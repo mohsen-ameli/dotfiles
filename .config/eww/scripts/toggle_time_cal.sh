@@ -3,9 +3,9 @@
 state=$(eww get open_time_cal)
 
 open_time_cal() {
-    # if [[ -z $(eww windows | grep '*time_cal') ]]; then
-    eww open time_cal
-    # fi
+    if [[ -z $(eww windows | grep '*time_cal') ]]; then
+        eww open time_cal
+    fi
     eww update open_time_cal=true
 }
 

@@ -3,9 +3,9 @@
 state=$(eww get open_battery)
 
 open_battery() {
-    # if [[ -z $(eww windows | grep '*battery') ]]; then
-    eww open battery
-    # fi
+    if [[ -z $(eww windows | grep '*battery') ]]; then
+        eww open battery
+    fi
     eww update open_battery=true
 }
 

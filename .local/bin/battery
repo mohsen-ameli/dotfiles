@@ -7,15 +7,13 @@ print_usage() {
 	echo -e """Usage: $0 [arguments]
 	
 arguments:
+    --live: \t print live battery info
     --text: \t print battery percentage text only
     --icon: \t print battery icon only
-    --text-icon: \t print both icon and percentage
-    --text-icon-live: \t print both icon and percentage live
-    --capacity-live: \t print battery percentage live
-    --status-live: \t print battery charging status live"""
+    --text-icon: \t print both icon and percentage"""
 }
 
-UPDATE_TIME=20
+UPDATE_TIME=2
 
 get_icon() {
     capacity=$(cat /sys/class/power_supply/BAT0/capacity)
@@ -37,39 +35,27 @@ get_icon() {
     echo "$icon"
 }
 
-live_capacity() {
+live() {
     while true; do
         capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-        echo "$capacity"
-        sleep $UPDATE_TIME
-    done
-}
+        s=$(cat /sys/class/power_supply/BAT0/status)
 
-live_status() {
-    while true; do
-        capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-        status=$(cat /sys/class/power_supply/BAT0/status)
-        if [[ $status == "Discharging" ]]; then
+        if [[ $s == "Discharging" ]]; then
             if [[ $capacity -le 5 ]]; then
-                echo "critical"
+                status="critical"
             elif [[ $capacity -le 15 ]]; then
-                echo "low"
+                status="low"
             elif [[ $capacity -le 25 ]]; then
-                echo "warning"
+                status="warning"
             else
-                echo "discharging"
+                status="discharging"
             fi
         else
-            echo "charging"
+            status="charging"
         fi
-        sleep $UPDATE_TIME
-    done
-}
 
-live_text_icon() {
-    while true; do
-        capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-        echo "$capacity% $(get_icon)"
+        echo '{ "capacity": '$capacity', "status": "'$status'", "icon": "'$capacity% $(get_icon)'"}'
+
         sleep $UPDATE_TIME
     done
 }
@@ -80,12 +66,8 @@ elif [[ $1 == "--icon" ]]; then
     get_icon
 elif [[ $1 == "--text-icon" ]]; then
     echo "$capacity% $(get_icon)"
-elif [[ $1 == "--text-icon-live" ]]; then
-    live_text_icon
-elif [[ $1 == "--capacity-live" ]]; then
-    live_capacity
-elif [[ $1 == "--status-live" ]]; then
-    live_status
+elif [[ $1 == "--live" ]]; then
+    live
 else
     print_usage
 fi
