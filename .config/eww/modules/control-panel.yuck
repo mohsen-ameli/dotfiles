@@ -2,8 +2,8 @@
     (revealer :reveal {open_control} 
         (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
             (box :orientation "h" :space-evenly true :spacing 12
+                (button :class "control-box" :timeout "24h" :onclick "scripts/toggle_updates.sh" "${updates.text} Updates ")
                 (button :class "control-box" :timeout "24h" :onclick '$HOME/.local/bin/dmenu-power' "Power  ")
-                (button :class "control-box" :timeout "24h" :onclick 'alacritty --class floating -e $HOME/.local/bin/install-updates' "${updates.text} Updates ")
             )
             (box :orientation "h" :space-evenly true :spacing 12
                 (button :class "control-box" :timeout "5s" :onclick "$HOME/.local/bin/rog --profile-toggle" rog)
@@ -21,18 +21,27 @@
                 :space-evenly false
                 :spacing 10
                 :class "control-box"
-                :visible {music_title != ""}
-                (image :visible {music_title != ""} :class "music-img" :image-width 300 :image-height 300 :path {replace(music_url, "file://", "")})
-                (box :visible {music_title != ""} :orientation "v" :space-evenly false
-                    (label :markup {'<b><span size="large">' + music_title + '</span></b>'})
-                    {music_artist}
-                    {music_album}
+                :visible {music.title != ""}
+                (box :visible {music.title != ""} :class "music-img" :style 'background-image: url(\'${replace(music.artUrl, "file://", "")}\');')
+                (box :visible {music.title != ""} :orientation "v" :space-evenly false
+                    (label :markup {'<b><span size="large">' + music.title + '</span></b>'})
+                    {music.artist}
+                    {music.album}
                 )
                 (box 
                     :orientation "h"
                     (button :class "music-btn" :onclick "playerctl previous" "")
-                    (button :class "music-btn" :onclick "playerctl play-pause" {music_status == "Playing" ? "" : ""})
+                    (button :class "music-btn" :onclick "playerctl play-pause" {music.status == "Playing" ? "" : ""})
                     (button :class "music-btn" :onclick "playerctl next" "")
+                )
+                (metric
+                    :class "music-bar"
+                    :first {music_position.positionStr}
+                    :last {music.lengthStr}
+                    :min 0
+                    :max {music.length}
+                    :onchange 'playerctl position {}'
+                    :value {music_position.position}
                 )
             )
         )

@@ -31,7 +31,7 @@
   :stacking "fg"
   :geometry (geometry
           :anchor "top right"
-          :width "300px"
+          :width "350px"
           :height "100px"
           :x "5px"
           :y "5px"
@@ -75,4 +75,16 @@
           :y "5px"
       )
   (weather)
+)
+
+(defwindow updates
+  :monitor 0
+  :stacking "fg"
+  :geometry (geometry 
+          :anchor "top right"
+          :width "500px"
+          :x "360px"
+          :y "5px"
+      )
+  (updates)
 )

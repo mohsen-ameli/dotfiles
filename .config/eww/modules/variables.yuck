@@ -4,3 +4,5 @@
 (defvar open_bluetooth false)
 (defvar open_battery false)
 (defvar open_weather false)
+(defvar open_updates false)
+

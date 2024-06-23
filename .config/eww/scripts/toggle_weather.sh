@@ -3,9 +3,8 @@
 state=$(eww get open_weather)
 
 open_weather() {
-    if [[ -z $(eww windows | grep '*weather') ]]; then
-        eww open weather
-    fi
+    eww active-windows | grep -v "bar" | cut -f1 -d: | xargs -I {} eww close {}
+    eww open weather
     eww update open_weather=true
 }
 
@@ -13,12 +12,6 @@ close_weather() {
     eww update open_weather=false
     eww close weather
 }
-
-case $1 in
-    close)
-        close_weather
-        exit 0;;
-esac
 
 case $state in
     true)

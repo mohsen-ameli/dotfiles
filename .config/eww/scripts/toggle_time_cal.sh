@@ -3,9 +3,8 @@
 state=$(eww get open_time_cal)
 
 open_time_cal() {
-    if [[ -z $(eww windows | grep '*time_cal') ]]; then
-        eww open time_cal
-    fi
+    eww active-windows | grep -v "bar" | cut -f1 -d: | xargs -I {} eww close {}
+    eww open time_cal
     eww update open_time_cal=true
 }
 
@@ -13,12 +12,6 @@ close_time_cal() {
     eww update open_time_cal=false
     eww close time_cal
 }
-
-case $1 in
-    close)
-        close_time_cal
-        exit 0;;
-esac
 
 case $state in
     true)

@@ -28,13 +28,9 @@ is_wayland = line.decode("UTF-8").split("\n")[0]
 p = subprocess.Popen('yay -Qua -i 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 lines = p.stdout.readlines()
 aur_updates = len(lines)
-for i in range(0, len(lines), 2):
+for i in range(0, len(lines)):
     name, curr_v, _, update_v = str(lines[i].decode("UTF-8")).strip().split(" ")
-    if i+1 < len(lines):
-        name2, curr_v2, _, update_v2 = str(lines[i+1].decode("UTF-8")).strip().split(" ")
-        rows.append([f"{name} (AUR)", update_v, f"{name2} (AUR)", update_v2])
-    else:
-        rows.append([f"{name} (AUR)", update_v])
+    rows.append([f"{name} (AUR)", update_v])
 retval = p.wait()
 
 p = subprocess.Popen('checkupdates 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
@@ -48,17 +44,13 @@ for line in ll:
     if "lib" not in name and "qt" not in name:
         lines.append(line)
 
-for i in range(0, len(lines), 2):
+for i in range(0, len(lines)):
     name, curr_v, _, update_v = str(lines[i].decode("UTF-8")).strip().split(" ")
-    if i+1 < len(lines):
-        name2, curr_v2, _, update_v2 = str(lines[i+1].decode("UTF-8")).strip().split(" ")
-        rows.append([name, update_v, name2, update_v2])
-    else:
-        rows.append([name, update_v])
+    rows.append([name, update_v])
 retval = p.wait()
 
-tooltip = f"{'\t'*27}\n"
-tooltip += "<tt>"
+# tooltip = f"{'\t'*27}\n"
+tooltip = "<tt>"
 tooltip += tabulate(rows, ['Name', 'New Version', 'Name', 'New Version'], tablefmt='rounded_outline')
 tooltip += "</tt>"
 

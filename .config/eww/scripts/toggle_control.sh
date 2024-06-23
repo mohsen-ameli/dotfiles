@@ -3,22 +3,17 @@
 state=$(eww get open_control)
 
 open_control() {
-    if [[ -z $(eww windows | grep '*control') ]]; then
-        eww open control
-    fi
+    eww active-windows | grep -v "bar" | cut -f1 -d: | xargs -I {} eww close {}
+    eww open control
     eww update open_control=true
 }
 
 close_control() {
     eww update open_control=false
     eww close control
+    eww update open_updates=false
+    eww close updates
 }
-
-# case $1 in
-#     close)
-#         close_control
-#         exit 0;;
-# esac
 
 case $state in
     true)

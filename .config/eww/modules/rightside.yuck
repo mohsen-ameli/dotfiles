@@ -7,6 +7,5 @@
         (label :text {battery.icon} :class {'widget battery ' + battery.status} :css "label {padding-right: 20px;}")
         (button :class "widget" :onclick "scripts/toggle_time_cal.sh" time)
         (button :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :onclick "scripts/toggle_control.sh" "")
-        ; (button :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :onclick "[[ $(eww get open_control) == true ]] && (eww update open_control=false && eww close control) || (eww update open_control=true && eww open control)" "")
     )
 )

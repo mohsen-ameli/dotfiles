@@ -15,7 +15,6 @@ arguments:
 }
 
 interface=$(ip addr | grep BROADCAST | awk '{print $2}' | cut -f1 -d:)
-
 connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
 
 if [[ $1 == "--status" ]]; then
@@ -23,23 +22,15 @@ if [[ $1 == "--status" ]]; then
     exit 0
 fi
 
-if [[ $connected == "disconnected" ]]; then
-    if [[ $1 == "--live" ]]; then
-        echo "{\"text\": \"󰤭\", \"class\": \"disconnected\", \"tooltip\": \"Disconnected\"}"
-    elif [[ $1 == "--info" ]]; then
-        echo "Disconnected From WiFi."
-    else
-        echo "󰤭"
-    fi
-    exit 0
-fi
-
 strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
-connection=$(nmcli connection show)
-essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
-ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
 
 icon() {
+    connected=$1
+    if [[ $connected == "disconnected" ]]; then
+        echo "󰤭"
+        exit 0
+    fi
+
     strength=$1
     if [[ $strength -ge 75 ]]; then
         icon="󰤨"
@@ -55,16 +46,27 @@ icon() {
 }
 
 full() {
+    connected=$1
+    if [[ $connected == "disconnected" ]]; then
+        echo "$(icon $strength $connected) 0%"
+        exit 0
+    fi
+    
     strength=$1
-    echo "$(icon $strength) $strength%"
+    echo "$(icon $strength $connected) $strength%"
 }
 
 info() {
+    connected=$1
+    if [[ $connected == "disconnected" ]]; then
+        echo "Disconnected"
+        exit 0
+    fi
+
     strength=$1
-    # echo "ESSID: $essid"
-    # echo "Interface: $interface"
-    # echo "Strength: $strength%"
-    # echo "Local IP: $ipaddr"
+    connection=$(nmcli connection show)
+    essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
+    ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
 
     echo "ESSID: $essid\n\nInterface: $interface\n\nStrength: $strength%\n\nLocal IP: $ipaddr"
 }
@@ -72,7 +74,9 @@ info() {
 live() {
     while true; do
         strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
-        echo "{\"full\": \"$(full $strength)\", \"icon\": \"$(icon $strength)\" , \"info\": \"$(info $strength)\"}"
+        connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
+
+        echo "{\"status\": \"$connected\", \"full\": \"$(full $strength $connected)\", \"icon\": \"$(icon $strength $connected)\" , \"info\": \"$(info $strength $connected)\"}"
         sleep 5
     done
 }
@@ -80,11 +84,11 @@ live() {
 if [[ $1 == "--live" ]]; then
     live
 elif [[ $1 == "--info" ]]; then
-    info $strength
+    info $strength $connected
 elif [[ $1 == "--icon" ]]; then
-    icon $strength
+    icon $strength $connected
 elif [[ $1 == "--full" ]]; then
-    full $strength
+    full $strength $connected
 else
     print_usage
 fi

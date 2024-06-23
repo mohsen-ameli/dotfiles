@@ -18,7 +18,7 @@
                 :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; alacritty --class floating -e nmtui"
                 "Network Manager TUI"
             )
-            (label :class "control-box" :markup {'<span size="medium">' + network.info + '</span>'} :xalign 0)
+            (label :class "control-box" :visible {network.status != "disconnected"} :markup {'<span size="medium">' + network.info + '</span>'} :xalign 0)
         )
     )
 )

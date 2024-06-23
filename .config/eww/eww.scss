@@ -1,7 +1,8 @@
 @import "/home/moe/.cache/wal/colors.scss";
 
+// Unsets everything so you can style everything from scratch
 * {
-  all: unset; //Unsets everything so you can style everything from scratch
+  all: unset;
 }
 
 .bar {
@@ -45,7 +46,7 @@
 }
 
 .label {
-  padding-right: 5px;
+  padding: 0px 5px;
 }
 
 .workspaces {
@@ -86,12 +87,22 @@
 }
 
 .music-img {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 250px;
+  min-width: 250px;
   border-radius: 10px;
 }
 
 .mute {
   background-color: #85c1c1;
   color: #2a5c45;
+}
+
+.mute:hover {
+  background-color: #589090;
+  color: #1d4733;
 }
 
 .calendar {
@@ -107,46 +118,26 @@
   border-radius: 5px;
 }
 
-// .sidestuff slider {
-//   all: unset;
-//   color: #ffd5cd;
-// }
-
 .metric scale trough highlight {
-  all: unset;
   background-color: $color3;
   color: $color0;
-  border-radius: 10px;
+  border-radius: 5px;
 }
 
-// .metric scale trough {
-//   all: unset;
-//   background-color: #4e4e4e;
-//   border-radius: 50px;
-//   min-height: 3px;
-//   min-width: 100px;
-//   margin-left: 10px;
-//   margin-right: 20px;
-// }
-
-// .metric scale trough highlight {
-//   all: unset;
-//   background-color: #D35D6E;
-//   color: #000000;
-//   border-radius: 10px;
-// }
-
 .metric scale trough {
-  all: unset;
-  background-color: #4e4e4e;
-  border-radius: 50px;
+  background-color: $color0;
+  border-radius: 5px;
   min-height: 15px;
-  min-width: 200px;
+  min-width: 240px;
   margin: 0px 10px;
 }
 
+.music-bar scale trough {
+  min-width: 200px;
+}
+
 .weather-label {
-  padding: 30px 0px;
+  padding-bottom: 30px;
 }
 
 .battery {

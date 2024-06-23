@@ -22,12 +22,13 @@ curr_time = int(datetime.now(pytz.timezone(timezone)).strftime("%H"))
 hourly_limit = 24  # how many hours ahead to show
 
 # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
-# These icons are based on wmo-code which open-meteo uses
+# These icons are based on wmo-code which is what open-meteo uses
 icons = {
     "overcast": {"name": "Cloudy", "icon": "☁️"},
     "partly-cloudy-day": {"name": "Mostly Cloudy", "icon": "🌤️"},
     "partly-cloudy-night": {"name": "Mostly Cloudy", "icon": " "},
     "haze": {"name": "Haze", "icon": ""},
+    "wind": {"name": "Windy", "icon": "💨"},
     "fog": {"name": "Fog", "icon": "🌫️"},
     "sandstorm": {"name": "Sandstorm", "icon": "🌪️"},
     "clear-day": {"name": "Sunny", "icon": "☀️"},
@@ -83,9 +84,9 @@ def get_icon(code: int, is_day: int) -> str:
 
 
 def get_am_pm(time: int):
-    # if time == curr_time:
-    #     return "now\t"
-    if time == 0:
+    if time == curr_time:
+        return "now"
+    elif time == 0:
         return "12AM"
     elif time <= 12:
         return f"{time}AM"
@@ -95,8 +96,11 @@ def get_am_pm(time: int):
 
 def get_data(live: bool) -> dict:
     if live:
-        url = f"https://api.open-meteo.com/v1/gem?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code&hourly=temperature_2m,weather_code,is_day&timezone={timezone}&forecast_days=3"
+        # url = f"https://api.open-meteo.com/v1/gem?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,wind_speed_10m,is_day&timezone={timezone}&forecast_days=3"
+        url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,wind_speed_10m,is_day&timezone=auto&forecast_days=3"
         weather = requests.get(url).json()
+        # print(url)
+        # exit(0)
     else:
         with open("/tmp/toronto.json") as f_in:
             weather = json.load(f_in)
@@ -104,17 +108,24 @@ def get_data(live: bool) -> dict:
 
 
 def format_data(weather: dict):
+    # Units
+    wind_unit = weather["current_units"]["wind_speed_10m"]
+
     # Current weather
-    curr_temp = weather["current"]["temperature_2m"]
     high = max(weather["hourly"]["temperature_2m"][:24])
     low = min(weather["hourly"]["temperature_2m"][:24])
-    curr_condition = get_icon(
-        weather["current"]["weather_code"], weather["current"]["is_day"]
-    )
+    wind = weather["hourly"]["wind_speed_10m"]
+    curr_precipitation = weather["current"]["precipitation"]
+    curr_temp = weather["current"]["temperature_2m"]
+    curr_wind = weather["current"]["wind_speed_10m"]
+    if int(curr_wind) > 20:
+        curr_condition = "wind"
+    else:
+        curr_condition = get_icon(weather["current"]["weather_code"], weather["current"]["is_day"])
     curr_condition_name = icons[curr_condition]["name"]
     curr_icon = icons[curr_condition]["icon"]
 
-    hours = ["\t", "\t", "\t", "\t"]
+    hours = ["", "\t", "\t", "\t"]
     conditions = ["\t", "\t", "\t", "\t"]
     temps = ["\t", "\t", "\t", "\t"]
 
@@ -123,9 +134,10 @@ def format_data(weather: dict):
     for t in range(curr_time, curr_time + hourly_limit):
         if i != 0 and i % 6 == 0:
             j += 1
-        condition = get_icon(
-            weather["hourly"]["weather_code"][t], weather["hourly"]["is_day"][t]
-        )
+        if int(wind[t]) > 20:
+            condition = "wind"
+        else:
+            condition = get_icon(weather["hourly"]["weather_code"][t], weather["hourly"]["is_day"][t])
         hours[j] += f"{get_am_pm(t%24)}\t"
         conditions[j] += f"&#8201;&#8201;{icons[condition]["icon"]}\t\t"
         temps[j] += f" {round(weather["hourly"]["temperature_2m"][t])}°\t\t"
@@ -136,27 +148,29 @@ def format_data(weather: dict):
     for i in range(j + 1):
         hourly += f"{hours[i]}\n{conditions[i]}\n{temps[i]}\n\n"
 
-    space_before_condition = " "
-    if len(curr_condition_name) < 6:
-        space_before_condition = f"{' '*6}"
-    elif len(curr_condition_name) < 10:
-        space_before_condition = f"{' '*4}"
+    # space_before_condition = " "
+    # if len(curr_condition_name) < 6:
+    #     space_before_condition = f"{' '*6}"
+    # elif len(curr_condition_name) < 10:
+    #     space_before_condition = f"{' '*4}"
 
-    space_before_city = " "
-    if len(city) <= 5:
-        space_before_city = f"{' '*8}"
-    elif len(city) <= 8:
-        space_before_city = f"{' '*5}"
+    # space_before_city = " "
+    # if len(city) <= 5:
+    #     space_before_city = f"{' '*8}"
+    # elif len(city) <= 8:
+    #     space_before_city = f"{' '*5}"
 
     data = {
         "text": f"{curr_icon} {round(curr_temp)}°",
         "tooltip": f"""
-    {"\t"*4}<span size="xx-large">{space_before_city}{city}</span>
-    {"\t"*5}<span size="xx-large">\t{round(curr_temp)}°</span>{"\t"*6}
-    {"\t"*5}<span>{space_before_condition}{curr_condition_name} {curr_icon}</span>{"\t"*6}
-    {"\t"*5}   H: {round(high)}° L: {round(low)}°
+        {"\t"*4}<span size="xx-large">{city}</span>
+        {"\t"*5}<span size="xx-large">{round(curr_temp)}°</span>
+        {"\t"*4}     <span>{curr_condition_name} {curr_icon}</span>
+        {"\t"*4}    <span>H: {round(high)}° L: {round(low)}°</span>
 
-{hourly}""",
+        {hourly}
+        Wind Speed: {curr_wind} {wind_unit}
+        Chance of Precipitation: {curr_precipitation:.0f}%""",
     }
 
     return data
