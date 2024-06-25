@@ -9,7 +9,7 @@
             (button
                 :class "control-box"
                 :timeout "24h"
-                :onclick "$HOME/.config/eww/scripts/toggle_bluetooth.sh; alacritty --class floating -e bluetuith"
+                :onclick "$HOME/.config/eww/scripts/toggle_bluetooth.sh; $HOME/.local/bin/open-window \"alacritty --class floating -e bluetuith\""
                 "Bluetooth TUI"
             )
         )

@@ -12,14 +12,35 @@
 }
 
 .widget {
-  background: $color4;
+  background-color: $color4;
   border: 1px solid $foreground;
   padding: 0px 12px;
   border-radius: 10px;
 }
 
 .widget:hover {
-  background: $color3;
+  background-color: $color3;
+}
+
+.wifi {
+  padding: 0px 25px;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  background-position: center;
+}
+
+@if $text_color == white {
+  .wifi-disabled {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-disabled.svg");}
+  .wifi-high {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-high.svg");}
+  .wifi-low {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-low.svg");}
+  .wifi-mid {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-mid.svg");}
+  .wifi-none {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-none.svg");}
+} @else {
+  .wifi-disabled {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-disabled.svg");}
+  .wifi-high {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-high.svg");}
+  .wifi-low {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-low.svg");}
+  .wifi-mid {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-mid.svg");}
+  .wifi-none {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-none.svg");}
 }
 
 .time-reveal {
@@ -27,6 +48,7 @@
   color: $text_color;
   border-radius: 10px;
   padding: 12px;
+  min-width: 300px;
 }
 
 .time-reveal metric {
@@ -80,6 +102,7 @@
   padding: 10px 18px;
   border-radius: 10px;
   margin: 0px 2px;
+  font-size: 16pt;
 }
 
 .music-btn:hover {
@@ -93,6 +116,34 @@
   min-height: 250px;
   min-width: 250px;
   border-radius: 10px;
+}
+
+.vol-eventbox {
+  margin: 0px 20px;
+}
+
+.volume {
+  padding: 0px 10px;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  background-position: center;
+  background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");
+}
+
+.vol-mute {
+  background-image: url("/home/moe/.local/share/icons/custom/volume/volume-mute.svg");
+}
+
+@if $text_color == white {
+  .vol-off {background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");}
+  .vol-low {background-image: url("/home/moe/.local/share/icons/custom/volume/volume-low.svg");}
+  .vol-mid {background-image: url("/home/moe/.local/share/icons/custom/volume/volume-mid.svg");}
+  .vol-high {background-image: url("/home/moe/.local/share/icons/custom/volume/volume-high.svg");}
+} @else {
+  .vol-off {background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-off.svg");}
+  .vol-low {background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-low.svg");}
+  .vol-mid {background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-mid.svg");}
+  .vol-high {background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-high.svg");}
 }
 
 .mute {

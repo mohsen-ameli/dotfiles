@@ -74,6 +74,10 @@ https://www.baeldung.com/linux/configure-multilingual-fonts
 
 wifi icons
 https://www.figma.com/file/eJgx1YTG2WdQ41B1fZ2wd8/Wifi?type=design&node-id=0%3A1&mode=design&t=Rfg5ME7eZDOHPh7k-1
+https://www.iconfinder.com/search?q=wifi&iconset=phosphor-bold-vol-4
+
+volume icons
+https://www.iconfinder.com/search?q=volume&family=ionicons-fill
 
 Good icons
 https://icons8.com/icon/86864/audio

@@ -26,10 +26,10 @@ arguments:
 }
 
 live_volume() {
-	echo "{ \"text\": \"$(get_volume)\", \"icon\": \"$(get_volume)% $(get_icon)\" }"
+	echo "{ \"text\": \"$(get_volume)\", \"class\": \"$(get_class)\", \"icon\": \"$(get_volume)% $(get_icon)\" }"
 	pactl subscribe | while read -r event; do
 		if echo "$event" | grep -q "sink #"; then
-			echo "{ \"text\": \"$(get_volume)\", \"icon\": \"$(get_volume)% $(get_icon)\" }"
+			echo "{ \"text\": \"$(get_volume)\", \"class\": \"$(get_class)\", \"icon\": \"$(get_volume)% $(get_icon)\" }"
 		fi
 	done
 }
@@ -98,6 +98,21 @@ get_icon() {
 		echo "󱄠"
 	else
 		echo ""
+	fi
+}
+
+get_class() {
+	current=$(get_volume)
+	if [[ "$current" -eq "0" ]]; then
+		echo "mute"
+	elif [[ ("$current" -ge "0") && ("$current" -le "25") ]]; then
+		echo "off"
+	elif [[ ("$current" -ge "25") && ("$current" -le "50") ]]; then
+		echo "low"
+	elif [[ ("$current" -ge "50") && ("$current" -le "75") ]]; then
+		echo "mid"
+	else
+		echo "high"
 	fi
 }
 

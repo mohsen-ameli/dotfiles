@@ -45,6 +45,27 @@ icon() {
     echo "$icon"
 }
 
+class() {
+    connected=$1
+    if [[ $connected == "disconnected" ]]; then
+        echo "disabled"
+        exit 0
+    fi
+
+    strength=$1
+    if [[ $strength -ge 75 ]]; then
+        class="high"
+    elif [[ $strength -ge 50 ]]; then
+        class="mid"
+    elif [[ $strength -ge 25 ]]; then
+        class="low"
+    else
+        class="none"
+    fi
+
+    echo "$class"
+}
+
 full() {
     connected=$1
     if [[ $connected == "disconnected" ]]; then
@@ -76,7 +97,7 @@ live() {
         strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
         connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
 
-        echo "{\"status\": \"$connected\", \"full\": \"$(full $strength $connected)\", \"icon\": \"$(icon $strength $connected)\" , \"info\": \"$(info $strength $connected)\"}"
+        echo "{\"status\": \"$connected\", \"full\": \"$(full $strength $connected)\", \"class\": \"$(class $strength $connected)\", \"icon\": \"$(icon $strength $connected)\" , \"info\": \"$(info $strength $connected)\"}"
         sleep 5
     done
 }

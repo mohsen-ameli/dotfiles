@@ -1,8 +1,17 @@
 (defwidget rightside []
     (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end" :spacing 8
-        (button :class {'widget ' + (volume.text == 0 ? "mute" : "")} :css "button {padding: 0px 15px;}" :onclick "$HOME/.local/bin/volume --toggle" {volume.icon})
+        (eventbox
+            :class {'widget ' + (volume.text == 0 ? "mute" : "")}
+            :width 80
+            :onclick "$HOME/.local/bin/volume --toggle"
+            :onscroll "[[ {} == \"up\" ]] && $HOME/.local/bin/volume --inc || $HOME/.local/bin/volume --dec"
+            (box :orientation "h" :space-evenly false :spacing 8 :halign "center"
+                (label :text {volume.text + "%"})
+                (label :text "" :class {'volume vol-' + volume.class})
+            )
+        )
         (button :class {'widget ' + (mic.text == 0 ? "mute" : "")} :css "button {padding: 0px 20px;}" :onclick "$HOME/.local/bin/volume --toggle-mic" {mic.icon})
-        (button :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :onclick "scripts/toggle_wifi.sh" {network.icon})
+        (button :class {'widget wifi wifi-' + network.class} :onclick "scripts/toggle_wifi.sh" "")
         (button :class "widget" :css "button {padding: 0px 20px;}" :onclick "scripts/toggle_bluetooth.sh" {bluetooth.icon})
         (label :text {battery.icon} :class {'widget battery ' + battery.status} :css "label {padding-right: 20px;}")
         (button :class "widget" :onclick "scripts/toggle_time_cal.sh" time)

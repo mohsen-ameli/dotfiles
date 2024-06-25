@@ -15,7 +15,7 @@
             (button
                 :class "control-box"
                 :timeout "24h"
-                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; alacritty --class floating -e nmtui"
+                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; $HOME/.local/bin/open-window \"alacritty --class floating -e nmtui\""
                 "Network Manager TUI"
             )
             (label :class "control-box" :visible {network.status != "disconnected"} :markup {'<span size="medium">' + network.info + '</span>'} :xalign 0)

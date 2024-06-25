@@ -24,8 +24,19 @@ action=$(echo $choice | cut -d " " -f2)
 action_lower=$(echo $action | tr '[:upper:]' '[:lower:]')
 wayland=$($HOME/.local/bin/is-wayland)
 
-if zenity --question --text="Are you sure you want to $action_lower?" --title="$action" --ok-label="$action" --cancel-label="Cancel"
-then
+# opening zenity in the right workspace
+$HOME/.local/bin/open-window "zenity --question --text=\"Are you sure you want to $action_lower?\" --title=\"$action\" --ok-label=\"$action\" --cancel-label=\"Cancel\" && echo 1 > /tmp/confirm || echo 0 > /tmp/confirm"
+
+# making sure zenity is closed, since the above script doesn't block the flow
+sleep 2
+while true; do
+    if [[ $(ps aux | pgrep zenity) == "" ]]; then
+        break
+    fi
+    sleep 1
+done
+
+if [[ $(cat /tmp/confirm) == "1" ]]; then
     if [[ $choice == $lock_ ]]; then
         hyprlock
     elif [[ $choice == $suspend_ ]]; then

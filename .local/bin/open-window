@@ -1,0 +1,5 @@
+#!/bin/bash
+
+active=$(hyprctl activeworkspace | grep "^workspace ID " | cut -d" " -f3)
+
+hyprctl dispatch exec [workspace $active silent] -q "$1"
