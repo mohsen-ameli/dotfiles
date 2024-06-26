@@ -53,7 +53,7 @@ if [[ $(_isInstalledYay "timeshift") == "0" ]] ;then
     echo
 fi
 
-yay
+yay -Syu --noconfirm
 
 notify-send -u normal "Update complete"
 echo 

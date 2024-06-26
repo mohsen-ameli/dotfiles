@@ -1,13 +1,7 @@
 (defwindow bar
   :monitor 0
   :windowtype "dock"
-  :geometry (geometry 
-          :x "0%"
-          :y "6px"
-          :width "1520px"
-          ; :height "0px"
-          :anchor "top center"
-    )
+  :geometry (geometry :anchor "top center")
   :wm-ignore false
   :exclusive true
   :reserve (struts :side "top" :distance "4%")

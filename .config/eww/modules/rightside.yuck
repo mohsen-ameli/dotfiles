@@ -1,5 +1,5 @@
 (defwidget rightside []
-    (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end" :spacing 8
+    (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
         (eventbox
             :class {'widget ' + (volume.text == 0 ? "mute" : "")}
             :width 80

@@ -28,20 +28,26 @@
                     {music.artist}
                     {music.album}
                 )
-                (box 
+                (box
                     :orientation "h"
-                    (button :class "music-btn" :onclick "playerctl previous" "")
-                    (button :class "music-btn" :onclick "playerctl play-pause" {music.status == "Playing" ? "" : ""})
-                    (button :class "music-btn" :onclick "playerctl next" "")
-                )
-                (metric
                     :class "music-bar"
-                    :first {music_position.positionStr}
-                    :last {music.lengthStr}
-                    :min 0
-                    :max {music.length}
-                    :onchange 'playerctl position {}'
-                    :value {music_position.position}
+                    :space-evenly false
+                    (scale
+                        :min 0
+                        :max {music.length}
+                        :onchange 'playerctl position {}'
+                        :value {music_position.position}
+                    )
+                )
+                (centerbox
+                    :orientation "h"
+                    (label :text {music_position.positionStr} :class "music-time-left")
+                    (box :orientation "h" :space-evenly false :spacing 5
+                        (button :class "music-btn" :css "button {padding: 10px 20px 10px 15px;}" :onclick "playerctl previous" "")
+                        (button :class "music-btn" :css "button {padding: 10px 15px;}" :onclick "playerctl play-pause" {music.status == "Playing" ? "" : ""})
+                        (button :class "music-btn" :css "button {padding: 10px 20px 10px 15px;}" :onclick "playerctl next" "")
+                    )
+                    (label :text {music.lengthStr} :class "music-time-right")
                 )
             )
         )

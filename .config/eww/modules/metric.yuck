@@ -1,16 +1,16 @@
-(defwidget metric [first last ?class ?min ?max value onchange]
-    (box
-        :orientation "h"
-        :class {'metric ' + class}
-        :space-evenly false
-      (box :class "label" first)
-      (scale
-        :min {min ? min : 0}
-        :max {max ? max : 100}
-        :active {onchange != ""}
-        :value value
-        :onchange onchange
-      )
-      (box :class "label" last)
+(defwidget metric [?first ?last ?class ?min ?max value onchange]
+  (box
+      :orientation "h"
+      :class {'metric ' + class}
+      :space-evenly false
+    (box :class "label" :hidden {first == ""} first)
+    (scale
+      :min {min ? min : 0}
+      :max {max ? max : 100}
+      :active {onchange != ""}
+      :value value
+      :onchange onchange
     )
+    (box :class "label" :hidden {last == ""} last)
+  )
 )

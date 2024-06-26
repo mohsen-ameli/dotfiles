@@ -1,11 +1,20 @@
 @import "/home/moe/.cache/wal/colors.scss";
 
-// Unsets everything so you can style everything from scratch
+$mode: "normal";
+// $mode: "minimal";
+// hypr-mode --<normal | minimal>
+
 * {
   all: unset;
 }
 
 .bar {
+  @if $mode == minimal {
+    min-width: 1536px;
+  } @else {
+    margin-top: 6px;
+    min-width: 1520px;
+  }
   background-color: transparent;
   color: $text_color;
   font-size: 16px;
@@ -13,13 +22,21 @@
 
 .widget {
   background-color: $color4;
-  border: 1px solid $foreground;
   padding: 0px 12px;
-  border-radius: 10px;
+  @if $mode == normal {
+    border: 1px solid $foreground;
+    border-radius: 10px;
+    margin-left: 8px;
+  }
 }
 
 .widget:hover {
   background-color: $color3;
+}
+
+// first widget should not have margin-left
+.first {
+  margin-left: 0px;
 }
 
 .wifi {
@@ -43,10 +60,16 @@
   .wifi-none {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-none.svg");}
 }
 
+.control {
+  margin: 50px;
+}
+
 .time-reveal {
   background: $color4;
   color: $text_color;
-  border-radius: 10px;
+  @if $mode == normal {
+    border-radius: 10px;
+  }
   padding: 12px;
   min-width: 300px;
 }
@@ -59,8 +82,12 @@
 .control-box {
   background-color: $color2;
   color: $text_color;
-  border-radius: 10px;
-  padding: 12px;
+  @if $mode == normal {
+    border-radius: 10px;
+    padding: 12px;
+  } @else {
+    padding: 6px;
+  }
 }
 
 .control-box:hover {
@@ -73,20 +100,26 @@
 
 .workspaces {
   background-color: $color4;
-  border: 1px solid $foreground;
-  border-radius: 10px;
+  @if $mode == normal {
+    border-radius: 10px;
+    border: 1px solid $foreground;
+  }
   padding: 3px;
 }
 
 .workspaces button{
   color: $text_color;
   padding: 0px 18px;
-  border-radius: 10px;
+  @if $mode == normal {
+    border-radius: 8px;
+  }
   margin: 0px 2px;
 }
 
 .workspaces > button.active {
-  border-radius: 8px;
+  @if $mode == normal {
+    border-radius: 8px;
+  }
   background-color: $color7;
   color: $color0;
   padding: 3px 32px;
@@ -97,12 +130,20 @@
   color: $color0;
 }
 
+.music-time-left {
+  margin-right: 30px;
+}
+
+.music-time-right {
+  margin-left: 30px;
+}
+
 .music-btn {
   color: $text_color;
-  padding: 10px 18px;
-  border-radius: 10px;
-  margin: 0px 2px;
-  font-size: 16pt;
+  @if $mode == normal {
+    border-radius: 10px;
+  }
+  font-size: 14pt;
 }
 
 .music-btn:hover {
@@ -111,15 +152,13 @@
 
 .music-img {
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: contain;
   background-position: center;
   min-height: 250px;
   min-width: 250px;
-  border-radius: 10px;
-}
-
-.vol-eventbox {
-  margin: 0px 20px;
+  @if $mode == normal {
+    border-radius: 10px;
+  }
 }
 
 .volume {
@@ -160,31 +199,42 @@
   padding: 5px;
   margin: 2px;
   background-color: $color2;
-  border-radius: 10px;
+  @if $mode == normal {
+    border-radius: 10px;
+  }
 }
 
 .calendar:selected {
   background-color: #f2437d;
   color: white;
-  border-radius: 5px;
+  @if $mode == normal {
+    border-radius: 5px;
+  }
 }
 
-.metric scale trough highlight {
+.metric scale trough highlight,
+.music-bar scale trough highlight {
   background-color: $color3;
   color: $color0;
-  border-radius: 5px;
+  @if $mode == normal {
+    border-radius: 5px;
+  }
 }
 
-.metric scale trough {
+.metric scale trough,
+.music-bar scale trough {
   background-color: $color0;
-  border-radius: 5px;
+  @if $mode == normal {
+    border-radius: 5px;
+  }
   min-height: 15px;
   min-width: 240px;
   margin: 0px 10px;
 }
 
 .music-bar scale trough {
-  min-width: 200px;
+  min-width: 280px;
+  min-height: 15px;
 }
 
 .weather-label {
