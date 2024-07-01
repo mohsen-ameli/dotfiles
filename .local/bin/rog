@@ -17,16 +17,15 @@ arguments:
 }
 
 get_keyboard_brightness() {
-    echo $(asusctl -k | awk '/brightness/ {print $5}')
+    brightnessctl --device='asus::kbd_backlight' g
 }
 
 notify_user() {
-	# notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i asus "$@"
-	notify-send -u low -i asus "$@"
+	notify-send -u low "$@"
 }
 
 get_profile() {
-    profile=$(asusctl profile -p | cut -f 4 -d ' ')
+    profile=$(asusctl profile -p | cut -f 4 -d ' ' | xargs)
 }
 
 get_data() {
@@ -58,22 +57,45 @@ get_data() {
     fi
 }
 
-curr=$(get_keyboard_brightness)
+backlight_notify() {
+    if [ $1 -ge 3 ]; then
+        notify_user "Keyboard Light" "High" -r 78 -i keyboard
+    elif [ $1 -eq 2 ]; then
+        notify_user "Keyboard Light" "Medium" -r 78 -i keyboard
+    elif [ $1 -eq 1 ]; then
+        notify_user "Keyboard Light" "low" -r 78 -i keyboard
+    else
+        notify_user "Keyboard Light" "Off" -r 78 -i keyboard
+    fi
+}
+
+change_backlight() {
+    curr=$(get_keyboard_brightness)
+    if [ $1 == "inc" ]; then
+        curr=$(($curr + 1))
+    else
+        curr=$(($curr - 1))
+    fi
+    brightnessctl --device='asus::kbd_backlight' s $curr
+    backlight_notify $curr
+}
+
+aura() {
+    asusctl led-mode -n
+    notify_user -i keyboard "Aura Keyboard Changed" "Static, Pulse, Breathe.\nIdk which one we are currently on ;("
+}
+
+toggle_profile() {
+    asusctl profile -n
+    get_profile
+    notify_user -i fan "Power Profile" "$profile" -r 79
+    pkill -SIGRTMIN+8 waybar
+}
 
 if [ "$1" == "--inc" ]; then
-    if [ $curr == "High" ]; then
-        exit 0;
-    else
-        asusctl -n
-        notify_user "Keyboard Light: $(get_keyboard_brightness)"
-    fi
+    change_backlight "inc"
 elif [ "$1" == "--dec" ]; then
-    if [ $curr == "Off" ]; then
-        exit 0;
-    else
-        asusctl -p
-        notify_user "Keyboard Light: $(get_keyboard_brightness)"
-    fi
+    change_backlight "dec"
 elif [ "$1" == "--get" ]; then
     get_data 0
 elif [ "$1" == "--get-text" ]; then
@@ -81,13 +103,9 @@ elif [ "$1" == "--get-text" ]; then
 elif [ "$1" == "--get-full" ]; then
     get_data 2
 elif [ "$1" == "--aura" ]; then
-    asusctl led-mode -n
-    notify_user "Aura Keyboard Changed" "Static, Pulse, Breathe.\nIdk which one we are currently on ;("
+    aura
 elif [ "$1" == "--profile-toggle" ]; then
-    asusctl profile -n
-    get_profile
-    notify_user "Power Profile: $profile"
-    pkill -SIGRTMIN+8 waybar
+    toggle_profile
 else
     print_usage
 fi

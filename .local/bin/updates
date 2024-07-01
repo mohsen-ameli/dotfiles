@@ -46,7 +46,7 @@ for line in ll:
 
 for i in range(0, len(lines)):
     name, curr_v, _, update_v = str(lines[i].decode("UTF-8")).strip().split(" ")
-    rows.append([name, update_v])
+    rows.append([name, update_v[:12]])
 retval = p.wait()
 
 # tooltip = f"{'\t'*27}\n"

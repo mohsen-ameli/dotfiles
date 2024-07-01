@@ -154,8 +154,8 @@ $mode: "normal";
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  min-height: 250px;
-  min-width: 250px;
+  min-height: 300px;
+  min-width: 300px;
   @if $mode == normal {
     border-radius: 10px;
   }

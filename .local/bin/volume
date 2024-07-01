@@ -26,10 +26,12 @@ arguments:
 }
 
 live_volume() {
-	echo "{ \"text\": \"$(get_volume)\", \"class\": \"$(get_class)\", \"icon\": \"$(get_volume)% $(get_icon)\" }"
+	vol=$(get_volume)
+	echo "{ \"text\": \"$vol\", \"class\": \"$(get_class $vol)\" }"
 	pactl subscribe | while read -r event; do
 		if echo "$event" | grep -q "sink #"; then
-			echo "{ \"text\": \"$(get_volume)\", \"class\": \"$(get_class)\", \"icon\": \"$(get_volume)% $(get_icon)\" }"
+			vol=$(get_volume)
+			echo "{ \"text\": \"$vol\", \"class\": \"$(get_class $vol)\" }"
 		fi
 	done
 }
@@ -44,11 +46,12 @@ live_mic() {
 }
 
 get_volume() {
-	if [ "$(pamixer --get-mute)" == "true" ]; then
+	vol=$(pamixer --get-volume-human)
+	if [[ $vol == "muted" ]]; then
 		echo "0"
 		return
 	fi
-	echo "$(pamixer --get-volume)"
+	echo $vol | cut -d "%" -f 1
 }
 
 get_volume_full() {
@@ -102,7 +105,7 @@ get_icon() {
 }
 
 get_class() {
-	current=$(get_volume)
+	current=$1
 	if [[ "$current" -eq "0" ]]; then
 		echo "mute"
 	elif [[ ("$current" -ge "0") && ("$current" -le "25") ]]; then
@@ -198,29 +201,29 @@ dec_mic_volume() {
 }
 
 # Execute accordingly
-if [[ "$1" == "--live-volume" ]]; then
+if [[ $1 == "--live-volume" ]]; then
 	live_volume
-elif [[ "$1" == "--live-mic" ]]; then
+elif [[ $1 == "--live-mic" ]]; then
 	live_mic
-elif [[ "$1" == "--get" ]]; then
+elif [[ $1 == "--get" ]]; then
 	get_volume
-elif [[ "$1" == "--get-full" ]]; then
+elif [[ $1 == "--get-full" ]]; then
 	get_volume_full
-elif [[ "$1" == "--get-mic" ]]; then
+elif [[ $1 == "--get-mic" ]]; then
 	get_mic
-elif [[ "$1" == "--inc" ]]; then
+elif [[ $1 == "--inc" ]]; then
 	inc_volume
-elif [[ "$1" == "--dec" ]]; then
+elif [[ $1 == "--dec" ]]; then
 	dec_volume
-elif [[ "$1" == "--toggle" ]]; then
+elif [[ $1 == "--toggle" ]]; then
 	toggle_mute
-elif [[ "$1" == "--toggle-mic" ]]; then
+elif [[ $1 == "--toggle-mic" ]]; then
 	toggle_mic
-elif [[ "$1" == "--get-icon" ]]; then
+elif [[ $1 == "--get-icon" ]]; then
 	get_icon_name
-elif [[ "$1" == "--get-mic-icon" ]]; then
+elif [[ $1 == "--get-mic-icon" ]]; then
 	get_mic_icon
-elif [[ "$1" == "--mic-dec" ]]; then
+elif [[ $1 == "--mic-dec" ]]; then
 	dec_mic_volume
 else
 	print_usage

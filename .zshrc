@@ -2,7 +2,7 @@
 bindkey '^H' backward-kill-word
 
 # Enabling syntax highliting for nano
-ls -1 /usr/share/nano/*.nanorc | sed 's/^\//include \//' >> ~/.nanorc
+# ls -1 /usr/share/nano/*.nanorc | sed 's/^\//include \//' > ~/.nanorc
 
 # oh-my-zsh
 export ZSH="$HOME/.oh-my-zsh"
@@ -70,11 +70,6 @@ fi
 
 # Starship
 eval "$(starship init zsh)"
-
-# Pywal
-# (cat ~/.cache/wal/sequences &)
-# cat ~/.cache/wal/sequences
-# source ~/.cache/wal/colors-tty.sh
 
 # idk man
 cowsay "Welcome Back Soldier" | lolcat

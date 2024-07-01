@@ -34,8 +34,8 @@ get_brightness() {
 
 # Get icons
 get_icon() {
-	icon="brightness"
-	current=$(get_brightness | sed 's/%//')
+	icon="brightness-custom"
+	current=$(get_brightness_text)
 	# if   [ "$current" -le "20" ]; then
 	# 	icon="$iDIR/brightness-20.png"
 	# elif [ "$current" -le "40" ]; then
@@ -51,18 +51,17 @@ get_icon() {
 
 inc_backlight() {
     brightnessctl set "+$segment"
-    get_icon
     notify_user
 }
 
 dec_backlight() {
     brightnessctl set "$segment-"
-    get_icon
     notify_user
 }
 
 # Notify
 notify_user() {
+	get_icon
 	notify-send -h string:x-canonical-private-synchronous:sys-notify -h int:value:$current -u low -i $icon "Brightness: $current%"
 }
 

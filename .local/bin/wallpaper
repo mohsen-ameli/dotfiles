@@ -60,7 +60,7 @@ fi
 notify "Wallpaper: Set Successfully!" "$wall_name" 50
 
 # Select random wallpaper and create color scheme
-wal -q -i $path_to_wallpapers$wallpaper
+wal -q -s -t -i $path_to_wallpapers$wallpaper
 notify "Wallpaper: Generating PyWal Colors" "$wall_name" 70
 
 # Genearting colors for hyprland and vscode

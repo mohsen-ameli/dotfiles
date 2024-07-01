@@ -98,11 +98,6 @@ control + j --> open terminal
 tab --> switch between tabs
 
 TODO:
-DONE: fix firefox crashing with hardware accelaration turned on + switched to brave
-DONE: fix vscode python syntax highliting not working + removed env = GBM_BACKEND,nvidia-drm from hyprland config + installed the "syntax highlighter" extension + firefox videos playing, after a while, activates hypridle
-clicking twice to bring up hyprlock (hypridle)
-waybar doesn't restart when logging in after locking device
 thunar not opening terminal with proper emulator
-DONE: arch freezing randomly + switched to linux-lts kernel
 configure qtile
-when opening apps (mainly from waybar), they open in different workplaces
+brave not opening external links from other apps
