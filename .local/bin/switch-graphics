@@ -4,7 +4,6 @@ integrated() {
   echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   echo 0 | sudo tee /sys/bus/pci/rescan
   echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  supergfxctl -m Integrated
   sudo envycontrol -s integrated
   notify-send "Please Restart The Device"
 }
@@ -13,13 +12,12 @@ hybrid() {
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   echo 1 | sudo tee /sys/bus/pci/rescan
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  supergfxctl -m Hybrid
   sudo envycontrol -s hybrid
   notify-send "Please Restart The Device"
 }
 
 if [[ $1 == "--get" ]]; then
-  supergfxctl -g
+  sudo envycontrol -q
 elif [[ $1 == "--pci" ]]; then
   lspci | grep -i vga
 elif [[ $1 == "--integrated" ]]; then
