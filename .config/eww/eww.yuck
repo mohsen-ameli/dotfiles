@@ -6,6 +6,7 @@
 
 (include "modules/wifi.yuck")
 (include "modules/updates.yuck")
+(include "modules/battery.yuck")
 (include "modules/bluetooth.yuck")
 (include "modules/weather.yuck")
 (include "modules/control-panel.yuck")

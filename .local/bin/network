@@ -89,7 +89,7 @@ info() {
     essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
     ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
 
-    echo "ESSID: $essid\n\nInterface: $interface\n\nStrength: $strength%\n\nLocal IP: $ipaddr"
+    echo "<tt>ESSID: \t\t$essid\nLocal IP: \t$ipaddr\nInterface: \t$interface\nStrength: \t$strength%</tt>"
 }
 
 live() {

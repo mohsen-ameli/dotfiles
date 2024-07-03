@@ -8,6 +8,33 @@ $mode: "normal";
   all: unset;
 }
 
+.tooltip window menu {
+  background-color: $color3;
+  border: 1px solid $foreground;
+  padding: 10px;
+  color: $text_color;
+  border-radius: 8px;
+}
+
+.tooltip window menu * {
+  padding: 2px;
+  margin: 1px 0px;
+  border-radius: 4px;
+}
+
+.tooltip window menu *:hover {
+  background-color: $color4;
+}
+
+.tooltip window menu :disabled {
+  color: gray;
+}
+
+.tooltip window menu separator {
+  border-bottom: 2px solid black;
+  border-radius: 0px;
+}
+
 .bar {
   @if $mode == minimal {
     min-width: 1536px;
@@ -242,16 +269,16 @@ $mode: "normal";
 }
 
 .battery {
-  color: black;
+  color: $text_color;
 }
 
-.battery.discharging {
-  background-color: #3FCE14;
-}
+// .battery.discharging {
+//   background-color: #3FCE14;
+// }
 
-.battery.charging {
-  background-color: #26A65B;
-}
+// .battery.charging {
+//   background-color: #26A65B;
+// }
 
 .battery.warning {
   background-color: #ffbe61;

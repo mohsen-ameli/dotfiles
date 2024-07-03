@@ -60,6 +60,16 @@ live() {
     done
 }
 
+info() {
+    upower=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
+    capacity=$(echo "$upower" | awk '/percentage/ {printf $2}')
+    status=$(echo "$upower" | awk '/state/ {printf $2}')
+    time_to_empty=$(echo "$upower" | awk '/time to/ {printf $4; printf " "; print $5}')
+    health=$(echo "$upower" | awk '/capacity/ {printf $2}' | cut -d. -f1)
+
+    echo -e "<tt>Capacity: \t$capacity\nStatus: \t$status\nHealth: \t$health%\nTime To Empty: \t$time_to_empty</tt>"
+}
+
 if [[ $1 == "--text" ]]; then
     echo "$capacity"
 elif [[ $1 == "--icon" ]]; then
@@ -68,6 +78,8 @@ elif [[ $1 == "--text-icon" ]]; then
     echo "$capacity% $(get_icon)"
 elif [[ $1 == "--live" ]]; then
     live
+elif [[ $1 == "--info" ]]; then
+    info
 else
     print_usage
 fi

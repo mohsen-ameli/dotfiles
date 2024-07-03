@@ -1,3 +1,7 @@
+#
+# ~/.zshrc
+#
+
 # Ctrl + Backspace kill a word
 bindkey '^H' backward-kill-word
 
@@ -6,8 +10,32 @@ bindkey '^H' backward-kill-word
 
 # oh-my-zsh
 export ZSH="$HOME/.oh-my-zsh"
-plugins=(git z zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search)
+plugins=(git z zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search yum)
+# ZSH_THEME="af-magic"
+# ZSH_THEME="afowler"
+# ZSH_THEME="alanpeabody"
+# ZSH_THEME="bira"
+# ZSH_THEME="fishy"
+# ZSH_THEME="gallifrey"
+ZSH_THEME="gallois"
+# ZSH_THEME="jaischeema"
+# ZSH_THEME="pygmalion"
 source $ZSH/oh-my-zsh.sh
+
+function copyfile {
+  [[ "$#" != 1 ]] && return 1
+  local file_to_copy=$1
+  cat $file_to_copy | wl-copy
+}
+
+function copydir {
+  pwd | tr -d "\r\n" | wl-copy
+}
+
+function exp {
+  [[ "$#" != 1 ]] && local path_to_open="." || local path_to_open=$1
+  nohup thunar $path_to_open > /dev/null &
+}
 
 # Running electron apps in wayland needs this
 export ELECTRON_OZONE_PLATFORM_HINT="wayland"
@@ -19,6 +47,9 @@ export PATH="$PATH:/home/moe/.local/bin:/usr/bin/pdflatex:/usr/bin/latex"
 alias serve='sudo python -m http.server'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
+alias copydir='copydir'
+alias copyfile='copyfile'
+alias exp='exp'
 alias lsblock='lsblk -o name,fstype,size,mountpoints -e 7'
 #alias ls='ls --color=auto'
 alias grep='grep --color=auto'
@@ -69,7 +100,7 @@ fi
 }
 
 # Starship
-eval "$(starship init zsh)"
+# eval "$(starship init zsh)"
 
 # idk man
 cowsay "Welcome Back Soldier" | lolcat

@@ -1,0 +1,145 @@
+#!/usr/bin/env python
+
+import time
+import json
+import sys
+import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
+from matplotlib.ticker import FuncFormatter
+import time
+from datetime import datetime
+from pathlib import Path
+from matplotlib.widgets import Button
+
+home = str(Path.home())
+
+class Graph:
+    def __init__(self):
+        plt.style.use('dark_background')
+        self.fig, self.ax = plt.subplots()
+
+        self.data = get_data()
+        self.chunk = 100
+        self.better_data = self.format_data()
+        self.length = len(self.better_data)
+        self.chunk_index = self.length - 1
+
+        self.set_attrs()
+
+    def set_attrs(self, initial=True):
+        day = datetime.fromtimestamp(int(list(self.better_data[self.chunk_index].keys())[0])).strftime("%A, %F")
+
+        if initial:
+            plt.title("Battery Graph: " + day)
+            plt.ylabel("Battery Percentage")
+            plt.xlabel("Time")
+            plt.gca().yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{round(x)}%"))
+            # plt.gca().xaxis.set_major_locator(mdates.HourLocator(byhour=[0, 3, 6, 9, 12, 15, 18, 21, 24]))
+            plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%a %_I%p'))
+            plt.gcf().autofmt_xdate()
+            return
+        
+        self.ax.set_title("Battery Graph: " + day)
+        self.ax.set_ylabel("Battery Percentage")
+        self.ax.set_xlabel("Time")
+        self.ax.yaxis.set_major_formatter(FuncFormatter(lambda x, _: f"{round(x)}%"))
+        # self.ax.xaxis.set_major_locator(mdates.HourLocator(byhour=[0, 3, 6, 9, 12, 15, 18, 21, 24]))
+        self.ax.xaxis.set_major_formatter(mdates.DateFormatter('%a %_I%p'))
+        self.fig.autofmt_xdate()
+        self.fig.canvas.draw_idle()
+
+    def button_action(self, pos: str):
+        self.ax.clear()
+
+        if pos == "left":
+            if self.chunk_index == 0:
+                return
+            self.chunk_index -= 1
+        elif pos == "right":
+            if self.chunk_index + 1 == self.length:
+                return
+            self.chunk_index += 1
+
+        self.graph(initial=False)
+
+    def format_data(self):
+        new_data = []
+        reversed_keys = sorted(self.data.keys(), reverse=True)
+
+        for i in range(len(reversed_keys), 0, -self.chunk):
+            d = {}
+            for key in reversed(reversed_keys[max(i - self.chunk, 0):i]):
+                d[key] = self.data[key]
+            new_data.append(d)
+
+        return new_data
+
+    def graph(self, initial=True):
+        x = [datetime.fromtimestamp(int(key)) for key in self.better_data[self.chunk_index].keys()]
+        y = list(self.better_data[self.chunk_index].values())
+
+        # plt.figure(figsize=(10, 6), dpi=100)
+        self.ax.plot(x, y)
+
+        if initial:
+            # Add Left and Right Buttons
+            axleft = plt.axes([0.7, 0.01, 0.1, 0.05])
+            axright = plt.axes([0.81, 0.01, 0.1, 0.05])
+            bleft = Button(axleft, 'Left', color="black", hovercolor="brown")
+            bleft.on_clicked(lambda _: self.button_action("left"))
+            bright = Button(axright, 'Right', color="black", hovercolor="brown")
+            bright.on_clicked(lambda _: self.button_action("right"))
+
+            plt.show()
+        else:
+            self.set_attrs(initial=False)
+            plt.draw()
+
+def get_data():
+    if not Path(f"{home}/battery-graph.json").exists():
+        f = open(f"{home}/battery-graph.json", "w")
+        f.write("{}")
+        f.close()
+        data = {}
+    else:
+        f = open(f"{home}/battery-graph.json", "r")
+        data = json.loads(f.read())
+        f.close()
+    return data
+
+def update():
+    data = get_data()
+    
+    while True:
+        # Get battery capacity
+        f = open("/sys/class/power_supply/BAT0/capacity")
+        capacity = int(f.read().strip())
+        f.close()
+
+        # Get current time
+        curr_time = round(time.time())
+
+        # Save data to json file
+        data[curr_time] = capacity
+
+        f = open(f"{home}/battery-graph.json", "w")
+        f.write(json.dumps(data))
+        f.close()
+
+        time.sleep(2 * 60) # 2 minutes
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Invalid argument. Use --update, --get or --graph.")
+        exit(0)
+    elif sys.argv[1] == "--update":
+        update()
+    
+    g = Graph()
+    
+    if sys.argv[1] == "--get":
+        print(json.dumps(g.get_data()))
+    elif sys.argv[1] == "--graph":
+        g.graph()
+    else:
+        print("Invalid argument. Use --update, --get or --graph.")

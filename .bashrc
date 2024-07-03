@@ -9,9 +9,29 @@ export PATH="$PATH:/usr/bin/latex:/usr/bin/pdflatex"
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+bind '"\C-h": backward-kill-word'
+
+function copyfile {
+  [[ "$#" != 1 ]] && return 1
+  local file_to_copy=$1
+  cat $file_to_copy | wl-copy
+}
+
+function copydir {
+  pwd | tr -d "\r\n" | wl-copy
+}
+
+function exp {
+  [[ "$#" != 1 ]] && local path_to_open="." || local path_to_open=$1
+  nohup thunar $path_to_open > /dev/null &
+}
+
 alias serve='sudo python -m http.server'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
+alias copydir='copydir'
+alias copyfile='copyfile'
+alias exp='exp'
 alias lsblock='lsblk -o name,fstype,size,mountpoints -e 7'
 #alias ls='ls --color=auto'
 alias grep='grep --color=auto'

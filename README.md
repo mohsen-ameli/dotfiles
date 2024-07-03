@@ -101,3 +101,8 @@ TODO:
 thunar not opening terminal with proper emulator
 configure qtile
 brave not opening external links from other apps
+
+## Games
+
+Plants Vs Zombies
+https://www.protondb.com/app/3590#dYYLZr30F2
