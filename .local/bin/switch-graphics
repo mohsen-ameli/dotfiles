@@ -1,29 +1,92 @@
 #!/bin/bash
+##########################
+## Switches between integrated and hybrid graphics on laptops with two GPUs.
+##########################
+
+# gum spin -s dot -- "$ping_hi"
 
 integrated() {
   echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   echo 0 | sudo tee /sys/bus/pci/rescan
   echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   sudo envycontrol -s integrated
-  notify-send "Please Restart The Device"
+
+  echo "0"
 }
 
 hybrid() {
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
+  echo 0 | sudo tee /sys/bus/pci/rescan
   echo 1 | sudo tee /sys/bus/pci/rescan
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   sudo envycontrol -s hybrid
-  notify-send "Please Restart The Device"
+
+  echo "0"
+}
+
+interactive() {
+  if [[ $(gum choose "Integrated" "Hybrid") == "Integrated" ]]; then
+    if gum confirm "Do you want to switch to integrated graphics?" ;then
+      echo
+      echo ":: Switching to integrated graphics."
+      integrated
+      if [[ $? == "0" ]]; then
+        echo ":: Success!"
+        echo 
+        if gum confirm "HIGHLY RECOMMENDED: Do you want to restart now?" ;then
+          sudo reboot now
+          exit
+        else
+          exit
+        fi
+      fi
+    else
+      echo
+      echo ":: Switch canceled."
+      exit;
+    fi
+  else
+    if gum confirm "Do you want to switch to hybrid graphics?" ;then
+      echo
+      echo ":: Switching to hybrid graphics."
+      hybrid
+      if [[ $? == "0" ]]; then
+        echo ":: Success!"
+        echo 
+        if gum confirm "HIGHLY RECOMMENDED: Do you want to restart now?" ;then
+          sudo reboot now
+          exit
+        else
+          exit
+        fi
+      fi
+    else
+      echo
+      echo ":: Switch canceled."
+      exit;
+    fi
+  fi
+}
+
+get() {
+  mode=$(sudo envycontrol -q)
+  if [[ $mode == "integrated" ]]; then
+    echo "Integrated "
+  else
+    echo "Hybrid "
+  fi
 }
 
 if [[ $1 == "--get" ]]; then
-  sudo envycontrol -q
+  get
 elif [[ $1 == "--pci" ]]; then
   lspci | grep -i vga
 elif [[ $1 == "--integrated" ]]; then
   integrated
 elif [[ $1 == "--hybrid" ]]; then
   hybrid
+elif [[ $1 == "--interactive" ]]; then
+  interactive
 else
   echo "Usage: switch-graphics [--get] [--pci] [--integrated] [--hybrid]"
 fi

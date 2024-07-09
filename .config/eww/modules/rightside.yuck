@@ -15,6 +15,6 @@
         (button :class "widget" :css "button {padding: 0px 20px;}" :onclick "scripts/toggle_bluetooth.sh" {bluetooth.icon})
         (button :class {'widget battery ' + battery.status} :css "button {padding-right: 20px;}" :onclick "scripts/toggle_battery.sh" {battery.icon})
         (button :class "widget" :onclick "scripts/toggle_time_cal.sh" time)
-        (button :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :onclick "scripts/toggle_control.sh" "")
+        (button :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :timeout "30s" :onrightclick "rofi -show drun" :onclick "scripts/toggle_control.sh" "")
     )
 )

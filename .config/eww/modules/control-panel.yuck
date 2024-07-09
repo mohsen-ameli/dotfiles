@@ -7,12 +7,11 @@
             )
             (box :orientation "h" :space-evenly true :spacing 12
                 (button :class "control-box" :timeout "5s" :onclick "$HOME/.local/bin/rog --profile-toggle" rog)
-                (button :class "control-box" :onclick "" {battery.icon})
+                (button :class "control-box" :timeout "600s" :onclick "$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/open-window \"alacritty --class floating -e $HOME/.local/bin/switch-graphics --interactive\"" {graphics})
             )
             (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
                 (metric :first "" :last "" :onchange 'pamixer --set-volume {}' :value {volume.text})
             )
-            
             (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
                 (metric :first "" :last "" :onchange 'brightnessctl set "{}%"' :value {brightness})
             )
@@ -22,8 +21,8 @@
                 :spacing 10
                 :class "control-box"
                 :visible {music.title != ""}
-                (box :visible {music.title != ""} :class "music-img" :style 'background-image: url(\'${replace(music.artUrl, "file://", "")}\')')
-                (box :visible {music.title != ""} :orientation "v" :space-evenly false
+                (box :class "music-img" :style 'background-image: url(\'${replace(music.artUrl, "file://", "")}\')')
+                (box :orientation "v" :space-evenly false
                     (label :markup {'<b><span size="large">' + music.title + '</span></b>'})
                     {music.artist}
                     {music.album}

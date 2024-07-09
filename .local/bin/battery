@@ -64,10 +64,11 @@ info() {
     upower=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
     capacity=$(echo "$upower" | awk '/percentage/ {printf $2}')
     status=$(echo "$upower" | awk '/state/ {printf $2}')
-    time_to_empty=$(echo "$upower" | awk '/time to/ {printf $4; printf " "; print $5}')
+    time_to=$(echo "$upower" | awk '/time to/ {printf $4; printf " "; print $5}')
+    time_to_text=$(echo "$upower" | awk '/time to/ {print $3}')
     health=$(echo "$upower" | awk '/capacity/ {printf $2}' | cut -d. -f1)
 
-    echo -e "<tt>Capacity: \t$capacity\nStatus: \t$status\nHealth: \t$health%\nTime To Empty: \t$time_to_empty</tt>"
+    echo -e "<tt>Capacity: \t$capacity\nStatus: \t$status\nHealth: \t$health%\nTime To $time_to_text \t$time_to</tt>"
 }
 
 if [[ $1 == "--text" ]]; then

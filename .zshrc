@@ -103,4 +103,4 @@ fi
 # eval "$(starship init zsh)"
 
 # idk man
-cowsay "Welcome Back Soldier" | lolcat
+cowsay -f sodomized "Welcome Back Soldier" | lolcat

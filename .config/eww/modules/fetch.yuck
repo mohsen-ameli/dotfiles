@@ -31,6 +31,8 @@
 
 (defpoll memory :interval "2s" "$HOME/.local/bin/memory --text-icon")
 
+(defpoll graphics :interval "3600s" "$HOME/.local/bin/switch-graphics --get")
+
 (defpoll time :interval "60s" "date '+%-I:%M %p'")
 (defpoll full_time :interval "1s" "date '+%c'")
 

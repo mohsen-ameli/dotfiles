@@ -6,7 +6,7 @@
 wayland=$($HOME/.local/bin/is-wayland)
 
 if [[ $wayland -eq "1" ]]; then
-  $1 --enable-features=UseOzonePlatform --ozone-platform=wayland
+  "$@" --enable-features=UseOzonePlatform --ozone-platform=wayland
 else
-  $1
+  "$@"
 fi

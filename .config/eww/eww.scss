@@ -131,7 +131,7 @@ $mode: "normal";
     border-radius: 10px;
     border: 1px solid $foreground;
   }
-  padding: 3px;
+  padding: 3px 3px;
 }
 
 .workspaces button{
@@ -281,14 +281,17 @@ $mode: "normal";
 // }
 
 .battery.warning {
+  color: black;
   background-color: #ffbe61;
 }
 
 .battery.low {
+  color: black;
   background-color: #e65555;
 }
 
 .battery.critical {
+  color: black;
   background-color: #f53c3c;
   animation-name: blink;
   animation-duration: 0.5s;
