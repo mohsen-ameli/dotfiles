@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Change the brightness of the screen
 ##########################
@@ -7,12 +7,12 @@ iDIR="$HOME/.config/icons"
 segment="10%" # How much to increase or decrease the brightness by
 
 print_usage() {
-	echo -e """Usage: $0 [arguments]
+	printf """Usage: brightness [arguments]
 	
 arguments:
 	--live: \t get the backlight live
 	--get: \t get current backlight 
-	--get-text: \t get current backlight without the %
+	--get-text: \t get current backlight without the percentage sign
 	--dec: \t to decrease backlight
 	--inc: \t to increase backlight"""
 }
@@ -66,15 +66,15 @@ notify_user() {
 }
 
 # Execute accordingly
-if [[ $1 == "--live" ]]; then
+if [ "$1" = "--live" ]; then
 	live
-elif [[ $1 == "--get" ]]; then
+elif [ "$1" = "--get" ]; then
 	get_brightness
-elif [[ $1 == "--get-text" ]]; then
+elif [ "$1" = "--get-text" ]; then
 	get_brightness_text
-elif [[ $1 == "--inc" ]]; then
+elif [ "$1" = "--inc" ]; then
 	inc_backlight
-elif [[ $1 == "--dec" ]]; then
+elif [ "$1" = "--dec" ]; then
 	dec_backlight
 else
 	print_usage

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Applies most important themes based on the settings set by the nwg-look GUI app
 ##########################
@@ -14,21 +14,21 @@ SCHEMA="gsettings set org.gnome.desktop.interface"
 # gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL NF 11'
 
 apply_themes() {
-	${SCHEMA} gtk-theme "$THEME"
-	${SCHEMA} icon-theme "$ICONS"
-	${SCHEMA} font-name "$FONT"
-	${SCHEMA} cursor-theme "$CURSOR"
-	${SCHEMA} cursor-size "$CURSOR_SIZE"
+	$SCHEMA gtk-theme "$THEME"
+	$SCHEMA icon-theme "$ICONS"
+	$SCHEMA font-name "$FONT"
+	$SCHEMA cursor-theme "$CURSOR"
+	$SCHEMA cursor-size "$CURSOR_SIZE"
 
 	# Set xcursor themes in .bashprofile
-	echo -e """[[ -f ~/.bashrc ]] && . ~/.bashrc\nexport XCURSOR_THEME=\"$CURSOR\"\nexport XCURSOR_SIZE=\"$CURSOR_SIZE\"""" > $HOME/.bash_profile
+	echo -e """[ -f ~/.bashrc ] && . ~/.bashrc\nexport XCURSOR_THEME=\"$CURSOR\"\nexport XCURSOR_SIZE=\"$CURSOR_SIZE\"""" > $HOME/.bash_profile
 
 	# Adding current cursor theme as default to .icons folder
-	[[ ! -d ~/.icons/default ]] && mkdir -p ~/.icons/default
+	[ ! -d ~/.icons/default ] && mkdir -p ~/.icons/default
 	echo -e """[Icon Theme]\nInherits=$CURSOR""" > $HOME/.icons/default/index.theme
 
 	# getting rid of an unnecessary default theme directory that gets set by nwg look. 
-	[[ -d ~/.local/share/icons/default ]] && mv ~/.local/share/icons/default ~/.local/share/icons/tmp
+	[ -d ~/.local/share/icons/default ] && mv ~/.local/share/icons/default ~/.local/share/icons/tmp
 
 	notify-send "Themes" "Applied all themes successfully!"
 	echo "Done!"

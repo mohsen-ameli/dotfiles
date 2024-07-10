@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 active=$(hyprctl activeworkspace | grep "^workspace ID " | cut -d" " -f3)
 

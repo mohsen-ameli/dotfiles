@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Shows a dmenu page with avialable wifi networks to connect to.
 ## This script also handles the connecting part too.
@@ -27,40 +27,39 @@ while [ $i -le $num_lines ]; do
     line0=$(echo "$signals" | sed -n "${i}p")
     line1=$(echo "$ssids" | sed -n "${i}p")
     line2=$(echo "$freqs" | sed -n "${i}p")
-    prompt+="$line0  $line1\t$line2\n"
-    ((i++))
+    prompt="${prompt}$line0  $line1\t$line2\n"
+    i=$((i + 1))
 done
-prompt=$(echo -e "$prompt")
 
 status=$(nmcli device status)
-connection=$(echo -e "$status" | awk "/^$interface/ {print \$3}")
-current=$(echo -e "$status" | awk 'NR==2 {print $4}')
+connection=$(echo "$status" | awk "/^$interface/ {print \$3}")
+current=$(echo "$status" | awk 'NR==2 {print $4}')
 
 # Adding a couple options to rofi
 prompt="NMTUI\n$prompt"
-if [[ $connection != "disconnected" ]]; then
+if [ $connection != "disconnected" ]; then
 	prompt="Disconnect WiFi\n$prompt"
 fi
 
 # Showing the menu and grabbing the ssid
-choice=$(echo -e "$prompt" | $schema)
+choice=$(printf "%b\n" "$prompt" | $schema)
 ssid_first_word=$(echo "$choice" | awk '{print $2}')
-ssid=$(echo -e "$ssids" | grep "$ssid_first_word" | head -n1 | xargs)
+ssid=$(echo "$ssids" | grep "$ssid_first_word" | head -n1 | xargs)
 
 # Handling disconnect and nmtui launch
-if [[ $choice == "" ]]; then
+if [ "$choice" = "" ]; then
 	exit 0
-elif [[ $choice == "Disconnect WiFi" ]]; then
+elif [ "$choice" = "Disconnect WiFi" ]; then
 	nmcli dev disconnect $interface
 	notify "Disconnected from WiFi."
 	exit 0
-elif [[ $choice == "NMTUI" ]]; then
+elif [ "$choice" = "NMTUI" ]; then
 	alacritty --class floating -e nmtui
 	exit 0
 fi
 
 # Handling if we're already connected 
-if [[ "$ssid" == "$current" ]]; then
+if [ "$ssid" = "$current" ]; then
 	notify "Already connected!"
 	exit 0
 fi
@@ -68,12 +67,12 @@ fi
 notify "Trying to connect to $ssid"
 nmcli dev wifi connect "$ssid"
 
-if [[ $? -eq 0 ]]; then
+if [ $? -eq 0 ]; then
 	notify "Successfully connected to $ssid"
 	exit 0
 # If nm-applet is NOT running, then we ask the user for the password
 # We do this since if nm-applet is running, it'll ask for the pass automatically.
-elif [[ $(pgrep nm-applet | wc -l) == 0 ]]; then
+elif [ $(pgrep nm-applet | wc -l) -eq 0 ]; then
 	# Getting the password of the wifi
 	pass=$(zenity --password 2> /dev/null)
 
@@ -81,7 +80,7 @@ elif [[ $(pgrep nm-applet | wc -l) == 0 ]]; then
 
 	nmcli dev wifi connect "$ssid" password "$pass"
 
-	if [[ $? -eq 0 ]]; then
+	if [ $? -eq 0 ]; then
 		notify "Successfully connected to $ssid"
 	else
 		notify "Could not connect to $ssid.\nWrong password was given most likely."

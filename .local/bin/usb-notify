@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Send a notification when a USB is plugged/unplugged
 ## Add the following to /etc/udev/rules.d/usb.rules (replace USERNAME with your user)
@@ -16,8 +16,8 @@ DEVICE=$2
 DEVPATH=$(udevadm info -q path -n "$DEVICE")
 DEVICE_NAME=$(udevadm info -q property --path="$DEVPATH" | grep 'ID_SERIAL=' | awk -F= '{gsub(/_/," ");print $2}')
 
-if [[ $1 == "1" ]] && [[ $DEVICE_NAME != "" ]]; then
+if [ "$1" = "1" ] && [ "$DEVICE_NAME" != "" ]; then
     notify-send "USB Connected" "$DEVICE_NAME" -r 8123
-elif [[ $1 == "0" ]]; then
+elif [ "$1" = "0" ]; then
     notify-send "USB Disonnected" "$DEVICE_NAME" -r 8123
 fi

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Send a notification when the laptop is plugged in/unplugged
 ## Add the following to /etc/udev/rules.d/power.rules (replace USERNAME with your user)
@@ -13,6 +13,7 @@ export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 BATTERY_STATE=$1
 BASE="/sys/class/power_supply/BAT0"
 BATTERY_LEVEL=$(cat $BASE/capacity)
+
 # My battery takes a couple of seconds to recognize as charging, so this is a hacky way to deal with it
 case "$BATTERY_STATE" in
 	"charging") BATTERY_CHARGING="Charging" ; BATTERY_ICON="charging" ;;
@@ -20,4 +21,4 @@ case "$BATTERY_STATE" in
 esac
 
 # Send notification
-notify-send "${BATTERY_CHARGING}" "${BATTERY_LEVEL}% of battery charged." -u normal -i "battery-${BATTERY_ICON}" -t 5000 -r 9991
+notify-send "$BATTERY_CHARGING" "$BATTERY_LEVEL% of battery charged." -u normal -i "battery-$BATTERY_ICON" -t 5000 -r 9991

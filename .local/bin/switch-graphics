@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Switches between integrated and hybrid graphics on laptops with two GPUs.
 ##########################
@@ -25,12 +25,12 @@ hybrid() {
 }
 
 interactive() {
-  if [[ $(gum choose "Integrated" "Hybrid") == "Integrated" ]]; then
+  if [ "$(gum choose "Integrated" "Hybrid")" = "Integrated" ]; then
     if gum confirm "Do you want to switch to integrated graphics?" ;then
       echo
       echo ":: Switching to integrated graphics."
       integrated
-      if [[ $? == "0" ]]; then
+      if [ $? -eq 0 ]; then
         echo ":: Success!"
         echo 
         if gum confirm "HIGHLY RECOMMENDED: Do you want to restart now?" ;then
@@ -50,7 +50,7 @@ interactive() {
       echo
       echo ":: Switching to hybrid graphics."
       hybrid
-      if [[ $? == "0" ]]; then
+      if [ $? -eq 0 ]; then
         echo ":: Success!"
         echo 
         if gum confirm "HIGHLY RECOMMENDED: Do you want to restart now?" ;then
@@ -70,22 +70,22 @@ interactive() {
 
 get() {
   mode=$(sudo envycontrol -q)
-  if [[ $mode == "integrated" ]]; then
+  if [ "$mode" = "integrated" ]; then
     echo "Integrated "
   else
     echo "Hybrid "
   fi
 }
 
-if [[ $1 == "--get" ]]; then
+if [ "$1" = "--get" ]; then
   get
-elif [[ $1 == "--pci" ]]; then
+elif [ "$1" = "--pci" ]; then
   lspci | grep -i vga
-elif [[ $1 == "--integrated" ]]; then
+elif [ "$1" = "--integrated" ]; then
   integrated
-elif [[ $1 == "--hybrid" ]]; then
+elif [ "$1" = "--hybrid" ]; then
   hybrid
-elif [[ $1 == "--interactive" ]]; then
+elif [ "$1" = "--interactive" ]; then
   interactive
 else
   echo "Usage: switch-graphics [--get] [--pci] [--integrated] [--hybrid]"

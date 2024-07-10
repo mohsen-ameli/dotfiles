@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Script to manage how many CPUs are active
 ## and to manage their low and high frequencies.
@@ -6,12 +6,12 @@
 
 cores=16      # 16 cores total
 
-if [[ $1 == "powersave" ]]; then
+if [ "$1" = "powersave" ]; then
   enabled=8     # 8 cores enabled, keep it divisible by 4
   low_freq=0.4  # GHz
   high_freq=2.0 # GHz
   mode="powersave"
-elif [[ $1 == "performance" ]]; then
+elif [ "$1" = "performance" ]; then
   enabled=16    # all cores enabled
   low_freq=0.4  # GHz
   high_freq=4.0 # GHz
@@ -21,23 +21,14 @@ else
   exit 0
 fi
 
-for ((i = 1; i < $cores ;i++)); do
-  if [[ $i -le $(($enabled-1)) ]]; then
+for i in $(seq 0 $(($cores - 1))); do
+  if [ "$i" -le $(($enabled - 1)) ]; then
     echo "enabaling $i"
     echo 1 > sudo tee /sys/devices/system/cpu/cpu$i/online
   else
     echo "disabling $i"
     echo 0 > sudo tee /sys/devices/system/cpu/cpu$i/online
   fi
-done
-
-echo "here"
-
-# showing the online cpus
-echo "CPU 0: ON" # for the first core since it's always online
-for ((i = 1; i < $cores; i++)); do
-  status=$([[ $(cat "/sys/devices/system/cpu/cpu$i/online") == "1" ]] && echo "ON" || echo "OFF")
-  echo "CPU $i: $status"
 done
 
 # changing all cores at the same time

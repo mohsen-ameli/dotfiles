@@ -21,11 +21,11 @@
 
 (defpoll rog :interval "5s" "$HOME/.local/bin/rog --get-full")
 
-(defpoll updates :interval "3600s" "$HOME/.local/bin/updates")
-; (defpoll updates :interval "3600s" "echo '{\"text\": \"23\", \"tooltip\": \"hahaha\"}'")
+; (defpoll updates :interval "3600s" "$HOME/.local/bin/updates")
+(defpoll updates :interval "3600s" "echo '{\"text\": \"23\", \"tooltip\": \"hahaha\"}'")
 
-(defpoll weather :interval "3600s" "$HOME/.local/bin/weather --live")
-; (defpoll weather :interval "3600s" "$HOME/.local/bin/weather")
+; (defpoll weather :interval "3600s" "$HOME/.local/bin/weather --live")
+(defpoll weather :interval "3600s" "$HOME/.local/bin/weather")
 
 (defpoll temperature :interval "2s" "$HOME/.local/bin/temperature --text-icon")
 

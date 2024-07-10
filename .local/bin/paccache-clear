@@ -8,7 +8,7 @@
 printf ":: Continue to clear all pacman and AUR helper cache? [y/N] "
 read confirm
 
-if [[ $confirm == "y" ]] || [[ $confirm == "Y" ]]; then
+if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
   echo "Confirmed"
 
   # The location of the cache for your aur helper

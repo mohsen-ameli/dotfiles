@@ -1,13 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Bluetooth connectivity information
 ##########################
 
 print_usage() {
-	echo -e """Usage: $0 [arguments]
+	printf """Usage: bluetooth [arguments]
 	
 arguments:
-	--status: \t Status of bluetooth
+    --status: \t\t 0 if bluetooth is off, otherwise 1
     --icon: \t\t Icon of bluetooth
     --live: \t\t Live status of bluetooth
     --json: \t\t JSON output of bluetooth"""
@@ -17,8 +17,8 @@ powered=$(bluetoothctl show | grep -i powered | cut -f2 -d: | xargs)
 
 get_json() {
     on=$(bluetoothctl show | grep -i powered | cut -f2 -d: | xargs)
-    [[ $on == "yes" ]] && powered=1 || powered=0
-    [[ $on == "yes" ]] && icon="" || icon="󰂲"
+    [ "$on" = "yes" ] && powered=1 || powered=0
+    [ "$on" = "yes" ] && icon="" || icon="󰂲"
 
     echo "{ \"powered\": \"$powered\", \"icon\": \"$icon\" }"
 }
@@ -30,13 +30,13 @@ live() {
     done
 }
 
-if [[ $1 == "--status" ]]; then
-    [[ $powered == "yes" ]] && echo "1" || echo "0"
-elif [[ $1 == "--icon" ]]; then
-    [[ $powered == "yes" ]] && echo "" || echo "󰂲"
-elif [[ $1 == "--live" ]]; then
+if [ "$1" = "--status" ]; then
+    [ "$powered" = "yes" ] && echo "1" || echo "0"
+elif [ "$1" = "--icon" ]; then
+    [ "$powered" = "yes" ] && echo "" || echo "󰂲"
+elif [ "$1" = "--live" ]; then
     live
-elif [[ $1 == "--json" ]]; then
+elif [ "$1" = "--json" ]; then
     get_json
 else
     print_usage

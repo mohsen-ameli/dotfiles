@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Runs the bar
 ##########################
@@ -7,5 +7,5 @@
 # waybar -c $HOME/.config/waybar/config.jsonc -s $HOME/.config/waybar/style.css
 
 killall eww
-eww daemon
+#eww daemon
 eww open bar

@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Manage keyboard lighting and switch asus power profiles.
 ##########################
 
 print_usage() {
-    echo -e """Usage: $0 [arguments]
+    printf """Usage: rog [arguments]
 	
 arguments:
     --get: \t\t get the profile with icons
@@ -13,7 +13,8 @@ arguments:
     --dec: \t\t to decrease keyboard brightness
     --inc: \t\t to increase keyboard brightness
     --aura: \t\t change the keyboard lighting effets
-    --profile-toggle: \t toggle power profiles"""
+    --profile-toggle: \t toggle power profiles
+"""
 }
 
 get_keyboard_brightness() {
@@ -30,26 +31,26 @@ get_profile() {
 
 get_data() {
     get_profile
-    if [ $profile == "Quiet" ]; then
-        if [ $1 == 0 ]; then
+    if [ "$profile" = "Quiet" ]; then
+        if [ $1 -eq 0 ]; then
             echo "{\"text\": \"\", \"tooltip\": \"Quiet \"}"
-        elif [ $1 == 1 ]; then
+        elif [ $1 -eq 1 ]; then
             echo ""
         else
             echo "Quiet "
         fi
-    elif [ $profile == "Performance" ]; then
-        if [ $1 == 0 ]; then
+    elif [ "$profile" = "Performance" ]; then
+        if [ $1 -eq 0 ]; then
             echo "{\"text\": \"\", \"tooltip\": \"Performance \"}"
-        elif [ $1 == 1 ]; then
+        elif [ $1 -eq 1 ]; then
             echo ""
         else
             echo "Performance "
         fi
     else
-        if [ $1 == 0 ]; then
+        if [ $1 -eq 0 ]; then
             echo "{\"text\": \"\", \"tooltip\": \"Balanced \"}"
-        elif [ $1 == 1 ]; then
+        elif [ $1 -eq 1 ]; then
             echo ""
         else
             echo "Balanced "
@@ -71,7 +72,7 @@ backlight_notify() {
 
 change_backlight() {
     curr=$(get_keyboard_brightness)
-    if [ $1 == "inc" ]; then
+    if [ "$1" = "inc" ]; then
         curr=$(($curr + 1))
     else
         curr=$(($curr - 1))
@@ -92,19 +93,19 @@ toggle_profile() {
     pkill -SIGRTMIN+8 waybar
 }
 
-if [ "$1" == "--inc" ]; then
+if [ "$1" = "--inc" ]; then
     change_backlight "inc"
-elif [ "$1" == "--dec" ]; then
+elif [ "$1" = "--dec" ]; then
     change_backlight "dec"
-elif [ "$1" == "--get" ]; then
+elif [ "$1" = "--get" ]; then
     get_data 0
-elif [ "$1" == "--get-text" ]; then
+elif [ "$1" = "--get-text" ]; then
     get_data 1
-elif [ "$1" == "--get-full" ]; then
+elif [ "$1" = "--get-full" ]; then
     get_data 2
-elif [ "$1" == "--aura" ]; then
+elif [ "$1" = "--aura" ]; then
     aura
-elif [ "$1" == "--profile-toggle" ]; then
+elif [ "$1" = "--profile-toggle" ]; then
     toggle_profile
 else
     print_usage

@@ -20,12 +20,12 @@ calculate_luminance() {
     local b=$3
 
     # Convert RGB to linear values
-    local linear_r=$(bc <<< "obase=10; ibase=16; $r")
-    local linear_g=$(bc <<< "obase=10; ibase=16; $g")
-    local linear_b=$(bc <<< "obase=10; ibase=16; $b")
+    local linear_r=$(echo "obase=10; ibase=16; $r" | bc)
+    local linear_g=$(echo "obase=10; ibase=16; $g" | bc)
+    local linear_b=$(echo "obase=10; ibase=16; $b" | bc)
 
     # Calculate relative luminance
-    local luminance=$(bc <<< "sqrt( 0.299*$linear_r^2 + 0.587*$linear_g^2 + 0.114*$linear_b^2 )")
+    local luminance=$(echo "sqrt( 0.299*$linear_r^2 + 0.587*$linear_g^2 + 0.114*$linear_b^2 )" | bc)
 
     echo "$luminance"
 }
@@ -42,7 +42,7 @@ choose_text_color() {
 }
 
 # Main script
-if [[ $# -ne 1 ]]; then
+if [ $# -ne 1 ]; then
     echo "Usage: $0 <hex_color>"
     exit 1
 fi
@@ -50,7 +50,7 @@ fi
 hex_color=$(echo $1 | awk '{ print toupper($0) }')
 
 # Remove leading '#' if present
-if [[ ${hex_color:0:1} == '#' ]]; then
+if [ ${hex_color:0:1} = '#' ]; then
     hex_color=${hex_color:1}
 fi
 

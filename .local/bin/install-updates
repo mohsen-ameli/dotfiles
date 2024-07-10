@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Installs updates using the yay AUR helper
 ## From Stephan Raabe (2024) 
@@ -35,7 +35,7 @@ else
     exit;
 fi
 
-if [[ $(_isInstalledYay "timeshift") == "0" ]] ;then
+if [ "$(_isInstalledYay "timeshift")" = "0" ] ;then
     if gum confirm "DO YOU WANT TO CREATE A SNAPSHOT?" ;then
         echo
         c=$(gum input --placeholder "Enter a comment for the snapshot...")

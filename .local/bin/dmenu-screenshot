@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Dmenu screenshot script.
 ## Need grim, slurp, and loupe installed.
@@ -18,13 +18,13 @@ copy="Copy"
 both="View and Copy"
 
 # Choosing to screenshot full, part of, or a specific app
-selection=$(echo -e "$full\n$part\n$app" | $schema)
+selection=$(printf "%b\n" "$full\n$part\n$app" | $schema)
 sleep 1
-if [ "$selection" == "$full" ]; then
+if [ "$selection" = "$full" ]; then
     grim $name
-elif [ "$selection" == "$part" ]; then
+elif [ "$selection" = "$part" ]; then
     grim -g "$(slurp)" $name
-elif [ "$selection" == "$app" ]; then
+elif [ "$selection" = "$app" ]; then
     notify-send -u normal "Screenshot" "Not implemented yet!"
     exit 0
 fi
@@ -32,12 +32,12 @@ fi
 notify-send -u normal "Screenshot taken successfully!" "It was saved in $base"
 
 # Choosing to view, copy, or do both
-selection=$(echo -e "$copy\n$view\n$both" | $schema)
-if [ "$selection" == "$copy" ]; then
+selection=$(printf "%b\n" "$copy\n$view\n$both" | $schema)
+if [ "$selection" = "$copy" ]; then
     wl-copy < "$name"
-elif [ "$selection" == "$view" ]; then
+elif [ "$selection" = "$view" ]; then
     $viewer $name
-elif [ "$selection" == "$both" ]; then
+elif [ "$selection" = "$both" ]; then
     $viewer $name
     wl-copy < "$name"
 fi

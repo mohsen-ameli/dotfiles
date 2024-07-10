@@ -1,23 +1,24 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Network connectivity information
 ##########################
 
 print_usage() {
-	echo -e """Usage: $0 [arguments]
+	printf """Usage: network [arguments]
 	
 arguments:
 	--live: \t\t Prints the info for live
 	--full: \t\t Shows wifi icon and strength percentage
 	--icon: \t\t Shows only the wifi icon
 	--info: \t\t Shows all the information
-    --status: \t\t Shows the status of the connection"""
+    --status: \t\t Shows the status of the connection
+"""
 }
 
 interface=$(ip addr | grep BROADCAST | awk '{print $2}' | cut -f1 -d:)
 connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
 
-if [[ $1 == "--status" ]]; then
+if [ "$1" = "--status" ]; then
     echo $connected
     exit 0
 fi
@@ -26,17 +27,17 @@ strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
 
 icon() {
     connected=$1
-    if [[ $connected == "disconnected" ]]; then
+    if [ "$connected" = "disconnected" ]; then
         echo "󰤭"
         exit 0
     fi
 
     strength=$1
-    if [[ $strength -ge 75 ]]; then
+    if [ $strength -ge 75 ]; then
         icon="󰤨"
-    elif [[ $strength -ge 50 ]]; then
+    elif [ $strength -ge 50 ]; then
         icon="󰤥"
-    elif [[ $strength -ge 25 ]]; then
+    elif [ $strength -ge 25 ]; then
         icon="󰤢"
     else
         icon="󰤟"
@@ -47,17 +48,17 @@ icon() {
 
 class() {
     connected=$1
-    if [[ $connected == "disconnected" ]]; then
+    if [ "$connected" = "disconnected" ]; then
         echo "disabled"
         exit 0
     fi
 
     strength=$1
-    if [[ $strength -ge 75 ]]; then
+    if [ $strength -ge 75 ]; then
         class="high"
-    elif [[ $strength -ge 50 ]]; then
+    elif [ $strength -ge 50 ]; then
         class="mid"
-    elif [[ $strength -ge 25 ]]; then
+    elif [ $strength -ge 25 ]; then
         class="low"
     else
         class="none"
@@ -68,7 +69,7 @@ class() {
 
 full() {
     connected=$1
-    if [[ $connected == "disconnected" ]]; then
+    if [ "$connected" = "disconnected" ]; then
         echo "$(icon $strength $connected) 0%"
         exit 0
     fi
@@ -79,7 +80,7 @@ full() {
 
 info() {
     connected=$1
-    if [[ $connected == "disconnected" ]]; then
+    if [ "$connected" = "disconnected" ]; then
         echo "Disconnected"
         exit 0
     fi
@@ -102,13 +103,13 @@ live() {
     done
 }
 
-if [[ $1 == "--live" ]]; then
+if [ "$1" = "--live" ]; then
     live
-elif [[ $1 == "--info" ]]; then
+elif [ "$1" = "--info" ]; then
     info $strength $connected
-elif [[ $1 == "--icon" ]]; then
+elif [ "$1" = "--icon" ]; then
     icon $strength $connected
-elif [[ $1 == "--full" ]]; then
+elif [ "$1" = "--full" ]; then
     full $strength $connected
 else
     print_usage

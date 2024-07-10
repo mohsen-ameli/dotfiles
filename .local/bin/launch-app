@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Launches an app based on display server
 ##########################
 
 wayland=$($HOME/.local/bin/is-wayland)
 
-if [[ $wayland -eq "1" ]]; then
+if [ "$wayland" = "1" ]; then
   "$@" --enable-features=UseOzonePlatform --ozone-platform=wayland
 else
   "$@"

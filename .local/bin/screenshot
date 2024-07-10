@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Screenshot utilities brought together.
 ## Need grim, slurp, and loupe installed.
@@ -7,20 +7,21 @@
 sleep 1
 
 print_usage() {
-	echo -e """Usage: $0 [arguments]
+	printf """Usage: screenshot [arguments]
 	
 arguments:
     --portion: \t screenshot a portion of the screen
-    --full: \t screenshot the whole screen"""
+    --full: \t screenshot the whole screen
+"""
 }
 
 base="$HOME/Pictures"
 name="$base/$(date +'%F_%T').png"
 viewer="loupe"
 
-if [[ $1 == "--portion" ]]; then
+if [ "$1" = "--portion" ]; then
     grim -g "$(slurp)" $name
-elif [[ $1 == "--full" ]]; then
+elif [ "$1" = "--full" ]; then
     grim $name
 else
     print_usage
@@ -29,7 +30,7 @@ fi
 
 wl-copy < "$name"
 
-if [[ $? == 0 ]]; then
+if [ $? -eq 0 ]; then
     notify-send -u normal "Screenshot taken successfully!" "It was saved in $base"
     $viewer $name
 fi
