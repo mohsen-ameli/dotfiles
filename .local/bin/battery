@@ -68,7 +68,7 @@ info() {
     time_to_text=$(echo "$upower" | awk '/time to/ {print $3}')
     health=$(echo "$upower" | awk '/capacity/ {printf $2}' | cut -d. -f1)
 
-    if [ $time_to ! "" ]; then
+    if [ "$time_to" != "" ]; then
         printf "%b\n" "<tt>Capacity: \t$capacity\nStatus: \t$status\nHealth: \t$health%\nTime To $time_to_text \t$time_to</tt>"
     else
         printf "%b\n" "<tt>Capacity: \t$capacity\nStatus: \t$status\nHealth: \t$health%</tt>"

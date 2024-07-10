@@ -3,7 +3,7 @@
         (label  :text temperature :class "widget first")
         (button :timeout "24h" :onclick `$HOME/.local/bin/open-window "alacritty --class floating -e btop"` :class "widget" memory)
         (label  :text {round(EWW_CPU.avg, 0) + "% "} :class "widget")
-        (button :timeout "24h" :onclick "scripts/toggle_weather.sh" :class "widget" {weather.text})
+        (button :timeout "24h" :onclick "scripts/toggle.sh weather" :class "widget" {weather.text})
         (systray :visible {systray-items-count > 0} :class "widget tooltip" :spacing 4)
     )
 )

@@ -3,7 +3,7 @@
 curr_dir=$(dirname "$0")
 browser="firefox"
 emulator="alacritty"
-shell="zsh"
+shell="zsh dash"
 editor="code nano vim gedit"
 file_explorer="thunar tumbler ffmpegthumbnailer"
 image_viewer="loupe swappy"

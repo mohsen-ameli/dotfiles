@@ -90,7 +90,7 @@ info() {
     essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
     ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
 
-    echo "<tt>ESSID: \t\t$essid\nLocal IP: \t$ipaddr\nInterface: \t$interface\nStrength: \t$strength%</tt>"
+    printf "%s\n" "<tt>ESSID: \\t\\t$essid\\nLocal IP: \\t$ipaddr\\nInterface: \\t$interface\nStrength: \\t$strength%</tt>"
 }
 
 live() {
@@ -98,7 +98,7 @@ live() {
         strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
         connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
 
-        echo "{\"status\": \"$connected\", \"full\": \"$(full $strength $connected)\", \"class\": \"$(class $strength $connected)\", \"icon\": \"$(icon $strength $connected)\" , \"info\": \"$(info $strength $connected)\"}"
+        printf "%s\n" "{\"status\": \"$connected\", \"full\": \"$(full $strength $connected)\", \"class\": \"$(class $strength $connected)\", \"icon\": \"$(icon $strength $connected)\" , \"info\": \"$(info $strength $connected)\"}"
         sleep 5
     done
 }

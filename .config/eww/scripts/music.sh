@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 gen_music_json() {
     name=$(playerctl metadata -f "{{playerName}}" 2> /dev/null)
@@ -10,14 +10,14 @@ gen_music_json() {
     length=$(playerctl metadata -f "{{mpris:length}}" 2> /dev/null)
     lengthStr=$(playerctl metadata -f "{{duration(mpris:length)}}" 2> /dev/null)
 
-    if [[ $length != "" ]]; then
+    if [ "$length" != "" ]; then
         length=$(($length / 1000000))
     fi
 
     echo "{\"name\": \"$name\", \"album\": \"$album\", \"title\": \"$title\", \"artist\": \"$artist\", \"artUrl\": \"$artUrl\", \"status\": \"$status\", \"length\": \"$length\", \"lengthStr\": \"$lengthStr\"}"
 }
 
-if [[ $1 == "--player" ]]; then
+if [ "$1" = "--player" ]; then
     gen_music_json
     
     playerctl metadata -F -f '{{playerName}} {{title}} {{ album }} {{artist}} {{mpris:artUrl}} {{status}} {{mpris:length}}' | while read -r line; do
@@ -35,7 +35,7 @@ if [[ $1 == "--player" ]]; then
         #             '{name: $name, album: $album, title: $title, artist: $artist, artUrl: $artUrl, status: $status, length: $length, lengthStr: $lengthStr}' )
         # echo $JSON_STRING
     done
-elif [[ $1 == "--position" ]]; then
+elif [ "$1" = "--position" ]; then
     playerctl metadata -F -f '{{position}}' | while read -r line; do
         position=$(playerctl metadata -f "{{position / 1000000}}")
         position=$(echo "($position + 0.5) / 1" | bc)
