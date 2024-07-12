@@ -1,4 +1,7 @@
 #!/bin/sh
+##########################
+## Current active workspace
+##########################
 
 # print the active workspace
 hyprctl activeworkspace | grep "^workspace ID " | cut -d" " -f3

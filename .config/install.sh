@@ -25,6 +25,7 @@ setup_pacman
 setup_yay
 setup_extra_optional
 # setup_qtile
+setup_vm
 setup_latex
 setup_zsh
 setup_autocpufreq
@@ -67,6 +68,16 @@ function setup_yay() {
 function setup_extra_optional() {
   notify "Installing extra packages that are fun"
   yay -S fastfetch bat tldr cowsay pipes.sh unimatrix lolcat cava
+}
+
+function setup_vm() {
+  notify "Installing QEMU and Virt Manager"
+  sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs swtpm
+  echo """
+  unix_sock_group = \"libvirt\"
+  unix_sock_ro_perms = \"0777\"
+  unix_sock_rw_perms = \"0770\"
+  """ >> sudo tee /etc/libvirt/libvirtd.conf
 }
 
 function setup_qtile() {

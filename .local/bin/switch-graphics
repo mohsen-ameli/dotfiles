@@ -15,11 +15,11 @@ integrated() {
 }
 
 hybrid() {
+  sudo envycontrol -s hybrid
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   echo 0 | sudo tee /sys/bus/pci/rescan
   echo 1 | sudo tee /sys/bus/pci/rescan
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  sudo envycontrol -s hybrid
 
   echo "0"
 }

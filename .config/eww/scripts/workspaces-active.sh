@@ -1,4 +1,7 @@
 #!/bin/sh
+##########################
+## All active workspaces
+##########################
 
 active=$(hyprctl workspaces | grep "^workspace ID " | cut -d" " -f 3 | xargs)
 echo "$active"
