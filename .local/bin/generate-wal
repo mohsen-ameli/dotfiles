@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Generates proper color configuration for other tools using pywal.
 ## Saves the config file to the wal cache directory.
@@ -6,126 +6,124 @@
 
 # Generates colors for hyprland
 generate_hyprland() {
-    file="$HOME/.cache/wal/colors"
-    destination="$HOME/.cache/wal/colors-hyprland.conf"
-    echo "" > $destination
-    i=0
+  file="$HOME/.cache/wal/colors"
+  destination="$HOME/.cache/wal/colors-hyprland.conf"
+  echo "" > $destination
+  i=0
 
-    while read p; do
-        if [ $i -eq 7 ]; then
-            echo "\$cursor = 0xff$(echo "$p" | cut -c 2-)" >> $destination
-            echo "\$foreground = 0xff$(echo "$p" | cut -c 2-)" >> $destination
-        elif [ $i -eq 0 ]; then
-            echo "\$background = 0xff$(echo "$p" | cut -c 2-)" >> $destination
-        fi
-        echo "\$color$i = 0xff$(echo "$p" | cut -c 2-)" >> $destination
-        i=$((i+1))
-    done < $file
+  while read p; do
+    if [ $i -eq 7 ]; then
+      echo "\$cursor = 0xff$(echo "$p" | cut -c 2-)" >> $destination
+      echo "\$foreground = 0xff$(echo "$p" | cut -c 2-)" >> $destination
+    elif [ $i -eq 0 ]; then
+      echo "\$background = 0xff$(echo "$p" | cut -c 2-)" >> $destination
+    fi
+    echo "\$color$i = 0xff$(echo "$p" | cut -c 2-)" >> $destination
+    i=$((i+1))
+  done < $file
 }
 
 # Generates colors and settings for vscode
 generate_vscode() {
-    font="JetBrainsMono NF"
-    # if code - oss folder is in .config
-    if [ -d "$HOME/.config/Code - OSS" ]; then
-        code="Code - OSS"
-    elif [ -d "$HOME/.config/Code" ]; then
-        code="Code"
-    fi
-    settings="$HOME/.config/$code/User/settings.json"
-    bg=$(cat $HOME/.cache/wal/colors | head -n 1)
+  font="JetBrainsMono NF"
+  # if code - oss folder is in .config
+  if [ -d "$HOME/.config/Code - OSS" ]; then
+    code="Code - OSS"
+  elif [ -d "$HOME/.config/Code" ]; then
+    code="Code"
+  fi
+  settings="$HOME/.config/$code/User/settings.json"
+  bg=$(cat $HOME/.cache/wal/colors | head -n 1)
 
-    # echo $colors
-    json="""{
-    \"workbench.colorCustomizations\": {
-        \"window.menuBarVisibility\": \"toggle\",
-        \"activityBar.border\": \"$bg\",
-        \"activityBar.background\": \"$bg\",
-        \"editor.background\": \"$bg\",
-        \"sideBar.background\": \"$bg\",
-        \"statusBar.background\": \"$bg\",
-        \"editorGroupHeader.tabsBackground\": \"$bg\",
-        \"tab.inactiveBackground\": \"$bg\",
-        \"terminal.background\": \"$bg\",
-        \"tab.activeBackground\": \"#000000\"
-    },
+  # echo $colors
+  json="""{
+  \"workbench.colorCustomizations\": {
     \"window.menuBarVisibility\": \"toggle\",
-    \"editor.fontFamily\": \"$font\",
-    \"git.enableSmartCommit\": true,
-    \"git.confirmSync\": false,
-    \"explorer.confirmDelete\": false,
-    \"workbench.startupEditor\": \"none\",
-    \"workbench.sideBar.location\": \"right\",
-    \"workbench.iconTheme\": \"material-icon-theme\",
-    \"python.terminal.activateEnvInCurrentTerminal\": true,
-    \"files.associations\": {
-        \"dunstrc\": \"properties\"
-    }
-    }"""
+    \"activityBar.border\": \"$bg\",
+    \"activityBar.background\": \"$bg\",
+    \"editor.background\": \"$bg\",
+    \"sideBar.background\": \"$bg\",
+    \"statusBar.background\": \"$bg\",
+    \"editorGroupHeader.tabsBackground\": \"$bg\",
+    \"tab.inactiveBackground\": \"$bg\",
+    \"terminal.background\": \"$bg\",
+    \"tab.activeBackground\": \"#000000\"
+  },
+  \"window.menuBarVisibility\": \"toggle\",
+  \"editor.fontFamily\": \"$font\",
+  \"git.enableSmartCommit\": true,
+  \"git.confirmSync\": false,
+  \"explorer.confirmDelete\": false,
+  \"workbench.startupEditor\": \"none\",
+  \"workbench.sideBar.location\": \"right\",
+  \"workbench.iconTheme\": \"material-icon-theme\",
+  \"python.terminal.activateEnvInCurrentTerminal\": true,
+  \"files.associations\": {
+    \"dunstrc\": \"properties\"
+  }
+  }"""
 
-    # Keybindings
-    keybindings="""[
-        {
-            \"key\": \"shift+alt+down\",
-            \"command\": \"editor.action.copyLinesDownAction\",
-            \"when\": \"editorTextFocus && !editorReadonly\"
-        },
-        {
-            \"key\": \"shift+alt+up\",
-            \"command\": \"editor.action.copyLinesUpAction\",
-            \"when\": \"editorTextFocus && !editorReadonly\"
-        },
-    ]"""
+  # Keybindings
+  keybindings="""[
+    {
+      \"key\": \"shift+alt+down\",
+      \"command\": \"editor.action.copyLinesDownAction\",
+      \"when\": \"editorTextFocus && !editorReadonly\"
+    },
+    {
+      \"key\": \"shift+alt+up\",
+      \"command\": \"editor.action.copyLinesUpAction\",
+      \"when\": \"editorTextFocus && !editorReadonly\"
+    },
+  ]"""
 
-    # \"workbench.list.mouseWheelScrollSensitivity\": 3,
-    # \"editor.mouseWheelScrollSensitivity\": 3,
+  # \"workbench.list.mouseWheelScrollSensitivity\": 3,
+  # \"editor.mouseWheelScrollSensitivity\": 3,
 
-    # Append to exisitng settings
-    # json=$(echo "$(cat $HOME/.config/$code/User/settings.json)" |
-    #   jq --argjson jsonString "$objJSON" \
-    #     '."workbench.colorCustomizations" += $jsonString')
+  # Append to exisitng settings
+  # json=$(echo "$(cat $HOME/.config/$code/User/settings.json)" |
+  #   jq --argjson jsonString "$objJSON" \
+  #     '."workbench.colorCustomizations" += $jsonString')
 
-    echo "$json" > "$HOME/.config/$code/User/settings.json"
-    echo "$keybindings" > "$HOME/.config/$code/User/keybindings.json"
+  echo "$json" > "$HOME/.config/$code/User/settings.json"
+  echo "$keybindings" > "$HOME/.config/$code/User/keybindings.json"
 }
 
 # Generates colors for discord
 generate_discord() {
-    i=0
-    bg=$(cat $HOME/.cache/wal/colors | head -n 1 | cut -f 2 -d "#")
-    
-    # A slightly different color variation of the background color
-    color16=$(curl -s -k -X GET --header 'Content-Type: application/json' "https://www.thecolorapi.com/id?format=json&hex=$bg" | jq -r '.hsl.value' | awk -F, '{u = $3 - 6; print $1","$2", "u"%)"}')
+  i=0
+  bg=$(cat $HOME/.cache/wal/colors | head -n 1 | cut -f 2 -d "#")
+  
+  # A slightly different color variation of the background color
+  color16=$(curl -s -k -X GET --header 'Content-Type: application/json' "https://www.thecolorapi.com/id?format=json&hex=$bg" | jq -r '.hsl.value' | awk -F, '{u = $3 - 6; print $1","$2", "u"%)"}')
 
-    # Update all colors in the vesktop css file
-    while read p; do
-        sed -i -r "s/--color$i: .*;/--color$i: $p;/" $HOME/.config/vesktop/settings/quickCss.css
-        i=$((i+1))
-    done < $HOME/.cache/wal/colors
+  # Update all colors in the vesktop css file
+  while read p; do
+    sed -i -r "s/--color$i: .*;/--color$i: $p;/" $HOME/.config/vesktop/settings/quickCss.css
+    i=$((i+1))
+  done < $HOME/.cache/wal/colors
 
-    # Update the background color (color16)
-    sed -i -r "s/--color16: .*;/--color16: $color16;/" $HOME/.config/vesktop/settings/quickCss.css
+  # Update the background color (color16)
+  sed -i -r "s/--color16: .*;/--color16: $color16;/" $HOME/.config/vesktop/settings/quickCss.css
 }
 
 generate_rofi() {
-    color4=$(awk 'NR==4 {print}' $HOME/.cache/wal/colors)
-    color8=$(awk 'NR==8 {print}' $HOME/.cache/wal/colors)
-    
-    echo -e """
-    * {
-        color2: $color4;
-        color8: $color8;
-    }""" > $HOME/.config/rofi/default.rasi
+  color4=$(awk 'NR==4 {print}' $HOME/.cache/wal/colors)
+  color8=$(awk 'NR==8 {print}' $HOME/.cache/wal/colors)
+  
+  printf """
+  * {
+    color2: $color4;
+    color8: $color8;
+  }""" > $HOME/.config/rofi/default.rasi
 }
 
-# This gets auto-populated by pywal, but for waybar 
-# I need the foreground color to by dynamically chosen
-# based on the background color
+# Generating extra colors for the bar
 generate_bar() {
-    color4=$(awk 'NR==2 {print}' $HOME/.cache/wal/colors)
-    color=$($HOME/.local/bin/black-or-white $color4)
-    echo "@define-color text_color $color;" >> $HOME/.cache/wal/colors-waybar.css
-    echo "\$text_color: $color;" >> $HOME/.cache/wal/colors.scss
+  color4=$(awk 'NR==2 {print}' $HOME/.cache/wal/colors)
+  text_color=$($HOME/.local/bin/black-or-white "$color4")
+  echo "@define-color text_color $color;" >> $HOME/.cache/wal/colors-waybar.css
+  echo "\$text_color: $text_color;" >> $HOME/.cache/wal/colors.scss
 }
 
 generate_discord

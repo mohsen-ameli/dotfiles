@@ -20,8 +20,8 @@ latitude = location.latitude
 longitude = location.longitude
 curr_time = int(datetime.now(pytz.timezone(timezone)).strftime("%H"))
 hourly_limit = 24  # how many hours ahead to show
-# url = f"https://api.open-meteo.com/v1/gem?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,wind_speed_10m,is_day&timezone={timezone}&forecast_days=3"
 url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,wind_speed_10m,is_day&timezone=auto&forecast_days=3"
+#      could use gem or forecast here ^^^^^^^^
 
 # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 # These icons are based on wmo-code which is what open-meteo uses
@@ -176,7 +176,7 @@ def format_data(weather: dict):
 if len(sys.argv) > 1 and sys.argv[1] == "--url":
     print(url)
     exit(0)
-elif len(sys.argv) > 1 and sys.argv[1] == "--live":
+elif len(sys.argv) > 1 and "--live" in sys.argv:
     weather = get_data(live=True)
 else:
     weather = get_data(live=False)

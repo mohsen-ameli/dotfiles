@@ -30,7 +30,6 @@ apply_themes() {
 	# getting rid of an unnecessary default theme directory that gets set by nwg look. 
 	[ -d ~/.local/share/icons/default ] && mv ~/.local/share/icons/default ~/.local/share/icons/tmp
 
-	notify-send "Themes" "Applied all themes successfully!"
 	echo "Done!"
 }
 

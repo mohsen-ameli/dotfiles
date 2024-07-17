@@ -7,5 +7,4 @@
 # waybar -c $HOME/.config/waybar/config.jsonc -s $HOME/.config/waybar/style.css
 
 killall eww
-#eww daemon
 eww open bar

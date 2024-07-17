@@ -7,9 +7,9 @@ count=0
 
 dbus-monitor --session "interface='org.kde.StatusNotifierWatcher'" |
 while read -r signal; do
-  if [ "$signal" = *"StatusNotifierItemRegistered"* ]; then
+  if echo $signal | grep "StatusNotifierItemRegistered" > /dev/null; then
     count=$(($count + 1))
-  elif [ "$signal" = *"StatusNotifierItemUnregistered"* ] then
+  elif echo $signal | grep "StatusNotifierItemUnregistered" > /dev/null; then
     count=$(($count - 1))
   fi
 

@@ -1,4 +1,7 @@
 #!/bin/sh
+##########################
+## Utility used with hyprctl to apply minimal or default configuration
+##########################
 
 print_usage() {
     printf """Usage: hypr-mode [arguments]
@@ -9,11 +12,11 @@ arguments:
 }
 
 if [ "$1" = "--minimal" ]; then
-    hyprctl --batch "keyword general:border_size 0 ; keyword general:gaps_out 0 ; keyword general:gaps_in 0 ; keyword decoration:rounding 0 ; keyword animations:enabled false" > /dev/null
-    echo "Minimal configuration applied"
+  hyprctl --batch "keyword general:border_size 0 ; keyword general:gaps_out 0 ; keyword general:gaps_in 0 ; keyword decoration:rounding 0 ; keyword animations:enabled false" > /dev/null
+  echo "Minimal configuration applied"
 elif [ "$1" = "--normal" ]; then
-    hyprctl --batch "keyword general:border_size 3 ; keyword general:gaps_out 6 ; keyword general:gaps_in 3 ; keyword decoration:rounding 10 ; keyword animations:enabled true" > /dev/null
-    echo "Default configuration applied"
+  hyprctl --batch "keyword general:border_size 3 ; keyword general:gaps_out 6 ; keyword general:gaps_in 3 ; keyword decoration:rounding 10 ; keyword animations:enabled true" > /dev/null
+  echo "Default configuration applied"
 else
-    print_usage
+  print_usage
 fi

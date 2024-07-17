@@ -1,9 +1,10 @@
 #!/bin/sh
-
-# Script to clean pacman and yay cache
-# Based on scripts from albertored11 and luukvbaal
-# https://gist.github.com/albertored11/bfc0068f4e43ca0d7ce0af968f7314db
-# https://gist.github.com/luukvbaal/2c697b5e068471ee989bff8a56507142
+##########################
+## Script to clean pacman and yay cache
+## Based on scripts from albertored11 and luukvbaal
+## https://gist.github.com/albertored11/bfc0068f4e43ca0d7ce0af968f7314db
+## https://gist.github.com/luukvbaal/2c697b5e068471ee989bff8a56507142
+##########################
 
 printf ":: Continue to clear all pacman and AUR helper cache? [y/N] "
 read confirm
@@ -32,4 +33,3 @@ if [ "$confirm" = "y" ] || [ "$confirm" = "Y" ]; then
 else
   echo "NOT clearing"
 fi
-

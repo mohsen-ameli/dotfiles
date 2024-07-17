@@ -8,8 +8,34 @@ bindkey '^H' backward-kill-word
 # Enabling syntax highliting for nano
 # ls -1 /usr/share/nano/*.nanorc | sed 's/^\//include \//' > ~/.nanorc
 
+# Running electron apps in wayland needs this
+export ELECTRON_OZONE_PLATFORM_HINT="wayland"
+export VCPKG_ROOT="/opt/vcpkg"
+export VCPKG_DOWNLOADS="/var/cache/vcpkg"
+export EDITOR="/bin/nvim"
+export PATH="$PATH:/home/moe/.local/bin:/usr/bin/pdflatex:/usr/bin/latex"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CACHE_HOME="$HOME/.cache"
+export XDG_STATE_HOME="$HOME/.local/state"
+export GNUPGHOME="$XDG_DATA_HOME/gnupg"
+export GNUBGHOME="$XDG_DATA_HOME/gnubg"
+export WINEPREFIX="$XDG_DATA_HOME/wine"
+export HISTFILE="$XDG_CACHE_HOME/zsh/history"
+export ZSH="$XDG_DATA_HOME/oh-my-zsh"
+export MYPY_CACHE_DIR="$XDG_CACHE_HOME/mypy"
+export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
+export GOPATH="$XDG_DATA_HOME/go"
+export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
+export CARGO_HOME="$XDG_DATA_HOME/cargo"
+alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
+export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
+export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
+# nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings
+export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+
 # oh-my-zsh
-export ZSH="$HOME/.oh-my-zsh"
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search)
 # ZSH_THEME="af-magic"
@@ -18,21 +44,17 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-s
 # ZSH_THEME="bira"
 # ZSH_THEME="fishy"
 # ZSH_THEME="gallifrey"
-ZSH_THEME="gallois"
+# ZSH_THEME="gallois"
 # ZSH_THEME="jaischeema"
 # ZSH_THEME="pygmalion"
 source $ZSH/oh-my-zsh.sh
 
-# Running electron apps in wayland needs this
-export ELECTRON_OZONE_PLATFORM_HINT="wayland"
-export VCPKG_ROOT="/opt/vcpkg"
-export VCPKG_DOWNLOADS="/var/cache/vcpkg"
-export EDITOR="/bin/nvim"
-export PATH="$PATH:/home/moe/.local/bin:/usr/bin/pdflatex:/usr/bin/latex"
-
 # Environment variables for development
 source $HOME/.env_vars
 
+if which vscodium > /dev/null; then
+  alias code="vscodium"
+fi
 alias serve='sudo python -m http.server'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
@@ -100,7 +122,7 @@ function extract {
 }
 
 # Starship
-# eval "$(starship init zsh)"
+eval "$(starship init zsh)"
 
 # idk man
 cowsay -f sodomized "Welcome Back Soldier" | lolcat

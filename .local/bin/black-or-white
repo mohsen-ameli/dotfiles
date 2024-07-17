@@ -1,76 +1,51 @@
-#!/bin/bash
+#!/bin/sh
 ##########################
 ## Utility used with waybar and pywal. It will choose
 ## either black or white to be the text color of waybar widgets.
 ##########################
 
-# Function to convert hex color to RGB values
-hex_to_rgb() {
-    local hex=$1
-    local r=$(printf '%s' ${hex:0:2})
-    local g=$(printf '%s' ${hex:2:2})
-    local b=$(printf '%s' ${hex:4:5})
-    echo "$r $g $b"
-}
-
 # Function to calculate luminance
 calculate_luminance() {
-    local r=$1
-    local g=$2
-    local b=$3
+  r=$1
+  g=$2
+  b=$3
 
-    # Convert RGB to linear values
-    local linear_r=$(echo "obase=10; ibase=16; $r" | bc)
-    local linear_g=$(echo "obase=10; ibase=16; $g" | bc)
-    local linear_b=$(echo "obase=10; ibase=16; $b" | bc)
+  # Convert RGB to linear values
+  linear_r=$(echo "obase=10; ibase=16; $r" | bc)
+  linear_g=$(echo "obase=10; ibase=16; $g" | bc)
+  linear_b=$(echo "obase=10; ibase=16; $b" | bc)
 
-    # Calculate relative luminance
-    local luminance=$(echo "sqrt( 0.299*$linear_r^2 + 0.587*$linear_g^2 + 0.114*$linear_b^2 )" | bc)
+  # Calculate relative luminance
+  luminance=$(echo "sqrt( 0.299*$linear_r^2 + 0.587*$linear_g^2 + 0.114*$linear_b^2 )" | bc)
 
-    echo "$luminance"
+  printf %.0f $luminance
 }
 
 # Function to determine text color (black or white) based on background luminance
 choose_text_color() {
-    local luminance=$1
-    local threshold=50
-    if [[ $luminance < $threshold ]]; then
-        echo "black"
-    else
-        echo "white"
-    fi
+  luminance=$1
+  threshold=50
+  [ $luminance -lt $threshold ] && echo "white" || echo "black"
 }
 
 # Main script
 if [ $# -ne 1 ]; then
-    echo "Usage: $0 <hex_color>"
-    exit 1
+  echo "Usage: black-or-white <hex_color in quotes>"
+  exit 1
 fi
 
-hex_color=$(echo $1 | awk '{ print toupper($0) }')
-
-# Remove leading '#' if present
-if [ ${hex_color:0:1} = '#' ]; then
-    hex_color=${hex_color:1}
-fi
+# Remove # from hex color and convert to uppercase
+hex_color=$(echo ${1###} | awk '{ print toupper($0) }')
 
 # Check if hex color is valid
-if ! [[ $hex_color =~ ^[0-9a-fA-F]{6}$ ]]; then
-    echo "Invalid hex color format."
-    exit 1
+if ! echo $hex_color | grep -E "^[0-9a-fA-F]{6}$" > /dev/null; then
+  echo "Invalid hex color format."
+  exit 1
 fi
 
 # Convert hex color to RGB
-rgb=$(hex_to_rgb "$hex_color")
-read r g b <<< "$rgb"
+r=$(echo $hex_color | cut -c1-2)
+g=$(echo $hex_color | cut -c3-4)
+b=$(echo $hex_color | cut -c5-6)
 
-# Calculate luminance of the background color
-luminance=$(calculate_luminance $r $g $b)
-# echo "$luminance"
-
-# Choose text color based on luminance
-text_color=$(choose_text_color $luminance)
-
-# echo "Background color: #$hex_color"
-# echo "Recommended text color: $text_color"
-echo "$text_color"
+choose_text_color $(calculate_luminance $r $g $b)

@@ -69,11 +69,10 @@ interactive() {
 }
 
 get() {
-  mode=$(sudo envycontrol -q)
-  if [ "$mode" = "integrated" ]; then
-    echo "Integrated "
-  else
+  if lspci | grep -i NVIDIA > /dev/null; then
     echo "Hybrid "
+  else
+    echo "Integrated "
   fi
 }
 

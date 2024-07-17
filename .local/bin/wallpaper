@@ -6,13 +6,13 @@
 ##########################
 
 if [ $(is-wayland) = 1 ]; then
-    echo "wayland"
+  echo "wayland"
 else
-    echo "x11"
+  echo "x11"
 fi
 
 print_usage() {
-    printf """Usage: wallpaper [arguments]
+  printf """Usage: wallpaper [arguments]
 	
 arguments:
     --random: \t\t\t get a random wallpaper
@@ -23,26 +23,26 @@ arguments:
 # $2: text
 # $3: progress
 notify() {
-    notify-send "$1" "$2" -h string:x-canonical-private-synchronous:sys-notify -h int:value:$3
+  notify-send "$1" "$2" -h string:x-canonical-private-synchronous:sys-notify -h int:value:$3
 }
 
 path_to_wallpapers="$HOME/wallpapers/"
 wayland=$($HOME/.local/bin/is-wayland)
 
 if [ $1 = "--random" ]; then
-    wallpaper="$(ls $path_to_wallpapers | shuf -n 1)"
+  wallpaper="$(ls $path_to_wallpapers | shuf -n 1)"
 elif [ $1 = "--img" ]; then
-    if [ ! $2 ]; then
-        echo "Please specify the path to the wallpaper."
-        exit 1
-    elif [ ! -f $path_to_wallpapers$2 ]; then
-        echo "Wallpaper path is not valid :("
-        exit 1
-    fi
-    wallpaper=$2
+  if [ ! $2 ]; then
+    echo "Please specify the path to the wallpaper."
+    exit 1
+  elif [ ! -f $path_to_wallpapers$2 ]; then
+    echo "Wallpaper path is not valid :("
+    exit 1
+  fi
+  wallpaper=$2
 else
-    print_usage
-    exit 0
+  print_usage
+  exit 0
 fi
 
 # Send notification
@@ -51,12 +51,12 @@ notify "Wallpaper" "$wall_name" 10
 
 # Kill old background daemons
 if [ $wayland -eq 1 ]; then
-    echo "$path_to_wallpapers$wallpaper"
-    killall swaybg
-    swaybg -m fill -i $path_to_wallpapers$wallpaper &
+  echo "$path_to_wallpapers$wallpaper"
+  killall swaybg
+  swaybg -m fill -i $path_to_wallpapers$wallpaper &
 else
-    killall feh
-    feh --bg-fill $path_to_wallpapers$wallpaper &
+  killall feh
+  feh --bg-fill $path_to_wallpapers$wallpaper &
 fi
 notify "Wallpaper: Set Successfully!" "$wall_name" 50
 
@@ -79,5 +79,5 @@ notify "Wallpaper Changed Successfully!" "$wall_name" 100
 
 # Restart the bar
 if [ $wayland -eq 1 ]; then
-    $HOME/.local/bin/run-bar
+  $HOME/.local/bin/run-bar
 fi

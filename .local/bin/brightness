@@ -50,13 +50,13 @@ get_icon() {
 }
 
 inc_backlight() {
-    brightnessctl set "+$segment"
-    notify_user
+  brightnessctl set "+$segment"
+  notify_user
 }
 
 dec_backlight() {
-    brightnessctl set "$segment-"
-    notify_user
+  brightnessctl set "$segment-"
+  notify_user
 }
 
 # Notify

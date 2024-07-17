@@ -96,6 +96,14 @@ https://icons8.com/icon/86864/audio
 Cursor theme from KDE Store
 Bibata-Modern-Ice https://store.kde.org/p/1197198
 
+## GRUB
+
+Download the aesthetic file and use grub-customizer to load it
+https://www.gnome-look.org/p/2142488
+
+Add windows 11 to grub
+https://askubuntu.com/questions/1425637/how-can-i-add-windows-11-to-grub-menu
+
 ## nvim stuff
 
 control + h|l --> go between editor and file manager
@@ -115,6 +123,9 @@ https://comfy.guide/client/nvidia/
 
 Plants Vs Zombies
 https://www.protondb.com/app/3590#dYYLZr30F2
+
+Games with easy anti-cheat
+https://www.reddit.com/r/linux_gaming/comments/1cvrvyg/psa_easy_anticheat_eac_failed_to_initialize/
 
 ## udev rules
 

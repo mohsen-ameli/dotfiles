@@ -1,5 +1,7 @@
 #!/bin/sh
+##########################
+## Utility used with hyprctl to open a window in the active workspace
+##########################
 
 active=$(hyprctl activeworkspace | grep "^workspace ID " | cut -d" " -f3)
-
 hyprctl dispatch exec [workspace $active silent] -q "$1"

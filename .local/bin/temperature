@@ -19,25 +19,25 @@ high=80
 temp=$(($(cat /sys/class/thermal/thermal_zone0/temp)/1000))
 
 if [ $temp -le $low ]; then
-    icon=""
+  icon=""
 elif [ $temp -le 60 ]; then
-    icon=""
+  icon=""
 elif [ $temp -le 70 ]; then
-    icon=""
+  icon=""
 elif [ $temp -le $high ]; then
-    icon=""
+  icon=""
 else
-    icon=""
+  icon=""
 fi
 
 if [ $1 = "--text" ]; then
-    echo "$temp°C"
+  echo "$temp°C"
 elif [ $1 = "--icon" ]; then
-    echo "$icon"
+  echo "$icon"
 elif [ $1 = "--text-icon" ]; then
-    echo "$temp°C $icon"
+  echo "$temp°C $icon"
 elif [ $1 = "--full" ]; then
-    echo "{\"text\": \"$temp°C $icon\", \"tooltip\": \"CPU Temperature is $temp°C\"}"
+  echo "{\"text\": \"$temp°C $icon\", \"tooltip\": \"CPU Temperature is $temp°C\"}"
 else
-    print_usage
+  print_usage
 fi

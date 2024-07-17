@@ -39,11 +39,11 @@ live_volume() {
 
 live_mic() {
 	echo "{ \"text\": \"$(get_mic_mute)\", \"icon\": \"$(get_mic_mute --icon)\" }"
-    pactl subscribe | while read -r event; do
-        if echo "$event" | grep -q "source #"; then
-			echo "{ \"text\": \"$(get_mic_mute)\", \"icon\": \"$(get_mic_mute --icon)\" }"
-        fi
-    done
+  pactl subscribe | while read -r event; do
+      if echo "$event" | grep -q "source #"; then
+    echo "{ \"text\": \"$(get_mic_mute)\", \"icon\": \"$(get_mic_mute --icon)\" }"
+      fi
+  done
 }
 
 get_volume() {
@@ -83,9 +83,8 @@ get_mic_mute() {
 }
 
 get_mic() {
-	out=$(pactl get-source-mute @DEFAULT_SOURCE@ | cut -d " " -f 2)
-
-	if [ $out = "yes" ]; then
+	out=$(pamixer --default-source --get-mute)
+	if [ $out = "true" ]; then
 		echo "{\"text\": \"\", \"class\": \"muted\"}"
 	else
 		echo "{\"text\": \"\", \"class\": \"\"}"
@@ -159,19 +158,18 @@ dec_volume() {
 }
 
 toggle_mute() {
-	if [ "$(pamixer --get-mute)" = "false" ]; then
-		pamixer -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i volume-disabled "Volume: OFF"
-	elif [ "$(pamixer --get-mute)" = "true" ]; then
+	if [ "$(pamixer --get-mute)" = "true" ]; then
 		pamixer -u && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_icon_name)" "Volume: ON"
+	else
+		pamixer -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i volume-disabled "Volume: OFF"
 	fi
 }
 
 toggle_mic() {
-	# pactl set-source-mute @DEFAULT_SOURCE@ toggle
-	if [ "$(pamixer --default-source --get-mute)" = "false" ]; then
-		pamixer --default-source -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone-mute "Microphone: OFF"
-	elif [ "$(pamixer --default-source --get-mute)" = "true" ]; then
+	if [ "$(pamixer --default-source --get-mute)" = "true" ]; then
 		pamixer -u --default-source u && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone "Microphone: ON"
+	else
+		pamixer --default-source -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone-mute "Microphone: OFF"
 	fi
 	pkill -SIGRTMIN+10 waybar
 }
@@ -201,7 +199,6 @@ dec_mic_volume() {
 	pamixer --default-source -d $vol_segment && notify_mic_user
 }
 
-# Execute accordingly
 if [ "$1" = "--live-volume" ]; then
 	live_volume
 elif [ "$1" = "--live-mic" ]; then

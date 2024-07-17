@@ -4,6 +4,8 @@
 ##########################
 
 if [ "$1" = "--player" ]; then
+    echo "{\"name\": \"\", \"album\": \"\", \"title\": \"\", \"artist\": \"\", \"artUrl\": \"\", \"status\": \"\", \"length\": \"\", \"lengthStr\": \"\"}"
+
     playerctl metadata -F -f '{{playerName}}~{{title}}~{{album}}~{{artist}}~{{mpris:artUrl}}~{{status}}~{{mpris:length}}~{{duration(mpris:length)}}' \
     | while read -r line; do
         name=$(echo $line | cut -d~ -f1)
@@ -21,6 +23,8 @@ if [ "$1" = "--player" ]; then
         echo "{\"name\": \"$name\", \"album\": \"$album\", \"title\": \"$title\", \"artist\": \"$artist\", \"artUrl\": \"$artUrl\", \"status\": \"$status\", \"length\": \"$length\", \"lengthStr\": \"$lengthStr\"}"
     done
 elif [ "$1" = "--position" ]; then
+    echo "{\"position\": \"\", \"positionStr\": \"\"}"
+
     playerctl metadata -F -f "{{position / 1000000}}~{{duration(position)}}" | while read -r line; do
         position=$(echo $line | cut -d~ -f1)
         position=$(echo "($position + 0.5) / 1" | bc)

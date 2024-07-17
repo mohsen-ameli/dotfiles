@@ -96,44 +96,21 @@ class Graph:
             plt.draw()
 
 def get_data():
-    if not Path(f"{home}/battery-graph.json").exists():
-        f = open(f"{home}/battery-graph.json", "w")
+    if not Path(f"{home}/.cache/battery-graph.json").exists():
+        f = open(f"{home}/.cache/battery-graph.json", "w")
         f.write("{}")
         f.close()
         data = {}
     else:
-        f = open(f"{home}/battery-graph.json", "r")
+        f = open(f"{home}/.cache/battery-graph.json", "r")
         data = json.loads(f.read())
         f.close()
     return data
 
-def update():
-    data = get_data()
-    
-    while True:
-        # Get battery capacity
-        f = open("/sys/class/power_supply/BAT0/capacity")
-        capacity = int(f.read().strip())
-        f.close()
-
-        # Get current time
-        curr_time = round(time.time())
-
-        # Save data to json file
-        data[curr_time] = capacity
-
-        f = open(f"{home}/battery-graph.json", "w")
-        f.write(json.dumps(data))
-        f.close()
-
-        time.sleep(2 * 60) # 2 minutes
-
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Invalid argument. Use --update, --get or --graph.")
+        print("Invalid argument. Use --get or --graph.")
         exit(0)
-    elif sys.argv[1] == "--update":
-        update()
     
     g = Graph()
     
@@ -142,4 +119,4 @@ if __name__ == "__main__":
     elif sys.argv[1] == "--graph":
         g.graph()
     else:
-        print("Invalid argument. Use --update, --get or --graph.")
+        print("Invalid argument. Use --get or --graph.")

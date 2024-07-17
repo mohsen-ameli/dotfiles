@@ -8,15 +8,21 @@
             )
             (button
                 :class "control-box"
-                :timeout "24h"
+                :timeout "1h"
                 :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; $HOME/.local/bin/dmenu-wifi"
                 "Dmenu WiFi"
             )
             (button
                 :class "control-box"
-                :timeout "24h"
+                :timeout "1h"
                 :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; $HOME/.local/bin/open-window \"alacritty --class floating -e nmtui\""
                 "Network Manager TUI"
+            )
+            (button
+                :class "control-box"
+                :timeout "2s"
+                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; curl icanhazip.com | xargs wl-copy"
+                "Copy Public Ip"
             )
             (label :class "control-box" :visible {network.status != "disconnected"} :markup {'<span size="medium">' + network.info + '</span>'} :xalign 0)
         )

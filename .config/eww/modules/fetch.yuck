@@ -22,14 +22,14 @@
 (defpoll rog :interval "5s" "$HOME/.local/bin/rog --get-full")
 
 (defpoll updates :interval "3600s" "$HOME/.local/bin/updates")
-; (defpoll updates :interval "3600s" "echo '{\"text\": \"23\", \"tooltip\": \"hahaha\"}'")
+;(defpoll updates :interval "3600s" "echo '{\"text\": \"23\", \"tooltip\": \"hahaha\"}'")
 
 (defpoll weather :interval "3600s" "$HOME/.local/bin/weather --live")
-; (defpoll weather :interval "3600s" "$HOME/.local/bin/weather")
+;(defpoll weather :interval "3600s" "$HOME/.local/bin/weather")
 
-(defpoll temperature :interval "2s" "$HOME/.local/bin/temperature --text-icon")
+(defpoll temperature :interval "5s" "$HOME/.local/bin/temperature --text-icon")
 
-(defpoll memory :interval "2s" "$HOME/.local/bin/memory --text-icon")
+(defpoll memory :interval "5s" "$HOME/.local/bin/memory --text-icon")
 
 (defpoll graphics :interval "3600s" "$HOME/.local/bin/switch-graphics --get")
 
@@ -38,3 +38,4 @@
 
 (defpoll notifications :interval "60s" "dunstctl history")
 (defpoll dnd :interval "10s" "dunstctl get-pause-level")
+

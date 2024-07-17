@@ -24,11 +24,11 @@ num_lines=$(echo "$ssids" | wc -l)
 prompt=""
 i=1
 while [ $i -le $num_lines ]; do
-    line0=$(echo "$signals" | sed -n "${i}p")
-    line1=$(echo "$ssids" | sed -n "${i}p")
-    line2=$(echo "$freqs" | sed -n "${i}p")
-    prompt="${prompt}$line0  $line1\t$line2\n"
-    i=$((i + 1))
+  line0=$(echo "$signals" | sed -n "${i}p")
+  line1=$(echo "$ssids" | sed -n "${i}p")
+  line2=$(echo "$freqs" | sed -n "${i}p")
+  prompt="${prompt}$line0  $line1\t$line2\n"
+  i=$((i + 1))
 done
 
 status=$(nmcli device status)

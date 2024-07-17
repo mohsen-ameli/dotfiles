@@ -20,17 +20,17 @@ name="$base/$(date +'%F_%T').png"
 viewer="loupe"
 
 if [ "$1" = "--portion" ]; then
-    grim -g "$(slurp)" $name
+  grim -g "$(slurp)" $name
 elif [ "$1" = "--full" ]; then
-    grim $name
+  grim $name
 else
-    print_usage
-    exit 0
+  print_usage
+  exit 0
 fi
 
 wl-copy < "$name"
 
 if [ $? -eq 0 ]; then
-    notify-send -u normal "Screenshot taken successfully!" "It was saved in $base"
-    $viewer $name
+  notify-send -u normal "Screenshot taken successfully!" "It was saved in $base"
+  $viewer $name
 fi

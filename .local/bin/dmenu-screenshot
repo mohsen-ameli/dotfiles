@@ -19,14 +19,17 @@ both="View and Copy"
 
 # Choosing to screenshot full, part of, or a specific app
 selection=$(printf "%b\n" "$full\n$part\n$app" | $schema)
+echo $selection
 sleep 1
 if [ "$selection" = "$full" ]; then
-    grim $name
+  grim $name
 elif [ "$selection" = "$part" ]; then
-    grim -g "$(slurp)" $name
+  grim -g "$(slurp)" $name
 elif [ "$selection" = "$app" ]; then
-    notify-send -u normal "Screenshot" "Not implemented yet!"
-    exit 0
+  notify-send -u normal "Screenshot" "Not implemented yet!"
+  exit 0
+else
+  exit 0
 fi
 
 notify-send -u normal "Screenshot taken successfully!" "It was saved in $base"
@@ -34,10 +37,10 @@ notify-send -u normal "Screenshot taken successfully!" "It was saved in $base"
 # Choosing to view, copy, or do both
 selection=$(printf "%b\n" "$copy\n$view\n$both" | $schema)
 if [ "$selection" = "$copy" ]; then
-    wl-copy < "$name"
+  wl-copy < "$name"
 elif [ "$selection" = "$view" ]; then
-    $viewer $name
+  $viewer $name
 elif [ "$selection" = "$both" ]; then
-    $viewer $name
-    wl-copy < "$name"
+  $viewer $name
+  wl-copy < "$name"
 fi

@@ -15,7 +15,7 @@ arguments:
 """
 }
 
-interface=$(ip addr | grep BROADCAST | awk '{print $2}' | cut -f1 -d:)
+interface=$(ip addr | grep BROADCAST | awk '{print $2}' | cut -f1 -d: | head -n1)
 connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
 
 if [ "$1" = "--status" ]; then
@@ -89,8 +89,9 @@ info() {
     connection=$(nmcli connection show)
     essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
     ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
+    publicip=$(curl icanhazip.com)
 
-    printf "%s\n" "<tt>ESSID: \\t\\t$essid\\nLocal IP: \\t$ipaddr\\nInterface: \\t$interface\nStrength: \\t$strength%</tt>"
+    printf "%s\n" "<tt>ESSID: \\t\\t$essid\\nLocal IP: \\t$ipaddr\\nPublic IP: \\t$publicip\\nInterface: \\t$interface\nStrength: \\t$strength%</tt>"
 }
 
 live() {
