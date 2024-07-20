@@ -16,7 +16,8 @@ print_usage() {
 	
 arguments:
     --random: \t\t\t get a random wallpaper
-    --img [path-to-image]: \t specify an image as the wallpaper"""
+    --img [path-to-image]: \t specify an image as the wallpaper
+    """
 }
 
 # $1: title
@@ -29,9 +30,9 @@ notify() {
 path_to_wallpapers="$HOME/wallpapers/"
 wayland=$($HOME/.local/bin/is-wayland)
 
-if [ $1 = "--random" ]; then
+if [ "$1" = "--random" ]; then
   wallpaper="$(ls $path_to_wallpapers | shuf -n 1)"
-elif [ $1 = "--img" ]; then
+elif [ "$1" = "--img" ]; then
   if [ ! $2 ]; then
     echo "Please specify the path to the wallpaper."
     exit 1
@@ -56,7 +57,7 @@ if [ $wayland -eq 1 ]; then
   swaybg -m fill -i $path_to_wallpapers$wallpaper &
 else
   killall feh
-  feh --bg-fill $path_to_wallpapers$wallpaper &
+  feh --no-fehbg --bg-fill $path_to_wallpapers$wallpaper &
 fi
 notify "Wallpaper: Set Successfully!" "$wall_name" 50
 

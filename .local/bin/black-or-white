@@ -6,25 +6,25 @@
 
 # Function to calculate luminance
 calculate_luminance() {
-  r=$1
-  g=$2
-  b=$3
+  local r=$1
+  local g=$2
+  local b=$3
 
   # Convert RGB to linear values
-  linear_r=$(echo "obase=10; ibase=16; $r" | bc)
-  linear_g=$(echo "obase=10; ibase=16; $g" | bc)
-  linear_b=$(echo "obase=10; ibase=16; $b" | bc)
+  local linear_r=$(echo "obase=10; ibase=16; $r" | bc)
+  local linear_g=$(echo "obase=10; ibase=16; $g" | bc)
+  local linear_b=$(echo "obase=10; ibase=16; $b" | bc)
 
   # Calculate relative luminance
-  luminance=$(echo "sqrt( 0.299*$linear_r^2 + 0.587*$linear_g^2 + 0.114*$linear_b^2 )" | bc)
+  local luminance=$(echo "sqrt( 0.299*$linear_r^2 + 0.587*$linear_g^2 + 0.114*$linear_b^2 )" | bc)
 
   printf %.0f $luminance
 }
 
 # Function to determine text color (black or white) based on background luminance
 choose_text_color() {
-  luminance=$1
-  threshold=50
+  local luminance=$1
+  local threshold=127
   [ $luminance -lt $threshold ] && echo "white" || echo "black"
 }
 
@@ -48,4 +48,5 @@ r=$(echo $hex_color | cut -c1-2)
 g=$(echo $hex_color | cut -c3-4)
 b=$(echo $hex_color | cut -c5-6)
 
-choose_text_color $(calculate_luminance $r $g $b)
+luminance=$(calculate_luminance $r $g $b)
+choose_text_color $luminance

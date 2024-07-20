@@ -84,8 +84,9 @@ aura() {
 
 toggle_profile() {
   asusctl profile -n
-  get_profile
-  notify_user -i fan "Power Profile" "$profile" -r 79
+  data=$(get_data 2)
+  eww update rog="$data"
+  notify_user -i fan "Power Profile" "$(echo ${data%% *})" -r 79
   # pkill -SIGRTMIN+8 waybar
   # kill -s 35 $(pgrep sig.sh)
 }

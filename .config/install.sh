@@ -50,7 +50,8 @@ function setup_pacman() {
 	sudo pacman -S base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
 	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
 	asusctl rog-control-center nwg-look hyprland hyprpicker python-pywal swaybg waybar zenity pacman-contrib \
-  	btop htop yt-dlp ffmpeg wget eza jq grim slurp cliphist net-tools glmark2 brightnessctl ntfs-3g powertop socat inotify-tools
+  	btop htop yt-dlp ffmpeg wget eza jq grim slurp cliphist net-tools glmark2 brightnessctl ntfs-3g powertop \
+    socat inotify-tools xdg-ninja
 }
 
 function setup_yay() {
@@ -96,6 +97,40 @@ function setup_zsh() {
 	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 	chsh -s $(which zsh)
 	cp $HOME/dotfiles/.zshrc $HOME
+  echo """
+    prefix=${XDG_DATA_HOME}/npm
+    cache=${XDG_CACHE_HOME}/npm
+    init-module=${XDG_CONFIG_HOME}/npm/config/npm-init.js
+  """ | sudo tee /etc/npmrc
+  
+  mkdir $HOME/.local/share/python
+
+  echo """
+def is_vanilla() -> bool:
+    import sys
+    return not hasattr(__builtins__, '__IPYTHON__') and 'bpython' not in sys.argv[0]
+
+
+def setup_history():
+    import os
+    import atexit
+    import readline
+    from pathlib import Path
+
+    if state_home := os.environ.get('XDG_STATE_HOME'):
+        state_home = Path(state_home)
+    else:
+        state_home = Path.home() / '.local' / 'state'
+
+    history: Path = state_home / 'python_history'
+
+    readline.read_history_file(str(history))
+    atexit.register(readline.write_history_file, str(history))
+
+
+if is_vanilla():
+    setup_history()
+  """ > $HOME/.local/share/python/pythonrc
 }
 
 function setup_autocpufreq() {

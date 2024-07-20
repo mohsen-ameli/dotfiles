@@ -120,9 +120,9 @@ generate_rofi() {
 
 # Generating extra colors for the bar
 generate_bar() {
-  color4=$(awk 'NR==2 {print}' $HOME/.cache/wal/colors)
+  color4=$(awk 'NR==5 {print}' $HOME/.cache/wal/colors)
   text_color=$($HOME/.local/bin/black-or-white "$color4")
-  echo "@define-color text_color $color;" >> $HOME/.cache/wal/colors-waybar.css
+  echo "@define-color text_color $text_color;" >> $HOME/.cache/wal/colors-waybar.css
   echo "\$text_color: $text_color;" >> $HOME/.cache/wal/colors.scss
 }
 

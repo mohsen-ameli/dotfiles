@@ -5,8 +5,8 @@
 	<name>Open Terminal Here</name>
 	<submenu></submenu>
 	<unique-id>1715060603490893-1</unique-id>
-	<command>alacritty --class floating</command>
-	<description>Open alacritty</description>
+	<command>st -c floating</command>
+	<description>Open Simple Terminal</description>
 	<range></range>
 	<patterns>*</patterns>
 	<startup-notify/>

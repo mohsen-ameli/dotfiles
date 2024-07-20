@@ -54,7 +54,7 @@ elif [ "$choice" = "Disconnect WiFi" ]; then
 	notify "Disconnected from WiFi."
 	exit 0
 elif [ "$choice" = "NMTUI" ]; then
-	alacritty --class floating -e nmtui
+	st -class floating nmtui
 	exit 0
 fi
 

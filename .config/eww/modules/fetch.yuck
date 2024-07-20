@@ -19,7 +19,7 @@
 
 (defpoll battery_info :interval "10s" "$HOME/.local/bin/battery --info")
 
-(defpoll rog :interval "5s" "$HOME/.local/bin/rog --get-full")
+(defpoll rog :interval "3600s" "$HOME/.local/bin/rog --get-full")
 
 (defpoll updates :interval "3600s" "$HOME/.local/bin/updates")
 ;(defpoll updates :interval "3600s" "echo '{\"text\": \"23\", \"tooltip\": \"hahaha\"}'")

@@ -1,7 +1,7 @@
 ## Screenshot
 
-![Image](desktop.png)
-![Image](desktop2.png)
+![Image](.config/desktop.png)
+![Image](.config/desktop2.png)
 
 # TODO
 

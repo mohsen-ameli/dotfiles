@@ -15,13 +15,13 @@
             (button
                 :class "control-box"
                 :timeout "1h"
-                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; $HOME/.local/bin/open-window \"alacritty --class floating -e nmtui\""
+                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; $HOME/.local/bin/open-window \"st -c floating nmtui\""
                 "Network Manager TUI"
             )
             (button
                 :class "control-box"
                 :timeout "2s"
-                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; curl icanhazip.com | xargs wl-copy"
+                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; (curl icanhazip.com | xargs wl-copy) && notify-send 'WiFi' 'Public IP Address Copied\!' -i 'wifi-icon'"
                 "Copy Public Ip"
             )
             (label :class "control-box" :visible {network.status != "disconnected"} :markup {'<span size="medium">' + network.info + '</span>'} :xalign 0)

@@ -30,13 +30,13 @@ else
   icon=""
 fi
 
-if [ $1 = "--text" ]; then
+if [ "$1" = "--text" ]; then
   echo "$temp°C"
-elif [ $1 = "--icon" ]; then
+elif [ "$1" = "--icon" ]; then
   echo "$icon"
-elif [ $1 = "--text-icon" ]; then
+elif [ "$1" = "--text-icon" ]; then
   echo "$temp°C $icon"
-elif [ $1 = "--full" ]; then
+elif [ "$1" = "--full" ]; then
   echo "{\"text\": \"$temp°C $icon\", \"tooltip\": \"CPU Temperature is $temp°C\"}"
 else
   print_usage

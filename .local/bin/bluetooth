@@ -20,8 +20,34 @@ get_json() {
   [ "$on" = "yes" ] && powered=1 || powered=0
   [ "$on" = "yes" ] && icon="" || icon="󰂲"
 
-  echo "{ \"powered\": \"$powered\", \"icon\": \"$icon\" }"
-}
+  info=$(bluetoothctl info)
+
+  if [ $? -ne 0 ]; then
+    echo  "{ \"powered\": \"$powered\", \"icon\": \"$icon\" }"
+  else
+    name=$(echo "$info" | grep Name)
+    name=$(echo ${name#*: })
+    battery=$(echo "$info" | grep Battery)
+    if [ $? -ne 0 ]; then
+      battery="N/A"
+    else
+      battery=$(echo ${battery##*\(})
+      battery=$(echo "${battery%)}%")
+    fi
+    type=$(echo "$info" | awk 'NR==14 {print $2}')
+    icon_con=$(echo "$info" | grep Icon)
+    icon_con=$(echo ${icon_con#*: })
+    if [ "$icon_con" = "audio-headset" ]; then
+      icon=" "
+    elif [ "$icon_con" = "audio-headphones" ]; then
+      icon=" "
+    elif [ "$icon_con" = "phone" ]; then
+      icon=" "
+    fi
+    printf "%s\n" "{ \"powered\": \"$powered\", \"icon\": \"$icon\", \"info\": \"<tt>Name: \\t\\t$name\\nBattery: \\t$battery\\nType: \\t\\t$type</tt>\" }"
+  fi
+
+} 
 
 live() {
   while true; do

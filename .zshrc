@@ -30,10 +30,15 @@ export GOPATH="$XDG_DATA_HOME/go"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
+alias nvidia-settings='nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings'
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
-# nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
+export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+export PYTHON_HISTORY="$XDG_STATE_HOME/python/history"
+export PYTHONPYCACHEPREFIX="$XDG_CACHE_HOME/python"
+export PYTHONUSERBASE="$XDG_DATA_HOME/python"
+export PYTHONSTARTUP="$XDG_DATA_HOME/python/pythonrc"
 
 # oh-my-zsh
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST

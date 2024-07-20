@@ -21,13 +21,13 @@ else
   exit 0
 fi
 
-for i in $(seq 0 $(($cores - 1))); do
+for i in $(seq 1 $(($cores - 1))); do
   if [ "$i" -le $(($enabled - 1)) ]; then
     echo "enabaling $i"
-    echo 1 > sudo tee /sys/devices/system/cpu/cpu$i/online
+    echo 1 | sudo tee /sys/devices/system/cpu/cpu$i/online
   else
     echo "disabling $i"
-    echo 0 > sudo tee /sys/devices/system/cpu/cpu$i/online
+    echo 0 | sudo tee /sys/devices/system/cpu/cpu$i/online
   fi
 done
 

@@ -26,6 +26,7 @@ function exp {
   nohup thunar $path_to_open > /dev/null &
 }
 
+alias wget='wget --hsts-file="$HOME/.local/share/wget-hsts"'
 alias serve='sudo python -m http.server'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
