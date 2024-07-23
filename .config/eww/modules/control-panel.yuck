@@ -1,8 +1,8 @@
 (defwidget control []
-    (revealer :reveal {open_control} 
+    (revealer :reveal {matches(curr_window,"control")}
         (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
             (box :orientation "h" :space-evenly true :spacing 12
-                (button :class "control-box" :timeout "24h" :onclick "scripts/toggle_updates.sh" "${updates.text} Updates ")
+                (button :class "control-box" :timeout "24h" :onclick "scripts/toggle_updates.sh" "${updates.text}")
                 (button :class "control-box" :timeout "24h" :onclick '$HOME/.local/bin/dmenu-power' "Power  ")
             )
             (box :orientation "h" :space-evenly true :spacing 12

@@ -1,6 +1,5 @@
 (include "modules/bar.yuck")
 
-(include "modules/variables.yuck")
 (include "modules/fetch.yuck")
 (include "modules/windows.yuck")
 

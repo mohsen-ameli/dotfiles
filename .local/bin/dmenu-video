@@ -1,0 +1,13 @@
+#!/bin/sh
+##########################
+## Shows a dmenu page with all available videos in a given directory
+##########################
+
+if [ "$1" != "" ]; then
+  p=$1
+else
+  p="."
+fi
+
+find "$p" -name "*.mp4" -or -name "*.mkv" -or -name "*.mov" | rofi -dmenu | xargs -I {} mpv "{}"
+

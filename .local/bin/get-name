@@ -1,0 +1,8 @@
+#!/bin/sh
+##########################
+## Prints the current user's full name, if it exists, otherwise prints USER variable
+##########################
+
+name=$(grep "$USER" /etc/passwd | awk -F: '{print $5}')
+[ "$name" = "" ] && echo "$USER" || echo "$name"
+

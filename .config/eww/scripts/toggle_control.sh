@@ -1,21 +1,18 @@
 #!/bin/sh
 
-state=$(eww get open_control)
+current=$(eww get curr_window)
 
 open() {
-    eww active-windows | grep -v "bar" | cut -f1 -d: | xargs -I {} eww close {}
-    eww open control
-    eww update open_control=true
+    eww close $current
+    eww update curr_window=control &
+    eww open-many control menu-closer
 }
 
 close() {
-    eww update open_control=false
+    eww update curr_window=""
     eww close control
-    eww update open_updates=false
     eww close updates
+    eww close menu-closer
 }
 
-case $state in
-    true) close;;
-    false) open;;
-esac
+(echo "$current" | grep "control") && close || open

@@ -1,3 +1,5 @@
+(defvar curr_window "")
+
 (deflisten volume "$HOME/.local/bin/volume --live-volume")
 (deflisten mic "$HOME/.local/bin/volume --live-mic")
 
@@ -21,17 +23,15 @@
 
 (defpoll rog :interval "3600s" "$HOME/.local/bin/rog --get-full")
 
-(defpoll updates :interval "3600s" "$HOME/.local/bin/updates")
-;(defpoll updates :interval "3600s" "echo '{\"text\": \"23\", \"tooltip\": \"hahaha\"}'")
+(defpoll updates :initial "{ \"text\": \"Loading...\" }" :interval "3600s" "$HOME/.local/bin/updates")
 
 (defpoll weather :interval "3600s" "$HOME/.local/bin/weather --live")
-;(defpoll weather :interval "3600s" "$HOME/.local/bin/weather")
 
 (defpoll temperature :interval "5s" "$HOME/.local/bin/temperature --text-icon")
 
 (defpoll memory :interval "5s" "$HOME/.local/bin/memory --text-icon")
 
-(defpoll graphics :interval "3600s" "$HOME/.local/bin/switch-graphics --get")
+(defpoll graphics :initial "Loading..." :interval "3600s" "$HOME/.local/bin/switch-graphics --get")
 
 (defpoll time :interval "60s" "date '+%-I:%M %p'")
 (defpoll full_time :interval "1s" "date '+%c'")

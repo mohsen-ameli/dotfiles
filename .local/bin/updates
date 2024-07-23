@@ -7,7 +7,19 @@
 import subprocess
 import json
 import sys
+import time
 from tabulate import tabulate
+
+try:
+    f = open("/tmp/updates.txt", "r")
+    data = f.read()
+    f.close()
+    j = json.loads(data)
+    if time.time() - float(j["time"]) <= 3600:
+        print(data)
+        exit(0)
+except FileNotFoundError:
+    pass
 
 aur_updates = 0
 arch_updates = 0
@@ -74,17 +86,22 @@ if updates > threshhold_green:
     if len(sys.argv) > 1 and sys.argv[1] == "--updates":
         print(updates)
         exit(0)
-        
-    print(json.dumps({
-        "text": f"{updates}",
-        "alt": f"{updates}",
-        "tooltip": f"{tooltip}",
-        # "class": f"{css_class}"
-    }))
+    
+    data = {
+        "time": f"{int(time.time())}",
+        "text": f"{updates} Updates  ",
+        "number": f"{updates}",
+        "tooltip": f"{tooltip}"
+    }
+    j = json.dumps(data)
+    print(j)
+
+    f = open("/tmp/updates.txt", "w")
+    f.write(j)
+    f.close()
 else:
     print(json.dumps({
         "text": "0",
         "alt": "0",
-        "tooltip": f"0 Updates... Yay",
-        # "class": "green"
+        "tooltip": "0 Updates... Yay"
     }))

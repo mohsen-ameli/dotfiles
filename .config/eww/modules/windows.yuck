@@ -10,7 +10,7 @@
   
 (defwindow time_cal
   :monitor 0
-  :stacking "fg"
+  :stacking "overlay"
   :geometry (geometry 
           :anchor "top right"
           :width "350px"
@@ -22,7 +22,7 @@
 
 (defwindow control
   :monitor 0
-  :stacking "fg"
+  :stacking "overlay"
   :geometry (geometry
           :anchor "top right"
           :width "350px"
@@ -35,7 +35,7 @@
 
 (defwindow wifi
   :monitor 0
-  :stacking "fg"
+  :stacking "overlay"
   :geometry (geometry 
           :anchor "top right"
           :width "400px"
@@ -48,7 +48,7 @@
 
 (defwindow bluetooth
   :monitor 0
-  :stacking "fg"
+  :stacking "overlay"
   :geometry (geometry 
           :anchor "top right"
           :width "300px"
@@ -61,7 +61,7 @@
 
 (defwindow battery
   :monitor 0
-  :stacking "fg"
+  :stacking "overlay"
   :geometry (geometry 
           :anchor "top right"
           :width "300px"
@@ -74,7 +74,7 @@
 
 (defwindow weather
   :monitor 0
-  :stacking "fg"
+  :stacking "overlay"
   :geometry (geometry 
           :anchor "top left"
           :width "450px"
@@ -86,7 +86,7 @@
 
 (defwindow updates
   :monitor 0
-  :stacking "fg"
+  :stacking "overlay"
   :geometry (geometry 
           :anchor "top right"
           :width "500px"
@@ -94,4 +94,12 @@
           :y "5px"
       )
   (updates)
+)
+
+(defwindow menu-closer
+  :monitor 0
+  :geometry (geometry :width "1920px" :height "1080px")
+  :stacking "fg"
+  :focusable false
+  (button :onclick "scripts/toggle.sh \"${curr_window}\"")
 )

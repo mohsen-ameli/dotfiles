@@ -74,17 +74,37 @@ $mode: "normal";
 }
 
 @if $text_color == white {
-  .wifi-disabled {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-disabled.svg");}
-  .wifi-high {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-high.svg");}
-  .wifi-low {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-low.svg");}
-  .wifi-mid {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-mid.svg");}
-  .wifi-none {background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-none.svg");}
+  .wifi-disabled {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-disabled.svg");
+  }
+  .wifi-high {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-high.svg");
+  }
+  .wifi-low {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-low.svg");
+  }
+  .wifi-mid {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-mid.svg");
+  }
+  .wifi-none {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-none.svg");
+  }
 } @else {
-  .wifi-disabled {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-disabled.svg");}
-  .wifi-high {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-high.svg");}
-  .wifi-low {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-low.svg");}
-  .wifi-mid {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-mid.svg");}
-  .wifi-none {background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-none.svg");}
+  .wifi-disabled {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-disabled.svg");
+  }
+  .wifi-high {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-high.svg");
+  }
+  .wifi-low {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-low.svg");
+  }
+  .wifi-mid {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-mid.svg");
+  }
+  .wifi-none {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-none.svg");
+  }
 }
 
 .control {
@@ -112,6 +132,7 @@ $mode: "normal";
   @if $mode == normal {
     border-radius: 10px;
     padding: 12px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
   } @else {
     padding: 6px;
   }
@@ -119,6 +140,11 @@ $mode: "normal";
 
 .control-box:hover {
   background-color: $color3;
+}
+
+.notif {
+  margin-right: 5px;
+  margin-bottom: 5px;
 }
 
 .label {
@@ -134,7 +160,7 @@ $mode: "normal";
   padding: 3px 3px;
 }
 
-.workspaces button{
+.workspaces button {
   color: $text_color;
   padding: 0px 18px;
   @if $mode == normal {
@@ -201,34 +227,54 @@ $mode: "normal";
 }
 
 @if $text_color == white {
-  .vol-off {background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");}
-  .vol-low {background-image: url("/home/moe/.local/share/icons/custom/volume/volume-low.svg");}
-  .vol-mid {background-image: url("/home/moe/.local/share/icons/custom/volume/volume-mid.svg");}
-  .vol-high {background-image: url("/home/moe/.local/share/icons/custom/volume/volume-high.svg");}
+  .vol-off {
+    background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");
+  }
+  .vol-low {
+    background-image: url("/home/moe/.local/share/icons/custom/volume/volume-low.svg");
+  }
+  .vol-mid {
+    background-image: url("/home/moe/.local/share/icons/custom/volume/volume-mid.svg");
+  }
+  .vol-high {
+    background-image: url("/home/moe/.local/share/icons/custom/volume/volume-high.svg");
+  }
 } @else {
-  .vol-off {background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-off.svg");}
-  .vol-low {background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-low.svg");}
-  .vol-mid {background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-mid.svg");}
-  .vol-high {background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-high.svg");}
+  .vol-off {
+    background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-off.svg");
+  }
+  .vol-low {
+    background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-low.svg");
+  }
+  .vol-mid {
+    background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-mid.svg");
+  }
+  .vol-high {
+    background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-high.svg");
+  }
 }
 
-.mute {
+.disabled {
   background-color: #85c1c1;
   color: #2a5c45;
 }
 
-.mute:hover {
+.disabled:hover {
   background-color: #589090;
   color: #1d4733;
+}
+
+.calendar-wrap {
+  background-color: $color2;
+  @if $mode == normal {
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .calendar {
   padding: 5px;
   margin: 2px;
-  background-color: $color2;
-  @if $mode == normal {
-    border-radius: 10px;
-  }
 }
 
 .calendar:selected {

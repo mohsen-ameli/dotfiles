@@ -1,5 +1,5 @@
 (defwidget wifi []
-    (revealer :reveal {open_wifi}
+    (revealer :reveal {matches(curr_window,"wifi")}
         (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
             (button
                 :class "control-box"

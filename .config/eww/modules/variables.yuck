@@ -1,7 +1,0 @@
-(defvar open_time_cal false)
-(defvar open_control false)
-(defvar open_wifi false)
-(defvar open_bluetooth false)
-(defvar open_battery false)
-(defvar open_weather false)
-(defvar open_updates false)

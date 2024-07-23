@@ -1,0 +1,8 @@
+#!/bin/sh
+
+while true; do
+  capacity=$(cat /sys/class/power_supply/BAT0/capacity)
+  time=$(date +%s)
+  echo $(cat $HOME/.cache/battery-graph.json | jq ". + {\"$time\": $capacity}") > $HOME/.cache/battery-graph.json
+  sleep 60
+done

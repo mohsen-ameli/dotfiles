@@ -1,5 +1,5 @@
 (defwidget bluetooth []
-    (revealer :reveal {open_bluetooth}
+    (revealer :reveal {matches(curr_window,"bluetooth")}
         (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
             (button
                 :class "control-box"

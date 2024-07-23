@@ -8,8 +8,20 @@ import json
 import requests
 import pytz
 import sys
+import time
 from datetime import datetime
 from geopy.geocoders import Nominatim
+
+try:
+    f = open("/tmp/weather.txt", "r")
+    data = f.read()
+    f.close()
+    j = json.loads(data)
+    if time.time() - float(j["time"]) <= 3600:
+        print(data)
+        exit(0)
+except FileNotFoundError:
+    pass
 
 
 city = "Toronto"
@@ -159,6 +171,7 @@ def format_data(weather: dict):
     #     space_before_city = f"{' '*5}"
 
     data = {
+        "time": f"{time.time()}",
         "text": f"{curr_icon} {round(curr_temp)}°",
         "tooltip": f"""
         {"\t"*4}<span size="xx-large">{city}</span>
@@ -182,10 +195,14 @@ else:
     weather = get_data(live=False)
 
 data = format_data(weather)
+j = json.dumps(data)
+f = open("/tmp/weather.txt", "w")
+f.write(j)
+f.close()
 
 if len(sys.argv) > 1 and sys.argv[1] == "--text":
     print(data["text"])
 elif len(sys.argv) > 1 and sys.argv[1] == "--tooltip": 
     print(data["tooltip"])
 else:
-    print(json.dumps(data))
+    print(j)

@@ -1,19 +1,16 @@
 #!/bin/sh
 
-state=$(eww get open_updates)
+current=$(eww get curr_window)
 
 open() {
-    eww active-windows | grep -v "bar" | grep -v "control" | cut -f1 -d: | xargs -I {} eww close {}
     eww open updates
-    eww update open_updates=true
+    eww update curr_window="$current updates"
 }
 
 close() {
-    eww update open_updates=false
+    current=$(echo $current | sed 's/ updates//')
+    eww update curr_window=$current
     eww close updates
 }
 
-case $state in
-    true) close;;
-    false) open;;
-esac
+echo "$current" | grep "updates" && close || open

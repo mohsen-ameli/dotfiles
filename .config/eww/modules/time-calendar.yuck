@@ -1,8 +1,8 @@
 (defwidget time_cal []
-    (revealer :reveal {open_time_cal} 
+    (revealer :reveal {matches(curr_window,"time_cal")}
         (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
             (label :text {'󰥔  ' + full_time} :class "control-box" :xalign 0.5)
-            (calendar :class "calendar")
+            (box :class "calendar-wrap" (calendar :class "calendar"))
             (box :orientation "h" :space-evenly true :spacing 12
                 (button :class "control-box" :onclick "dunstctl history-clear && eww update notifications=\"$(dunstctl history)\"" "󰃢 Clear")
                 (button :class "control-box" :onclick "dunstctl set-paused toggle && eww update dnd=\"$(dunstctl get-pause-level)\"" {dnd == 0 ? "  DND Off" : "   DND On"})
@@ -11,10 +11,10 @@
                 ; :visible {arraylength(notifications.data[0]) != 0}
                 ; :height {arraylength(notifications.data[0]) <= 5 ? arraylength(notifications.data[0]) * 70 : 300}
                 :height 300
-                (box :orientation "v" :space-evenly false :spacing 12
+                (box :orientation "v" :space-evenly false :spacing 8
                     (for notif in {notifications.data[0]}
-                        (button :onclick {'dunstctl history-rm ${notif.id.data} && eww update notifications="$(dunstctl history)"'} 
-                            (box :space-evenly false :spacing 12 :class "control-box" :orientation "h"
+                        (button :class "control-box notif" :onclick {'dunstctl history-rm ${notif.id.data} && eww update notifications="$(dunstctl history)"'} 
+                            (box :space-evenly false :spacing 12 :orientation "h"
                                 (image :path {notif.icon_path.data} :image-width 40 :image-height 40)
                                 (label :markup {notif.message.data})
                             )

@@ -64,10 +64,10 @@ alias serve='sudo python -m http.server'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
 alias lsblock='lsblk -o name,fstype,size,mountpoints -e 7'
-#alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ex='chmod u+x'
-alias ls='eza -l --color=always --group-directories-first' # my preferred listing
+alias ls='ls --color=auto'
+#alias ls='eza -l --color=always --group-directories-first'
 alias la='eza -la --color=always --group-directories-first'  # all files and dirs
 alias ll='eza -a --color=always --group-directories-first'  # long format
 alias cp="cp -i"
