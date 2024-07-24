@@ -8,8 +8,8 @@ opacity = 0.9
 title = "Alacritty"
 
 [font]
-size = 14.0
-#normal = { family = "JetBrains Mono Nerd Font", style = "Regular" }
+size = 13.0
+normal = { family = "JetBrains Mono Nerd Font", style = "Regular" }
 
 [scrolling]
-history = 5000
+history = 10000

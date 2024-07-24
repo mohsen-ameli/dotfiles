@@ -186,10 +186,10 @@ def format_data(weather: dict):
 
     return data
 
-if len(sys.argv) > 1 and sys.argv[1] == "--url":
-    print(url)
-    exit(0)
-elif len(sys.argv) > 1 and "--live" in sys.argv:
+# if len(sys.argv) > 1 and sys.argv[1] == "--url":
+#     print(url)
+#     exit(0)
+if len(sys.argv) > 1 and "--live" in sys.argv:
     weather = get_data(live=True)
 else:
     weather = get_data(live=False)
