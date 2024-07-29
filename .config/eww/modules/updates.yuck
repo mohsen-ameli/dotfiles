@@ -1,7 +1,7 @@
 (defwidget updates []
     (revealer :reveal {matches(curr_window,"updates")}
         (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
-            (button :timeout "24h" :onclick `$HOME/.config/eww/scripts/toggle_control.sh && $HOME/.local/bin/open-window "st -c floating $HOME/.local/bin/install-updates"` :class "control-box" "Update All")
+            (button :timeout "24h" :onclick `$HOME/.config/eww/scripts/toggle_control.sh && $HOME/.local/bin/open-window "$HOME/.local/bin/launch-in-terminal $HOME/.local/bin/install-updates"` :class "control-box" "Update All")
             (scroll :height 500 :class "control-box"
                 (label :markup {updates.tooltip})
             )

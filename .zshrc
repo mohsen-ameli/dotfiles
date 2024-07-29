@@ -83,10 +83,10 @@ function copydir {
   pwd | tr -d "\r\n" | wl-copy
 }
 
-function exp {
-  [[ "$#" != 1 ]] && local path_to_open="." || local path_to_open=$1
-  nohup thunar $path_to_open > /dev/null &
-}
+# function exp {
+#   [[ "$#" != 1 ]] && local path_to_open="." || local path_to_open=$1
+#   nohup thunar $path_to_open > /dev/null &
+# }
 
 # ARCHIVE EXTRACTION usage: extract <file>
 function extract {

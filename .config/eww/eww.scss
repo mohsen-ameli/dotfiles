@@ -8,6 +8,14 @@ $mode: "normal";
   all: unset;
 }
 
+tooltip label {
+	padding: 10px;
+	border-radius: 8px;
+  border: 1px solid $foreground;
+	background-color: $color4;
+  color: $text_color;
+}
+
 .tooltip window menu {
   background-color: $color3;
   border: 1px solid $foreground;

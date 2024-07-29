@@ -35,10 +35,11 @@ fi
 if [ "$(isInstalledYay "timeshift")" = "0" ] ;then
   if gum confirm "Do you want to create a snapshot with timeshift?" ;then
     echo
-    c=$(gum input --placeholder "Enter a comment for the snapshot...")
-    sudo timeshift --create --comments "$c"
-    sudo timeshift --list
-    sudo grub-mkconfig -o /boot/grub/grub.cfg
+    #c=$(gum input --placeholder "Enter a comment for the snapshot...")
+    #sudo timeshift --create --comments "$c"
+    #sudo timeshift --list
+    #sudo grub-mkconfig -o /boot/grub/grub.cfg
+    sudo timeshift --create
     echo ":: DONE. Snapshot $c created!"
     echo
   elif [ $? -eq 130 ]; then

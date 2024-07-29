@@ -1,6 +1,7 @@
 (defwidget rightside []
     (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
         (eventbox
+            :tooltip "Volume"
             :class {'widget ' + (volume.text == 0 ? "disabled" : "")}
             :width 80
             :onclick "$HOME/.local/bin/volume --toggle"
@@ -10,11 +11,11 @@
                 (label :text "" :class {'volume vol-' + volume.class})
             )
         )
-        (button :class {'widget ' + (mic.text == 0 ? "disabled" : "")} :css "button {padding: 0px 20px;}" :onclick "$HOME/.local/bin/volume --toggle-mic" {mic.icon})
-        (button :class {'widget wifi wifi-' + network.class + ' ' + (network.status == "disconnected" ? "disabled" : "")} :onclick "scripts/toggle.sh wifi" "")
-        (button :class {'widget ' + (bluetooth.powered == 0 ? "disabled" : "")} :css "button {padding: 0px 20px;}" :onclick "scripts/toggle.sh bluetooth" {bluetooth.icon})
-        (button :class {'widget battery ' + battery.status} :css "button {padding-right: 20px;}" :onclick "scripts/toggle.sh battery" {battery.icon})
-        (button :class "widget" :onclick "scripts/toggle.sh time_cal" time)
-        (button :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :timeout "30s" :onrightclick "rofi -show drun" :onclick "scripts/toggle_control.sh" "")
+        (button :tooltip "Microphone" :class {'widget ' + (mic.text == 0 ? "disabled" : "")} :css "button {padding: 0px 20px;}" :onclick "$HOME/.local/bin/volume --toggle-mic" {mic.icon})
+        (button :tooltip "Wifi" :class {'widget wifi wifi-' + network.class + ' ' + (network.status == "disconnected" ? "disabled" : "")} :onclick "scripts/toggle.sh wifi" "")
+        (button :tooltip "Bluetooth" :class {'widget ' + (bluetooth.powered == 0 ? "disabled" : "")} :css "button {padding: 0px 20px;}" :onclick "scripts/toggle.sh bluetooth" {bluetooth.icon})
+        (button :tooltip "Battery" :class {'widget battery ' + battery.status} :css "button {padding-right: 20px;}" :onclick "scripts/toggle.sh battery" {battery.icon})
+        (button :tooltip "Time" :class "widget" :onclick "scripts/toggle.sh time_cal" time)
+        (button :tooltip "Power" :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :timeout "30s" :onrightclick "rofi -show drun" :onclick "scripts/toggle_control.sh" "")
     )
 )

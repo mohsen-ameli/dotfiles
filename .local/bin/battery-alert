@@ -23,8 +23,11 @@ while true; do
   EMPTY_FILE=/tmp/batteryempty
   CRITICAL_FILE=/tmp/batterycritical
 
+  echo "Discharging: $BATTERY_DISCHARGING"
+
   # Reset notifications if the computer is charging/discharging
-  if [ "$BATTERY_DISCHARGING" -eq 1 ] && [ -f $FULL_FILE ]; then
+  if [ $BATTERY_LEVEL -le $FULLY_CHARGED ] && [ "$BATTERY_DISCHARGING" -eq 1 ] && [ -f $FULL_FILE ]; then
+    echo "removing full file"
     rm $FULL_FILE
   elif [ "$BATTERY_DISCHARGING" -eq 0 ] && [ -f $EMPTY_FILE ]; then
     rm $EMPTY_FILE

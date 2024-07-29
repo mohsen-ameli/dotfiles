@@ -9,7 +9,7 @@
             (button
                 :class "control-box"
                 :timeout "24h"
-                :onclick "$HOME/.config/eww/scripts/toggle_bluetooth.sh; $HOME/.local/bin/open-window \"st -c floating bluetuith\""
+                :onclick "$HOME/.config/eww/scripts/toggle_bluetooth.sh; $HOME/.local/bin/open-window \"$HOME/.local/bin/launch-in-terminal bluetuith\""
                 "Bluetooth TUI"
             )
             (label :class "control-box" :visible {bluetooth.info != "null"} :markup {'<span size="medium">' + bluetooth.info + '</span>'} :xalign 0)

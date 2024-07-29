@@ -15,7 +15,7 @@
             (button
                 :class "control-box"
                 :timeout "1h"
-                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; $HOME/.local/bin/open-window \"st -c floating nmtui\""
+                :onclick "$HOME/.config/eww/scripts/toggle_wifi.sh; $HOME/.local/bin/open-window \"$HOME/.local/bin/launch-in-terminal nmtui\""
                 "Network Manager TUI"
             )
             (button
