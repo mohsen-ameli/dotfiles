@@ -27,14 +27,17 @@
 
 (defpoll weather :interval "3600s" "$HOME/.local/bin/weather --live")
 
-(defpoll temperature :interval "5s" "$HOME/.local/bin/temperature --text-icon")
+(defpoll temperature :interval "2s" "$HOME/.local/bin/temperature --text-icon")
 
-(defpoll memory :interval "5s" "$HOME/.local/bin/memory --text-icon")
+(defpoll memory :interval "2s" "$HOME/.local/bin/memory --text-icon")
+
+(defpoll cpu :interval "2s" "$HOME/.local/bin/cpu --text-icon")
 
 (defpoll graphics :initial "Loading..." :interval "3600s" "$HOME/.local/bin/switch-graphics --get")
 
 (defpoll time :interval "60s" "date '+%-I:%M %p'")
 (defpoll full_time :interval "1s" "date '+%c'")
+(defpoll time_in_sec :interval "1s" "date '+%s'")
 
 (defpoll notifications :interval "60s" "dunstctl history")
 (defpoll dnd :interval "10s" "dunstctl get-pause-level")

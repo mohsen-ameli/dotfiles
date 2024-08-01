@@ -119,6 +119,9 @@ https://www.reddit.com/r/rogflow/comments/ri9mf5/making_dgpu_enablingdisabling_o
 Nvidia drivers on wayland:
 https://comfy.guide/client/nvidia/
 
+Apps (chromuim and electron based usually) openening slowly:
+https://wiki.archlinux.org/title/Vulkan#AMDGPU_-_Vulkan_applications_launch_slowly
+
 ## Games
 
 Plants Vs Zombies

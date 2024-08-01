@@ -9,10 +9,10 @@ $mode: "normal";
 }
 
 tooltip label {
-	padding: 10px;
-	border-radius: 8px;
+  padding: 10px;
+  border-radius: 8px;
   border: 1px solid $foreground;
-	background-color: $color4;
+  background-color: $color4;
   color: $text_color;
 }
 
@@ -53,6 +53,11 @@ tooltip label {
   background-color: transparent;
   color: $text_color;
   font-size: 16px;
+}
+
+.fixed-size {
+  min-width: 50px;
+  // max-width: 50px;
 }
 
 .widget {
