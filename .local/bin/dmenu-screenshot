@@ -5,7 +5,7 @@
 ##########################
 
 schema="rofi -dmenu -no-show-icons -i -p Select:"
-base="$HOME/Pictures"
+base="$HOME/Pictures/screenshots"
 name="$base/$(date +'%F_%T').png"
 viewer="loupe"
 

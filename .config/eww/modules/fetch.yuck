@@ -19,6 +19,10 @@
 
 (deflisten systray-items-count :initial 0 "scripts/systray.sh")
 
+(defpoll kernel :interval "3600" 'echo "$(uname -r) "')
+
+(defpoll keyboard :interval "10s" "$HOME/.local/bin/keyboard --get")
+
 (defpoll battery_info :interval "10s" "$HOME/.local/bin/battery --info")
 
 (defpoll rog :interval "3600s" "$HOME/.local/bin/rog --get-full")

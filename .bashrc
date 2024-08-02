@@ -26,6 +26,14 @@ function exp {
   nohup thunar $path_to_open > /dev/null &
 }
 
+export XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
+export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
+alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
+alias nvidia-settings=nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings"
+alias feh="feh --no-fehbg"
+export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
+
+alias sudo="sudo -EH"
 alias wget='wget --hsts-file="$HOME/.local/share/wget-hsts"'
 alias serve='sudo python -m http.server'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'

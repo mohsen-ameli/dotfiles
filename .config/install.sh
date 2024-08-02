@@ -48,7 +48,7 @@ setup_pacman() {
 	notify ":: Installing pacman packages.\nMake sure multilib and g14 repos in /etc/pacman.conf"
 	sudo pacman --noconfirm -Syyu base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
 	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
-	asusctl rog-control-center nwg-look hyprland hyprpicker python-pywal swaybg waybar zenity pacman-contrib \
+	asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal swaybg waybar zenity pacman-contrib \
   	btop htop yt-dlp ffmpeg wget eza jq grim slurp cliphist net-tools glmark2 brightnessctl ntfs-3g powertop \
     socat inotify-tools xdg-ninja
 }

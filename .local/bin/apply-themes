@@ -25,11 +25,11 @@ apply_themes() {
 	echo -e """[ -f ~/.bashrc ] && . ~/.bashrc\nexport XCURSOR_THEME=\"$CURSOR\"\nexport XCURSOR_SIZE=\"$CURSOR_SIZE\"""" > $HOME/.bash_profile
 
 	# Adding current cursor theme as default to .icons folder
-	[ ! -d ~/.icons/default ] && mkdir -p ~/.icons/default
-	echo -e """[Icon Theme]\nInherits=$CURSOR""" > $HOME/.icons/default/index.theme
+	[ ! -d $HOME/.local/share/icons/default ] && mkdir -p $HOME/.local/share/icons/default
+	echo -e """[Icon Theme]\nInherits=$CURSOR""" > $HOME/.local/share/icons/default/index.theme
 
 	# getting rid of an unnecessary default theme directory that gets set by nwg look. 
-	[ -d ~/.local/share/icons/default ] && mv ~/.local/share/icons/default ~/.local/share/icons/tmp
+	# [ -d ~/.local/share/icons/default ] && mv ~/.local/share/icons/default ~/.local/share/icons/tmp
 
 	echo "Done!"
 }

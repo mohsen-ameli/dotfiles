@@ -5,8 +5,6 @@ if ! ping -c 1 google.com; then
   exit 1
 fi
 
-init_system="systemd"
-
 lsblk
 echo ""
 printf ":: Please specify the drive to use to install Arch Linux on: "
@@ -48,22 +46,60 @@ mount $drive"2" /mnt
 mkdir /mnt/boot
 mount $drive"1" /mnt/boot
 
-if [ "$init_system" = "openrc" ]; then
-  rc-service ntpd start
-fi
-
 curl "https://archlinux.org/mirrorlist/?country=CA&protocol=http&protocol=https&ip_version=4" > /etc/pacman.d/mirrorlist
 sed 's/#Server/Server/g' -i /etc/pacman.d/mirrorlist
 
 echo ":: Starting installation"
-pacstrap -K /mnt base base-devel linux linux-firmware grub efibootmgr networkmanager dhcpcd vim htop wget terminus-fonts
-if [ "$init_system" = "openrc" ]; then
-  pacstrap -K /mnt openrc elogind-openrc
-fi
-
+pacstrap -K /mnt base base-devel linux linux-firmware grub efibootmgr networkmanager vim htop wget terminus-fonts
 genfstab -U /mnt >> /mnt/etc/fstab
 
-mv ./install-arch-chroot.sh /mnt
+echo ":: Setting locale"
+echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
+echo """
+export LANG=\"en_US.UTF-8\"
+export LC_COLLATE=\"C\"
+""" > /mnt/etc/locale.conf
 
-arch-chroot /mnt
+printf ":: Enter a hostname: "
+read hostname
+echo ":: Setting hostname"
+echo "$hostname" > /mnt/etc/conf.d/hostname
+echo "$hostname" > /mnt/etc/hostname
+
+echo ":: Setting up network"
+echo """
+127.0.0.1        localhost
+::1              localhost
+127.0.1.1        $hostname.localdomain  $hostname
+""" > /mnt/etc/hosts
+
+cat > /mnt/install-arch-chroot.sh << EOF
+#!/bin/sh
+locale-gen
+
+echo ":: Setting timezone"
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+hwclock --systohc
+
+echo ":: Installing GRUB"
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=grub
+grub-mkconfig -o /boot/grub/grub.cfg
+
+echo ":: Change Root Password"
+passwd
+
+printf ":: Enter a new username: "
+read user
+useradd -m -G wheel -s /bin/bash "\$user"
+passwd "\$user"
+
+echo ":: Enabling services"
+systemctl enable NetworkManager
+
+echo "Finished !"
+EOF
+
+arch-chroot /mnt /mnt/install-arch-chroot.sh
+umount -a
+reboot now
 

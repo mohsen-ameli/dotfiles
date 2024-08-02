@@ -1,0 +1,25 @@
+#!/bin/sh
+##########################
+## Get current keyboard language and switch to next language.
+##########################
+
+get() {
+    kbd=$(hyprctl devices | grep asus-keyboard-2 -A 2 | grep "active keymap")
+    kbd=${kbd##*: }
+    echo ${kbd%% \(*}
+}
+
+next() {
+    hyprctl switchxkblayout asus-keyboard-2 next
+    kbd=$(get)
+    eww update keyboard="$kbd"
+    notify-send -i keyboard -r 624 -u low "Keyboard Language" "$kbd"
+}
+
+if [ $# -eq 0 ]; then
+    echo "Usage: keyboard [--get | --next]"
+elif [ "$1" = "--get" ]; then
+    get
+elif [ "$1" = "--next" ]; then
+    next
+fi

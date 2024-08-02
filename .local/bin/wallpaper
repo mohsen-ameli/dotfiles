@@ -5,6 +5,8 @@
 ## Inspired by Stephan Raabe (2023)
 ##########################
 
+engine="swww" # swww | swaybg
+
 if [ $(is-wayland) = 1 ]; then
   echo "wayland"
 else
@@ -27,7 +29,7 @@ notify() {
   notify-send "$1" "$2" -h string:x-canonical-private-synchronous:sys-notify -h int:value:$3
 }
 
-path_to_wallpapers="$HOME/wallpapers/"
+path_to_wallpapers="$HOME/Pictures/wallpapers/"
 wayland=$($HOME/.local/bin/is-wayland)
 
 if [ "$1" = "--random" ]; then
@@ -53,8 +55,12 @@ notify "Wallpaper" "$wall_name" 10
 # Kill old background daemons
 if [ $wayland -eq 1 ]; then
   echo "$path_to_wallpapers$wallpaper"
-  killall swaybg
-  swaybg -m fill -i $path_to_wallpapers$wallpaper &
+  if [ "$engine" = "swaybg" ]; then
+    killall swaybg
+    swaybg -m fill -i $path_to_wallpapers$wallpaper &
+  elif [ "$engine" = "swww" ]; then
+    swww img $path_to_wallpapers$wallpaper --transition-fps 60 --transition-type wipe
+  fi
 else
   killall feh
   feh --no-fehbg --bg-fill $path_to_wallpapers$wallpaper &

@@ -3,17 +3,21 @@
         (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
             (box :orientation "h" :space-evenly true :spacing 12
                 (button :class "control-box" :timeout "24h" :onclick "scripts/toggle_updates.sh" "${updates.text}")
-                (button :class "control-box" :timeout "24h" :onclick '$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/dmenu-power' "Power  ")
+                (button :class "control-box" :timeout "24h" :onclick "$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/dmenu-power" "Power  ")
             )
             (box :orientation "h" :space-evenly true :spacing 12
                 (button :class "control-box" :timeout "5s" :onclick "$HOME/.local/bin/rog --profile-toggle" rog)
                 (button :class "control-box" :timeout "600s" :onclick "$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/open-window \"$HOME/.local/bin/launch-in-terminal $HOME/.local/bin/switch-graphics --interactive\"" {graphics})
             )
-            (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
-                (metric :first "" :last "" :onchange 'pamixer --set-volume {}' :value {volume.text})
+            (box :orientation "h" :space-evenly true :spacing 12
+              (label :class "control-box" :text {kernel})
+              (button :class "control-box" :timeout "1s" :onclick "$HOME/.local/bin/keyboard --next" {keyboard})
             )
             (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
-                (metric :first "" :last "" :onchange 'brightnessctl set "{}%"' :value {brightness})
+                (metric :first "" :last "" :onchange "pamixer --set-volume {}" :value {volume.text})
+            )
+            (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
+                (metric :first "" :last "" :onchange "brightnessctl set {}%" :value {brightness})
             )
             (box
                 :orientation "v"

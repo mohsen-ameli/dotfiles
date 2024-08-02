@@ -15,7 +15,7 @@ arguments:
 """
 }
 
-base="$HOME/Pictures"
+base="$HOME/Pictures/screenshots"
 name="$base/$(date +'%F_%T').png"
 viewer="loupe"
 

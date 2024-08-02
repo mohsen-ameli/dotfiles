@@ -1,8 +1,0 @@
-[Desktop Entry]
-Encoding=UTF-8
-Name=Firefox School
-Exec=firefox -P School -no-remote --class SchoolProfile
-Icon=firefox
-Type=Application
-StartupNotify=True
-StartupWMClass=SchoolProfile

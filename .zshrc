@@ -30,7 +30,8 @@ export GOPATH="$XDG_DATA_HOME/go"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
-alias nvidia-settings='nvidia-settings --config="$XDG_CONFIG_HOME"/nvidia/settings'
+alias nvidia-settings=nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings"
+alias feh="feh --no-fehbg"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
@@ -60,6 +61,7 @@ source $HOME/.env_vars
 if which vscodium > /dev/null; then
   alias code="vscodium"
 fi
+alias sudo="sudo -EH"
 alias serve='sudo python -m http.server'
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'

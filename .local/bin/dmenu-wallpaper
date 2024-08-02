@@ -5,9 +5,9 @@
 
 schema="rofi -dmenu -i -config $HOME/.config/rofi/wallpaper.rasi"
 
-choice=$(find "$HOME/wallpapers" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read rfile
+choice=$(find "$HOME/Pictures/wallpapers" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" \) -exec basename {} \; | sort -R | while read rfile
 do
-  printf "$rfile\x00icon\x1f$HOME/wallpapers/${rfile}\n"
+  printf "$rfile\x00icon\x1f$HOME/Pictures/wallpapers/${rfile}\n"
 done | $schema)
 
 $HOME/.local/bin/wallpaper --img $choice
