@@ -23,11 +23,8 @@ while true; do
   EMPTY_FILE=/tmp/batteryempty
   CRITICAL_FILE=/tmp/batterycritical
 
-  echo "Discharging: $BATTERY_DISCHARGING"
-
   # Reset notifications if the computer is charging/discharging
   if [ $BATTERY_LEVEL -le $FULLY_CHARGED ] && [ "$BATTERY_DISCHARGING" -eq 1 ] && [ -f $FULL_FILE ]; then
-    echo "removing full file"
     rm $FULL_FILE
   elif [ "$BATTERY_DISCHARGING" -eq 0 ] && [ -f $EMPTY_FILE ]; then
     rm $EMPTY_FILE
@@ -35,7 +32,7 @@ while true; do
 
   # If the battery is charging and is full (and has not shown notification yet)
   if [ $BATTERY_LEVEL -ge $FULLY_CHARGED ] && [ $BATTERY_DISCHARGING -eq 0 ] && [ ! -f $FULL_FILE ]; then
-    notify-send "Battery Charged" "Battery is fully charged." -i "battery-full" -r 9991
+    # notify-send "Battery Charged" "Battery is fully charged." -i "battery-full" -r 9991
     touch $FULL_FILE
   # If the battery is low and is not charging (and has not shown notification yet)
   elif [ "$BATTERY_LEVEL" -le $WARNING_LEVEL ] && [ "$BATTERY_DISCHARGING" -eq 1 ] && [ ! -f $EMPTY_FILE ]; then

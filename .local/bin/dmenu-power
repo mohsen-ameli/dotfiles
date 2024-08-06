@@ -10,25 +10,27 @@ reboot_="󰑓  Restart"
 logout_="󰍃  Logout"
 suspend_="󰒲  Suspend"
 
-choice=$(echo "$lock_
-$shutdown_
-$reboot_
-$logout_
-$suspend_" | $schema)
+if [ $# -gt 0 ]; then
+  choice="$1"
+  action="$1"
+else
+  choice=$(echo "$lock_\n$shutdown_\n$reboot_\n$logout_\n$suspend_" | $schema)
+  action=$(echo $choice | cut -d " " -f2)
+fi
+
+action_lower=$(echo $action | tr '[:upper:]' '[:lower:]')
 
 if [ "$choice" = "" ]; then
   exit 0
 fi
 
-action=$(echo $choice | cut -d " " -f2)
-action_lower=$(echo $action | tr '[:upper:]' '[:lower:]')
 wayland=$($HOME/.local/bin/is-wayland)
 
 # opening zenity in the right workspace
 $HOME/.local/bin/open-window "zenity --question --text=\"Are you sure you want to $action_lower?\" --title=\"$action\" --ok-label=\"$action\" --cancel-label=\"Cancel\" && echo 1 > /tmp/confirm || echo 0 > /tmp/confirm"
 
 # making sure zenity is closed, since the above script doesn't block the flow
-sleep 2
+# sleep 1
 while true; do
   if [ "$(ps aux | pgrep zenity)" = "" ]; then
     break
@@ -37,15 +39,15 @@ while true; do
 done
 
 if [ $(cat /tmp/confirm) = "1" ]; then
-  if [ "$choice" = "$lock_" ]; then
+  if [ "$action_lower" = "lock" ]; then
     hyprlock
-  elif [ "$choice" = "$suspend_" ]; then
+  elif [ "$action_lower" = "suspend" ]; then
     suspend
-  elif [ "$choice" = "$logout_" ]; then
+  elif [ "$action_lower" = "logout" ]; then
     [ $wayland -eq "1" ] && hyprctl dispatch exit || loginctl terminate-user $USER
-  elif [ "$choice" = "$shutdown_" ]; then
+  elif [ "$action_lower" = "shutdown" ]; then
     sudo shutdown now
-  elif [ "$choice" = "$reboot_" ]; then
+  elif [ "$action_lower" = "reboot" ]; then
     sudo reboot now
   fi
 else

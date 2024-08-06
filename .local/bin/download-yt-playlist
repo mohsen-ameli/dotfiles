@@ -3,7 +3,7 @@
 ## Download a given YouTube playlist.
 ## Gets the thumbnail, artist, and title of the music.
 ## Use this if a song's name or title looks funky
-## ffmpeg -y -i "Imagine-Dragons-Amsterdam.mp3" -metadata title="I Found A Boy" -metadata artist="Adele" -metadata album="21" a.mp3 && mv a.mp3 "Adele-I-Found-A-Boy.mp3"
+## ffmpeg -y -i ".mp3" -metadata title="" -metadata artist="" -metadata album="" a.mp3 && mv -f a.mp3 ".mp3"
 ## ffmpeg -i album-art.jpg album-art.png
 ##########################
 
@@ -13,7 +13,7 @@ artist=$3
 album=$4
 
 if [[ $playlist == "" ]] || [[ $folder == "" ]]; then
-	echo "Usage: $0 <playlist-link> <folder-to-save> <optional:artist> <optional:album>"
+	echo "Usage: download-yt-playlist <playlist-link> <folder-to-save> <optional:artist> <optional:album>"
 	exit 1
 elif [[ ! -d $folder ]]; then
 	echo "Folder doesn't exist :("

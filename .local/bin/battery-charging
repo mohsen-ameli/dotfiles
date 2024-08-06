@@ -13,6 +13,7 @@ export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/1000/bus"
 BATTERY_STATE=$1
 BASE="/sys/class/power_supply/BAT0"
 BATTERY_LEVEL=$(cat $BASE/capacity)
+FULLY_CHARGED=79
 
 # My battery takes a couple of seconds to recognize as charging, so this is a hacky way to deal with it
 case "$BATTERY_STATE" in
@@ -21,4 +22,8 @@ case "$BATTERY_STATE" in
 esac
 
 # Send notification
-notify-send "$BATTERY_CHARGING" "$BATTERY_LEVEL% of battery charged." -u normal -i "battery-$BATTERY_ICON" -t 5000 -r 9991
+if [ $BATTERY_LEVEL -ge $FULLY_CHARGED ]; then
+  notify-send "Battery Charged" "Battery is fully charged." -i "battery-full" -r 9991
+else
+  notify-send "$BATTERY_CHARGING" "$BATTERY_LEVEL% of battery charged." -u normal -i "battery-$BATTERY_ICON" -t 5000 -r 9991
+fi

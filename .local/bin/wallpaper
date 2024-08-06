@@ -59,6 +59,7 @@ if [ $wayland -eq 1 ]; then
     killall swaybg
     swaybg -m fill -i $path_to_wallpapers$wallpaper &
   elif [ "$engine" = "swww" ]; then
+    sleep 2
     swww img $path_to_wallpapers$wallpaper --transition-fps 60 --transition-type wipe
   fi
 else
@@ -79,12 +80,13 @@ notify "Wallpaper: Generating PyWal Colors" "$wall_name" 80
 . "$HOME/.cache/wal/colors.sh"
 notify "Wallpaper: Loading Colors" "$wall_name" 90
 
+# Restart the bar
+if [ $wayland -eq 1 ]; then
+  $HOME/.local/bin/run-bar
+fi
+
 # Copy selected wallpaper into .cache folder
 cp $wallpaper ~/.cache/current_wallpaper.jpg
 magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png &
 notify "Wallpaper Changed Successfully!" "$wall_name" 100
 
-# Restart the bar
-if [ $wayland -eq 1 ]; then
-  $HOME/.local/bin/run-bar
-fi

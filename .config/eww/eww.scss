@@ -6,6 +6,7 @@ $mode: "normal";
 
 * {
   all: unset;
+  font-family: JetBrainsMono;
 }
 
 tooltip label {
@@ -344,6 +345,10 @@ tooltip label {
   background-color: #ffbe61;
 }
 
+.battery.warning:hover {
+  background-color: #cd974c;
+}
+
 .battery.low {
   color: black;
   background-color: #e65555;
@@ -357,6 +362,11 @@ tooltip label {
   animation-timing-function: linear;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+}
+
+.battery.low:hover,
+.battery.critical:hover {
+  background-color: #b43c3c;
 }
 
 @keyframes blink {

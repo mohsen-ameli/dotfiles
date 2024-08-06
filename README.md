@@ -12,6 +12,8 @@
 
 https://github.com/JaKooLit/Ja_HyprLanD-dots
 
+https://github.com/linkfrg/dotfiles
+
 https://discord.com/channels/961691461554950145/1230259386535120926
 
 ## Secure Boot

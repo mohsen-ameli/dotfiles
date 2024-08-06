@@ -1,5 +1,7 @@
 #!/bin/sh
 
+pkg_manager="yay"
+
 curr_dir=$(dirname "$0")
 browser="firefox"
 emulator="alacritty"
@@ -26,6 +28,7 @@ setup_yay
 setup_extra_optional
 # setup_qtile
 setup_vm
+setup_pentest
 setup_latex
 setup_zsh
 setup_autocpufreq
@@ -45,12 +48,15 @@ notify() {
 }
 
 setup_pacman() {
-	notify ":: Installing pacman packages.\nMake sure multilib and g14 repos in /etc/pacman.conf"
-	sudo pacman --noconfirm -Syyu base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
+	notify ":: Installing packages.\nMake sure multilib and g14 repos in /etc/pacman.conf"
+	$pkg_manager --noconfirm -Syyu base-devel git $themes $login_manager $shell $file_explorer $image_viewer \
 	$media_player $browser $emulator $editor $fonts $bluetooth $audio $firewall $app_launcher \
-	asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal swaybg waybar zenity pacman-contrib \
+	  asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal swaybg waybar zenity pacman-contrib \
   	btop htop yt-dlp ffmpeg wget eza jq grim slurp cliphist net-tools glmark2 brightnessctl ntfs-3g powertop \
-    socat inotify-tools xdg-ninja
+    socat inotify-tools xdg-ninja \
+    # AUR below
+    $music_player $cursor_theme $rofi_plugins $other_fonts hyprlock hypridle vesktop \
+	  bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio \
 }
 
 setup_yay() {
@@ -59,25 +65,25 @@ setup_yay() {
 	cd yay
 	makepkg -si
 	cd ..
-
-	notify ":: Installing AUR packages"
-	yay --noconfirm -S $music_player $cursor_theme $rofi_plugins $other_fonts hyprlock hypridle vesktop\
-	bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
 
 setup_amdgpu() {
   notify ":: Setting up AMD GPU"
-  sudo pacman -S mesa lib32-mesa xf86-video-amdgpu vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver
+  $pkg_manager -S mesa lib32-mesa xf86-video-amdgpu vulkan-radeon libva-mesa-driver lib32-libva-mesa-driver
 }
 
 setup_extra_optional() {
   notify ":: Installing extra packages that are fun"
-  yay -S fastfetch bat tldr cowsay pipes.sh unimatrix lolcat cava
+  $pkg_manager -S fastfetch bat tldr cowsay pipes.sh unimatrix lolcat cava
+}
+
+setup_pentest() {
+  $pkg_manager -S nmap wireshark aircrack-ng burpsuite
 }
 
 setup_vm() {
   notify ":: Installing QEMU and Virt Manager"
-  sudo pacman -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs swtpm
+  $pkg_manager -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs swtpm
   echo """
   unix_sock_group = \"libvirt\"
   unix_sock_ro_perms = \"0777\"
@@ -87,12 +93,12 @@ setup_vm() {
 
 setup_qtile() {
   notify ":: Installing qtile and XORG"
-	sudo pacman -S qtile xorg maim xclip
+	$pkg_manager qtile xorg maim xclip
 }
 
 setup_latex() {
   notify ":: Setting up latex"
-  sudo pacman -S texlive-doc texlive-latexrecommended texlive-latexextra texlive-latex texlive-basic texlive-binary
+  $pkg_manager texlive-doc texlive-latexrecommended texlive-latexextra texlive-latex texlive-basic texlive-binary
 }
 
 setup_zsh() {
@@ -169,14 +175,14 @@ setup_bluetooth() {
 
 setup_samba() {
 	notify ":: Confirguring SAMBA"
-	sudo pacman -S samba avahi
+	$pkg_manager samba avahi
 	sudo systemctl enable --now smb
 	sudo systemctl enable --now avahi-daemon
 }
 
 setup_printer() {
   notify ":: Setting up printing"
-  sudo pacman -S cups cups-pdf hplip
+  $pkg_manager cups cups-pdf hplip
   sudo systemctl enable cups
   sudo hp-setup -i
 }
