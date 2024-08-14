@@ -1,5 +1,5 @@
 xrdb -merge ~/.Xresources
-#qtile start
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 exec $HOME/.local/bin/wallpaper --random &
 xset r rate 300 50 &
 $HOME/.local/bin/apply-themes &
