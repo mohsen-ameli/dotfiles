@@ -1,10 +1,11 @@
 #!/bin/sh
 ##########################
 ## Screenshot utilities brought together.
-## Need grim, slurp, and loupe installed.
+## Need grim and slurp installed.
 ##########################
 
-sleep 1
+base="$HOME/Pictures/screenshots"
+name="$base/$(date +'%F_%T').png"
 
 print_usage() {
 	printf """Usage: screenshot [arguments]
@@ -14,10 +15,6 @@ arguments:
     --full: \t screenshot the whole screen
 """
 }
-
-base="$HOME/Pictures/screenshots"
-name="$base/$(date +'%F_%T').png"
-viewer="loupe"
 
 if [ "$1" = "--portion" ]; then
   grim -g "$(slurp)" $name
@@ -31,6 +28,8 @@ fi
 wl-copy < "$name"
 
 if [ $? -eq 0 ]; then
-  notify-send -u normal "Screenshot taken successfully!" "It was saved in $base"
-  $viewer $name
+  out=$(dunstify --action="default,Reply" --action="forwardAction,Forward"  "Screenshot taken successfully!" "Click to view.")
+  if [ $out -eq 2 ]; then
+    xdg-open $name
+  fi
 fi

@@ -50,7 +50,7 @@ fi
 
 # Send notification
 wall_name=$wallpaper
-notify "Wallpaper" "$wall_name" 10
+# notify "Wallpaper" "$wall_name" 10
 
 # Kill old background daemons
 if [ $wayland -eq 1 ]; then
@@ -66,19 +66,19 @@ else
   killall feh
   feh --no-fehbg --bg-fill $path_to_wallpapers$wallpaper &
 fi
-notify "Wallpaper: Set Successfully!" "$wall_name" 50
+# notify "Wallpaper: Set Successfully!" "$wall_name" 50
 
 # Select random wallpaper and create color scheme
 wal -q -s -t -i $path_to_wallpapers$wallpaper
-notify "Wallpaper: Generating PyWal Colors" "$wall_name" 70
+# notify "Wallpaper: Generating PyWal Colors" "$wall_name" 70
 
 # Genearting colors for hyprland and vscode
 $HOME/.local/bin/generate-wal
-notify "Wallpaper: Generating PyWal Colors" "$wall_name" 80
+# notify "Wallpaper: Generating PyWal Colors" "$wall_name" 80
 
 # Load current pywal color scheme
 . "$HOME/.cache/wal/colors.sh"
-notify "Wallpaper: Loading Colors" "$wall_name" 90
+# notify "Wallpaper: Loading Colors" "$wall_name" 90
 
 # Restart the bar
 if [ $wayland -eq 1 ]; then
@@ -88,5 +88,5 @@ fi
 # Copy selected wallpaper into .cache folder
 cp $wallpaper ~/.cache/current_wallpaper.jpg
 magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png &
-notify "Wallpaper Changed Successfully!" "$wall_name" 100
+notify-send "Wallpaper Changed Successfully!" "$wall_name"
 

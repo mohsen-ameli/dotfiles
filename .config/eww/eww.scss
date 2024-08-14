@@ -1,5 +1,6 @@
 @import "/home/moe/.cache/wal/colors.scss";
 
+$transition-time: 0.1s;
 $mode: "normal";
 // $mode: "minimal";
 // hypr-mode --<normal | minimal>
@@ -73,6 +74,7 @@ tooltip label {
 
 .widget:hover {
   background-color: $color3;
+  transition: $transition-time;
 }
 
 // first widget should not have margin-left
@@ -154,6 +156,7 @@ tooltip label {
 
 .control-box:hover {
   background-color: $color3;
+  transition: $transition-time;
 }
 
 .notif {
@@ -195,6 +198,7 @@ tooltip label {
 .workspaces button:hover {
   background-color: $color7;
   color: $color0;
+  transition: $transition-time;
 }
 
 .music-time-left {
@@ -215,6 +219,7 @@ tooltip label {
 
 .music-btn:hover {
   background: $color3;
+  transition: $transition-time;
 }
 
 .music-img {
@@ -276,6 +281,7 @@ tooltip label {
 .disabled:hover {
   background-color: #589090;
   color: #1d4733;
+  transition: $transition-time;
 }
 
 .calendar-wrap {
@@ -347,6 +353,7 @@ tooltip label {
 
 .battery.warning:hover {
   background-color: #cd974c;
+  transition: $transition-time;
 }
 
 .battery.low {
@@ -367,6 +374,7 @@ tooltip label {
 .battery.low:hover,
 .battery.critical:hover {
   background-color: #b43c3c;
+  transition: $transition-time;
 }
 
 @keyframes blink {

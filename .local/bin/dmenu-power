@@ -3,7 +3,6 @@
 ## Shows a dmenu page for power management.
 ##########################
 
-schema="rofi -dmenu -no-show-icons -i -p Search:"
 lock_="  Lock"
 shutdown_="⏻  Shutdown"
 reboot_="󰑓  Restart"
@@ -14,7 +13,7 @@ if [ $# -gt 0 ]; then
   choice="$1"
   action="$1"
 else
-  choice=$(echo "$lock_\n$shutdown_\n$reboot_\n$logout_\n$suspend_" | $schema)
+  choice=$(printf "%b" "$lock_\n$shutdown_\n$reboot_\n$logout_\n$suspend_" | rofi -dmenu -no-show-icons -i -theme-str "entry {placeholder: 'Search...';}")
   action=$(echo $choice | cut -d " " -f2)
 fi
 
@@ -24,30 +23,32 @@ if [ "$choice" = "" ]; then
   exit 0
 fi
 
-wayland=$($HOME/.local/bin/is-wayland)
-
 # opening zenity in the right workspace
-$HOME/.local/bin/open-window "zenity --question --text=\"Are you sure you want to $action_lower?\" --title=\"$action\" --ok-label=\"$action\" --cancel-label=\"Cancel\" && echo 1 > /tmp/confirm || echo 0 > /tmp/confirm"
+# $HOME/.local/bin/open-window "zenity --question --text=\"Are you sure you want to $action?\" --title=\"$action\" --ok-label=\"$action\" --cancel-label=\"Cancel\" && echo 1 > /tmp/confirm || echo 0 > /tmp/confirm"
+confirm=$(printf "%b" "$action\nCancel" | rofi -dmenu -no-show-icons -i -theme-str 'entry {placeholder: "Are you sure?";}')
+
+wayland=$($HOME/.local/bin/is-wayland)
 
 # making sure zenity is closed, since the above script doesn't block the flow
 # sleep 1
-while true; do
-  if [ "$(ps aux | pgrep zenity)" = "" ]; then
-    break
-  fi
-  sleep 1
-done
+# while true; do
+#   if [ "$(ps aux | pgrep zenity)" = "" ]; then
+#     break
+#   fi
+#   sleep 1
+# done
 
-if [ $(cat /tmp/confirm) = "1" ]; then
+# if [ $(cat /tmp/confirm) = "1" ]; then
+if [ "$confirm" = "$action" ]; then
   if [ "$action_lower" = "lock" ]; then
     hyprlock
   elif [ "$action_lower" = "suspend" ]; then
-    suspend
+    systemctl suspend
   elif [ "$action_lower" = "logout" ]; then
     [ $wayland -eq "1" ] && hyprctl dispatch exit || loginctl terminate-user $USER
   elif [ "$action_lower" = "shutdown" ]; then
     sudo shutdown now
-  elif [ "$action_lower" = "reboot" ]; then
+  elif [ "$action_lower" = "restart" ]; then
     sudo reboot now
   fi
 else

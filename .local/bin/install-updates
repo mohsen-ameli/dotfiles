@@ -5,41 +5,36 @@
 ## Required: yay timeshift gum figlet
 ##########################
 
-sleep 1
 clear
-figlet "Updates\n"
+figlet "Updates"
 
-isInstalledYay() {
-  package="$1";
-  check="$(yay -Qs --color always "${package}" | grep "local" | grep "${package} ")";
-  if [ -n "${check}" ] ; then
-    echo 0
-    return
-  fi
-  echo 1
-  return
-}
+if which yay &> /dev/null; then
+  pkg_manager="yay"
+elif which paru &> /dev/null; then
+  pkg_manager="paru"
+else
+  pkg_manager="sudo pacman"
+fi
 
 # Confirm Start
-if gum confirm "Do you want to start the update?" ;then
-  echo 
+if gum confirm "Do you want to start the update?"; then
+  echo
   echo ":: Update started."
 elif [ $? -eq 130 ]; then
   exit 130
 else
   echo
   echo ":: Update canceled."
-  exit;
+  exit
 fi
 
-if [ "$(isInstalledYay "timeshift")" = "0" ] ;then
-  if gum confirm "Do you want to create a snapshot with timeshift?" ;then
+if which timeshift &> /dev/null; then
+  if gum confirm "Do you want to create a snapshot with timeshift?"; then
     echo
-    #c=$(gum input --placeholder "Enter a comment for the snapshot...")
-    #sudo timeshift --create --comments "$c"
-    #sudo timeshift --list
-    #sudo grub-mkconfig -o /boot/grub/grub.cfg
-    sudo timeshift --create
+    c=$(gum input --placeholder "Enter a comment for the snapshot...")
+    sudo timeshift --create --comments "$c"
+    sudo timeshift --list
+    sudo grub-mkconfig -o /boot/grub/grub.cfg
     echo ":: DONE. Snapshot $c created!"
     echo
   elif [ $? -eq 130 ]; then
@@ -51,9 +46,12 @@ if [ "$(isInstalledYay "timeshift")" = "0" ] ;then
   echo
 fi
 
-yay -Syu --noconfirm
+$pkg_manager -Syu --noconfirm
 
 notify-send -u normal "Update complete"
 echo 
 echo ":: Update complete"
 sleep 2
+
+$HOME/.local/bin/updates --live
+

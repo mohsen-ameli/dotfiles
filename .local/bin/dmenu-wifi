@@ -1,7 +1,6 @@
 #!/bin/sh
 ##########################
-## Shows a dmenu page with avialable wifi networks to connect to.
-## This script also handles the connecting part too.
+## Shows dmenu with avialable wifi networks to connect to.
 ##########################
 
 schema="rofi -dmenu -no-show-icons -i -p Search:"
@@ -9,10 +8,14 @@ interface="wlan0"
 
 # $1 is the message to be shown
 notify() {
-	notify-send "WiFi" "$@" -i "$HOME/.local/share/icons/custom/wifi-icon.png" -t 3000
+	notify-send "WiFi" "$@" -i "$HOME/.local/share/icons/custom/wifi-icon.png" -t 5000 -r 410
 }
 
 notify "Launching..."
+
+interface=$(nmcli device | grep -w connected | cut -f1 -d" " | $schema)
+
+notify "Scanning for networks on $interface"
 
 # Generating the list of wifis to show. Very hacky way to do it,
 # since we are cutting the SSID's to max 20 characters.

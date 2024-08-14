@@ -46,6 +46,16 @@ mount $drive"2" /mnt
 mkdir /mnt/boot
 mount $drive"1" /mnt/boot
 
+# Enabling multilib and g14
+echo -e """
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+
+[g14]
+Server = https://arch.asus-linux.org
+""" | sudo tee /etc/pacman.conf
+
+# Setting mirrorlist to canada
 curl "https://archlinux.org/mirrorlist/?country=CA&protocol=http&protocol=https&ip_version=4" > /etc/pacman.d/mirrorlist
 sed 's/#Server/Server/g' -i /etc/pacman.d/mirrorlist
 

@@ -1,7 +1,14 @@
 (defwidget leftside []
     (box :class "sidestuff" :orientation "h" :space-evenly false :halign "start"
         (label :tooltip "CPU Temperature" :text temperature :class "widget first fixed-size")
-        (button :tooltip "Memory" :timeout "24h" :onclick `$HOME/.local/bin/open-window "$HOME/.local/bin/launch-in-terminal btop"` :class "widget fixed-size" memory)
+        (button
+          :tooltip "Memory"
+          :timeout "24h" 
+          :onclick `$HOME/.local/bin/open-window "$HOME/.local/bin/launch-in-terminal btop"`
+          :onrightclick `$HOME/.local/bin/open-window "$HOME/.local/bin/launch-in-terminal htop"`
+          :class "widget fixed-size"
+          memory
+        )
         (label :tooltip "CPU Usage" :text {cpu} :class "widget fixed-size")
         (button :timeout "24h" :onclick "scripts/toggle.sh weather" :class "widget" {weather.text})
         (systray :visible {systray-items-count > 0} :class "widget tooltip" :spacing 4)

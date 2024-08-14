@@ -14,7 +14,6 @@ SCHEMA="gsettings set org.gnome.desktop.interface"
 # gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL NF 11'
 
 apply_themes() {
-  gsettings set org.gnome.desktop.default-applications.terminal exec $terminal
   $SCHEMA gtk-theme "$THEME"
 	$SCHEMA icon-theme "$ICONS"
 	$SCHEMA font-name "$FONT"

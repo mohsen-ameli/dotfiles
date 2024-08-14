@@ -5,7 +5,7 @@
 	<name>Open Terminal Here</name>
 	<submenu></submenu>
 	<unique-id>1715060603490893-1</unique-id>
-	<command>st -c floating</command>
+	<command>$terminal --class floating</command>
 	<description>Open Simple Terminal</description>
 	<range></range>
 	<patterns>*</patterns>

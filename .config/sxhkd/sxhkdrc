@@ -1,0 +1,44 @@
+super + d
+    dmenu_run
+super + w
+    dmenu-wallpaper
+super + e
+    thunar
+super + b
+    brave
+super + s
+    dmenu-screenshot
+super + c
+    rofi -show calc -no-show-match -no-sort
+super + v
+    clipcat-menu
+Print
+    screenshot --portion
+alt + 1
+    dmenu-power
+alt + {2,3,4,5,6}
+    dmenu-power {lock,shutdown,restart,logout,suspend}
+
+# f keys
+XF86AudioLowerVolume
+    volume --dec
+XF86AudioRaiseVolume
+    volume --inc
+XF86AudioMute
+    volume --toggle
+XF86AudioMicMute
+    volume --toggle-mic
+XF86Launch1
+    rog-control-center
+XF86KbdBrightnessDown
+    rog --dec
+XF86KbdBrightnessUp
+    rog --inc
+XF86MonBrightnessDown
+    brightness --dec
+XF86MonBrightnessUp
+    brightness --inc
+XF86Launch3
+    rog --aura
+XF86Launch4
+    rog --profile-toggle

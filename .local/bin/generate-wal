@@ -126,8 +126,13 @@ generate_bar() {
   echo "\$text_color: $text_color;" >> $HOME/.cache/wal/colors.scss
 }
 
+generate_xorg() {
+  sed -i "s/\[SchemeUrg\] =  { urg_fg,      urg_bg,    urg_border },//" ~/.cache/wal/colors-wal-dwm.h
+}
+
 generate_discord
 generate_hyprland
 generate_vscode
 generate_rofi
 generate_bar
+generate_xorg

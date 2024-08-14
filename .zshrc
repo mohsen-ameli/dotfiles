@@ -74,6 +74,7 @@ alias la='eza -la --color=always --group-directories-first'  # all files and dir
 alias ll='eza -a --color=always --group-directories-first'  # long format
 alias cp="cp -i"
 alias mv="mv -i"
+alias sr="sudo reboot now"
 
 function copyfile {
   [[ "$#" != 1 ]] && return 1

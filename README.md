@@ -33,9 +33,12 @@ sudo sbctl sign -s <path-to-boot-manager> # path to boot manager for me was /boo
 sudo sbctl verify # make sure it's all green
 ```
 
-## Natural scrolling and tapping for Xorg
+## Xorg
 
-Add the following to /etc/X11/xorg.conf.d/30-touchpad.conf
+Article for configuring HiDPI displays on high-end laptops.
+https://wiki.archlinux.org/title/HiDPI
+
+Add the following to /etc/X11/xorg.conf.d/30-touchpad.conf for natural scrolling
 
 ```
 Section "InputClass"
