@@ -12,14 +12,23 @@ import time
 from datetime import datetime
 from geopy.geocoders import Nominatim
 
-if len(sys.argv) == 1:
+if "--help" in sys.argv:
+    print("Usage: weather [--live | --url | no-arg-will-use-cached] [--text | --tooltip]\nPass no arguments and weather will use cached data")
+    exit(0)
+
+if "--live" not in sys.argv and "--url" not in sys.argv:
     try:
         f = open("/tmp/weather.txt", "r")
         data = f.read()
         f.close()
         j = json.loads(data)
         if time.time() - float(j["time"]) <= 3600:
-            print(data)
+            if "--emoji" in sys.argv:
+                print(j["text_emoji"])
+            elif "--icon" in sys.argv:
+                print(j["text_icon"])
+            else:
+                print(data)
             exit(0)
     except FileNotFoundError:
         pass
@@ -39,21 +48,21 @@ url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={lo
 # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 # These icons are based on wmo-code which is what open-meteo uses
 icons = {
-    "overcast": {"name": "Cloudy", "icon": "☁️"},
-    "partly-cloudy-day": {"name": "Mostly Cloudy", "icon": "🌤️"},
-    "partly-cloudy-night": {"name": "Mostly Cloudy", "icon": " "},
-    "haze": {"name": "Haze", "icon": ""},
-    "wind": {"name": "Windy", "icon": "💨"},
-    "fog": {"name": "Fog", "icon": "🌫️"},
-    "sandstorm": {"name": "Sandstorm", "icon": "🌪️"},
-    "clear-day": {"name": "Sunny", "icon": "☀️"},
-    "clear-night": {"name": "Clear", "icon": "🌙"},
-    "thunderstorm": {"name": "Thunderstorm", "icon": "⛈️"},
-    "hail": {"name": "Hail", "icon": "󰖒"},
-    "rain-shower": {"name": "Shower", "icon": "☔"},
-    "rain": {"name": "Rain", "icon": "🌧️"},
-    "snow-light": {"name": "Light Snow", "icon": "🌨️"},
-    "snow": {"name": "Snow", "icon": "❄️"},
+    "overcast": {"name": "Cloudy", "icon": "󰖐", "emoji": "☁️"},
+    "partly-cloudy-day": {"name": "Mostly Cloudy", "icon": "", "emoji": "🌤️"},
+    "partly-cloudy-night": {"name": "Mostly Cloudy", "icon": " ", "emoji": " "},
+    "haze": {"name": "Haze", "icon": "", "emoji": ""},
+    "wind": {"name": "Windy", "icon": "󰖝", "emoji": "💨"},
+    "fog": {"name": "Fog", "icon": "", "emoji": "🌫️"},
+    "sandstorm": {"name": "Sandstorm", "icon": "", "emoji": "🌪️"},
+    "clear-day": {"name": "Sunny", "icon": "", "emoji": "☀️"},
+    "clear-night": {"name": "Clear", "icon": "", "emoji": "🌙"},
+    "thunderstorm": {"name": "Thunderstorm", "icon": "", "emoji": "⛈️"},
+        "hail": {"name": "Hail", "icon": "󰖒", "emoji": "󰖒"},
+    "rain-shower": {"name": "Shower", "icon": "", "emoji": "☔"},
+    "rain": {"name": "Rain", "icon": "", "emoji": "🌧️"},
+    "snow-light": {"name": "Light Snow", "icon": "", "emoji": "🌨️"},
+    "snow": {"name": "Snow", "icon": "", "emoji": "❄️"},
 }
 
 
@@ -135,6 +144,7 @@ def format_data(weather: dict):
         curr_condition = get_icon(weather["current"]["weather_code"], weather["current"]["is_day"])
     curr_condition_name = icons[curr_condition]["name"]
     curr_icon = icons[curr_condition]["icon"]
+    curr_emoji = icons[curr_condition]["emoji"]
 
     hours = ["", "\t", "\t", "\t"]
     conditions = ["\t", "\t", "\t", "\t"]
@@ -173,7 +183,8 @@ def format_data(weather: dict):
 
     data = {
         "time": f"{time.time()}",
-        "text": f"{curr_icon} {round(curr_temp)}°",
+        "text_icon": f"{curr_icon} {round(curr_temp)}°",
+        "text_emoji": f"{curr_emoji} {round(curr_temp)}°",
         "tooltip": f"""
         {"\t"*4}<span size="xx-large">{city}</span>
         {"\t"*5}<span size="xx-large">{round(curr_temp)}°</span>
@@ -187,13 +198,13 @@ def format_data(weather: dict):
 
     return data
 
-if len(sys.argv) == 1:
-    weather = get_data(live=False)
-elif sys.argv[1] == "--url":
+if sys.argv[1] == "--url":
     print(url)
     exit(0)
 elif "--live" in sys.argv:
     weather = get_data(live=True)
+else:
+    weather = get_data(live=False)
     
 data = format_data(weather)
 j = json.dumps(data)
@@ -201,9 +212,9 @@ f = open("/tmp/weather.txt", "w")
 f.write(j)
 f.close()
 
-if len(sys.argv) > 1 and sys.argv[1] == "--text":
+if len(sys.argv) > 1 and "--text" in sys.argv:
     print(data["text"])
-elif len(sys.argv) > 1 and sys.argv[1] == "--tooltip": 
+elif len(sys.argv) > 1 and "--tooltip" in sys.argv: 
     print(data["tooltip"])
 else:
     print(j)

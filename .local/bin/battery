@@ -4,7 +4,7 @@
 ##########################
 
 print_usage() {
-	printf """Usage: $0 [arguments]
+	printf """Usage: battery [arguments]
 	
 arguments:
     --live: \t print live battery info
@@ -23,15 +23,15 @@ get_icon() {
   if [ "$status" = "Charging" ]; then
     icon=""
   elif [ $capacity -lt 10 ]; then
-    icon=""
+    icon=" "
   elif [ $capacity -lt 35 ]; then
-    icon=""
+    icon=" "
   elif [ $capacity -lt 50 ]; then
-    icon=""
+    icon=" "
   elif [ $capacity -lt 75 ]; then
-    icon=""
+    icon=" "
   else
-    icon=""
+    icon=" "
   fi
   echo "$icon"
 }

@@ -1,8 +1,16 @@
-#!/bin/sh
+#!/bin/bash
 ##########################
 ## Shows a dmenu page for power management.
 ##########################
 
+wayland=$($HOME/.local/bin/is-wayland)
+if [ $wayland -eq 1 ]; then
+  schema1="rofi -dmenu -no-show-icons -i"
+  schema2="rofi -dmenu -no-show-icons -i -theme-str 'entry {placeholder: \"Are you sure?\";}'"
+else
+  schema1="dmenu -i -p Search..."
+  schema2="dmenu -i -p \"Are you sure?\""
+fi
 lock_="  Lock"
 shutdown_="⏻  Shutdown"
 reboot_="󰑓  Restart"
@@ -13,21 +21,18 @@ if [ $# -gt 0 ]; then
   choice="$1"
   action="$1"
 else
-  choice=$(printf "%b" "$lock_\n$shutdown_\n$reboot_\n$logout_\n$suspend_" | rofi -dmenu -no-show-icons -i -theme-str "entry {placeholder: 'Search...';}")
+  choice=$(printf "%b" "$lock_\n$shutdown_\n$reboot_\n$logout_\n$suspend_" | /bin/sh -c "$schema1")
   action=$(echo $choice | cut -d " " -f2)
 fi
 
 action_lower=$(echo $action | tr '[:upper:]' '[:lower:]')
-
 if [ "$choice" = "" ]; then
   exit 0
 fi
 
 # opening zenity in the right workspace
 # $HOME/.local/bin/open-window "zenity --question --text=\"Are you sure you want to $action?\" --title=\"$action\" --ok-label=\"$action\" --cancel-label=\"Cancel\" && echo 1 > /tmp/confirm || echo 0 > /tmp/confirm"
-confirm=$(printf "%b" "$action\nCancel" | rofi -dmenu -no-show-icons -i -theme-str 'entry {placeholder: "Are you sure?";}')
-
-wayland=$($HOME/.local/bin/is-wayland)
+confirm=$(echo -e "$action\nCancel" | /bin/sh -c "$schema2")
 
 # making sure zenity is closed, since the above script doesn't block the flow
 # sleep 1

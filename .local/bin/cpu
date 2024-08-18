@@ -6,5 +6,7 @@ if [ "$1" = "--text" ]; then
   echo "$usage"
 elif [ "$1" = "--text-icon" ]; then
   echo "$usage% "
+else
+  echo "Usage: cpu [--text | --text-icon]"
 fi
 

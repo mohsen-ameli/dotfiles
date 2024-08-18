@@ -13,7 +13,7 @@
         (button :class {'widget ' + (mic.text == 0 ? "disabled" : "")} :css "button {padding: 0px 20px;}" :onclick "$HOME/.local/bin/volume --toggle-mic" {mic.icon})
         (button :class {'widget wifi wifi-' + network.class + ' ' + (network.status == "disconnected" ? "disabled" : "")} :onclick "scripts/toggle.sh wifi" "")
         (button :class {'widget ' + (bluetooth.powered == 0 ? "disabled" : "")} :css "button {padding: 0px 20px;}" :onclick "scripts/toggle.sh bluetooth" {bluetooth.icon})
-        (button :class {'widget battery ' + battery.status} :css "button {padding-right: 20px;}" :onclick "scripts/toggle.sh battery" {battery.icon})
+        (button :class {'widget battery ' + battery.status} :onclick "scripts/toggle.sh battery" {battery.icon})
         (button :class "widget" :onclick "scripts/toggle.sh time_cal" time)
         (button :tooltip "Power" :class "widget" :css "button {padding: 0px 20px 0px 15px;}" :timeout "30s" :onrightclick "rofi -show drun" :onclick "scripts/toggle_control.sh" "")
     )

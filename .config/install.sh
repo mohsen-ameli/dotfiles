@@ -104,9 +104,18 @@ setup_vm() {
 }
 
 setup_qtile() {
-  confirm "Do you want to install qtile and XORG?" || return
-  notify ":: Installing qtile and XORG"
-	$pkg_manager qtile xorg maim xclip mutter-x11-scaling lxappearance clipcat
+  confirm "Do you want to install XORG and some utilities for it?" || return
+  notify ":: Installing XORG and utilities"
+	$pkg_manager xorg xclip mutter-x11-scaling lxappearance clipcat scrot
+  echo """[Desktop Entry]
+          Encoding=UTF-8
+          Name=dwm
+          Comment=Dynamic window manager
+          Exec=dwm
+          Icon=dwm
+          Type=XSession""" > /usr/share/xsessions/dwm.desktop
+  ln -s .xinitrc .xsession
+  ln -s .xinitrc .xprofile
 }
 
 setup_latex() {

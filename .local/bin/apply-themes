@@ -19,9 +19,13 @@ apply_themes() {
 	$SCHEMA font-name "$FONT"
 	$SCHEMA cursor-theme "$CURSOR"
 	$SCHEMA cursor-size "$CURSOR_SIZE"
+  [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl setcursor $CURSOR $CURSOR_SIZE
 
 	# Set xcursor themes in .bashprofile
-	echo -e """[ -f ~/.bashrc ] && . ~/.bashrc\nexport XCURSOR_THEME=\"$CURSOR\"\nexport XCURSOR_SIZE=\"$CURSOR_SIZE\"""" > $HOME/.bash_profile
+	echo """[ -f ~/.bashrc ] && . ~/.bashrc
+	export XCURSOR_THEME=\"$CURSOR\"
+	export XCURSOR_SIZE=\"$CURSOR_SIZE\"
+	""" > $HOME/.bash_profile
 
 	# Adding current cursor theme as default to .icons folder
 	[ ! -d $HOME/.local/share/icons/default ] && mkdir -p $HOME/.local/share/icons/default

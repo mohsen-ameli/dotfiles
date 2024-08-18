@@ -43,7 +43,7 @@ export PYTHONSTARTUP="$XDG_DATA_HOME/python/pythonrc"
 
 # oh-my-zsh
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search)
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search z)
 # ZSH_THEME="af-magic"
 # ZSH_THEME="afowler"
 # ZSH_THEME="alanpeabody"
@@ -63,6 +63,9 @@ if which vscodium > /dev/null; then
 fi
 alias sudo="sudo -EH"
 alias serve='sudo python -m http.server'
+alias sv='sudo nvim'
+alias p="sudo pacman"
+alias sc="sudo systemctl"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
 alias lsblock='lsblk -o name,fstype,size,mountpoints -e 7'
@@ -133,7 +136,7 @@ function extract {
 eval "$(starship init zsh)"
 
 # idk man
-cowsay -f sodomized "Welcome Back Soldier" | lolcat
+cowsay -f ~/.config/sodomized.cow "Welcome Back Soldier" | lolcat
 
 # pnpm
 export PNPM_HOME="/home/moe/.local/share/pnpm"

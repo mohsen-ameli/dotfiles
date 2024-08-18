@@ -8,7 +8,9 @@
         "custom/mem",
         "cpu",
         "custom/rog",
-        "tray"
+        "tray",
+        "gamemode",
+        "hyprland/window",
     ],
     "modules-center": [
         "hyprland/workspaces"
@@ -52,13 +54,32 @@
         //     "*": 5
         // }
     },
+    "hyprland/window": {
+        "format": "👉 {}",
+        "rewrite": {
+            "(.*) — Mozilla Firefox": "🌎 $1",
+            "(.*) - fish": "> [$1]"
+        },
+        "separate-outputs": true
+    },
     "custom/pacman": {
         "format": "{} ",
-        "return-type": "json",
         "interval": 3600,
         "tooltip": true,
-        "exec": "$HOME/.local/bin/updates", // # of updates
+        "exec": "$HOME/.local/bin/updates --count", // # of updates
         "on-click": "alacritty --class floating -e $HOME/.local/bin/install-updates" // update system
+    },
+    "gamemode": {
+        "format": "{glyph}",
+        "format-alt": "{glyph} {count}",
+        "glyph": "",
+        "hide-not-running": true,
+        "use-icon": true,
+        "icon-name": "input-gaming-symbolic",
+        "icon-spacing": 4,
+        "icon-size": 20,
+        "tooltip": true,
+        "tooltip-format": "Games running: {count}"
     },
     "custom/swaync": {
         "format":"{icon}",

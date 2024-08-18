@@ -75,7 +75,7 @@ full() {
     fi
     
     strength=$1
-    echo "$(icon $strength $connected) $strength%"
+    echo "$strength% $(icon $strength $connected)"
 }
 
 info() {

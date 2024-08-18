@@ -195,8 +195,6 @@ static Shortcut shortcuts[] = {
 	{ ControlMask,          XK_Print,       toggleprinter,  {.i =  0} },
 	{ ShiftMask,            XK_Print,       printscreen,    {.i =  0} },
 	{ XK_ANY_MOD,           XK_Print,       printsel,       {.i =  0} },
-	{ TERMMOD,              XK_Prior,       zoom,           {.f = +1} },
-	{ TERMMOD,              XK_Next,        zoom,           {.f = -1} },
 	{ TERMMOD,              XK_Home,        zoomreset,      {.f =  0} },
 	{ TERMMOD,              XK_C,           clipcopy,       {.i =  0} },
 	{ TERMMOD,              XK_V,           clippaste,      {.i =  0} },
@@ -213,19 +211,8 @@ static Shortcut shortcuts[] = {
 	{ MODKEY,               XK_Down,        kscrolldown,    {.i =  1} },
 	{ MODKEY,               XK_u,           kscrollup,      {.i = -1} },
 	{ MODKEY,               XK_d,           kscrolldown,    {.i = -1} },
-	// { MODKEY,				XK_s,			changealpha,	{.f = -0.05} },
-	// { MODKEY,				XK_a,			changealpha,	{.f = +0.05} },
-	{ ControlMask,              XK_Up,          zoom,           {.f = +1} },
-	{ ControlMask,              XK_Down,        zoom,           {.f = -1} },
-  //{ TERMMOD,          XK_plus,        zoom,           {.f = +1} },
-  //{ TERMMOD,          XK_minus,       zoom,           {.f = -1} },
-	//{ TERMMOD,              XK_K,           zoom,           {.f = +1} },
-	//{ TERMMOD,              XK_J,           zoom,           {.f = -1} },
-	//{ TERMMOD,              XK_U,           zoom,           {.f = +2} },
-	//{ TERMMOD,              XK_D,           zoom,           {.f = -2} },
-	// { MODKEY,               XK_l,           externalpipe,   {.v = openurlcmd } },
-	// { MODKEY,               XK_y,           externalpipe,   {.v = copyurlcmd } },
-	// { MODKEY,               XK_o,           externalpipe,   {.v = copyoutput } },
+	{ ControlMask,          XK_equal,       zoom,           {.f = +1} },
+	{ ControlMask,          XK_minus,       zoom,           {.f = -1} },
 };
 
 /*
@@ -497,3 +484,14 @@ static char ascii_printable[] =
 	" !\"#$%&'()*+,-./0123456789:;<=>?"
 	"@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_"
 	"`abcdefghijklmnopqrstuvwxyz{|}~";
+
+/*
+ * Open urls starting with urlprefixes, contatining urlchars
+ * by passing as ARG1 to urlhandler.
+ */
+char* urlhandler = "xdg-open";
+char urlchars[] =
+	"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	"abcdefghijklmnopqrstuvwxyz"
+	"0123456789-._~:/?#@!$&'*+,;=%";
+char* urlprefixes[] = {"http://", "https://", NULL};

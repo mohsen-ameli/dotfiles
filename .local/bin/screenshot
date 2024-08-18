@@ -1,14 +1,19 @@
 #!/bin/sh
 ##########################
 ## Screenshot utilities brought together.
-## Need grim and slurp installed.
+## Need grim, slurp (wayland), scrop (x11) and dunst installed.
 ##########################
 
 base="$HOME/Pictures/screenshots"
-name="$base/$(date +'%F_%T').png"
+wayland=$($HOME/.local/bin/is-wayland)
+if [ $# -ge 2 ]; then
+  name="$2"
+else
+  name="$base/$(date +'%F_%T').png"
+fi
 
 print_usage() {
-	printf """Usage: screenshot [arguments]
+	printf """Usage: screenshot [arguments] [optional: file-to-save-to]
 	
 arguments:
     --portion: \t screenshot a portion of the screen
@@ -17,18 +22,19 @@ arguments:
 }
 
 if [ "$1" = "--portion" ]; then
-  grim -g "$(slurp)" $name
+  [ $wayland -eq 1 ] && grim -g "$(slurp)" $name || scrot --select $name
 elif [ "$1" = "--full" ]; then
-  grim $name
+  [ $wayland -eq 1 ] && grim $name || scrot $name
 else
   print_usage
   exit 0
 fi
 
-wl-copy < "$name"
+[ $wayland -eq 1 ] && wl-copy < "$name" || xclip -selection clipboard -target image/png -i "$name"
 
+# Show a notification with dunst, if it's clicked on then open the image
 if [ $? -eq 0 ]; then
-  out=$(dunstify --action="default,Reply" --action="forwardAction,Forward"  "Screenshot taken successfully!" "Click to view.")
+  out=$(dunstify --action="default,Reply" --action="forwardAction,Forward"  "Click to view screenshot" "Saved and copied to clipboard")
   if [ $out -eq 2 ]; then
     xdg-open $name
   fi
