@@ -71,6 +71,7 @@ setup_packages() {
 	  $media_player $browser $emulator $editor $fonts $bluetooth $audio $app_launcher $extra \
 	  dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal eww swww swaybg \
     zenity pacman-contrib ffmpeg wget jq grim slurp cliphist glmark2 brightnessctl ntfs-3g socat inotify-tools xdg-ninja \
+    pass pass-otp browserpass browserpass-chromium \
     # AUR below
     $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
@@ -224,6 +225,7 @@ setup_other() {
   gsettings set org.gnome.desktop.default-applications.terminal exec $terminal
 
   # Setting default file explorer
+  xdg-settings set default-web-browser brave-browser.desktop
   xdg-mime default $file_explorer.desktop inode/directory
   xdg-mime default org.gnome.Loupe.desktop image/png
   xdg-mime default org.gnome.Loupe.desktop image/jpg

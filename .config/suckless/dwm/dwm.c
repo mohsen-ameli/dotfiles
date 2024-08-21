@@ -21,6 +21,7 @@
  * To understand everything else, start reading main().
  */
 #include <errno.h>
+#include <fribidi.h>
 #include <locale.h>
 #include <signal.h>
 #include <stdarg.h>
@@ -184,6 +185,7 @@ typedef struct {
 } StatusCmd;
 
 /* function declarations */
+static void apply_fribidi(char *str);
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
 static void arrange(Monitor *m);
@@ -278,6 +280,9 @@ static void updatetitle(Client *c);
 static void updatewindowtype(Client *c);
 static void updatewmhints(Client *c);
 static void view(const Arg *arg);
+static void window_set_state(Display *dpy, Window win, long state);
+static void window_map(Display *dpy, Client *c, int deiconify);
+static void window_unmap(Display *dpy, Window win, Window root, int iconify);
 static Client *wintoclient(Window w);
 static Monitor *wintomon(Window w);
 static Client *wintosystrayicon(Window w);
@@ -296,6 +301,7 @@ static pid_t winpid(Window w);
 static Systray *systray = NULL;
 static const char broken[] = "broken";
 static char stext[256];
+static char fribidi_text[256];
 static int statusw;
 static int statuscmdn;
 static char lastbutton[] = "-";
@@ -352,6 +358,21 @@ struct Pertag {
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 
 /* function implementations */
+void
+apply_fribidi(char *str)
+{
+	FriBidiStrIndex len = strlen(str);
+	FriBidiChar logical[256];
+	FriBidiChar visual[256];
+	FriBidiParType base = FRIBIDI_PAR_ON;
+	FriBidiCharSet charset;
+
+	charset = fribidi_parse_charset("UTF-8");
+	len = fribidi_charset_to_unicode(charset, str, len, logical);
+	fribidi_log2vis(logical, len, &base, visual, NULL, NULL, NULL);
+	fribidi_unicode_to_charset(charset, visual, len, fribidi_text);
+}
+
 void
 applyrules(Client *c)
 {
@@ -981,7 +1002,8 @@ drawbar(Monitor *m)
 	if ((w = m->ww - tw - stw - x) > bh) {
 		if (m->sel) {
 			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
-			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
+			apply_fribidi(m->sel->name);
+			drw_text(drw, x, 0, w, bh, lrpad / 2, fribidi_text, 0);
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
 		} else {
@@ -1938,7 +1960,7 @@ setup(void)
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
 	lrpad = drw->fonts->h;
-	bh = drw->fonts->h + 2;
+	bh = drw->fonts->h + user_bh;
 	updategeom();
 	/* init atoms */
 	utf8string = XInternAtom(dpy, "UTF8_STRING", False);
@@ -2018,14 +2040,12 @@ showhide(Client *c)
 		return;
 	if (ISVISIBLE(c)) {
 		/* show clients top down */
-		XMoveWindow(dpy, c->win, c->x, c->y);
-		if ((!c->mon->lt[c->mon->sellt]->arrange || c->isfloating) && !c->isfullscreen)
-			resize(c, c->x, c->y, c->w, c->h, 0);
+		window_map(dpy, c, 1);
 		showhide(c->snext);
 	} else {
 		/* hide clients bottom up */
 		showhide(c->snext);
-		XMoveWindow(dpy, c->win, WIDTH(c) * -2, c->y);
+		window_unmap(dpy, c->win, root, 1);
 	}
 }
 
@@ -2661,6 +2681,51 @@ updatewmhints(Client *c)
 			c->neverfocus = 0;
 		XFree(wmh);
 	}
+}
+
+void
+window_set_state(Display *dpy, Window win, long state)
+{
+	long data[] = { state, None };
+
+	XChangeProperty(dpy, win, wmatom[WMState], wmatom[WMState], 32,
+		PropModeReplace, (unsigned char*)data, 2);
+}
+
+void
+window_map(Display *dpy, Client *c, int deiconify)
+{
+	Window win = c->win;
+
+	if (deiconify)
+		window_set_state(dpy, win, NormalState);
+
+	XMoveResizeWindow(dpy, c->win, c->x, c->y, c->w, c->h);
+	XSetInputFocus(dpy, win, RevertToPointerRoot, CurrentTime);
+	XMapWindow(dpy, win);
+}
+
+void
+window_unmap(Display *dpy, Window win, Window root, int iconify)
+{
+	static XWindowAttributes ca, ra;
+
+	XGrabServer(dpy);
+	XGetWindowAttributes(dpy, root, &ra);
+	XGetWindowAttributes(dpy, win, &ca);
+
+	/* Prevent UnmapNotify events */
+	XSelectInput(dpy, root, ra.your_event_mask & ~SubstructureNotifyMask);
+	XSelectInput(dpy, win, ca.your_event_mask & ~StructureNotifyMask);
+
+	XUnmapWindow(dpy, win);
+
+	if (iconify)
+		window_set_state(dpy, win, IconicState);
+
+	XSelectInput(dpy, root, ra.your_event_mask);
+	XSelectInput(dpy, win, ca.your_event_mask);
+	XUngrabServer(dpy);
 }
 
 void

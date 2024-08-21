@@ -189,7 +189,6 @@ toggle_mic() {
 	else
 		pamixer --default-source -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone-mute "Microphone: OFF"
 	fi
-  notify-send "a"
   kill -41 $(pidof dwmblocks)
 }
 

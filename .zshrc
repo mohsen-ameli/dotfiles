@@ -18,8 +18,6 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
-export GNUPGHOME="$XDG_DATA_HOME/gnupg"
-export GNUBGHOME="$XDG_DATA_HOME/gnubg"
 export WINEPREFIX="$XDG_DATA_HOME/wine"
 export HISTFILE="$XDG_CACHE_HOME/zsh/history"
 export ZSH="$XDG_DATA_HOME/oh-my-zsh"
@@ -61,6 +59,7 @@ source $HOME/.env_vars
 if which vscodium > /dev/null; then
   alias code="vscodium"
 fi
+alias sm="sudo make clean install"
 alias sudo="sudo -EH"
 alias serve='sudo python -m http.server'
 alias sv='sudo nvim'

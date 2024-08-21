@@ -34,8 +34,8 @@ fi
 
 # Show a notification with dunst, if it's clicked on then open the image
 if [ $? -eq 0 ]; then
-  out=$(dunstify --action="default,Reply" --action="forwardAction,Forward"  "Click to view screenshot" "Saved and copied to clipboard")
-  if [ $out -eq 2 ]; then
+  out=$(dunstify --action="default,Reply" "Click to view screenshot" "Saved and copied to clipboard")
+  if [ "$out" = "default" ]; then
     xdg-open $name
   fi
 fi

@@ -13,7 +13,7 @@ from datetime import datetime
 from geopy.geocoders import Nominatim
 
 if "--help" in sys.argv:
-    print("Usage: weather [--live | --url | no-arg-will-use-cached] [--text | --tooltip]\nPass no arguments and weather will use cached data")
+    print("Usage: weather [--live | --url | no-arg-will-use-cached] [--icon | --emoji | --tooltip]\nPass no arguments and weather will use cached data")
     exit(0)
 
 if "--live" not in sys.argv and "--url" not in sys.argv:
@@ -48,21 +48,21 @@ url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={lo
 # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 # These icons are based on wmo-code which is what open-meteo uses
 icons = {
-    "overcast": {"name": "Cloudy", "icon": "󰖐", "emoji": "☁️"},
-    "partly-cloudy-day": {"name": "Mostly Cloudy", "icon": "", "emoji": "🌤️"},
+    "overcast": {"name": "Cloudy", "icon": "󰖐 ", "emoji": "☁️"},
+    "partly-cloudy-day": {"name": "Mostly Cloudy", "icon": " ", "emoji": "🌤️"},
     "partly-cloudy-night": {"name": "Mostly Cloudy", "icon": " ", "emoji": " "},
-    "haze": {"name": "Haze", "icon": "", "emoji": ""},
-    "wind": {"name": "Windy", "icon": "󰖝", "emoji": "💨"},
-    "fog": {"name": "Fog", "icon": "", "emoji": "🌫️"},
-    "sandstorm": {"name": "Sandstorm", "icon": "", "emoji": "🌪️"},
-    "clear-day": {"name": "Sunny", "icon": "", "emoji": "☀️"},
-    "clear-night": {"name": "Clear", "icon": "", "emoji": "🌙"},
-    "thunderstorm": {"name": "Thunderstorm", "icon": "", "emoji": "⛈️"},
-        "hail": {"name": "Hail", "icon": "󰖒", "emoji": "󰖒"},
-    "rain-shower": {"name": "Shower", "icon": "", "emoji": "☔"},
-    "rain": {"name": "Rain", "icon": "", "emoji": "🌧️"},
-    "snow-light": {"name": "Light Snow", "icon": "", "emoji": "🌨️"},
-    "snow": {"name": "Snow", "icon": "", "emoji": "❄️"},
+    "haze": {"name": "Haze", "icon": " ", "emoji": " "},
+    "wind": {"name": "Windy", "icon": "󰖝 ", "emoji": "💨"},
+    "fog": {"name": "Fog", "icon": " ", "emoji": "🌫️"},
+    "sandstorm": {"name": "Sandstorm", "icon": " ", "emoji": "🌪️"},
+    "clear-day": {"name": "Sunny", "icon": " ", "emoji": "☀️"},
+    "clear-night": {"name": "Clear", "icon": " ", "emoji": "🌙"},
+    "thunderstorm": {"name": "Thunderstorm", "icon": " ", "emoji": "⛈️"},
+        "hail": {"name": "Hail", "icon": "󰖒 ", "emoji": "󰖒"},
+    "rain-shower": {"name": "Shower", "icon": " ", "emoji": "☔"},
+    "rain": {"name": "Rain", "icon": " ", "emoji": "🌧️"},
+    "snow-light": {"name": "Light Snow", "icon": " ", "emoji": "🌨️"},
+    "snow": {"name": "Snow", "icon": " ", "emoji": "❄️"},
 }
 
 
@@ -118,12 +118,12 @@ def get_am_pm(time: int):
         return f"{time-12}PM"
 
 
-def get_data(live: bool) -> dict:
-    if live:
-        weather = requests.get(url).json()
-    else:
+def get_data():
+    try:
         with open("/tmp/toronto.json") as f_in:
             weather = json.load(f_in)
+    except Exception as e:
+        weather = requests.get(url).json()
     return weather
 
 
@@ -160,7 +160,7 @@ def format_data(weather: dict):
         else:
             condition = get_icon(weather["hourly"]["weather_code"][t], weather["hourly"]["is_day"][t])
         hours[j] += f"{get_am_pm(t%24)}\t"
-        conditions[j] += f"&#8201;&#8201;{icons[condition]["icon"]}\t\t"
+        conditions[j] += f"&#8201;&#8201;{icons[condition]["emoji"]}\t\t"
         temps[j] += f" {round(weather["hourly"]["temperature_2m"][t])}°\t\t"
         i += 1
 
@@ -198,23 +198,23 @@ def format_data(weather: dict):
 
     return data
 
-if sys.argv[1] == "--url":
+if len(sys.argv) > 1 and sys.argv[1] == "--url":
     print(url)
     exit(0)
-elif "--live" in sys.argv:
-    weather = get_data(live=True)
-else:
-    weather = get_data(live=False)
-    
+
+weather = get_data()    
 data = format_data(weather)
 j = json.dumps(data)
 f = open("/tmp/weather.txt", "w")
 f.write(j)
 f.close()
 
-if len(sys.argv) > 1 and "--text" in sys.argv:
-    print(data["text"])
-elif len(sys.argv) > 1 and "--tooltip" in sys.argv: 
-    print(data["tooltip"])
-else:
+if len(sys.argv) <= 1:
     print(j)
+elif "--emoji" in sys.argv:
+    print(data["text_emoji"])
+elif "--icon" in sys.argv:
+    print(data["text_icon"])
+elif "--tooltip" in sys.argv: 
+    print(data["tooltip"])
+

@@ -5,9 +5,6 @@
 
 # TODO
 
-- Thunar doesn't open terminal with proper emulator
-- Finish configuring qtile
-
 ## Dotfiles inspired from:
 
 https://github.com/JaKooLit/Ja_HyprLanD-dots
@@ -50,9 +47,17 @@ Section "InputClass"
 EndSection
 ```
 
-## Default browser
+## Default apps
 
-`xdg-settings set default-web-browser brave-browser.desktop`
+```
+xdg-settings set default-web-browser brave-browser.desktop
+xdg-mime default $file_explorer.desktop inode/directory
+xdg-mime default org.gnome.Loupe.desktop image/png
+xdg-mime default org.gnome.Loupe.desktop image/jpg
+xdg-mime default org.gnome.Loupe.desktop image/jpeg
+sudo ln -s /usr/bin/$emulator /usr/bin/xdg-terminal-exec
+gsettings set org.gnome.desktop.default-applications.terminal exec $terminal
+```
 
 Start samba/smb service (also remember to turn off ufw)\
 `sudo ufw disable`\

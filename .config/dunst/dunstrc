@@ -28,10 +28,10 @@
     height = 300
 
     # Position the notification in the top right corner
-    origin = top-center
+    origin = top-right
 
     # Offset from the origin
-    offset = 10x7
+    offset = 5x5
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 0
@@ -59,7 +59,7 @@
     progress_bar_max_width = 300
 
     # Corner radius for the progress bar. 0 disables rounded corners.
-    progress_bar_corner_radius = 0
+    progress_bar_corner_radius = 5
 
     # Define which corners to round when drawing the progress bar. If progress_bar_corner_radius
     # is set to 0 this option will be ignored.
@@ -203,7 +203,7 @@
     hide_duplicate_count = false
 
     # Display indicators for URLs (U) and actions (A).
-    show_indicators = yes
+    show_indicators = no
 
     ### Icons ###
 
@@ -245,7 +245,7 @@
     dmenu = /usr/bin/dmenu -p dunst:
 
     # Browser for opening urls in context menu.
-    browser = firefox
+    browser = brave
 
     # Always run rule-defined scripts, even if the notification is suppressed
     always_run_script = true
@@ -313,7 +313,7 @@
     # * context_all: Open context menu for all notifications.
     # These values can be strung together for each mouse event, and
     # will be executed in sequence.
-    mouse_left_click = close_current
+    mouse_left_click = do_action, close_current
     mouse_middle_click = do_action, close_current
     mouse_right_click = close_all
 

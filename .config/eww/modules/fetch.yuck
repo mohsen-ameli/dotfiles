@@ -29,7 +29,7 @@
 
 (defpoll updates :initial "{ \"text\": \"Loading...\" }" :interval "3600s" "$HOME/.local/bin/updates")
 
-(defpoll weather :interval "3600s" "$HOME/.local/bin/weather --live")
+(defpoll weather :interval "3700s" "$HOME/.local/bin/weather")
 
 (defpoll temperature :interval "2s" "$HOME/.local/bin/temperature --text-icon")
 

@@ -17,6 +17,7 @@ configuration {
     margin: 0;
     padding: 0;
     spacing: 0;
+    font-family: "JetBrains Mono Nerd Font", "Vazirmatn";
 }
 
 window {

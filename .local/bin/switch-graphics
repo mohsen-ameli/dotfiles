@@ -15,7 +15,7 @@ integrated() {
 }
 
 hybrid() {
-  sudo envycontrol -s hybrid
+  sudo envycontrol --force-comp -s hybrid
   success=$(printf $?)
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   echo 0 | sudo tee /sys/bus/pci/rescan
@@ -23,7 +23,7 @@ hybrid() {
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
 
   if [ $success -ne 0 ]; then
-    sudo envycontrol -s hybrid
+    sudo envycontrol --force-comp -s hybrid
   fi
 
   echo "0"

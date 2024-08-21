@@ -18,14 +18,17 @@ def print_usage():
 
 if len(sys.argv) > 1 and sys.argv[1] in ["--help", "-h", "-H", "help"]:
     print_usage()
-elif len(sys.argv) == 1:
+elif "--live" not in sys.argv:
     try:
         f = open("/tmp/updates.txt", "r")
         data = f.read()
         f.close()
         j = json.loads(data)
         if time.time() - float(j["time"]) <= 3600:
-            print(data)
+            if "--count" in sys.argv:
+                print(j["number"])
+            else:
+                print(data)
             exit(0)
     except FileNotFoundError:
         pass
@@ -64,6 +67,14 @@ updates = aur_updates + arch_updates
 
 if (len(sys.argv) > 1 and sys.argv[1] == "--count") or is_wayland == "0":
     print(updates)
+    data = json.dumps({
+        "time": f"{int(time.time())}",
+        "text": f"{updates} Updates  ",
+        "number": f"{updates}",
+    })
+    f = open("/tmp/updates.txt", "w")
+    f.write(data)
+    f.close()
     exit(0)
 if updates == 0:
     tooltip = "0 Updates... Yay!"

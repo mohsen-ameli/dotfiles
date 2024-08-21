@@ -4,7 +4,7 @@
 static const unsigned int borderpx  = 2;        /* border pixel of windows */
 static const int startwithgaps[]    = { 1 };	/* 1 means gaps are used by default, this can be customized for each tag */
 static const unsigned int gappx[]   = { 5 };   /* default gap between windows in pixels, this can be customized for each tag */
-static const unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int snap      = 16;       /* snap pixel */
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
@@ -13,7 +13,8 @@ static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display 
 static const int showsystray        = 1;        /* 0 means no systray */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrains Mono Nerd Font:size=13", "monospace:size=13" };
+static const int user_bh            = 4;        /* 2 is the default spacing around the bar's font */
+static const char *fonts[]          = { "JetBrains Mono Nerd Font:size=13", "Noto Color Emoji:size=13", "Vazirmatn:size=13", "monospace:size=13" };
 static const char dmenufont[]       = "JetBrains Mono:size=13";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
@@ -81,6 +82,8 @@ static const StatusCmd statuscmds[] = {
   { "st -e bluetuith", 13 },
   { "st -e install-updates", 19 },
   { "st -e btop", 11 },
+  { "st -e run-in-term cal", 4 },
+  { "st -e run-in-term curl wttr.in/?2", 21 },
 };
 static const char *statuscmd[] = { "/bin/sh", "-c", NULL, NULL };
 

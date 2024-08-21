@@ -16,6 +16,13 @@ else
   pkg_manager="sudo pacman"
 fi
 
+updates=$($pkg_manager -Qu)
+echo
+echo "$updates" | awk '{print $1}'
+echo
+echo ":: $(printf "%b" "$updates" | wc -l) packages"
+echo
+
 # Confirm Start
 if gum confirm "Do you want to start the update?"; then
   echo

@@ -1,0 +1,29 @@
+#!/bin/zsh
+
+shopt -s nullglob globstar
+
+shift $(expr $OPTIND - 1 )
+
+[ "$1" = "--" ] && shift
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_files=( "$prefix"/**/*.gpg )
+password_files=( "${password_files[@]#"$prefix"/}" )
+password_files=( "${password_files[@]%.gpg}" )
+
+name=$(printf '%s\n' "${password_files[@]}" | rofi -dmenu -no-show-icons -window-title "Password name")
+
+[ -n "$name" ] || exit
+
+password=$(pass show "$name" | head -n1)
+
+if echo "$password" | egrep "otp*"; then
+    pass otp "$name" | head -n1 | xargs wl-copy 2>/dev/null
+else
+    echo "$password" | xargs wl-copy 2>/dev/null
+fi
+
+if [ $? -ne 0 ]; then
+	notify-send "Some error has occured"
+else
+	notify-send "Password copied to clipboard"
+fi

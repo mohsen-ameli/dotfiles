@@ -1,7 +1,9 @@
 super + d
-  rofi -show drun
+  dmenu_run
 super + w
   dmenu-wallpaper
+super + p
+  passmenu
 super + e
   thunar
 super + b
@@ -14,12 +16,14 @@ super + v
   clipcat-menu
 Print
   screenshot --portion
+super + Print
+  screenshot --full
 alt + 1
   dmenu-power
 alt + {2,3,4,5,6}
   dmenu-power {lock,shutdown,restart,logout,suspend}
-shift + print
-  scrot
+super + space
+  keyboard --next
 
 # f keys
 XF86AudioLowerVolume

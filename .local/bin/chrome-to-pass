@@ -1,0 +1,30 @@
+#!/bin/sh
+
+# name,url,username,password,note
+
+usage() {
+  echo "Usage: chrome-to-pass <file>.csv"
+}
+
+if [ $# -eq 0 ]; then
+  usage
+fi
+
+while read line; do
+  name=$(echo "$line" | cut -f1 -d,)
+  url=$(echo "$line" | cut -f2 -d,)
+  username=$(echo "$line" | cut -f3 -d,)
+  password=$(echo "$line" | cut -f4 -d,)
+  note=$(echo "$line" | cut -f5 -d,)
+
+  [ "$username" = "" ] && file="$name" || file="$name/$username"
+
+  pass insert --multiline "$file" <<EOF
+$password
+username: $username
+url: $url
+note: $note
+EOF &> /dev/null
+  
+  [ $? -eq 0 ] && echo "Added $file" || echo "Failed to add $file"
+done < $1
