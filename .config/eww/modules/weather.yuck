@@ -1,9 +1,8 @@
 (defwidget weather []
     (revealer :reveal {matches(curr_window,"weather")}
         (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
-            (label :class "weather-label" :markup {weather.tooltip})
-            (label :halign "start" :class "label" :text "Updated: ${round((time_in_sec - weather.time)/60, 0)} mins ago")
-            (button :class "control-box" :timeout "1m" :onclick "eww update weather=\"$($HOME/.local/bin/weather --live)\"" "Update Now")
+            (label :markup {weather.tooltip})
+            (button :class "control-box" :timeout "1m" :onclick "eww update weather=\"$($HOME/.local/bin/weather --live)\"" "Updated ${round((time_in_sec - weather.time)/60, 0)} mins ago. Update Now")
         )
     )
 )

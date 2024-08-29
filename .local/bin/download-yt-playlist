@@ -21,6 +21,9 @@ elif [[ ! -d $folder ]]; then
 fi
 
 cd $folder
+temp=$(echo "temp-$(date +%s)")
+mkdir $temp
+cd $temp
 
 # Download a playlist 
 function download() {
@@ -98,6 +101,10 @@ function bake_song() {
 		rm in.mp3
 		rm in.png
 	done
+
+  mv ./* ..
+  cd ..
+  rm -r $temp
 }
 
 # Changes the album cover for all songs

@@ -1,0 +1,17 @@
+#!/bin/sh
+
+default="192.168.0"
+echo "Default subdomain is $default"
+printf "Enter subdomain to look through: (valid format: xxx.xxx.xxx) "
+read -r subdomain
+
+if [ "$subdomain" = "" ]; then
+  subdomain=$default
+fi
+
+for i in {0..255}; do
+  if ping -c 1 -W 0.5 "$subdomain.$i" &> /dev/null; then
+    echo "$subdomain.$i"
+  fi
+done
+

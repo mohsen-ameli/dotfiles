@@ -2,6 +2,7 @@
 ##########################
 ## Gets AUR and arch updates and puts them in the tooltip.
 ## Inspried by Stephan Raabe
+## Requires: paru, tabulate
 ##########################
 
 import subprocess

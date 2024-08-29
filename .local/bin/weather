@@ -1,49 +1,19 @@
 #!/usr/bin/env python3
 ##########################
-## Shows the current weather using the open-meteo.in api
-## This took some time, enjoy :)
+## Shows the current weather using the open-meteo.in api. This took some time, enjoy :)
+## Requires: requests, python-beautifulsoup4, python-tabulate, python-wcwidth
 ##########################
 
 import json
 import requests
-import pytz
+import bs4
 import sys
 import time
 from datetime import datetime
-from geopy.geocoders import Nominatim
+import tabulate
+tabulate.PRESERVE_WHITESPACE = True
 
-if "--help" in sys.argv:
-    print("Usage: weather [--live | --url | no-arg-will-use-cached] [--icon | --emoji | --tooltip]\nPass no arguments and weather will use cached data")
-    exit(0)
-
-if "--live" not in sys.argv and "--url" not in sys.argv:
-    try:
-        f = open("/tmp/weather.txt", "r")
-        data = f.read()
-        f.close()
-        j = json.loads(data)
-        if time.time() - float(j["time"]) <= 3600:
-            if "--emoji" in sys.argv:
-                print(j["text_emoji"])
-            elif "--icon" in sys.argv:
-                print(j["text_icon"])
-            else:
-                print(data)
-            exit(0)
-    except FileNotFoundError:
-        pass
-
-
-city = "Toronto"
-timezone = "America/Toronto"
-g = Nominatim(user_agent="agent_smith")
-location = g.geocode(city)
-latitude = location.latitude
-longitude = location.longitude
-curr_time = int(datetime.now(pytz.timezone(timezone)).strftime("%H"))
-hourly_limit = 24  # how many hours ahead to show
-url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,wind_speed_10m,is_day&timezone=auto&forecast_days=3"
-#      could use gem or forecast here ^^^^^^^^
+HOURS_COUNT = 24  # how many hours ahead to show
 
 # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 # These icons are based on wmo-code which is what open-meteo uses
@@ -58,12 +28,72 @@ icons = {
     "clear-day": {"name": "Sunny", "icon": " ", "emoji": "☀️"},
     "clear-night": {"name": "Clear", "icon": " ", "emoji": "🌙"},
     "thunderstorm": {"name": "Thunderstorm", "icon": " ", "emoji": "⛈️"},
-        "hail": {"name": "Hail", "icon": "󰖒 ", "emoji": "󰖒"},
+    "hail": {"name": "Hail", "icon": "󰖒 ", "emoji": "󰖒"},
     "rain-shower": {"name": "Shower", "icon": " ", "emoji": "☔"},
     "rain": {"name": "Rain", "icon": " ", "emoji": "🌧️"},
     "snow-light": {"name": "Light Snow", "icon": " ", "emoji": "🌨️"},
     "snow": {"name": "Snow", "icon": " ", "emoji": "❄️"},
 }
+
+if "--help" in sys.argv:
+    print("""Usage: weather [OPTIONS] [ARGUMENTS]
+
+If no options or arguments are passed, weather will try to use cached data
+We save the time of the last request and if it is within an hour, we use that data
+
+OPTIONS:
+    --live: Get the live weather data
+    --url: Get the url of the weather data
+
+ARGUMENTS:
+    --icon: Show the weather icon
+    --emoji: Show the weather emoji
+    --tooltip: Show the weather tooltip""")
+    exit(0)
+
+if "--live" not in sys.argv and "--url" not in sys.argv:
+    try:
+        f = open("/tmp/weather.txt", "r")
+        data = f.read()
+        f.close()
+        j = json.loads(data)
+        if time.time() - float(j["time"]) <= 3600:
+            if "--emoji" in sys.argv:
+                print(j["text_emoji"])
+            elif "--icon" in sys.argv:
+                print(j["text_icon"])
+            elif "--tooltip" in sys.argv:
+                print(j["tooltip"])
+            else:
+                print(data)
+            exit(0)
+    except FileNotFoundError:
+        pass
+
+
+# Get the current location
+def get_metadata():
+    r = requests.get("https://whatismycountry.com/")
+    soup = bs4.BeautifulSoup(r.text, features="lxml")
+    i = 0
+    for div in soup.find_all("div", class_="card"):
+        i += 1
+        if i == 4:
+            city = div.h4.text
+            city = "".join(city.split("(")[:-1]).strip()
+        if i == 6:
+            lat_log = div.h4.text.split(",")
+            latitude = lat_log[0].strip()[:-1]
+            longitude = lat_log[1].strip()[:-1]
+        if i == 7:
+            timezone = div.h4.text
+
+    # curr_time = int(datetime.now(pytz.timezone(timezone)).strftime("%H"))
+    curr_time = int(datetime.now().strftime("%H"))
+    url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,wind_speed_10m,is_day&daily=sunrise,sunset&timezone={timezone}&forecast_days=3"
+    #      could use gem or forecast here ^^^^^^^^
+
+    return city, curr_time, url
 
 
 def get_icon(code: int, is_day: int) -> str:
@@ -126,77 +156,72 @@ def get_data():
         weather = requests.get(url).json()
     return weather
 
-
 def format_data(weather: dict):
     # Units
     wind_unit = weather["current_units"]["wind_speed_10m"]
 
     # Current weather
-    high = max(weather["hourly"]["temperature_2m"][:24])
-    low = min(weather["hourly"]["temperature_2m"][:24])
+    high = round(max(weather["hourly"]["temperature_2m"][:24]))
+    low = round(min(weather["hourly"]["temperature_2m"][:24]))
     wind = weather["hourly"]["wind_speed_10m"]
-    curr_precipitation = weather["current"]["precipitation"]
-    curr_temp = weather["current"]["temperature_2m"]
-    curr_wind = weather["current"]["wind_speed_10m"]
-    if int(curr_wind) > 20:
-        curr_condition = "wind"
+    sunrise = weather["daily"]["sunrise"][0].split("T")[1]
+    sunset = weather["daily"]["sunset"][0].split("T")[1]
+    precipitation = weather["current"]["precipitation"]
+    temperature = str(round(weather['current']['temperature_2m'])) + "°"
+    wind_speed = weather["current"]["wind_speed_10m"]
+    if int(wind_speed) > 20:
+        condition = "wind"
     else:
-        curr_condition = get_icon(weather["current"]["weather_code"], weather["current"]["is_day"])
-    curr_condition_name = icons[curr_condition]["name"]
-    curr_icon = icons[curr_condition]["icon"]
-    curr_emoji = icons[curr_condition]["emoji"]
-
-    hours = ["", "\t", "\t", "\t"]
-    conditions = ["\t", "\t", "\t", "\t"]
-    temps = ["\t", "\t", "\t", "\t"]
-
-    # To fill out the three above variables
-    i, j = 0, 0
-    for t in range(curr_time, curr_time + hourly_limit):
-        if i != 0 and i % 6 == 0:
-            j += 1
-        if int(wind[t]) > 20:
-            condition = "wind"
-        else:
-            condition = get_icon(weather["hourly"]["weather_code"][t], weather["hourly"]["is_day"][t])
-        hours[j] += f"{get_am_pm(t%24)}\t"
-        conditions[j] += f"&#8201;&#8201;{icons[condition]["emoji"]}\t\t"
-        temps[j] += f" {round(weather["hourly"]["temperature_2m"][t])}°\t\t"
-        i += 1
-
-    # To concatenate the hours, conditions, and tempretures.
-    hourly = ""
-    for i in range(j + 1):
-        hourly += f"{hours[i]}\n{conditions[i]}\n{temps[i]}\n\n"
-
-    # space_before_condition = " "
-    # if len(curr_condition_name) < 6:
-    #     space_before_condition = f"{' '*6}"
-    # elif len(curr_condition_name) < 10:
-    #     space_before_condition = f"{' '*4}"
-
-    # space_before_city = " "
-    # if len(city) <= 5:
-    #     space_before_city = f"{' '*8}"
-    # elif len(city) <= 8:
-    #     space_before_city = f"{' '*5}"
+        condition = get_icon(weather["current"]["weather_code"], weather["current"]["is_day"])
+    condition_name = icons[condition]["name"]
+    icon = icons[condition]["icon"]
+    emoji = icons[condition]["emoji"]
 
     data = {
         "time": f"{time.time()}",
-        "text_icon": f"{curr_icon} {round(curr_temp)}°",
-        "text_emoji": f"{curr_emoji} {round(curr_temp)}°",
-        "tooltip": f"""
-        {"\t"*4}<span size="xx-large">{city}</span>
-        {"\t"*5}<span size="xx-large">{round(curr_temp)}°</span>
-        {"\t"*4}     <span>{curr_condition_name} {curr_icon}</span>
-        {"\t"*4}    <span>H: {round(high)}° L: {round(low)}°</span>
-
-        {hourly}
-        Wind Speed: {curr_wind} {wind_unit}
-        Chance of Precipitation: {curr_precipitation:.0f}%""",
+        "text_icon": f"{icon} {temperature}",
+        "text_emoji": f"{emoji} {temperature}",
     }
 
+    table, hours, conditions, temps = [], [], [], []
+    table.append(["-"*4] * 6)
+    i = 0 # counter for each hour
+    j = 0 # counter for each row
+    for t in range(curr_time, curr_time + HOURS_COUNT):
+        hours.append(get_am_pm(t%24))
+        condition = get_icon(weather["hourly"]["weather_code"][t], weather["hourly"]["is_day"][t])
+        conditions.append(icons[condition]['emoji'])
+        temps.append(f"{round(weather['hourly']['temperature_2m'][t])}°")
+        i += 1
+        if i % 6 == 0:
+            j += 1
+            table.append(hours)
+            table.append(conditions)
+            table.append(temps)
+            if j <= 3:
+                table.append([" "*4] * 6) # adding a blank row for spacing
+            hours, conditions, temps = [], [], []
+
+    header = [
+        [f"{" "*10}{city}"],
+        [f"{" "*10}{temperature}"],
+        [f"{" "*10}{condition_name} {icon}"],
+        [f"{" "*10}H: {high}° L: {low}°"]
+    ]
+
+    data["tooltip"] = f"""<tt>
+{tabulate.tabulate(header, stralign="center", tablefmt="plain")}
+{tabulate.tabulate(table, tablefmt="plain", maxcolwidths=[4, 4, 4, 4, 4, 4])}
+
+Sunrise: {sunrise}
+Sunset: {sunset}
+Wind Speed: {wind_speed} {wind_unit}
+Chance of Precipitation: {precipitation:.0f}%
+</tt>"""
+
     return data
+
+city, curr_time, url = get_metadata()
 
 if len(sys.argv) > 1 and sys.argv[1] == "--url":
     print(url)
@@ -217,4 +242,6 @@ elif "--icon" in sys.argv:
     print(data["text_icon"])
 elif "--tooltip" in sys.argv: 
     print(data["tooltip"])
+elif "--live" in sys.argv:
+    print(j)
 

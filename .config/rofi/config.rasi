@@ -9,10 +9,11 @@ configuration {
 }
 
 // Dynamic colors from pywal
-@theme "./default.rasi"
+@theme "~/.cache/wal/colors.rofi"
+
 
 * {
-    background-color: @color2;
+    background-color: @color0;
     border: 0;
     margin: 0;
     padding: 0;
@@ -23,6 +24,8 @@ configuration {
 window {
     width: 40%;
     height: 47%;
+    border: 2px;
+    border-color: @color3;
     border-radius: 10px;
 }
 
@@ -60,7 +63,7 @@ element {
 element selected,
 element-text selected,
 element-icon selected {
-    background-color: @color8;
+    background-color: @color4;
     color: black;
 }
 

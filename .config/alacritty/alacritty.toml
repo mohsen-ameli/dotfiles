@@ -13,3 +13,4 @@ normal = { family = "JetBrains Mono Nerd Font", style = "Regular" }
 
 [scrolling]
 history = 10000
+multiplier = 20

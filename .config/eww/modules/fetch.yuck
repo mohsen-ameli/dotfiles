@@ -25,11 +25,11 @@
 
 (defpoll battery_info :interval "10s" "$HOME/.local/bin/battery --info")
 
-(defpoll rog :interval "3600s" "$HOME/.local/bin/rog --get-full")
+(defpoll rog :interval "600s" "$HOME/.local/bin/rog --get-full")
 
-(defpoll updates :initial "{ \"text\": \"Loading...\" }" :interval "3600s" "$HOME/.local/bin/updates")
+(defpoll updates :interval "600s" :initial "{ \"text\": \"Loading...\" }" "$HOME/.local/bin/updates")
 
-(defpoll weather :interval "3700s" "$HOME/.local/bin/weather")
+(defpoll weather :interval "600s" "$HOME/.local/bin/weather")
 
 (defpoll temperature :interval "2s" "$HOME/.local/bin/temperature --text-icon")
 

@@ -12,10 +12,10 @@ fonts="noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd vazirmatn-fonts"
 media_player="mpv vlc amberol rhythmbox"
 network="networkmanager net-tools"
 bluetooth="bluez bluez-utils bluez-obex"
-audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse"
+audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pavucontrol"
 login_manager="ly"
 rofi="rofi-wayland rofi-calc-git"
-extra="usbimager"
+extra="usbimager speedtest"
 
 notify() {
 	echo -e "\n-----------------------------------------------"

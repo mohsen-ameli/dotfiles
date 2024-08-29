@@ -31,11 +31,12 @@ generate_vscode() {
     code="Code - OSS"
   elif [ -d "$HOME/.config/Code" ]; then
     code="Code"
+  elif [ -d "$HOME/.config/VSCodium" ]; then
+    code="VSCodium"
   fi
   settings="$HOME/.config/$code/User/settings.json"
   bg=$(cat $HOME/.cache/wal/colors | head -n 1)
 
-  # echo $colors
   json="""{
   \"workbench.colorCustomizations\": {
     \"window.menuBarVisibility\": \"toggle\",
@@ -49,6 +50,7 @@ generate_vscode() {
     \"terminal.background\": \"$bg\",
     \"tab.activeBackground\": \"#000000\"
   },
+  \"git.openRepositoryInParentFolders\": \"always\",
   \"window.menuBarVisibility\": \"toggle\",
   \"editor.fontFamily\": \"$font\",
   \"git.enableSmartCommit\": true,
@@ -56,6 +58,8 @@ generate_vscode() {
   \"explorer.confirmDelete\": false,
   \"workbench.startupEditor\": \"none\",
   \"workbench.sideBar.location\": \"right\",
+  \"security.workspace.trust.untrustedFiles\": \"open\",
+  \"editor.unicodeHighlight.nonBasicASCII\": false,
   \"workbench.iconTheme\": \"material-icon-theme\",
   \"python.terminal.activateEnvInCurrentTerminal\": true,
   \"files.associations\": {
@@ -63,7 +67,6 @@ generate_vscode() {
   }
   }"""
 
-  # Keybindings
   keybindings="""[
     {
       \"key\": \"shift+alt+down\",
@@ -104,18 +107,22 @@ generate_discord() {
   done < $HOME/.cache/wal/colors
 
   # Update the background color (color16)
-  sed -i -r "s/--color16: .*;/--color16: $color16;/" $HOME/.config/vesktop/settings/quickCss.css
+  # sed -i -r "s/--color16: .*;/--color16: $color16;/" $HOME/.config/vesktop/settings/quickCss.css
+  sed -i -r "s/--color16: .*;/--color16: #000;/" $HOME/.config/vesktop/settings/quickCss.css
 }
 
 generate_rofi() {
-  color4=$(awk 'NR==4 {print}' $HOME/.cache/wal/colors)
-  color8=$(awk 'NR==8 {print}' $HOME/.cache/wal/colors)
+  # color4=$(awk 'NR==4 {print}' $HOME/.cache/wal/colors)
+  # color8=$(awk 'NR==8 {print}' $HOME/.cache/wal/colors)
+  echo "* {" > $HOME/.cache/wal/colors.rofi
+  awk '/#[0-9a-fA-F]{3}/ {count++; gsub(/#[0-9a-fA-F]{6}/, "color" count-1 ": &" ";")}1' $HOME/.cache/wal/colors >> $HOME/.cache/wal/colors.rofi
+  echo "}" >> $HOME/.cache/wal/colors.rofi
   
-  printf """
-  * {
-    color2: $color4;
-    color8: $color8;
-  }""" > $HOME/.config/rofi/default.rasi
+  # printf """
+  # * {
+  #   color2: $color4;
+  #   color8: $color8;
+  # }""" > $HOME/.config/rofi/default.rasi
 }
 
 # Generating extra colors for the bar

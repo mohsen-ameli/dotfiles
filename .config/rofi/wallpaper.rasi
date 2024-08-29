@@ -9,14 +9,14 @@ configuration {
 }
 
 // Dynamic colors from pywal
-@theme "./default.rasi"
+@theme "~/.cache/wal/colors.rofi"
 
 * {
     image-size: 250px;
     columns: 4;
     rows: 2;
 
-    background-color: @color2;
+    background-color: @color0;
     border: 0;
     margin: 0;
     padding: 0;
@@ -26,7 +26,9 @@ configuration {
 window {
     width: 70%;
     border-radius: 10px;
-    background-color: @color2;
+    background-color: @color0;
+    border: 2px;
+    border-color: @color3;
     padding: 10px;
 }
 
@@ -82,7 +84,7 @@ button {
 }
 
 button selected {
-    background-color: @color8;
+    background-color: @color4;
     text-color: white;
 }
 
@@ -90,7 +92,7 @@ listview {
     enabled: true;
     columns: @columns;
     lines: @rows;
-    background-color: @color2;
+    background-color: @color0;
     border: 0px;
 }
 
@@ -117,7 +119,7 @@ element alternate.active {
 element selected.normal,
 element selected.urgent,
 element selected.active {
-    border-color: @color8;
+    border-color: @color4;
     background-color: inherit;
     text-color: white;
 }
@@ -150,7 +152,7 @@ textbox {
 scrollbar {
     width: 4px;
     border: 0;
-    handle-color: @color8;
+    handle-color: @color4;
     handle-width: 8px;
     padding: 0;
     margin: 3px;
