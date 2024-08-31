@@ -14,6 +14,7 @@ import tabulate
 tabulate.PRESERVE_WHITESPACE = True
 
 HOURS_COUNT = 24  # how many hours ahead to show
+UPDATE_INTERVAL = 1800  # how often to update the weather in seconds
 
 # https://www.nodc.noaa.gov/archive/arc0021/0002199/1.1/data/0-data/HTML/WMO-CODE/WMO4677.HTM
 # These icons are based on wmo-code which is what open-meteo uses
@@ -57,7 +58,7 @@ if "--live" not in sys.argv and "--url" not in sys.argv:
         data = f.read()
         f.close()
         j = json.loads(data)
-        if time.time() - float(j["time"]) <= 3600:
+        if time.time() - float(j["time"]) <= UPDATE_INTERVAL:
             if "--emoji" in sys.argv:
                 print(j["text_emoji"])
             elif "--icon" in sys.argv:

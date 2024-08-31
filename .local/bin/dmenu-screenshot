@@ -5,7 +5,7 @@
 
 wayland=$($HOME/.local/bin/is-wayland)
 if [ $wayland -eq 1 ]; then
-  schema="rofi -dmenu -no-show-icons -i -p Select..."
+  schema="rofi -dmenu -no-show-icons -i -p Select:"
 else
   schema="dmenu -i -p Select..."
 fi

@@ -140,6 +140,10 @@ https://www.protondb.com/app/3590#dYYLZr30F2
 Games with easy anti-cheat
 https://www.reddit.com/r/linux_gaming/comments/1cvrvyg/psa_easy_anticheat_eac_failed_to_initialize/
 
+To run games well on steam, add the following to a game. This setting is located in (gear icon in any game) > properties > general > launch options
+This halped a lot with scaling issues with Overwatch 2
+`gamescope -W 1920 -H 1080 -r 144 -- %command%`
+
 ## udev rules
 
 Go in /etc/udev/rules.d and create two files. (replace USERNAME with your username). This will make sure to give notifications whenever a device is plugged or unplugged in (as well as charging/discharging).

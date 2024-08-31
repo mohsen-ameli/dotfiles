@@ -12,19 +12,25 @@ arguments:
 	--icon: \t\t Shows only the wifi icon
 	--info: \t\t Shows all the information
     --status: \t\t Shows the status of the connection
+    --strength: \t The strength of the network
+    --interface: \t The interface that the network is connected to
 """
 }
 
-interface=$(ip addr | grep BROADCAST | awk '{print $2}' | cut -f1 -d: | head -n1)
-connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
+status() {
+    iwgetid &> /dev/null
+    [ $? -eq 0 ] && echo "connected" || echo "disconnected"
+}
 
-if [ "$1" = "--status" ]; then
-    echo $connected
-    exit 0
-fi
+strength() {
+    awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless
+}
 
-strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
+interface() {
+    iwgetid | cut -f1 -d" "
+}
 
+# icon [connected] [strength:optional if not connected]
 icon() {
     connected=$1
     if [ "$connected" = "disconnected" ]; then
@@ -32,7 +38,7 @@ icon() {
         exit 0
     fi
 
-    strength=$1
+    strength=$2
     if [ $strength -ge 75 ]; then
         icon="󰤨"
     elif [ $strength -ge 50 ]; then
@@ -42,10 +48,10 @@ icon() {
     else
         icon="󰤟"
     fi
-
     echo "$icon"
 }
 
+# class [connected] [strength:optional if not connected]
 class() {
     connected=$1
     if [ "$connected" = "disconnected" ]; then
@@ -53,7 +59,7 @@ class() {
         exit 0
     fi
 
-    strength=$1
+    strength=$2
     if [ $strength -ge 75 ]; then
         class="high"
     elif [ $strength -ge 50 ]; then
@@ -63,10 +69,10 @@ class() {
     else
         class="none"
     fi
-
     echo "$class"
 }
 
+# full [connected] [strength:optional if not connected]
 full() {
     connected=$1
     if [ "$connected" = "disconnected" ]; then
@@ -74,10 +80,11 @@ full() {
         exit 0
     fi
     
-    strength=$1
-    echo "$strength% $(icon $strength $connected)"
+    strength=$2
+    echo "$strength% $(icon $connected $strength)"
 }
 
+# info [connected] [strength:optional if not connected]
 info() {
     connected=$1
     if [ "$connected" = "disconnected" ]; then
@@ -85,33 +92,38 @@ info() {
         exit 0
     fi
 
-    strength=$1
-    connection=$(nmcli connection show)
-    essid=$(echo "$connection" | awk 'NR == 2 {print $1}')
-    ipaddr=$(nmcli device show $interface | awk '/^IP4.ADDRESS/ {print $2}' | cut -f1 -d/)
+    strength=$2
+    essid=$(iwgetid -r)
+    ipaddr=$(nmcli device show | grep "^IP4.ADDRESS" | awk 'NR==1 {print $2}' | cut -f1 -d/)
+    interface_=$(interface)
     # publicip=$(curl icanhazip.com)
 
-    printf "%s\n" "<tt>ESSID: \\t\\t$essid\\nLocal IP: \\t$ipaddr\\nInterface: \\t$interface\nStrength: \\t$strength%</tt>"
+    printf "%s\n" "<tt>ESSID: \\t\\t$essid\\nLocal IP: \\t$ipaddr\\nInterface: \\t$interface_\nStrength: \\t$strength%</tt>"
 }
 
 live() {
     while true; do
-        strength=$(awk 'NR==3 {printf("%.0f", $3*10/7)}' /proc/net/wireless)
-        connected=$(nmcli device status | awk "/^$interface/ {print \$3}")
-
-        printf "%s\n" "{\"status\": \"$connected\", \"full\": \"$(full $strength $connected)\", \"class\": \"$(class $strength $connected)\", \"icon\": \"$(icon $strength $connected)\" , \"info\": \"$(info $strength $connected)\"}"
+        status_=$(status)
+        strength_=$(strength)
+        printf "%s\n" "{\"status\": \"$status_\", \"full\": \"$(full $status_ $strength_)\", \"class\": \"$(class $status_ $strength_)\", \"icon\": \"$(icon $status_ $strength_)\" , \"info\": \"$(info $status_ $strength_)\"}"
         sleep 5
     done
 }
 
-if [ "$1" = "--live" ]; then
+if [ "$1" = "--status" ]; then
+    status
+elif [ "$1" = "--live" ]; then
     live
 elif [ "$1" = "--info" ]; then
-    info $strength $connected
+    info $(status) $(strength)
 elif [ "$1" = "--icon" ]; then
-    icon $strength $connected
+    icon $(status) $(strength)
 elif [ "$1" = "--full" ]; then
-    full $strength $connected
+    full $(status) $(strength)
+elif [ "$1" = "--strength" ]; then
+    strength
+elif [ "$1" = "--interface" ]; then
+    interface
 else
     print_usage
 fi

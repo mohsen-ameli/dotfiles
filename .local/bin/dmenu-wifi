@@ -1,9 +1,11 @@
 #!/bin/sh
 ##########################
 ## Shows dmenu with avialable wifi networks to connect to.
+## This script also works with multiple wireless cards.
+## Requires: nmcli, rofi or dmenu, zenity
 ##########################
 
-schema="rofi -dmenu -no-show-icons -i -p Search:"
+schema="rofi -dmenu -no-show-icons -i"
 
 notify() {
 	notify-send "WiFi" "$@" -i "$HOME/.local/share/icons/custom/wifi-icon.png" -t 5000 -r 410
@@ -11,55 +13,65 @@ notify() {
 
 notify "Launching..."
 
-interface=$(nmcli device | tail -n+2 | cut -f1 -d" " | $schema)
+interfaces=$(nmcli --get-values GENERAL.DEVICE,GENERAL.TYPE device show | sed '/^wifi$/!{h;d;};x')
+interface=$(echo "$interfaces" | $schema -p "Interface Name:")
 if [ "$interface" = "" ]; then
   exit
 fi
 
 # when connecting to completely new networks, in different areas, this is needed. Need more testing but this SHOULD work
-nmcli device disconnect $interface
+for ifname in $interfaces; do
+  nmcli device disconnect "$ifname"
+done
 nmcli r wifi on
 
-notify "Scanning for networks on $interface"
+rescan=1
+while [ $rescan -eq 1 ]; do
+  notify "Scanning for networks on $interface"
 
-# Generating the list of wifis to show. Very hacky way to do it,
-ssids=$(nmcli -f SSID dev wifi | tail -n+2 | sort -u | grep -v "\--" > /tmp/dmenu-network)
-full=$(nmcli -f SSID,SIGNAL,FREQ,SECURITY dev wifi | tail -n+2)
-prompt=""
+  # Generating the list of wifis to show. Very hacky way to do it,
+  ssids=$(nmcli -f SSID d wifi list --rescan yes ifname "$interface" | sort -u | grep -v "\--" | grep -v "^SSID" | tail -n+2 > /tmp/dmenu-network)
+  full=$(nmcli -f SSID,SIGNAL,FREQ,SECURITY dev wifi list ifname "$interface" | tail -n+2)
+  prompt=""
 
-while read line; do
-  speed=$(echo "$full" | grep "$line" | awk '{if (NR==1) {if ($1 >= 80) {print "󰤨"} else if ($1 >= 50) {print "󰤢"} else if ($1 >= 25) {print "󰤟"} else {print "󰤯"}}}')
-  # frequency=$(echo "$full" | grep "$line" | awk '!/--/ {if (NR==1) {$1 = $1/1000; if ($1 < 3) {printf 2.4} else if ($1 < 5.5) {printf 5} else {printf 6}; print " GHz" }}')
-  security=$(echo "$full" | grep "$line" | awk '{if (NR==1) {if(index($5, WPA)) {print ""} else {print ""}}}')
-  prompt="${prompt}$security $speed  $line\n"
-done < /tmp/dmenu-network
+  while read line; do
+    speed=$(echo "$full" | grep "$line" | awk '{if (NR==1) {if ($1 >= 80) {print "󰤨"} else if ($1 >= 50) {print "󰤢"} else if ($1 >= 25) {print "󰤟"} else {print "󰤯"}}}')
+    # frequency=$(echo "$full" | grep "$line" | awk '!/--/ {if (NR==1) {$1 = $1/1000; if ($1 < 3) {printf 2.4} else if ($1 < 5.5) {printf 5} else {printf 6}; print " GHz" }}')
+    security=$(echo "$full" | grep "$line" | awk '{if (NR==1) {if(index($5, WPA)) {print ""} else {print ""}}}')
+    prompt="${prompt}$security $speed  $line\n"
+  done < /tmp/dmenu-network
 
-# removing the last \n
-prompt=${prompt::-2}
+  # removing the last \n
+  prompt=${prompt::-2}
 
-status=$(nmcli device status)
-connection=$(echo "$status" | awk "/^$interface/ {print \$3}")
-current=$(echo "$status" | awk 'NR==2 {print $4}')
+  connection=$(nmcli -f state device status | awk 'NR==2 {print $0}')
+  current=$(nmcli -f connection device status | awk 'NR==2 {print $0}')
 
-# Adding a couple options to rofi
-prompt="NMTUI\n$prompt"
-if [ $connection != "disconnected" ]; then
-	prompt="Disconnect WiFi\n$prompt"
-fi
+  # Adding a couple options to rofi
+  prompt="Rescan\nNMTUI\n$prompt"
+  if [ "$connection" != "disconnected" ]; then
+    prompt="Disconnect WiFi\n$prompt"
+  fi
 
-# Showing the menu and grabbing the ssid
-choice=$(printf "%b\n" "$prompt" | $schema)
+  # Showing the menu and grabbing the ssid
+  choice=$(printf "%b\n" "$prompt" | $schema -p "Choose a Network:")
+  if [ "$choice" != "Rescan" ]; then
+    rescan=0
+  fi
+done
+
 ssid=$(echo ${choice#*  })
 
 # Handling disconnect and nmtui launch
 if [ "$choice" = "" ]; then
+  nmcli device connect "$interface"
 	exit 0
 elif [ "$choice" = "Disconnect WiFi" ]; then
-	nmcli dev disconnect $interface
+	nmcli dev disconnect "$interface"
 	notify "Disconnected from WiFi."
 	exit 0
 elif [ "$choice" = "NMTUI" ]; then
-	st -class floating -e nmtui
+	alacritty --class floating -e nmtui
 	exit 0
 fi
 
@@ -70,7 +82,7 @@ if [ "$ssid" = "$current" ]; then
 fi
 
 notify "Trying to connect to $ssid"
-nmcli dev wifi connect "$ssid"
+nmcli dev wifi connect "$ssid" ifname "$interface"
 
 if [ $? -eq 0 ]; then
 	notify "Successfully connected to $ssid"
@@ -80,10 +92,8 @@ if [ $? -eq 0 ]; then
 elif [ $(pgrep nm-applet | wc -l) -eq 0 ]; then
 	# Getting the password of the wifi
 	pass=$(zenity --password 2> /dev/null)
-
 	notify "Attempting to connect with the given password"
-
-	nmcli dev wifi connect "$ssid" password "$pass"
+	nmcli dev wifi connect "$ssid" password "$pass" ifname "$interface"
 
 	if [ $? -eq 0 ]; then
 		notify "Successfully connected to $ssid"

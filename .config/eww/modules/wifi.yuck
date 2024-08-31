@@ -3,7 +3,7 @@
         (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
             (button
                 :class "control-box"
-                :onclick {network.status == "disconnected" ? "nmcli dev connect wlan0" : "nmcli dev disconnect wlan0"}
+                :onclick {network.status == "disconnected" ? "nmcli r wifi on" : "nmcli r wifi off"}
                 {network.status == "disconnected" ? "Power On WiFi  " : "Power Off WiFi  "}
             )
             (button

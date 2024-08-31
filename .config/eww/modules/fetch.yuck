@@ -27,9 +27,9 @@
 
 (defpoll rog :interval "600s" "$HOME/.local/bin/rog --get-full")
 
-(defpoll updates :interval "600s" :initial "{ \"text\": \"Loading...\" }" "$HOME/.local/bin/updates")
+(defpoll updates :interval "600s" :initial "{ \"text\": \"Loading...\", \"tooltip\": \"Loading...\" }" "$HOME/.local/bin/updates")
 
-(defpoll weather :interval "600s" "$HOME/.local/bin/weather")
+(defpoll weather :interval "500s" "$HOME/.local/bin/weather")
 
 (defpoll temperature :interval "2s" "$HOME/.local/bin/temperature --text-icon")
 
@@ -39,9 +39,9 @@
 
 (defpoll graphics :initial "Loading..." :interval "3600s" "$HOME/.local/bin/switch-graphics --get")
 
-(defpoll time :interval "60s" "date '+%-I:%M %p'")
+(defpoll time :interval "5s" "date '+%-I:%M %p'")
 (defpoll full_time :interval "1s" "date '+%c'")
-(defpoll time_in_sec :interval "1s" "date '+%s'")
+(defpoll time_in_sec :interval "59s" "date '+%s'")
 
 (defpoll notifications :interval "60s" "dunstctl history")
 (defpoll dnd :interval "10s" "dunstctl get-pause-level")

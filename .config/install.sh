@@ -1,7 +1,6 @@
 #!/bin/bash
 
 curr_dir=$(dirname "$0")
-browser="brave-bin"
 emulator="alacritty"
 shell="zsh dash"
 editor="code nano vim gedit"
@@ -68,10 +67,10 @@ setup_packages() {
   confirm "Do you want to install the main packages?" || return
 	notify ":: Installing packages."
 	$pkg_manager --noconfirm -Syyu base-devel git $network $themes $login_manager $shell $file_explorer $image_viewer \
-	  $media_player $browser $emulator $editor $fonts $bluetooth $audio $app_launcher $extra \
+	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $extra \
 	  dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal eww swww swaybg \
     zenity pacman-contrib ffmpeg wget jq grim slurp cliphist glmark2 brightnessctl ntfs-3g socat inotify-tools xdg-ninja \
-    pass pass-otp browserpass browserpass-chromium \
+    pass pass-otp \
     # AUR below
     $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
@@ -216,6 +215,26 @@ setup_printer() {
   sudo hp-setup -i
 }
 
+setup_browser() {
+  notify ":: Setting up the browser"
+  printf "Which browser do you want to install: (1) Brave (2) Librewolf"
+  read choice
+  if [ $choice -eq 1 ]; then
+    $pkg_manager brave-bin browserpass browserpass-chromium
+    xdg-settings set default-web-browser brave-browser.desktop
+  elif [ $choice -eq 2 ]; then
+    $pkg_manager librewolf passff-host
+    curl -sSL https://codeberg.org/PassFF/passff-host/releases/download/latest/install_host_app.sh | bash -s -- librewolf
+    xdg-settings set default-web-browser librewolf.sesktop
+  fi
+}
+
+setup_gaming() {
+  confirm "Do you want to install steam and some gaming components?" || return
+  notify ":: Setting up gaming environment"
+  $pkg_manager steam gamescope
+}
+
 setup_other() {
   # Enabling bluetooth
   sudo systemctl enable --now bluetooth
@@ -225,7 +244,6 @@ setup_other() {
   gsettings set org.gnome.desktop.default-applications.terminal exec $terminal
 
   # Setting default file explorer
-  xdg-settings set default-web-browser brave-browser.desktop
   xdg-mime default $file_explorer.desktop inode/directory
   xdg-mime default org.gnome.Loupe.desktop image/png
   xdg-mime default org.gnome.Loupe.desktop image/jpg
@@ -256,6 +274,7 @@ setup_vm
 setup_qtile
 setup_samba
 setup_printer
+setup_browser
 setup_extra_optional
 setup_other
 
