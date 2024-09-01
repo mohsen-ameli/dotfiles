@@ -3,5 +3,9 @@
 ## Utility used with hyprctl to open a window in the active workspace
 ##########################
 
-active=$(hyprctl activeworkspace | grep "^workspace ID " | cut -d" " -f3)
-hyprctl dispatch exec [workspace $active silent] -q "$1"
+if [ $($HOME/.local/bin/is-wayland) -eq 1 ]; then
+  active=$(hyprctl activeworkspace | grep "^workspace ID " | cut -d" " -f3)
+  hyprctl dispatch exec [workspace $active silent] -q "$1"
+else
+  $1
+fi

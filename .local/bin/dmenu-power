@@ -5,10 +5,10 @@
 
 wayland=$($HOME/.local/bin/is-wayland)
 if [ $wayland -eq 1 ]; then
-  schema1="rofi -dmenu -no-show-icons -i"
-  schema2="rofi -dmenu -no-show-icons -i -theme-str 'entry {placeholder: \"Are you sure?\";}'"
+  schema1="rofi -dmenu -no-show-icons -i -p \"Select:\""
+  schema2="rofi -dmenu -no-show-icons -i -p \"Are you sure?\""
 else
-  schema1="dmenu -i -p Search..."
+  schema1="dmenu -i -p \"Select:\""
   schema2="dmenu -i -p \"Are you sure?\""
 fi
 lock_="  Lock"

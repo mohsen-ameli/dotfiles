@@ -12,6 +12,7 @@ configuration {
 @theme "~/.cache/wal/colors.rofi"
 
 * {
+    text-color: white;
     background-color: @color0;
     border: 0;
     margin: 0;
@@ -38,7 +39,6 @@ textbox-prompt-colon {
 }
 
 inputbar {
-    text-color: white;
     padding: 12px;
     //children: ["textbox-prompt-colon", "entry"];
     padding: 12px;

@@ -11,6 +11,6 @@
         )
         (label :tooltip "CPU Usage" :text {cpu} :class "widget fixed-size")
         (button :timeout "24h" :onclick "scripts/toggle.sh weather" :class "widget" {weather.text_emoji})
-        (systray :visible {systray-items-count > 0} :class "widget tooltip" :spacing 4)
+        (systray :class "widget tooltip" :spacing 4)
     )
 )

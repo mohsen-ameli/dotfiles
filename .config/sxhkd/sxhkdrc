@@ -7,7 +7,7 @@ super + p
 super + e
   thunar
 super + b
-  brave
+  xdg-settings get default-web-browser | xargs gtk-launch
 super + s
   dmenu-screenshot
 super + c
