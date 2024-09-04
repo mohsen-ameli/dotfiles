@@ -5,6 +5,7 @@ configuration {
     hover-select: true;
     me-select-entry: "";
     me-accept-entry: "MousePrimary";
+    modes: [window,drun,run,ssh,calc];
     show-icons: true;
 }
 

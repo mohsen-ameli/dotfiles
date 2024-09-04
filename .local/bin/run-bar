@@ -3,8 +3,6 @@
 ## Runs the bar
 ##########################
 
-# killall waybar
-# waybar -c $HOME/.config/waybar/config.jsonc -s $HOME/.config/waybar/style.css
-
 killall eww
-eww open bar
+sleep 1
+eww open bar -c "$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"

@@ -32,6 +32,7 @@ alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 alias nvidia-settings=nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings"
 alias feh="feh --no-fehbg"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
 
 alias sudo="sudo -EH"
 alias wget='wget --hsts-file="$HOME/.local/share/wget-hsts"'

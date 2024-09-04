@@ -3,14 +3,8 @@
 ## Shows a dmenu page for power management.
 ##########################
 
-wayland=$($HOME/.local/bin/is-wayland)
-if [ $wayland -eq 1 ]; then
-  schema1="rofi -dmenu -no-show-icons -i -p \"Select:\""
-  schema2="rofi -dmenu -no-show-icons -i -p \"Are you sure?\""
-else
-  schema1="dmenu -i -p \"Select:\""
-  schema2="dmenu -i -p \"Are you sure?\""
-fi
+schema1="rofi -dmenu -no-show-icons -i -p \"Select:\""
+schema2="rofi -dmenu -no-show-icons -i -p \"Are you sure?\""
 lock_="  Lock"
 shutdown_="⏻  Shutdown"
 reboot_="󰑓  Restart"
@@ -50,7 +44,7 @@ if [ "$confirm" = "$action" ]; then
   elif [ "$action_lower" = "suspend" ]; then
     systemctl suspend
   elif [ "$action_lower" = "logout" ]; then
-    [ $wayland -eq "1" ] && hyprctl dispatch exit || loginctl terminate-user $USER
+    [ $HOME/.local/bin/is-wayland -eq "1" ] && hyprctl dispatch exit || loginctl terminate-user $USER
   elif [ "$action_lower" = "shutdown" ]; then
     sudo shutdown now
   elif [ "$action_lower" = "restart" ]; then

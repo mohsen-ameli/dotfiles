@@ -1,0 +1,385 @@
+@import "/home/moe/.cache/wal/colors.scss";
+
+$transition-time: 0.1s;
+$mode: "normal";
+// $mode: "minimal";
+// hypr-mode --<normal | minimal>
+
+* {
+  all: unset;
+  font-family: JetBrainsMono;
+}
+
+tooltip label {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid $foreground;
+  background-color: $color4;
+  color: $text_color;
+}
+
+.tooltip window menu {
+  background-color: $color3;
+  border: 1px solid $foreground;
+  padding: 10px;
+  color: $text_color;
+  border-radius: 8px;
+}
+
+.tooltip window menu * {
+  padding: 2px;
+  margin: 1px 0px;
+  border-radius: 4px;
+}
+
+.tooltip window menu *:hover {
+  background-color: $color4;
+}
+
+.tooltip window menu :disabled {
+  color: gray;
+}
+
+.tooltip window menu separator {
+  border-bottom: 2px solid black;
+  border-radius: 0px;
+}
+
+.bar {
+  @if $mode == minimal {
+    min-width: 1536px;
+  } @else {
+    margin-top: 6px;
+    min-width: 1520px;
+  }
+  background-color: transparent;
+  color: $text_color;
+  font-size: 16px;
+  margin-left: 7px;
+  margin-right: 7px;
+}
+
+.fixed-size {
+  min-width: 50px;
+}
+
+.widget {
+  background-color: $color4;
+  padding: 0px 16px;
+  font-size: 20px;
+  @if $mode == normal {
+    border: 1px solid $foreground;
+    border-radius: 10px;
+    margin-left: 4px;
+  }
+}
+
+.widget:hover {
+  background-color: $color3;
+  transition: $transition-time;
+}
+
+// first widget should not have margin-left
+.first {
+  margin-left: 0px;
+}
+
+.wifi {
+  padding: 0px 25px;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  background-position: center;
+}
+
+@if $text_color == white {
+  .wifi-disabled {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-disabled.svg");
+  }
+  .wifi-high {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-high.svg");
+  }
+  .wifi-low {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-low.svg");
+  }
+  .wifi-mid {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-mid.svg");
+  }
+  .wifi-none {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi/wifi-none.svg");
+  }
+} @else {
+  .wifi-disabled {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-disabled.svg");
+  }
+  .wifi-high {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-high.svg");
+  }
+  .wifi-low {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-low.svg");
+  }
+  .wifi-mid {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-mid.svg");
+  }
+  .wifi-none {
+    background-image: url("/home/moe/.local/share/icons/custom/wifi-dark/wifi-none.svg");
+  }
+}
+
+.control {
+  margin: 50px;
+}
+
+.time-reveal {
+  background: $color4;
+  color: $text_color;
+  @if $mode == normal {
+    border-radius: 10px;
+  }
+  padding: 12px;
+  min-width: 300px;
+}
+
+.time-reveal metric {
+  all: unset;
+  color: #000000;
+}
+
+.control-box {
+  background-color: $color2;
+  color: $text_color;
+  @if $mode == normal {
+    border-radius: 10px;
+    padding: 12px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+  } @else {
+    padding: 6px;
+  }
+}
+
+.control-box:hover {
+  background-color: $color3;
+  transition: $transition-time;
+}
+
+.notif {
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.label {
+  padding: 0px 5px;
+}
+
+.workspaces {
+  background-color: $color4;
+  @if $mode == normal {
+    border-radius: 10px;
+    border: 1px solid $foreground;
+  }
+  padding: 3px 3px;
+}
+
+.workspaces button {
+  color: $text_color;
+  padding: 0px 18px;
+  @if $mode == normal {
+    border-radius: 8px;
+  }
+  font-size: 20px;
+  margin: 0px 2px;
+}
+
+.workspaces > button.active {
+  @if $mode == normal {
+    border-radius: 8px;
+  }
+  font-size: 20px;
+  background-color: $color7;
+  color: $color0;
+  padding: 0px 32px;
+}
+
+.workspaces button:hover {
+  background-color: $color7;
+  color: $color0;
+  transition: $transition-time;
+}
+
+.music-time-left {
+  margin-right: 30px;
+}
+
+.music-time-right {
+  margin-left: 30px;
+}
+
+.music-btn {
+  color: $text_color;
+  @if $mode == normal {
+    border-radius: 10px;
+  }
+  font-size: 14pt;
+}
+
+.music-btn:hover {
+  background: $color3;
+  transition: $transition-time;
+}
+
+.music-img {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  min-height: 300px;
+  min-width: 300px;
+  @if $mode == normal {
+    border-radius: 10px;
+  }
+}
+
+.volume {
+  padding: 0px 10px;
+  background-repeat: no-repeat;
+  background-size: 22px;
+  background-position: center;
+  background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");
+}
+
+.vol-mute {
+  background-image: url("/home/moe/.local/share/icons/custom/volume/volume-mute.svg");
+}
+
+@if $text_color == white {
+  .vol-off {
+    background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");
+  }
+  .vol-low {
+    background-image: url("/home/moe/.local/share/icons/custom/volume/volume-low.svg");
+  }
+  .vol-mid {
+    background-image: url("/home/moe/.local/share/icons/custom/volume/volume-mid.svg");
+  }
+  .vol-high {
+    background-image: url("/home/moe/.local/share/icons/custom/volume/volume-high.svg");
+  }
+} @else {
+  .vol-off {
+    background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-off.svg");
+  }
+  .vol-low {
+    background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-low.svg");
+  }
+  .vol-mid {
+    background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-mid.svg");
+  }
+  .vol-high {
+    background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-high.svg");
+  }
+}
+
+.disabled {
+  background-color: #85c1c1;
+  color: #2a5c45;
+}
+
+.disabled:hover {
+  background-color: #589090;
+  color: #1d4733;
+  transition: $transition-time;
+}
+
+.calendar-wrap {
+  background-color: $color2;
+  @if $mode == normal {
+    border-radius: 10px;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.calendar {
+  padding: 5px;
+  margin: 2px;
+}
+
+.calendar:selected {
+  background-color: #f2437d;
+  color: white;
+  @if $mode == normal {
+    border-radius: 5px;
+  }
+}
+
+.metric scale trough highlight,
+.music-bar scale trough highlight {
+  background-color: $color3;
+  color: $color0;
+  @if $mode == normal {
+    border-radius: 5px;
+  }
+}
+
+.metric scale trough,
+.music-bar scale trough {
+  background-color: $color0;
+  @if $mode == normal {
+    border-radius: 5px;
+  }
+  min-height: 15px;
+  min-width: 240px;
+  margin: 0px 10px;
+}
+
+.music-bar scale trough {
+  min-width: 280px;
+  min-height: 15px;
+}
+
+.battery {
+  color: $text_color;
+}
+
+// .battery.discharging {
+//   background-color: #3FCE14;
+// }
+
+// .battery.charging {
+//   background-color: #26A65B;
+// }
+
+.battery.warning {
+  color: black;
+  background-color: #ffbe61;
+}
+
+.battery.warning:hover {
+  background-color: #cd974c;
+  transition: $transition-time;
+}
+
+.battery.low {
+  color: black;
+  background-color: #e65555;
+}
+
+.battery.critical {
+  color: black;
+  background-color: #f53c3c;
+  animation-name: blink;
+  animation-duration: 0.5s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+.battery.low:hover,
+.battery.critical:hover {
+  background-color: #b43c3c;
+  transition: $transition-time;
+}
+
+@keyframes blink {
+  to {
+    background-color: chocolate;
+    color: #000000;
+  }
+}

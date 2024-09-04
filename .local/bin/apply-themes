@@ -21,20 +21,11 @@ apply_themes() {
 	$SCHEMA cursor-size "$CURSOR_SIZE"
   [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl setcursor $CURSOR $CURSOR_SIZE
 
-	# Set xcursor themes in .bashprofile
-	echo """[ -f ~/.bashrc ] && . ~/.bashrc
-	export XCURSOR_THEME=\"$CURSOR\"
-	export XCURSOR_SIZE=\"$CURSOR_SIZE\"
-	""" > $HOME/.bash_profile
-
 	# Adding current cursor theme as default to .icons folder
 	[ ! -d $HOME/.local/share/icons/default ] && mkdir -p $HOME/.local/share/icons/default
 	echo -e """[Icon Theme]\nInherits=$CURSOR""" > $HOME/.local/share/icons/default/index.theme
 
-	# getting rid of an unnecessary default theme directory that gets set by nwg look. 
-	# [ -d ~/.local/share/icons/default ] && mv ~/.local/share/icons/default ~/.local/share/icons/tmp
-
-	echo "Done!"
+  echo "Done!"
 }
 
 apply_themes

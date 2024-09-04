@@ -8,6 +8,7 @@ bindkey '^H' backward-kill-word
 # Enabling syntax highliting for nano
 # ls -1 /usr/share/nano/*.nanorc | sed 's/^\//include \//' > ~/.nanorc
 
+export EWW_HOME_DIR="$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"
 # Running electron apps in wayland needs this
 export ELECTRON_OZONE_PLATFORM_HINT="wayland"
 export VCPKG_ROOT="/opt/vcpkg"
@@ -21,14 +22,15 @@ export XDG_STATE_HOME="$HOME/.local/state"
 export WINEPREFIX="$XDG_DATA_HOME/wine"
 export HISTFILE="$XDG_CACHE_HOME/zsh/history"
 export ZSH="$XDG_DATA_HOME/oh-my-zsh"
+export _Z_DATA="$XDG_DATA_HOME/z"
 export MYPY_CACHE_DIR="$XDG_CACHE_HOME/mypy"
 export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
 export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 export GOPATH="$XDG_DATA_HOME/go"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
-alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
-alias nvidia-settings=nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings"
+alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
+#alias nvidia-settings=nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings"
 alias feh="feh --no-fehbg"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
@@ -38,6 +40,8 @@ export PYTHON_HISTORY="$XDG_STATE_HOME/python/history"
 export PYTHONPYCACHEPREFIX="$XDG_CACHE_HOME/python"
 export PYTHONUSERBASE="$XDG_DATA_HOME/python"
 export PYTHONSTARTUP="$XDG_DATA_HOME/python/pythonrc"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
+export GRIPHOME="$XDG_CONFIG_HOME/grip"
 
 # oh-my-zsh
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST

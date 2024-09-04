@@ -3,11 +3,11 @@
 (deflisten volume "$HOME/.local/bin/volume --live-volume")
 (deflisten mic "$HOME/.local/bin/volume --live-mic")
 
-(deflisten music "scripts/music.sh --player")
-(deflisten music_position "scripts/music.sh --position")
+(deflisten music "../scripts/music.sh --player")
+(deflisten music_position "../scripts/music.sh --position")
 
-(deflisten current_workspace "scripts/workspaces.sh")
-(deflisten active_workspaces "scripts/workspaces-active.sh")
+(deflisten current_workspace "../scripts/workspaces.sh")
+(deflisten active_workspaces "../scripts/workspaces-active.sh")
 
 (deflisten battery "$HOME/.local/bin/battery --live")
 
@@ -17,7 +17,7 @@
 
 (deflisten brightness "$HOME/.local/bin/brightness --live")
 
-(deflisten systray-items-count :initial 0 "scripts/systray.sh")
+(deflisten systray-items-count :initial 0 "../scripts/systray.sh")
 
 (defpoll kernel :interval "3600" 'echo "$(uname -r) "')
 

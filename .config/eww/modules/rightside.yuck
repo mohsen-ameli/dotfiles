@@ -21,7 +21,7 @@
         (button 
           :class {'widget wifi wifi-' + network.class + ' ' + (network.status == "disconnected" ? "disabled" : "")}
           :timeout "2m"
-          :onclick "scripts/toggle.sh wifi"
+          :onclick "../scripts/toggle.sh wifi"
           :onrightclick "$HOME/.local/bin/launch-in-terminal nmtui"
           ""
         )
@@ -29,18 +29,18 @@
           :class {'widget ' + (bluetooth.powered == 0 ? "disabled" : "")}
           :css "button {padding: 0px 20px;}"
           :timeout "2m"
-          :onclick "scripts/toggle.sh bluetooth"
+          :onclick "../scripts/toggle.sh bluetooth"
           :onrightclick "$HOME/.local/bin/launch-in-terminal bluetuith"
           {bluetooth.icon}
         )
         (button
           :class {'widget battery ' + battery.status}
-          :onclick "scripts/toggle.sh battery"
+          :onclick "../scripts/toggle.sh battery"
           {battery.icon}
         )
         (button
           :class "widget"
-          :onclick "scripts/toggle.sh time_cal"
+          :onclick "../scripts/toggle.sh time_cal"
           time
         )
         (button
@@ -49,7 +49,7 @@
           :css "button {padding: 0px 20px 0px 15px;}"
           :timeout "2m"
           :onrightclick "rofi -show drun"
-          :onclick "scripts/toggle_control.sh"          
+          :onclick "../scripts/toggle_control.sh"          
           ""
         )
     )

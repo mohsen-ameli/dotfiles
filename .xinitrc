@@ -13,4 +13,6 @@ asusctl --chg-limit 80 &
 $HOME/.local/bin/battery-alert &
 exec dwmblocks &
 exec sxhkd &
-exec dwm
+exec $HOME/.local/bin/run-bar &
+#exec dwm
+exec i3

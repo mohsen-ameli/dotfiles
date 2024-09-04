@@ -3,9 +3,14 @@
 ## Are we on wayland or not
 ##########################
 
+if [ "$1" = "--help" ]; then
+  echo "Usage: is-wayland [no args] or [--name]"
+  exit 0
+fi
+
 if [ "$WAYLAND_DISPLAY" = "" ]; then
-  echo "0"
+  [ "$1" = "--name" ] && echo "x11" || echo "0"
 else
-  echo "1"
+  [ "$1" = "--name" ] && echo "wayland" || echo "1"
 fi
 

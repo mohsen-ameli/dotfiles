@@ -37,6 +37,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class     instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
+  { "floating",   NULL,     NULL,           0,         1,          1,           0,        -1 },
 	{ "Gimp",       NULL,     NULL,           0,         1,          0,           0,        -1 },
   { "loupe",      NULL,     NULL,           0,         1,          0,           0,        -1 },
 	{ "Firefox",    NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
@@ -78,12 +79,12 @@ static const char *termcmd[]  = { "st", NULL };
 static const StatusCmd statuscmds[] = {
   { "volume --toggle", 3 },
 	{ "volume --toggle-mic", 7 },
-  { "st -e nmtui", 12 },
-  { "st -e bluetuith", 13 },
-  { "st -e install-updates", 19 },
-  { "st -e btop", 11 },
-  { "st -e run-in-term cal", 4 },
-  { "st -e run-in-term curl wttr.in/?2", 21 },
+  { "st -c floating -e nmtui", 12 },
+  { "st -c floating -e bluetuith", 13 },
+  { "st -c floating -e install-updates", 19 },
+  { "st -c floating -e btop", 11 },
+  { "st -c floating -e run-in-term cal", 4 },
+  { "st -c floating -e run-in-term curl wttr.in/?2", 21 },
 };
 static const char *statuscmd[] = { "/bin/sh", "-c", NULL, NULL };
 

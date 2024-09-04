@@ -3,12 +3,7 @@
 ## Dmenu screenshot script.
 ##########################
 
-wayland=$($HOME/.local/bin/is-wayland)
-if [ $wayland -eq 1 ]; then
-  schema="rofi -dmenu -no-show-icons -i -p Select:"
-else
-  schema="dmenu -i -p Select..."
-fi
+schema="rofi -dmenu -no-show-icons -i -p Select:"
 base="$HOME/Pictures/screenshots"
 name="$base/$(date +'%F_%T').png"
 

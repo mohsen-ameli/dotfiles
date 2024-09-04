@@ -59,17 +59,16 @@ if [ $wayland -eq 1 ]; then
     killall swaybg
     swaybg -m fill -i $path_to_wallpapers$wallpaper &
   elif [ "$engine" = "swww" ]; then
-    sleep 2
+    sleep 3
     swww img $path_to_wallpapers$wallpaper --transition-fps 60 --transition-type wipe
   fi
 else
-  killall feh
-  feh --no-fehbg --bg-fill $path_to_wallpapers$wallpaper &
+  feh --no-fehbg --bg-fill $path_to_wallpapers$wallpaper
 fi
 # notify "Wallpaper: Set Successfully!" "$wall_name" 50
 
 # Select random wallpaper and create color scheme
-wal -q -s -t -i $path_to_wallpapers$wallpaper
+wal -n -q -s -t -i $path_to_wallpapers$wallpaper
 # notify "Wallpaper: Generating PyWal Colors" "$wall_name" 70
 
 # Genearting colors for hyprland and vscode
@@ -81,9 +80,7 @@ $HOME/.local/bin/generate-wal
 # notify "Wallpaper: Loading Colors" "$wall_name" 90
 
 # Restart the bar
-if [ $wayland -eq 1 ]; then
-  $HOME/.local/bin/run-bar
-fi
+$HOME/.local/bin/run-bar
 
 # Copy selected wallpaper into .cache folder
 cp $wallpaper ~/.cache/current_wallpaper.jpg
