@@ -44,7 +44,7 @@ if [ "$confirm" = "$action" ]; then
   elif [ "$action_lower" = "suspend" ]; then
     systemctl suspend
   elif [ "$action_lower" = "logout" ]; then
-    [ $HOME/.local/bin/is-wayland -eq "1" ] && hyprctl dispatch exit || loginctl terminate-user $USER
+    [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl dispatch exit || killall Xorg
   elif [ "$action_lower" = "shutdown" ]; then
     sudo shutdown now
   elif [ "$action_lower" = "restart" ]; then

@@ -12,9 +12,9 @@
     :stacking "overlay"
     :geometry (geometry 
                 :anchor "top right"
-                :width "350px"
+                :width "420px"
                 :x "-10px"
-                :y "60px"
+                :y "55px"
             )
     (time_cal)
 )
@@ -26,7 +26,7 @@
                 :width "400px"
                 :height "100px"
                 :x "-10px"
-                :y "60px"
+                :y "55px"
             )
     (control)
 )
@@ -37,9 +37,8 @@
     :geometry (geometry 
                 :anchor "top right"
                 :width "450px"
-                :height "100px"
                 :x "-120px"
-                :y "60px"
+                :y "55px"
             )
     (wifi)
 )
@@ -48,10 +47,8 @@
     :monitor 0
     :geometry (geometry 
                 :anchor "top right"
-                :width "30px"
-                :height "100px"
                 :x "-100px"
-                :y "60px"
+                :y "55px"
             )
     (bluetooth)
 )
@@ -61,9 +58,8 @@
     :geometry (geometry 
                 :anchor "top right"
                 :width "400px"
-                :height "100px"
                 :x "-20px"
-                :y "60px"
+                :y "55px"
             )
     (battery)
 )
@@ -75,7 +71,7 @@
                 :anchor "top left"
                 :width "450px"
                 :x "150px"
-                :y "60px"
+                :y "55px"
             )
     (weather)
 )
@@ -85,8 +81,8 @@
     :geometry (geometry 
                 :anchor "top right"
                 :width "500px"
-                :x "-420px"
-                :y "60px"
+                :x "-430px"
+                :y "55px"
             )
     (updates)
 )

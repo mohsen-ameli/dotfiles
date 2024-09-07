@@ -1,11 +1,11 @@
 (defwidget rightside []
-    (box :class "sidestuff" :orientation "h" :space-evenly false :halign "end"
+    (box :orientation "h" :space-evenly false :halign "end"
         (eventbox
             :class {'widget ' + (volume.text == 0 ? "disabled" : "")}
             :width 80
             :onclick "$HOME/.local/bin/volume --toggle"
             :onscroll "[ \"{}\" = \"up\" ] && $HOME/.local/bin/volume --inc || $HOME/.local/bin/volume --dec"
-            (box :orientation "h" :space-evenly false :spacing 8 :halign "center"
+            (box :class "audio" :orientation "h" :space-evenly false :spacing 8 :halign "center"
                 (label :text {volume.text + "%"})
                 (label :text "" :class {'volume vol-' + volume.class})
             )

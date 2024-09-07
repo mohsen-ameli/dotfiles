@@ -5,6 +5,7 @@
 # Running electron apps in wayland needs this
 export ELECTRON_OZONE_PLATFORM_HINT="wayland"
 export PATH="$PATH:/usr/bin/latex:/usr/bin/pdflatex"
+[ $($HOME/.local/bin/is-wayland) -eq 1 ] && alias rofi="rofi \"$@\"" || alias rofi="rofi -dpi 120 \"$@\""
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return

@@ -70,7 +70,7 @@ tooltip label {
   @if $mode == normal {
     border: 1px solid $foreground;
     border-radius: 10px;
-    margin-left: 4px;
+    margin-left: 6px;
   }
 }
 
@@ -186,7 +186,7 @@ tooltip label {
     border-radius: 8px;
   }
   font-size: 20px;
-  margin: 0px 2px;
+  margin: 0px 3px;
 }
 
 .workspaces > button.active {
@@ -196,7 +196,7 @@ tooltip label {
   font-size: 20px;
   background-color: $color7;
   color: $color0;
-  padding: 0px 32px;
+  padding: 0px 40px;
 }
 
 .workspaces button:hover {
@@ -235,6 +235,10 @@ tooltip label {
   @if $mode == normal {
     border-radius: 10px;
   }
+}
+
+.audio {
+  padding: 0px 15px;
 }
 
 .volume {
@@ -325,13 +329,12 @@ tooltip label {
     border-radius: 5px;
   }
   min-height: 15px;
-  min-width: 240px;
+  min-width: 280px;
   margin: 0px 10px;
 }
 
 .music-bar scale trough {
-  min-width: 280px;
-  min-height: 15px;
+  min-width: 320px;
 }
 
 .battery {

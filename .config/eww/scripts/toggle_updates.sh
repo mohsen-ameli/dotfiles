@@ -1,5 +1,6 @@
 #!/bin/sh
 
+EWW_HOME_DIR="$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"
 current=$(eww get curr_window -c $EWW_HOME_DIR)
 
 open() {

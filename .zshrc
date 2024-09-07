@@ -5,8 +5,23 @@
 # Ctrl + Backspace kill a word
 bindkey '^H' backward-kill-word
 
+# Charging cap
+export CHARGE_LIMIT=100
+
+if [ $($HOME/.local/bin/is-wayland) -eq 0 ]; then
+  echo "configuration {dpi: 120;}" > $HOME/.config/rofi/hybrid.rasi
+else
+  echo "configuration {}" > $HOME/.config/rofi/hybrid.rasi
+fi
+
 # Enabling syntax highliting for nano
 # ls -1 /usr/share/nano/*.nanorc | sed 's/^\//include \//' > ~/.nanorc
+
+# Swallow
+alias mpv="swallow mpv"
+alias steam="swallow steam"
+alias prime-run="swallow prime-run"
+alias wine="swallow wine"
 
 export EWW_HOME_DIR="$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"
 # Running electron apps in wayland needs this
@@ -40,7 +55,7 @@ export PYTHON_HISTORY="$XDG_STATE_HOME/python/history"
 export PYTHONPYCACHEPREFIX="$XDG_CACHE_HOME/python"
 export PYTHONUSERBASE="$XDG_DATA_HOME/python"
 export PYTHONSTARTUP="$XDG_DATA_HOME/python/pythonrc"
-export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
+# export PASSWORD_STORE_DIR="$XDG_DATA_HOME"/pass
 export GRIPHOME="$XDG_CONFIG_HOME/grip"
 
 # oh-my-zsh
@@ -151,4 +166,12 @@ esac
 # fnm
 fnm env > /tmp/fnm
 . /tmp/fnm
+
+# Auto starting window managers
+tty_session=$(echo "${$(tty)##*/}")
+if [ "$tty_session" = "tty1" ]; then
+  startx 
+elif [ "$tty_session" = "tty2" ]; then
+  Hyprland
+fi
 

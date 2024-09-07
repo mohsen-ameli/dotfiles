@@ -8,6 +8,8 @@ configuration {
     drun-display-format: "{name}";
 }
 
+@import "hybrid"
+
 // Dynamic colors from pywal
 @theme "~/.cache/wal/colors.rofi"
 

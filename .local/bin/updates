@@ -66,7 +66,7 @@ arch_updates = len(ll)
 
 updates = aur_updates + arch_updates
 
-if (len(sys.argv) > 1 and sys.argv[1] == "--count") or is_wayland == "0":
+if (len(sys.argv) > 1 and sys.argv[1] == "--count"):
     print(updates)
     data = json.dumps({
         "time": f"{int(time.time())}",

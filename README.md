@@ -161,3 +161,26 @@ usb.rules:
 ACTION=="add",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 1 %E{DEVNAME}'"
 ACTION=="remove",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USERNAME/.Xauthority" RUN+="/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 0 %E{DEVNAME}'"
 ```
+
+## Unix Password Manager
+
+download pass
+`sudo pacman -S pass pass-otp`
+
+plugins for chromium browsers
+`sudo pacman -S browserpass browserpass-chromium`
+
+plugin for firefox browsers
+`sudo pacman -S passff-host`
+`curl -sSL https://codeberg.org/PassFF/passff-host/releases/download/latest/install_host_app.sh | bash -s -- librewolf`
+
+use pam-gnupg to not enter password everytime
+make sure to have the same password for the gpg key and the user you log in as.
+
+```
+paru -S pam-gnupg
+echo -e "auth     optional  pam_gnupg.so store-only\nsession  optional  pam_gnupg.so" | sudo tee /etc/pam.d/system-login
+echo "allow-preset-passphrase" > ~/.gnupg/gpg-agent.conf
+```
+
+run `gpg -K --with-keygrip` and copy the keygrip within the block that has [E] in it and paste it into ~/.pam-gnupg.

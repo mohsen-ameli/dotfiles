@@ -5,7 +5,7 @@ emulator="alacritty"
 shell="zsh dash"
 editor="code nano vim gedit"
 file_explorer="thunar lc tumbler ffmpegthumbnailer"
-image_viewer="loupe swappy"
+image_viewer="qimgv"
 themes="breeze-icons arc-gtk-theme papirus-icon-theme bibata-cursor-theme-bin"
 fonts="noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd vazirmatn-fonts"
 media_player="mpv vlc amberol rhythmbox"
@@ -13,6 +13,7 @@ network="networkmanager net-tools"
 bluetooth="bluez bluez-utils bluez-obex"
 audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pavucontrol"
 login_manager="ly"
+i3="i3-wm i3-swallow-git"
 rofi="rofi-wayland rofi-calc-git"
 extra="usbimager speedtest"
 
@@ -67,10 +68,9 @@ setup_packages() {
   confirm "Do you want to install the main packages?" || return
 	notify ":: Installing packages."
 	$pkg_manager --noconfirm -Syyu base-devel git $network $themes $login_manager $shell $file_explorer $image_viewer \
-	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $extra \
+	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $extra $i3 \
 	  dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal eww swww swaybg \
     zenity pacman-contrib ffmpeg wget jq grim slurp cliphist glmark2 brightnessctl ntfs-3g socat inotify-tools xdg-ninja \
-    pass pass-otp \
     # AUR below
     $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
@@ -220,12 +220,9 @@ setup_browser() {
   printf "Which browser do you want to install: (1) Brave (2) Librewolf"
   read choice
   if [ $choice -eq 1 ]; then
-    $pkg_manager brave-bin browserpass browserpass-chromium
-    xdg-settings set default-web-browser brave-browser.desktop
+    $pkg_manager brave-bin 
   elif [ $choice -eq 2 ]; then
-    $pkg_manager librewolf passff-host
-    curl -sSL https://codeberg.org/PassFF/passff-host/releases/download/latest/install_host_app.sh | bash -s -- librewolf
-    xdg-settings set default-web-browser librewolf.sesktop
+    $pkg_manager librewolf
   fi
 }
 
@@ -236,18 +233,21 @@ setup_gaming() {
 }
 
 setup_other() {
+  default_browser="brave-browser.desktop"
+  default_terminal="alacritty"
+  default_explorer="thunar.desktop"
+  default_imageviewer="qimgv.desktop"
+
+  xdg-settings set default-web-browser $default_browser
+  sudo ln -s /usr/bin/$default_terminal /usr/bin/xdg-terminal-exec
+  gsettings set org.gnome.desktop.default-applications.terminal exec $default_terminal
+  xdg-mime default $default_explorer inode/directory
+  xdg-mime default $default_imageviewer image
+  # xdg-mime default $default_imageviewer image/jpg
+  # xdg-mime default $default_imageviewer image/jpeg
+
   # Enabling bluetooth
   sudo systemctl enable --now bluetooth
-
-  # Setting default terminal emulator
-  sudo ln -s /usr/bin/$emulator /usr/bin/xdg-terminal-exec
-  gsettings set org.gnome.desktop.default-applications.terminal exec $terminal
-
-  # Setting default file explorer
-  xdg-mime default $file_explorer.desktop inode/directory
-  xdg-mime default org.gnome.Loupe.desktop image/png
-  xdg-mime default org.gnome.Loupe.desktop image/jpg
-  xdg-mime default org.gnome.Loupe.desktop image/jpeg
 
 	# For power and usb plug/unplug notifications
 	echo -e """

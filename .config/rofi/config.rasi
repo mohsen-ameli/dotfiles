@@ -2,12 +2,15 @@ configuration {
     display-drun: "Application:";
     display-window: "Windows:";
     drun-display-format: "{icon} {name}";
-    hover-select: true;
+    //hover-select: true;
     me-select-entry: "";
     me-accept-entry: "MousePrimary";
     modes: [window,drun,run,ssh,calc];
     show-icons: true;
+    scale: 2;
 }
+
+@import "hybrid"
 
 // Dynamic colors from pywal
 @theme "~/.cache/wal/colors.rofi"

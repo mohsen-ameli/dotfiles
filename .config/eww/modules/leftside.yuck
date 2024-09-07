@@ -1,5 +1,5 @@
 (defwidget leftside []
-    (box :class "sidestuff" :orientation "h" :space-evenly false :halign "start"
+    (box :orientation "h" :space-evenly false :halign "start"
         (label :tooltip "CPU Temperature" :text temperature :class "widget first fixed-size")
         (button
           :tooltip "Memory"

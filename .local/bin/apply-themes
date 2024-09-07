@@ -3,29 +3,54 @@
 ## Applies most important themes based on the settings set by the nwg-look GUI app
 ##########################
 
-THEME=$(grep "gtk-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-ICONS=$(grep "icon-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-FONT=$(grep "font-name" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-CURSOR=$(grep "cursor-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-CURSOR_SIZE=$(grep "cursor-size" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-SCHEMA="gsettings set org.gnome.desktop.interface"
+theme=$(grep "gtk-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+icons=$(grep "icon-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+font=$(grep "font-name" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+cursor=$(grep "cursor-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+cursor_size=$(grep "cursor-size" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+schema="gsettings set org.gnome.desktop.interface"
 
 # gsettings set org.gnome.desktop.interface document-font-name 'JetBrainsMonoNL NF 10'
 # gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL NF 11'
 
 apply_themes() {
-  $SCHEMA gtk-theme "$THEME"
-	$SCHEMA icon-theme "$ICONS"
-	$SCHEMA font-name "$FONT"
-	$SCHEMA cursor-theme "$CURSOR"
-	$SCHEMA cursor-size "$CURSOR_SIZE"
-  [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl setcursor $CURSOR $CURSOR_SIZE
+  $schema gtk-theme "$theme"
+	$schema icon-theme "$icons"
+	$schema font-name "$font"
+	$schema cursor-theme "$cursor"
+	$schema cursor-size "$cursor_size"
+  [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl setcursor $cursor $cursor_size
+
+	# Set xcursor themes in .bashprofile
+	echo """[ -f ~/.bashrc ] && . ~/.bashrc
+export XCURSOR_THEME=\"$cursor\"
+export XCURSOR_SIZE=\"$cursor_size\"
+export MOZ_ENABLE_WAYLAND=1""" > $HOME/.bash_profile
+
+	echo """! For HiDPI displays
+Xft.dpi: 120
+
+! These might also be useful depending on your monitor and personal preference:
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+! Cursors
+Xcursor.theme: $cursor
+Xcursor.size: $cursor_size""" > $HOME/.Xresources
 
 	# Adding current cursor theme as default to .icons folder
 	[ ! -d $HOME/.local/share/icons/default ] && mkdir -p $HOME/.local/share/icons/default
-	echo -e """[Icon Theme]\nInherits=$CURSOR""" > $HOME/.local/share/icons/default/index.theme
+	echo -e """[Icon Theme]\nInherits=$cursor""" > $HOME/.local/share/icons/default/index.theme
 
-  echo "Done!"
+	# getting rid of an unnecessary default theme directory that gets set by nwg look. 
+	# [ -d ~/.local/share/icons/default ] && mv ~/.local/share/icons/default ~/.local/share/icons/tmp
+
+	echo "Done!"
 }
 
 apply_themes
+
