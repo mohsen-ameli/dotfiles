@@ -68,16 +68,7 @@ updates = aur_updates + arch_updates
 
 if (len(sys.argv) > 1 and sys.argv[1] == "--count"):
     print(updates)
-    data = json.dumps({
-        "time": f"{int(time.time())}",
-        "text": f"{updates} Updates  ",
-        "number": f"{updates}",
-    })
-    f = open("/tmp/updates.txt", "w")
-    f.write(data)
-    f.close()
-    exit(0)
-if updates == 0:
+elif updates == 0:
     tooltip = "0 Updates... Yay!"
 else:
     # Not showing lib and qt updates in tooltip
@@ -94,12 +85,6 @@ else:
     tooltip = "<tt>"
     tooltip += tabulate(rows, ['Name', 'New Version', 'Name', 'New Version'], tablefmt='rounded_outline')
     tooltip += "</tt>"
-
-# css_class = "green"
-# if updates > threshhold_yellow:
-#     css_class = "yellow"
-# if updates > threshhold_red:
-#     css_class = "red"
 
 data = json.dumps({
     "time": f"{int(time.time())}",

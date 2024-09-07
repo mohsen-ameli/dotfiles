@@ -22,9 +22,9 @@ arguments:
 }
 
 if [ "$1" = "--portion" ]; then
-  [ $wayland -eq 1 ] && grim -g "$(slurp)" $name || scrot --select $name
+  [ $wayland -eq 1 ] && grim -g "$(slurp)" $name || maim -os $name
 elif [ "$1" = "--full" ]; then
-  [ $wayland -eq 1 ] && grim $name || scrot $name
+  [ $wayland -eq 1 ] && grim $name || maim $name
 else
   print_usage
   exit 0

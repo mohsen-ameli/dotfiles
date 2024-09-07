@@ -1,0 +1,1 @@
+(defwidget system-tray [] (systray :class "widget tooltip" :icon-size 30 :spacing 4))

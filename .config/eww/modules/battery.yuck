@@ -1,0 +1,7 @@
+(defwidget battery []
+    (revealer :reveal {matches(curr_window,"battery")}
+        (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
+            (label :markup {battery_info} :class "control-box")
+        )
+    )
+)

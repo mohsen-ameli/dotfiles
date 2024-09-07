@@ -15,7 +15,7 @@ audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse 
 login_manager="ly"
 i3="i3-wm i3-swallow-git"
 rofi="rofi-wayland rofi-calc-git"
-extra="usbimager speedtest"
+extra="usbimager speedtest wget glmark2 xdg-ninja"
 
 notify() {
 	echo -e "\n-----------------------------------------------"
@@ -70,7 +70,7 @@ setup_packages() {
 	$pkg_manager --noconfirm -Syyu base-devel git $network $themes $login_manager $shell $file_explorer $image_viewer \
 	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $extra $i3 \
 	  dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal eww swww swaybg \
-    zenity pacman-contrib ffmpeg wget jq grim slurp cliphist glmark2 brightnessctl ntfs-3g socat inotify-tools xdg-ninja \
+    zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools \
     # AUR below
     $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
 }
@@ -96,24 +96,22 @@ setup_vm() {
   confirm "Do you want to install QEMU and Virt Manager?" || return
   notify ":: Installing QEMU and Virt Manager"
   $pkg_manager -S qemu virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libguestfs swtpm
-  echo -e """
-  unix_sock_group = \"libvirt\"
-  unix_sock_ro_perms = \"0777\"
-  unix_sock_rw_perms = \"0770\"
-  """ >> sudo tee /etc/libvirt/libvirtd.conf
+  echo -e """unix_sock_group = \"libvirt\"
+unix_sock_ro_perms = \"0777\"
+unix_sock_rw_perms = \"0770\"""" >> sudo tee /etc/libvirt/libvirtd.conf
 }
 
 setup_qtile() {
   confirm "Do you want to install XORG and some utilities for it?" || return
   notify ":: Installing XORG and utilities"
-	$pkg_manager xorg xclip mutter-x11-scaling lxappearance clipcat scrot
+	$pkg_manager xorg xclip mutter-x11-scaling lxappearance clipcat maim
   echo """[Desktop Entry]
-          Encoding=UTF-8
-          Name=dwm
-          Comment=Dynamic window manager
-          Exec=dwm
-          Icon=dwm
-          Type=XSession""" > /usr/share/xsessions/dwm.desktop
+Encoding=UTF-8
+Name=i3
+Comment=i3 window manager
+Exec=i3
+Icon=i3
+Type=XSession""" > /usr/share/xsessions/i3.desktop
   ln -s .xinitrc .xsession
   ln -s .xinitrc .xprofile
 }
@@ -132,16 +130,13 @@ setup_zsh() {
 	git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 	chsh -s $(which zsh)
 	cp $HOME/dotfiles/.zshrc $HOME
-  echo -e """
-    prefix=${XDG_DATA_HOME}/npm
-    cache=${XDG_CACHE_HOME}/npm
-    init-module=${XDG_CONFIG_HOME}/npm/config/npm-init.js
-  """ | sudo tee /etc/npmrc
+  echo -e """prefix=${XDG_DATA_HOME}/npm
+cache=${XDG_CACHE_HOME}/npm
+init-module=${XDG_CONFIG_HOME}/npm/config/npm-init.js""" | sudo tee /etc/npmrc
   
   mkdir $HOME/.local/share/python
 
-  echo """
-def is_vanilla() -> bool:
+  echo """def is_vanilla() -> bool:
     import sys
     return not hasattr(__builtins__, '__IPYTHON__') and 'bpython' not in sys.argv[0]
 
@@ -164,8 +159,7 @@ def setup_history():
 
 
 if is_vanilla():
-    setup_history()
-  """ > $HOME/.local/share/python/pythonrc
+    setup_history()""" > $HOME/.local/share/python/pythonrc
 }
 
 setup_cursor() {
@@ -229,7 +223,7 @@ setup_browser() {
 setup_gaming() {
   confirm "Do you want to install steam and some gaming components?" || return
   notify ":: Setting up gaming environment"
-  $pkg_manager steam gamescope
+  $pkg_manager steam lutris gamescope
 }
 
 setup_other() {
@@ -242,21 +236,22 @@ setup_other() {
   sudo ln -s /usr/bin/$default_terminal /usr/bin/xdg-terminal-exec
   gsettings set org.gnome.desktop.default-applications.terminal exec $default_terminal
   xdg-mime default $default_explorer inode/directory
-  xdg-mime default $default_imageviewer image
-  # xdg-mime default $default_imageviewer image/jpg
-  # xdg-mime default $default_imageviewer image/jpeg
+  xdg-mime default $default_imageviewer image/png
+  xdg-mime default $default_imageviewer image/jpg
+  xdg-mime default $default_imageviewer image/jpeg
 
   # Enabling bluetooth
   sudo systemctl enable --now bluetooth
 
 	# For power and usb plug/unplug notifications
 	echo -e """
-	==\"change\", SUBSYSTEM==\"power_supply\", ATTR{type}==\"Mains\", ATTR{online}==\"0\", ENV{DISPLAY}=\":0\", ENV{XAUTHORITY}=\"/home/USERNAME/.Xauthority\" RUN+=\"/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/battery-charging discharging'\"
-	ACTION==\"change\", SUBSYSTEM==\"power_supply\", ATTR{type}==\"Mains\", ATTR{online}==\"1\", ENV{DISPLAY}=\":0\", ENV{XAUTHORITY}=\"/home/USERNAME/.Xauthority\" RUN+=\"/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/battery-charging charging'\"
+ACTION==\"change\", SUBSYSTEM==\"power_supply\", ATTR{type}==\"Mains\", ATTR{online}==\"0\", ENV{DISPLAY}=\":0\", ENV{XAUTHORITY}=\"/home/USERNAME/.Xauthority\" RUN+=\"/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/battery-charging discharging'\"
+ACTION==\"change\", SUBSYSTEM==\"power_supply\", ATTR{type}==\"Mains\", ATTR{online}==\"1\", ENV{DISPLAY}=\":0\", ENV{XAUTHORITY}=\"/home/USERNAME/.Xauthority\" RUN+=\"/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/battery-charging charging'\"
 	""" > sudo tee /etc/udev/rules.d/power.rules
+
 	echo -e """
-	ACTION==\"add\",SUBSYSTEM==\"usb\",ENV{DISPLAY}=\":0\", ENV{XAUTHORITY}=\"/home/USERNAME/.Xauthority\" RUN+=\"/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 1 %E{DEVNAME}'\"
-	ACTION==\"remove\",SUBSYSTEM==\"usb\",ENV{DISPLAY}=\":0\", ENV{XAUTHORITY}=\"/home/USERNAME/.Xauthority\" RUN+=\"/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 0 %E{DEVNAME}'\"
+ACTION==\"add\",SUBSYSTEM==\"usb\",ENV{DISPLAY}=\":0\", ENV{XAUTHORITY}=\"/home/USERNAME/.Xauthority\" RUN+=\"/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 1 %E{DEVNAME}'\"
+ACTION==\"remove\",SUBSYSTEM==\"usb\",ENV{DISPLAY}=\":0\", ENV{XAUTHORITY}=\"/home/USERNAME/.Xauthority\" RUN+=\"/usr/bin/su USERNAME -c '/home/USERNAME/.local/bin/usb-notify 0 %E{DEVNAME}'\"
 	""" > sudo tee /etc/udev/rules.d/usb.rules
 }
 

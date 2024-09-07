@@ -41,8 +41,8 @@ load_config() {
 		: "${CLIP_COPY:=xclip -i -r -selection clipboard}"
 		: "${CLIP_PASTE_CLIP:=xclip -o -selection clipboard}"
 		: "${CLIP_PASTE_PRIM:=xclip -o -selection primary}"
-		: "${DMENU:=dmenu}"
-		: "${TERMINAL=st}"
+		: "${DMENU:=rofi -dmenu}"
+		: "${TERMINAL=alacritty}"
 	fi
 
 	# Default values

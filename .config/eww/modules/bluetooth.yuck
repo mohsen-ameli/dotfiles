@@ -3,7 +3,7 @@
         (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
             (button
                 :class "control-box"
-                :onclick {(bluetooth.powered == "0" ? "sudo rfkill unblock bluetooth && sudo systemctl restart bluetooth && bluetoothctl power on" : "bluetoothctl power off") + "; eww update bluetooth=$($HOME/.local/bin/bluetooth --json)"}
+                :onclick {(bluetooth.powered == "0" ? "sudo rfkill unblock bluetooth && sudo systemctl restart bluetooth && bluetoothctl power on" : "bluetoothctl power off") + "; eww update bluetooth=$($HOME/.local/bin/bluetooth --json) -c $EWW_HOME_DIR"}
                 {bluetooth.powered == 0 ? "Power On Bluetooth " : "Power Off Bluetooth 󰂲"}
             )
             (button

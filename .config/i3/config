@@ -7,6 +7,8 @@ set $mod Mod4
 # define width and height for the window
 for_window [class="floating"] floating enable
 for_window [class="qimgv"] floating enable
+for_window [class="mpv"] floating enable
+for_window [class="vlc"] floating enable
 for_window [class="^.*"] border pixel 3
 
 # open links and focus on the app that opened it
