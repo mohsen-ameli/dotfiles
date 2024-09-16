@@ -85,5 +85,8 @@ $HOME/.local/bin/run-bar
 # Copy selected wallpaper into .cache folder
 cp $wallpaper ~/.cache/current_wallpaper.jpg
 magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png &
+if [ $wayland -eq 0 ]; then
+  betterlockscreen -u ~/.cache/current_wallpaper.jpg --span --fx blur &
+fi
 notify-send "Wallpaper Changed Successfully!" "$wallpaper_name"
 

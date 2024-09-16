@@ -85,7 +85,8 @@ aura() {
 toggle_profile() {
   asusctl profile -n
   data=$(get_data 2)
-  eww update rog="$data"
+  EWW_HOME_DIR="$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"
+  eww update rog="$data" -c $EWW_HOME_DIR
   notify_user -i fan "Power Profile" "$(echo ${data%% *})" -r 79
   # pkill -SIGRTMIN+8 waybar
   # kill -s 35 $(pgrep sig.sh)

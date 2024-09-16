@@ -84,6 +84,9 @@ Run apps as sudo on hyprland\
 `xhost si:localuser:root`\
 `xhost | DISPLAY=:0 sudo command`
 
+Setup nmcli to connect to wifi automatically:
+`nmcli device set wlan0 autoconnect yes`
+
 # fonts and icons
 
 Downloads fonts into either /usr/share/fonts or .local/share/fonts
@@ -131,6 +134,9 @@ https://comfy.guide/client/nvidia/
 
 Apps (chromuim and electron based usually) openening slowly:
 https://wiki.archlinux.org/title/Vulkan#AMDGPU_-_Vulkan_applications_launch_slowly
+
+Installing (older) drivers
+https://github.com/Frogging-Family/nvidia-all.git
 
 ## Games
 

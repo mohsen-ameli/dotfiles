@@ -2,7 +2,7 @@
     (revealer :reveal {matches(curr_window,"weather")}
         (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
             (label :markup {weather.tooltip})
-            (button :class "control-box" :timeout "1m" :onclick "eww update weather=\"$($HOME/.local/bin/weather --live)\" -c $EWW_HOME_DIR" "Updated ${round((time_in_sec - weather.time)/60, 0)} mins ago. Update Now")
+            (button :class "control-box" :timeout "1m" :onclick "../scripts/weather.sh" "Updated ${round((time_in_sec - weather.time)/60, 0)} mins ago. Update Now")
         )
     )
 )

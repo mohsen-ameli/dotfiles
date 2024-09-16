@@ -5,4 +5,5 @@
 
 killall eww
 sleep 1
-eww open bar -c "$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"
+eww open bar -c "$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)" --screen 0 --id primary
+eww open bar -c "$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)" --screen 1 --id secondary

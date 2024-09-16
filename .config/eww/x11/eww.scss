@@ -65,10 +65,10 @@ tooltip label {
 
 .widget {
   background-color: $color4;
-  padding: 0px 16px;
+  padding: 0px 18px;
   font-size: 20px;
   @if $mode == normal {
-    border: 1px solid $foreground;
+    // border: 1px solid $foreground;
     border-radius: 10px;
     margin-left: 6px;
   }
@@ -85,7 +85,7 @@ tooltip label {
 }
 
 .wifi {
-  padding: 0px 25px;
+  padding: 0px 28px;
   background-repeat: no-repeat;
   background-size: 26px;
   background-position: center;
@@ -174,7 +174,7 @@ tooltip label {
   background-color: $color4;
   @if $mode == normal {
     border-radius: 10px;
-    border: 1px solid $foreground;
+    // border: 1px solid $foreground;
   }
   padding: 3px 3px;
 }
@@ -242,9 +242,9 @@ tooltip label {
 }
 
 .volume {
-  padding: 0px 10px;
+  padding: 0px 12px;
   background-repeat: no-repeat;
-  background-size: 22px;
+  background-size: 26px;
   background-position: center;
   background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");
 }

@@ -19,7 +19,8 @@ get_x11() {
 next_wayland() {
     hyprctl switchxkblayout asus-keyboard-2 next
     kbd=$(get_wayland)
-    eww update keyboard="$kbd"
+    EWW_HOME_DIR="$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"
+    eww update keyboard="$kbd" -c $EWW_HOME_DIR
     notify-send -i keyboard -r 624 -u low "Keyboard Language" "$kbd"
 }
 

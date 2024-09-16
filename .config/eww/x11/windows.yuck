@@ -1,4 +1,5 @@
 (defwindow bar
+    ;; :monitor '["<primary>", "HDMI-A-0"]'
     :monitor 0
     :geometry (geometry :anchor "top center" :height "50px")
     :wm-ignore false
@@ -47,6 +48,7 @@
     :monitor 0
     :geometry (geometry 
                 :anchor "top right"
+                :width "350px"
                 :x "-100px"
                 :y "55px"
             )

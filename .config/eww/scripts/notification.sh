@@ -3,6 +3,8 @@
 ## Manages dunst notifications
 ##########################
 
+EWW_HOME_DIR="$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"
+
 if [ "$1" = "--update" ]; then
   # update the notifications
   dunstctl history-clear

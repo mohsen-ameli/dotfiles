@@ -9,22 +9,26 @@ integrated() {
   echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   echo 0 | sudo tee /sys/bus/pci/rescan
   echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  sudo envycontrol -s integrated
+  # sudo envycontrol -s integrated
+  # sudo supergfxctl -m Integrated
 
   echo "0"
 }
 
 hybrid() {
-  sudo envycontrol --force-comp -s hybrid
+  # --force-comp
+  # sudo envycontrol -s hybrid
+  # sudo supergfxctl -m Hybrid
   success=$(printf $?)
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   echo 0 | sudo tee /sys/bus/pci/rescan
   echo 1 | sudo tee /sys/bus/pci/rescan
   echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
 
-  if [ $success -ne 0 ]; then
-    sudo envycontrol --force-comp -s hybrid
-  fi
+  # if [ $success -ne 0 ]; then
+    # sudo envycontrol -s hybrid
+    # sudo supergfxctl -m Hybrid
+  # fi
 
   echo "0"
 }
@@ -74,8 +78,9 @@ interactive() {
 }
 
 get() {
-  if lspci | grep -i NVIDIA > /dev/null; then
-    echo "Hybrid "
+  mode=$(lspci -k | grep -A3 VGA | grep -A3 NVIDIA | grep "in use:" | cut -f5 -d" " > /dev/null)
+  if [ $? -eq 0 ]; then
+    [ "$mode" = "nouveau" ] && echo "Nouveau 󰔑" || echo "Hybrid "
   else
     echo "Integrated "
   fi

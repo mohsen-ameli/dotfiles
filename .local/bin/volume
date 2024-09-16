@@ -151,7 +151,7 @@ get_icon_name() {
 
 notify_user() {
 	vol=$(get_volume)
-	notify-send -h string:x-canonical-private-synchronous:sys-notify -h int:value:$vol -u low -i "$(get_icon_name)" "Volume: $vol%"
+	notify-send -h string:x-canonical-private-synchronous:sys-notify -h int:value:$vol -u low -r 521 -i "$(get_icon_name)" "Volume: $vol%"
 }
 
 inc_volume() {
@@ -161,7 +161,7 @@ inc_volume() {
 	else
 		toggle_mute
 	fi
-  kill -37 $(pidof dwmblocks)
+#   kill -37 $(pidof dwmblocks)
 }
 
 dec_volume() {
@@ -171,7 +171,7 @@ dec_volume() {
 	else
 		toggle_mute
 	fi
-  kill -37 $(pidof dwmblocks)
+#   kill -37 $(pidof dwmblocks)
 }
 
 toggle_mute() {
@@ -180,7 +180,7 @@ toggle_mute() {
 	else
 		pamixer -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i volume-disabled "Volume: OFF"
 	fi
-  kill -37 $(pidof dwmblocks)
+#   kill -37 $(pidof dwmblocks)
 }
 
 toggle_mic() {
@@ -189,7 +189,7 @@ toggle_mic() {
 	else
 		pamixer --default-source -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone-mute "Microphone: OFF"
 	fi
-  kill -41 $(pidof dwmblocks)
+#   kill -41 $(pidof dwmblocks)
 }
 
 notify_mic_user() {

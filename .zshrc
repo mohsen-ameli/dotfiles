@@ -2,14 +2,16 @@
 # ~/.zshrc
 #
 
-# Ctrl + Backspace kill a word
-bindkey '^H' backward-kill-word
-
 # Charging cap
-export CHARGE_LIMIT=100
+export CHARGE_LIMIT=82
 
 if [ $($HOME/.local/bin/is-wayland) -eq 0 ]; then
   echo "configuration {dpi: 120;}" > $HOME/.config/rofi/hybrid.rasi
+  # Swallow
+  alias mpv="swallow mpv"
+  alias steam="swallow steam"
+  # alias prime-run="swallow prime-run"
+  alias wine="swallow wine"
 else
   echo "configuration {}" > $HOME/.config/rofi/hybrid.rasi
 fi
@@ -17,13 +19,6 @@ fi
 # Enabling syntax highliting for nano
 # ls -1 /usr/share/nano/*.nanorc | sed 's/^\//include \//' > ~/.nanorc
 
-# Swallow
-alias mpv="swallow mpv"
-alias steam="swallow steam"
-alias prime-run="swallow prime-run"
-alias wine="swallow wine"
-
-export EWW_HOME_DIR="$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)"
 # Running electron apps in wayland needs this
 export ELECTRON_OZONE_PLATFORM_HINT="wayland"
 export VCPKG_ROOT="/opt/vcpkg"
@@ -154,7 +149,8 @@ function extract {
 eval "$(starship init zsh)"
 
 # idk man
-cowsay -f ~/.config/sodomized.cow "Welcome Back Soldier" | lolcat
+# cowsay -f ~/.config/sodomized.cow "Welcome Back Soldier" | lolcat
+cowsay "Welcome Back Soldier" | lolcat
 
 # pnpm
 export PNPM_HOME="/home/moe/.local/share/pnpm"
@@ -174,4 +170,15 @@ if [ "$tty_session" = "tty1" ]; then
 elif [ "$tty_session" = "tty2" ]; then
   Hyprland
 fi
+
+
+# bun completions
+[ -s "/home/moe/.bun/_bun" ] && source "/home/moe/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Ctrl + Backspace kill a word
+bindkey '^H' backward-kill-word
 

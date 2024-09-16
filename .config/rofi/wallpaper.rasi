@@ -18,7 +18,7 @@ configuration {
     columns: 4;
     rows: 2;
 
-    background-color: @color0;
+    background-color: @color4;
     border: 0;
     margin: 0;
     padding: 0;
@@ -28,7 +28,7 @@ configuration {
 window {
     width: 70%;
     border-radius: 10px;
-    background-color: @color0;
+    background-color: @color4;
     border: 2px;
     border-color: @color3;
     padding: 10px;
@@ -86,7 +86,7 @@ button {
 }
 
 button selected {
-    background-color: @color4;
+    background-color: @color0;
     text-color: white;
 }
 
@@ -94,7 +94,7 @@ listview {
     enabled: true;
     columns: @columns;
     lines: @rows;
-    background-color: @color0;
+    background-color: @color4;
     border: 0px;
 }
 
@@ -121,8 +121,7 @@ element alternate.active {
 element selected.normal,
 element selected.urgent,
 element selected.active {
-    border-color: @color4;
-    background-color: inherit;
+    border-color: @color0;
     text-color: white;
 }
 

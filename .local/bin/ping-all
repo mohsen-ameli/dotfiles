@@ -10,7 +10,7 @@ if [ "$subdomain" = "" ]; then
 fi
 
 for i in {0..255}; do
-  if ping -c 1 -W 0.5 "$subdomain.$i" &> /dev/null; then
+  if ping -c 1 -W 1 "$subdomain.$i" &> /dev/null; then
     echo "$subdomain.$i"
   fi
 done

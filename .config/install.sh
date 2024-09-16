@@ -2,7 +2,7 @@
 
 curr_dir=$(dirname "$0")
 emulator="alacritty"
-shell="zsh dash"
+shell="zsh"
 editor="code nano vim gedit"
 file_explorer="thunar lc tumbler ffmpegthumbnailer"
 image_viewer="qimgv"
@@ -12,8 +12,6 @@ media_player="mpv vlc amberol rhythmbox"
 network="networkmanager net-tools"
 bluetooth="bluez bluez-utils bluez-obex"
 audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pavucontrol"
-login_manager="ly"
-i3="i3-wm i3-swallow-git"
 rofi="rofi-wayland rofi-calc-git"
 extra="usbimager speedtest wget glmark2 xdg-ninja"
 
@@ -67,9 +65,9 @@ setup_aur() {
 setup_packages() {
   confirm "Do you want to install the main packages?" || return
 	notify ":: Installing packages."
-	$pkg_manager --noconfirm -Syyu base-devel git $network $themes $login_manager $shell $file_explorer $image_viewer \
-	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $extra $i3 \
-	  dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal eww swww swaybg \
+	$pkg_manager --noconfirm -Syyu base-devel git $network $themes $shell $file_explorer $image_viewer \
+	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $extra \
+	  zip dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal eww swww swaybg \
     zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools \
     # AUR below
     $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
@@ -101,10 +99,10 @@ unix_sock_ro_perms = \"0777\"
 unix_sock_rw_perms = \"0770\"""" >> sudo tee /etc/libvirt/libvirtd.conf
 }
 
-setup_qtile() {
-  confirm "Do you want to install XORG and some utilities for it?" || return
-  notify ":: Installing XORG and utilities"
-	$pkg_manager xorg xclip mutter-x11-scaling lxappearance clipcat maim
+setup_xorg() {
+  confirm "Do you want to install i3 Window Manger?" || return
+  notify ":: Installing Xorg and i3"
+	$pkg_manager xorg xclip mutter-x11-scaling i3-wm i3-swallow-git betterlockscreen lxappearance clipcat maim
   echo """[Desktop Entry]
 Encoding=UTF-8
 Name=i3
@@ -114,6 +112,7 @@ Icon=i3
 Type=XSession""" > /usr/share/xsessions/i3.desktop
   ln -s .xinitrc .xsession
   ln -s .xinitrc .xprofile
+  sudo systemctl enable betterlockscreen@moe --now
 }
 
 setup_latex() {
@@ -266,7 +265,7 @@ setup_shell
 setup_firewall
 setup_pentest
 setup_vm
-setup_qtile
+setup_xorg
 setup_samba
 setup_printer
 setup_browser

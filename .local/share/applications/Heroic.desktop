@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Heroic
 Comment=Launch Games.
-Exec=/home/moe/.local/bin/Heroic-2.14.1.AppImage
+Exec=/home/moe/.local/bin/Heroic-2.15.1.AppImage
 Terminal=false
 Type=Application
 Icon=heroic

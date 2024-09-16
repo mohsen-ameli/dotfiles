@@ -5,7 +5,7 @@
 set $mod Mod4
 
 # define width and height for the window
-for_window [class="floating"] floating enable
+for_window [class="floating"] floating enable, resize set 1250 900, move position center
 for_window [class="qimgv"] floating enable
 for_window [class="mpv"] floating enable
 for_window [class="vlc"] floating enable
