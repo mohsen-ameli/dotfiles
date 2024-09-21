@@ -14,7 +14,7 @@
     :geometry (geometry 
                 :anchor "top right"
                 :width "420px"
-                :x "-10px"
+                :x "-6px"
                 :y "55px"
             )
     (time_cal)
@@ -24,12 +24,23 @@
     :monitor 0
     :geometry (geometry
                 :anchor "top right"
-                :width "400px"
+                :width "420px"
                 :height "100px"
-                :x "-10px"
+                :x "-6px"
                 :y "55px"
             )
     (control)
+)
+
+(defwindow updates
+    :monitor 0
+    :geometry (geometry 
+                :anchor "top right"
+                :width "600px"
+                :x "-430px"
+                :y "55px"
+            )
+    (updates)
 )
 
 (defwindow wifi
@@ -48,7 +59,7 @@
     :monitor 0
     :geometry (geometry 
                 :anchor "top right"
-                :width "350px"
+                :width "450px"
                 :x "-100px"
                 :y "55px"
             )
@@ -60,7 +71,7 @@
     :geometry (geometry 
                 :anchor "top right"
                 :width "400px"
-                :x "-20px"
+                :x "-25px"
                 :y "55px"
             )
     (battery)
@@ -76,17 +87,6 @@
                 :y "55px"
             )
     (weather)
-)
-
-(defwindow updates
-    :monitor 0
-    :geometry (geometry 
-                :anchor "top right"
-                :width "500px"
-                :x "-430px"
-                :y "55px"
-            )
-    (updates)
 )
 
 (defwindow menu-closer

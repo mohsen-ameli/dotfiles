@@ -9,13 +9,20 @@ for_window [class="floating"] floating enable, resize set 1250 900, move positio
 for_window [class="qimgv"] floating enable
 for_window [class="mpv"] floating enable
 for_window [class="vlc"] floating enable
+for_window [class="Gedit"] floating enable
 for_window [class="^.*"] border pixel 3
+
+#workspace_layout stacking
+hide_edge_borders none
 
 # open links and focus on the app that opened it
 focus_on_window_activation focus
 
+exec --no-startup-id autotiling
+
 # gaps
 gaps inner 5px
+hide_edge_borders smart_no_gaps
 
 # colors
 set_from_resource $fg i3wm.color4 #f0f0f0

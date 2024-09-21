@@ -30,7 +30,7 @@ window {
     border-radius: 10px;
     background-color: @color4;
     border: 2px;
-    border-color: @color3;
+    border-color: @color0;
     padding: 10px;
 }
 
@@ -153,7 +153,7 @@ textbox {
 scrollbar {
     width: 4px;
     border: 0;
-    handle-color: @color4;
+    handle-color: @color3;
     handle-width: 8px;
     padding: 0;
     margin: 3px;

@@ -10,10 +10,14 @@ $mode: "normal";
   font-family: JetBrainsMono;
 }
 
+tooltip {
+  background-color: $color4;
+  // border-radius: 8px;
+  border: 2px solid $foreground;
+}
+
 tooltip label {
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid $foreground;
+  padding: 6px;
   background-color: $color4;
   color: $text_color;
 }
@@ -23,7 +27,7 @@ tooltip label {
   border: 1px solid $foreground;
   padding: 10px;
   color: $text_color;
-  border-radius: 8px;
+  // border-radius: 8px;
 }
 
 .tooltip window menu * {
@@ -85,7 +89,7 @@ tooltip label {
 }
 
 .wifi {
-  padding: 0px 28px;
+  padding: 0px 32px;
   background-repeat: no-repeat;
   background-size: 26px;
   background-position: center;
@@ -149,7 +153,7 @@ tooltip label {
   color: $text_color;
   @if $mode == normal {
     border-radius: 10px;
-    padding: 12px;
+    padding: 14px;
     box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.2);
   } @else {
     padding: 6px;
@@ -329,7 +333,7 @@ tooltip label {
     border-radius: 5px;
   }
   min-height: 15px;
-  min-width: 280px;
+  min-width: 300px;
   margin: 0px 10px;
 }
 
@@ -339,6 +343,15 @@ tooltip label {
 
 .battery {
   color: $text_color;
+}
+
+.power {
+  padding: 0px 25px 0px 20px;
+}
+
+.bluetooth,
+.mic {
+  padding: 0px 25px;
 }
 
 // .battery.discharging {

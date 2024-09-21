@@ -3,7 +3,9 @@
         (eventbox
             :class {'widget ' + (volume.text == 0 ? "disabled" : "")}
             :width 80
+            :timeout "2m"
             :onclick "$HOME/.local/bin/volume --toggle"
+            :onrightclick "pavucontrol"
             :onscroll "[ \"{}\" = \"up\" ] && $HOME/.local/bin/volume --inc || $HOME/.local/bin/volume --dec"
             (box :class "audio" :orientation "h" :space-evenly false :spacing 8 :halign "center"
                 (label :text {volume.text + "%"})
@@ -11,8 +13,7 @@
             )
         )
         (button
-          :class {'widget ' + (mic.text == 0 ? "disabled" : "")}
-          :css "button {padding: 0px 20px;}"
+          :class {'widget mic ' + (mic.text == 0 ? "disabled" : "")}
           :timeout "2m"
           :onclick "$HOME/.local/bin/volume --toggle-mic"
           :onrightclick "pavucontrol"
@@ -26,8 +27,7 @@
           ""
         )
         (button
-          :class {'widget ' + (bluetooth.powered == 0 ? "disabled" : "")}
-          :css "button {padding: 0px 20px;}"
+          :class {'widget bluetooth ' + (bluetooth.powered == 0 ? "disabled" : "")}
           :timeout "2m"
           :onclick "../scripts/toggle.sh bluetooth"
           :onrightclick "$HOME/.local/bin/launch-in-terminal bluetuith"
@@ -45,8 +45,7 @@
         )
         (button
           :tooltip "Power"
-          :class "widget"
-          :css "button {padding: 0px 20px 0px 15px;}"
+          :class "widget power"
           :timeout "2m"
           :onrightclick "rofi -show drun"
           :onclick "../scripts/toggle_control.sh"          

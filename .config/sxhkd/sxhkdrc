@@ -10,6 +10,8 @@ super + shift + w
   dmenu-wifi
 super + p
   dmenu-pass
+super + shift + p
+  xcolor | xargs xclip -selection clipboard -i
 super + l
   betterlockscreen -l blur
 super + e
@@ -21,7 +23,7 @@ super + s
 super + c
   rofi -show calc -no-show-match -no-sort
 super + v
-  clipcat-menu
+  clipcat-menu -f rofi
 super + m
   dmenu-power logout
 super + r
@@ -46,7 +48,8 @@ XF86AudioRaiseVolume
   volume --inc
 XF86AudioMute
   volume --toggle
-XF86AudioMicMute
+#XF86AudioMicMute
+Alt_R
   volume --toggle-mic
 XF86Launch1
   rog-control-center

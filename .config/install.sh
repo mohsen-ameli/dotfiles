@@ -102,7 +102,7 @@ unix_sock_rw_perms = \"0770\"""" >> sudo tee /etc/libvirt/libvirtd.conf
 setup_xorg() {
   confirm "Do you want to install i3 Window Manger?" || return
   notify ":: Installing Xorg and i3"
-	$pkg_manager xorg xclip mutter-x11-scaling i3-wm i3-swallow-git betterlockscreen lxappearance clipcat maim
+	$pkg_manager xorg xclip mutter-x11-scaling i3-wm i3-swallow-git betterlockscreen lxappearance clipcat maim xcolor
   echo """[Desktop Entry]
 Encoding=UTF-8
 Name=i3

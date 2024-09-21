@@ -91,7 +91,7 @@ entry {
 scrollbar {
     width: 4px;
     border: 0;
-    handle-color: @color8;
+    handle-color: @color3;
     handle-width: 8px;
     padding: 0;
     margin: 3px;

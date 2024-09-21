@@ -5,6 +5,10 @@
 
 # TODO
 
+There should be an easier way to set default applications (maybe in the apply-themes script)
+i3 sleep should lock the screen and set keyboard lights off after a 30 seconds
+eww on xorg, the :visible property doesn't work properly
+
 ## Dotfiles inspired from:
 
 https://github.com/JaKooLit/Ja_HyprLanD-dots
@@ -80,12 +84,12 @@ found in either `/usr/share/applications` or `/usr/share/local/applications`:\
 If clock is messed up, run the following to enable network based time
 `sudo timedatectl set-ntp 1`
 
+Conencting to WiFi automatically with nmcli
+`nmcli connection modify SSID connection.autoconnect yes`
+
 Run apps as sudo on hyprland\
 `xhost si:localuser:root`\
 `xhost | DISPLAY=:0 sudo command`
-
-Setup nmcli to connect to wifi automatically:
-`nmcli device set wlan0 autoconnect yes`
 
 # fonts and icons
 

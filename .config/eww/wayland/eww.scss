@@ -334,6 +334,15 @@ tooltip label {
   color: $text_color;
 }
 
+.power {
+  padding: 0px 20px 0px 15px;
+}
+
+.bluetooth,
+.mic {
+  padding: 0px 20px;
+}
+
 // .battery.discharging {
 //   background-color: #3FCE14;
 // }

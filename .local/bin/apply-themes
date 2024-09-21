@@ -19,6 +19,7 @@ apply_themes() {
 	$schema font-name "$font"
 	$schema cursor-theme "$cursor"
 	$schema cursor-size "$cursor_size"
+  $schema color-scheme "prefer-dark"
   [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl setcursor $cursor $cursor_size
 
 	# Set xcursor themes in .bashprofile
