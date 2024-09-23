@@ -19,6 +19,7 @@ hide_edge_borders none
 focus_on_window_activation focus
 
 exec --no-startup-id autotiling
+exec --no-startup-id $HOME/.local/bin/autolock
 
 # gaps
 gaps inner 5px

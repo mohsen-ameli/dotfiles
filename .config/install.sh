@@ -13,7 +13,6 @@ network="networkmanager net-tools"
 bluetooth="bluez bluez-utils bluez-obex"
 audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pavucontrol"
 rofi="rofi-wayland rofi-calc-git"
-extra="usbimager speedtest wget glmark2 xdg-ninja"
 
 notify() {
 	echo -e "\n-----------------------------------------------"
@@ -82,12 +81,13 @@ setup_amdgpu() {
 setup_extra_optional() {
   confirm "Do you want to install packages that are usefull?" || return
   notify ":: Installing extra packages"
-  $pkg_manager -S eza btop yt-dlp fastfetch neofetch bat tldr cowsay pipes.sh unimatrix lolcat cava
+  $pkg_manager -S eza btop yt-dlp fastfetch neofetch bat tldr cowsay pipes.sh unimatrix \
+    lolcat cava usbimager speedtest wget glmark2 xdg-ninja
 }
 
 setup_pentest() {
   confirm "Do you want to install pentesting applications?" || return
-  $pkg_manager -S nmap wireshark aircrack-ng burpsuite
+  $pkg_manager -S nmap wireshark aircrack-ng burpsuite postman-bin
 }
 
 setup_vm() {
@@ -102,7 +102,8 @@ unix_sock_rw_perms = \"0770\"""" >> sudo tee /etc/libvirt/libvirtd.conf
 setup_xorg() {
   confirm "Do you want to install i3 Window Manger?" || return
   notify ":: Installing Xorg and i3"
-	$pkg_manager xorg xclip mutter-x11-scaling i3-wm i3-swallow-git betterlockscreen lxappearance clipcat maim xcolor
+	$pkg_manager xorg xclip mutter-x11-scaling i3-wm i3-swallow-git betterlockscreen \
+    lxappearance clipcat maim xcolor autotiling xidlehook
   echo """[Desktop Entry]
 Encoding=UTF-8
 Name=i3
@@ -112,7 +113,7 @@ Icon=i3
 Type=XSession""" > /usr/share/xsessions/i3.desktop
   ln -s .xinitrc .xsession
   ln -s .xinitrc .xprofile
-  sudo systemctl enable betterlockscreen@moe --now
+  sudo systemctl enable betterlockscreen@$USER --now
 }
 
 setup_latex() {

@@ -1,0 +1,10 @@
+#!/bin/bash
+# diable keyboard lights first
+# turn screen brightness down
+# lock the device next
+# lastly suspend
+
+xidlehook --timer 5 "rog --lock-kbd" "rog --lock-kbd" &
+xidlehook --not-when-audio --not-when-fullscreen --timer 10 "brightnessctl -s set 10" "brightnessctl -r" &
+xidlehook --not-when-audio --not-when-fullscreen --timer 15 "betterlockscreen -l blur" "" &
+xidlehook --not-when-audio --not-when-fullscreen --timer 20 "systemctl suspend" "" &

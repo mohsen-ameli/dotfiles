@@ -8,6 +8,8 @@ print_usage() {
 	
 arguments:
     --get: \t\t get the profile with icons
+    --get-kbd: \t\t get keyboard brightness
+    --lock-kbd: \t\t turn off keyboard light, but save
     --get-text: \t get the icon
     --get-full: \t get the text and icon
     --dec: \t\t to decrease keyboard brightness
@@ -77,6 +79,16 @@ change_backlight() {
   backlight_notify $curr
 }
 
+lock_kbd() {
+  if [ -f "/tmp/kbd" ]; then
+    brightnessctl --device='asus::kbd_backlight' s "$(cat /tmp/kbd)"
+    rm /tmp/kbd
+  else
+    echo "$(get_keyboard_brightness)" > /tmp/kbd
+    brightnessctl --device='asus::kbd_backlight' s 0
+  fi
+}
+
 aura() {
   asusctl led-mode -n
   notify_user -i keyboard "Aura Keyboard Changed" "Static, Pulse, Breathe.\nIdk which one we are currently on ;("
@@ -96,8 +108,12 @@ if [ "$1" = "--inc" ]; then
   change_backlight "inc"
 elif [ "$1" = "--dec" ]; then
   change_backlight "dec"
+elif [ "$1" = "--lock-kbd" ]; then
+  lock_kbd
 elif [ "$1" = "--get" ]; then
   get_data 0
+elif [ "$1" = "--get-kbd" ]; then
+  get_keyboard_brightness
 elif [ "$1" = "--get-text" ]; then
   get_data 1
 elif [ "$1" = "--get-full" ]; then

@@ -234,8 +234,7 @@ tooltip label {
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
-  min-height: 300px;
-  min-width: 300px;
+  min-height: 250px;
   @if $mode == normal {
     border-radius: 10px;
   }
@@ -338,7 +337,7 @@ tooltip label {
 }
 
 .music-bar scale trough {
-  min-width: 320px;
+  min-width: 375px;
 }
 
 .battery {
