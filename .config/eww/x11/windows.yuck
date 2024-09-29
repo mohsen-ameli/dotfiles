@@ -25,7 +25,6 @@
     :geometry (geometry
                 :anchor "top right"
                 :width "420px"
-                :height "100px"
                 :x "-6px"
                 :y "55px"
             )
@@ -49,7 +48,7 @@
     :geometry (geometry 
                 :anchor "top right"
                 :width "450px"
-                :x "-120px"
+                :x "-150px"
                 :y "55px"
             )
     (wifi)

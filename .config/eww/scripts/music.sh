@@ -38,4 +38,6 @@ elif [ "$1" = "--position" ]; then
         #             '{position: $position, positionStr: $positionStr}' )
         # echo $JSON_STRING
     done
+else
+    echo "Usage: music.sh [--player | --position]"
 fi

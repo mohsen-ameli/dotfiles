@@ -87,6 +87,11 @@ If clock is messed up, run the following to enable network based time
 Conencting to WiFi automatically with nmcli
 `nmcli connection modify SSID connection.autoconnect yes`
 
+Connecting to eduroam:
+go to https://cat.eduroam.org/
+select the university/college you go to and download the executable python script.
+run it, and try to connect now (I had success with nmtui).
+
 Run apps as sudo on hyprland\
 `xhost si:localuser:root`\
 `xhost | DISPLAY=:0 sudo command`

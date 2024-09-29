@@ -1,9 +1,29 @@
-@import "/home/moe/.cache/wal/colors.scss";
+// @import "/home/moe/.cache/wal/colors.scss";
 
 $transition-time: 0.1s;
 $mode: "normal";
-// $mode: "minimal";
 // hypr-mode --<normal | minimal>
+
+$background: #1f2227;
+$foreground: #8fbcbb;
+$cursor: #8fbcbb;
+$color0: #2e3440;
+$color1: #3b4252;
+$color2: #434c5e;
+$color3: #4c566a;
+$color4: #3b4252;
+$color5: #434c5e;
+$color6: #4c566a;
+$color7: #8fbcbb;
+$color8: #88c0d0;
+$color9: #81a1c1;
+$color10: #5e81ac;
+$color11: #bf616a;
+$color12: #d08770;
+$color13: #ebcb8b;
+$color14: #a3be8c;
+$color15: #b48ead;
+$text_color: white;
 
 * {
   all: unset;
@@ -148,7 +168,8 @@ tooltip label {
   color: #000000;
 }
 
-.control-box {
+.control-box,
+.music-box {
   background-color: $color2;
   color: $text_color;
   @if $mode == normal {
@@ -163,6 +184,10 @@ tooltip label {
 .control-box:hover {
   background-color: $color3;
   transition: $transition-time;
+}
+
+.music-box {
+  padding: 14px 0px;
 }
 
 .notif {
@@ -285,13 +310,13 @@ tooltip label {
 }
 
 .disabled {
-  background-color: #85c1c1;
-  color: #2a5c45;
+  background-color: $color7; //#85c1c1;
+  color: $color0; //#2a5c45;
 }
 
 .disabled:hover {
-  background-color: #589090;
-  color: #1d4733;
+  background-color: $color6; //#589090;
+  color: $color0; //#1d4733;
   transition: $transition-time;
 }
 

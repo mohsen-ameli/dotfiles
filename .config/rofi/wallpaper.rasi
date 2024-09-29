@@ -11,7 +11,8 @@ configuration {
 @import "hybrid"
 
 // Dynamic colors from pywal
-@theme "~/.cache/wal/colors.rofi"
+// @theme "~/.cache/wal/colors.rofi"
+@theme "~/.config/rofi/colors.rofi"
 
 * {
     image-size: 250px;

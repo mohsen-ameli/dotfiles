@@ -19,16 +19,19 @@ hide_edge_borders none
 focus_on_window_activation focus
 
 exec --no-startup-id autotiling
-exec --no-startup-id $HOME/.local/bin/autolock
 
 # gaps
 gaps inner 5px
 hide_edge_borders smart_no_gaps
 
-# colors
+# colors from wal
 set_from_resource $fg i3wm.color4 #f0f0f0
 set_from_resource $text i3wm.color7 #f0f0f0
 set_from_resource $bg i3wm.color0 #f0f0f0
+
+set $fg #4c566a
+set $text #8fbcbb
+set $bg #1f2227
 
 # class                 border  backgr. text indicator child_border
 client.focused          $fg     $fg     $text  $fg       $fg

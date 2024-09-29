@@ -11,7 +11,8 @@
             )
             (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 12 :visible {arraylength(notifications.data[0]) != 0}
                 (scroll
-                    :height {arraylength(notifications.data[0]) <= 5 ? arraylength(notifications.data[0]) * 80 : 400}
+                    ;; :height {arraylength(notifications.data[0]) <= 5 ? arraylength(notifications.data[0]) * 80 : 400}
+                    :height 300
                     (box :orientation "v" :space-evenly false :spacing 8
                         (for notif in {notifications.data[0]}
                             (button :class "control-box notif" :onclick "../scripts/notification.sh --remove ${notif.id.data}" 

@@ -91,9 +91,14 @@ if [ $? -eq 0 ]; then
 # We do this since if nm-applet is running, it'll ask for the password automatically.
 elif [ $(pgrep nm-applet | wc -l) -eq 0 ]; then
 	# Getting the password of the wifi
-	pass=$(zenity --password 2> /dev/null)
+	zen=$(zenity --password --username 2> /dev/null)
+  username=$(echo "${zen%|*}")
+  password=$(echo "${zen##*|}")
 	notify "Attempting to connect with the given password"
-	nmcli dev wifi connect "$ssid" password "$pass" ifname "$interface"
+  # nmcli connection add type wifi con-name "connection" ifname "$interface" ssid "$ssid"
+  # nmcli connection modify "$ssid" 802-1x.identity "$username"
+  # nmcli connection modify "$ssid" 802-1x.password "$password"
+	nmcli dev wifi connect "$ssid" password "$password" ifname "$interface"
 
 	if [ $? -eq 0 ]; then
 		notify "Successfully connected to $ssid"

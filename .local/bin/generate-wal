@@ -37,34 +37,37 @@ generate_vscode() {
   settings="$HOME/.config/$code/User/settings.json"
   bg=$(cat $HOME/.cache/wal/colors | head -n 1)
 
+  # \"activityBar.border\": \"$bg\",
+  # \"activityBar.background\": \"$bg\",
+  # \"editor.background\": \"$bg\",
+  # \"sideBar.background\": \"$bg\",
+  # \"statusBar.background\": \"$bg\",
+  # \"editorGroupHeader.tabsBackground\": \"$bg\",
+  # \"tab.inactiveBackground\": \"$bg\",
+  # \"terminal.background\": \"$bg\",
+  # \"tab.activeBackground\": \"#000000\"
+
   json="""{
-  \"workbench.colorCustomizations\": {
+    \"workbench.colorCustomizations\": {
+      \"window.menuBarVisibility\": \"toggle\",
+    },
+    \"git.openRepositoryInParentFolders\": \"always\",
     \"window.menuBarVisibility\": \"toggle\",
-    \"activityBar.border\": \"$bg\",
-    \"activityBar.background\": \"$bg\",
-    \"editor.background\": \"$bg\",
-    \"sideBar.background\": \"$bg\",
-    \"statusBar.background\": \"$bg\",
-    \"editorGroupHeader.tabsBackground\": \"$bg\",
-    \"tab.inactiveBackground\": \"$bg\",
-    \"terminal.background\": \"$bg\",
-    \"tab.activeBackground\": \"#000000\"
-  },
-  \"git.openRepositoryInParentFolders\": \"always\",
-  \"window.menuBarVisibility\": \"toggle\",
-  \"editor.fontFamily\": \"$font\",
-  \"git.enableSmartCommit\": true,
-  \"git.confirmSync\": false,
-  \"explorer.confirmDelete\": false,
-  \"workbench.startupEditor\": \"none\",
-  \"workbench.sideBar.location\": \"right\",
-  \"security.workspace.trust.untrustedFiles\": \"open\",
-  \"editor.unicodeHighlight.nonBasicASCII\": false,
-  \"workbench.iconTheme\": \"material-icon-theme\",
-  \"python.terminal.activateEnvInCurrentTerminal\": true,
-  \"files.associations\": {
-    \"dunstrc\": \"properties\"
-  }
+    \"editor.fontFamily\": \"$font\",
+    \"git.enableSmartCommit\": true,
+    \"git.confirmSync\": false,
+    \"explorer.confirmDelete\": false,
+    \"workbench.startupEditor\": \"none\",
+    \"workbench.sideBar.location\": \"right\",
+    \"security.workspace.trust.untrustedFiles\": \"open\",
+    \"editor.unicodeHighlight.nonBasicASCII\": false,
+    \"workbench.iconTheme\": \"material-icon-theme\",
+    \"python.terminal.activateEnvInCurrentTerminal\": true,
+    \"files.associations\": {
+      \"dunstrc\": \"properties\"
+    },
+    \"editor.formatOnSave\": true,
+    \"editor.formatOnPaste\": true
   }"""
 
   keybindings="""[
@@ -133,13 +136,13 @@ generate_bar() {
   echo "\$text_color: $text_color;" >> $HOME/.cache/wal/colors.scss
 }
 
-generate_xorg() {
-  sed -i "s/\[SchemeUrg\] =  { urg_fg,      urg_bg,    urg_border },//" ~/.cache/wal/colors-wal-dwm.h
-}
+# generate_xorg() {
+#   sed -i "s/\[SchemeUrg\] =  { urg_fg,      urg_bg,    urg_border },//" ~/.cache/wal/colors-wal-dwm.h
+# }
 
 generate_discord
 generate_hyprland
 generate_vscode
 generate_rofi
 generate_bar
-generate_xorg
+# generate_xorg

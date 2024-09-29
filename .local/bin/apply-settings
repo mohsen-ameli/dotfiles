@@ -13,7 +13,7 @@ schema="gsettings set org.gnome.desktop.interface"
 # gsettings set org.gnome.desktop.interface document-font-name 'JetBrainsMonoNL NF 10'
 # gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL NF 11'
 
-apply_themes() {
+themes() {
   $schema gtk-theme "$theme"
 	$schema icon-theme "$icons"
 	$schema font-name "$font"
@@ -53,5 +53,34 @@ Xcursor.size: $cursor_size""" > $HOME/.Xresources
 	echo "Done!"
 }
 
-apply_themes
+settings() {
+  font="JetBrainsMono NF"
+  # if code - oss folder is in .config
+  if [ -d "$HOME/.config/Code - OSS" ]; then
+    code="Code - OSS"
+  elif [ -d "$HOME/.config/Code" ]; then
+    code="Code"
+  elif [ -d "$HOME/.config/VSCodium" ]; then
+    code="VSCodium"
+  fi
+  settings="$HOME/.config/$code/User/settings.json"
+
+  bg=$(cat $HOME/.cache/wal/colors | head -n 1)
+
+  # \"activityBar.border\": \"$bg\",
+  # \"activityBar.background\": \"$bg\",
+  # \"editor.background\": \"$bg\",
+  # \"sideBar.background\": \"$bg\",
+  # \"statusBar.background\": \"$bg\",
+  # \"editorGroupHeader.tabsBackground\": \"$bg\",
+  # \"tab.inactiveBackground\": \"$bg\",
+  # \"terminal.background\": \"$bg\",
+  # \"tab.activeBackground\": \"#000000\"
+
+  cat ~/.config/vscode-settings.json > "$HOME/.config/$code/User/settings.json"
+  cat ~/.config/vscode-keybindings.json > "$HOME/.config/$code/User/keybindings.json"
+}
+
+themes
+settings
 

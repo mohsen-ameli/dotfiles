@@ -1,0 +1,132 @@
+{
+  "about": {
+    "browser": "firefox",
+    "version": "20.0.1"
+  },
+  "showall": true,
+  "lang": "en",
+  "dark": "system",
+  "favicon": "",
+  "tabtitle": "",
+  "greeting": "",
+  "pagegap": 0,
+  "pagewidth": 900,
+  "time": true,
+  "main": false,
+  "dateformat": "cn",
+  "background_blur": 3,
+  "background_bright": 0.8,
+  "background_type": "unsplash",
+  "quicklinks": false,
+  "syncbookmarks": null,
+  "textShadow": 0.275,
+  "announcements": "major",
+  "review": 7,
+  "css": "",
+  "hide": {
+    "date": false,
+    "clock": false
+  },
+  "linkstyle": "medium",
+  "linktitles": true,
+  "linkbackgrounds": true,
+  "linknewtab": false,
+  "linksrow": 6,
+  "linkgroups": {
+    "on": false,
+    "selected": "",
+    "groups": [
+      ""
+    ],
+    "pinned": [],
+    "synced": []
+  },
+  "clock": {
+    "ampm": true,
+    "size": 1.375,
+    "analog": false,
+    "seconds": false,
+    "timezone": "auto",
+    "worldclocks": false
+  },
+  "analogstyle": {
+    "background": "#fff2",
+    "face": "none",
+    "hands": "modern",
+    "shape": "round",
+    "border": "#ffff"
+  },
+  "worldclocks": [],
+  "unsplash": {
+    "every": "hour",
+    "collection": "",
+    "lastCollec": "evening",
+    "time": 1727058537203
+  },
+  "weather": {
+    "ccode": "CA",
+    "city": "Toronto",
+    "unit": "metric",
+    "provider": "",
+    "moreinfo": "none",
+    "forecast": "auto",
+    "temperature": "actual",
+    "geolocation": "approximate"
+  },
+  "notes": {
+    "on": false,
+    "width": 40,
+    "opacity": 0.1,
+    "align": "left"
+  },
+  "searchbar": {
+    "on": true,
+    "width": 52,
+    "opacity": 0.1,
+    "newtab": false,
+    "suggestions": false,
+    "engine": "google",
+    "request": "",
+    "placeholder": "Search",
+    "background": "#fff2"
+  },
+  "quotes": {
+    "on": false,
+    "author": false,
+    "type": "classic",
+    "frequency": "day",
+    "last": 1727058537144
+  },
+  "font": {
+    "size": "16.75",
+    "family": "",
+    "system": true,
+    "weightlist": [],
+    "weight": "300"
+  },
+  "move": {
+    "selection": "single",
+    "layouts": {
+      "single": {
+        "items": {
+          "time": {
+            "box": "baseline center",
+            "text": "center"
+          },
+          "searchbar": {
+            "box": "center",
+            "text": ""
+          }
+        },
+        "grid": [
+          [
+            "time"
+          ],
+          [
+            "searchbar"
+          ]
+        ]
+      }
+    }
+  }
+}

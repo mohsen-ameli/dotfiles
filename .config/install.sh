@@ -119,7 +119,7 @@ Type=XSession""" > /usr/share/xsessions/i3.desktop
 setup_latex() {
   confirm "Do you want to install latex?" || return
   notify ":: Setting up latex"
-  $pkg_manager texlive-doc texlive-latexrecommended texlive-latexextra texlive-latex texlive-basic texlive-binary
+  $pkg_manager texlive-doc texlive-latexrecommended texlive-latexextra texlive-latex texlive-basic texlive-binary texlive-binextra
 }
 
 setup_zsh() {
