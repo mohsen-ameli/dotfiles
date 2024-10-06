@@ -1,0 +1,102 @@
+{
+  "workbench.colorCustomizations": {
+    "window.menuBarVisibility": "toggle"
+  },
+  "git.openRepositoryInParentFolders": "always",
+  "window.menuBarVisibility": "toggle",
+  "editor.fontFamily": "JetBrainsMono NF",
+  "git.enableSmartCommit": true,
+  "git.confirmSync": false,
+  "explorer.confirmDelete": false,
+  "workbench.startupEditor": "none",
+  "workbench.sideBar.location": "right",
+  "security.workspace.trust.untrustedFiles": "open",
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "workbench.iconTheme": "material-icon-theme",
+  "python.terminal.activateEnvInCurrentTerminal": true,
+  "files.associations": {
+    "dunstrc": "properties"
+  },
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "xelatex",
+      "command": "xelatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "pdflatex",
+      "command": "pdflatex",
+      "args": [
+        "-synctex=1",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "%DOC%"
+      ],
+      "env": {}
+    },
+    {
+      "name": "bibtex",
+      "command": "bibtex",
+      "args": ["%DOCFILE%"],
+      "env": {}
+    }
+  ],
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "pdfLaTeX",
+      "tools": ["pdflatex"]
+    },
+    {
+      "name": "latexmk 🔃",
+      "tools": ["latexmk"]
+    },
+    {
+      "name": "xelatex",
+      "tools": ["xelatex"]
+    },
+    {
+      "name": "pdflatex ➞ bibtex ➞ pdflatex`×2",
+      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+    },
+    {
+      "name": "xelatex ➞ bibtex ➞ xelatex`×2",
+      "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
+    }
+  ],
+  "[latex]": {
+    "editor.defaultFormatter": "James-Yu.latex-workshop"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "latex-workshop.formatting.latex": "tex-fmt",
+  "workbench.editorAssociations": {
+    "*.pdf": "latex-workshop-pdf-hook"
+  },
+  "window.zoomLevel": 1,
+  "redhat.telemetry.enabled": false
+}

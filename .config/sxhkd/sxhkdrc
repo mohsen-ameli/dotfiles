@@ -11,7 +11,7 @@ super + shift + w
 super + p
   dmenu-pass
 super + shift + p
-  xcolor | xargs xclip -selection clipboard -i
+  xcolor | xclip -selection clipboard
 super + l
   betterlockscreen -l blur
 super + e

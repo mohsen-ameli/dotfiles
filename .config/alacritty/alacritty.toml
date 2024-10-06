@@ -39,7 +39,7 @@ y = 6
 
 [window]
 dynamic_padding = false
-opacity = 1
+opacity = 0.9
 title = "Alacritty"
 
 [font]
