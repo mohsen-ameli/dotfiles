@@ -223,7 +223,7 @@ setup_browser() {
 setup_gaming() {
   confirm "Do you want to install steam and some gaming components?" || return
   notify ":: Setting up gaming environment"
-  $pkg_manager steam lutris gamescope
+  $pkg_manager steam lutris gamescope heroic-games-launcher-bin
 }
 
 setup_other() {

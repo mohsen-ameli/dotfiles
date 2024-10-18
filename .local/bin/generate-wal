@@ -70,19 +70,6 @@ generate_vscode() {
     \"editor.formatOnPaste\": true
   }"""
 
-  keybindings="""[
-    {
-      \"key\": \"shift+alt+down\",
-      \"command\": \"editor.action.copyLinesDownAction\",
-      \"when\": \"editorTextFocus && !editorReadonly\"
-    },
-    {
-      \"key\": \"shift+alt+up\",
-      \"command\": \"editor.action.copyLinesUpAction\",
-      \"when\": \"editorTextFocus && !editorReadonly\"
-    },
-  ]"""
-
   # \"workbench.list.mouseWheelScrollSensitivity\": 3,
   # \"editor.mouseWheelScrollSensitivity\": 3,
 
@@ -92,7 +79,6 @@ generate_vscode() {
   #     '."workbench.colorCustomizations" += $jsonString')
 
   echo "$json" > "$HOME/.config/$code/User/settings.json"
-  echo "$keybindings" > "$HOME/.config/$code/User/keybindings.json"
 }
 
 # Generates colors for discord
@@ -136,13 +122,13 @@ generate_bar() {
   echo "\$text_color: $text_color;" >> $HOME/.cache/wal/colors.scss
 }
 
-# generate_xorg() {
-#   sed -i "s/\[SchemeUrg\] =  { urg_fg,      urg_bg,    urg_border },//" ~/.cache/wal/colors-wal-dwm.h
-# }
+generate_dwm() {
+  sed -i "s/\[SchemeUrg\] =  { urg_fg,      urg_bg,    urg_border },//" ~/.cache/wal/colors-wal-dwm.h
+}
 
 generate_discord
 generate_hyprland
 generate_vscode
 generate_rofi
 generate_bar
-# generate_xorg
+generate_dwm

@@ -1,8 +1,5 @@
 # Rendering
 # nvidia-settings --load-config-only
-xrandr --output eDP-1-0 --mode 1920x1080 --rate 144
-xrandr --output HDMI-A-0 --mode 3840x2160 --rate 60 --left-of eDP
-xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrdb -merge ~/.Xresources
 
 # Misc

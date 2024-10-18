@@ -9,6 +9,8 @@
   {
     "context": "Workspace",
     "bindings": {
+      "ctrl-b": "workspace::ToggleRightDock",
+      "ctrl-alt-b": "workspace::ToggleLeftDock"
       // "shift shift": "file_finder::Toggle"
     }
   },

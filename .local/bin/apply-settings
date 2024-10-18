@@ -3,17 +3,22 @@
 ## Applies most important themes based on the settings set by the nwg-look GUI app
 ##########################
 
-theme=$(grep "gtk-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-icons=$(grep "icon-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-font=$(grep "font-name" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-cursor=$(grep "cursor-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-cursor_size=$(grep "cursor-size" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
-schema="gsettings set org.gnome.desktop.interface"
-
-# gsettings set org.gnome.desktop.interface document-font-name 'JetBrainsMonoNL NF 10'
-# gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL NF 11'
+screens() {
+  xrandr --output eDP --mode 1920x1080 --rate 144
+  xrandr --output DP-1-0 --mode 3840x2160 --rate 60 --left-of eDP
+  xrandr --setprovideroutputsource modesetting NVIDIA-0
+}
 
 themes() {
+  theme=$(grep "gtk-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+  icons=$(grep "icon-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+  font=$(grep "font-name" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+  cursor=$(grep "cursor-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+  cursor_size=$(grep "cursor-size" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
+  schema="gsettings set org.gnome.desktop.interface"
+  # gsettings set org.gnome.desktop.interface document-font-name 'JetBrainsMonoNL NF 10'
+  # gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL NF 11'
+
   $schema gtk-theme "$theme"
 	$schema icon-theme "$icons"
 	$schema font-name "$font"
@@ -23,7 +28,7 @@ themes() {
   [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl setcursor $cursor $cursor_size
 
 	# Set xcursor themes in .bashprofile
-	echo """[ -f ~/.bashrc ] && . ~/.bashrc
+	echo """[ -f $HOME/.bashrc ] && . $HOME/.bashrc
 export XCURSOR_THEME=\"$cursor\"
 export XCURSOR_SIZE=\"$cursor_size\"
 export MOZ_ENABLE_WAYLAND=1""" > $HOME/.bash_profile
@@ -48,14 +53,15 @@ Xcursor.size: $cursor_size""" > $HOME/.Xresources
 	echo -e """[Icon Theme]\nInherits=$cursor""" > $HOME/.local/share/icons/default/index.theme
 
 	# getting rid of an unnecessary default theme directory that gets set by nwg look. 
-	# [ -d ~/.local/share/icons/default ] && mv ~/.local/share/icons/default ~/.local/share/icons/tmp
+	# [ -d $HOME/.local/share/icons/default ] && mv $HOME/.local/share/icons/default $HOME/.local/share/icons/tmp
 
 	echo "Done!"
 }
 
 settings() {
   font="JetBrainsMono NF"
-  # if code - oss folder is in .config
+  background=$(cat $HOME/.cache/wal/colors | head -n 1)
+
   if [ -d "$HOME/.config/Code - OSS" ]; then
     code="Code - OSS"
   elif [ -d "$HOME/.config/Code" ]; then
@@ -63,24 +69,15 @@ settings() {
   elif [ -d "$HOME/.config/VSCodium" ]; then
     code="VSCodium"
   fi
-  settings="$HOME/.config/$code/User/settings.json"
+  
+  cat $HOME/.config/vscode-settings.json > "$HOME/.config/$code/User/settings.json"
+  cat $HOME/.config/vscode-keybindings.json > "$HOME/.config/$code/User/keybindings.json"
 
-  bg=$(cat $HOME/.cache/wal/colors | head -n 1)
-
-  # \"activityBar.border\": \"$bg\",
-  # \"activityBar.background\": \"$bg\",
-  # \"editor.background\": \"$bg\",
-  # \"sideBar.background\": \"$bg\",
-  # \"statusBar.background\": \"$bg\",
-  # \"editorGroupHeader.tabsBackground\": \"$bg\",
-  # \"tab.inactiveBackground\": \"$bg\",
-  # \"terminal.background\": \"$bg\",
-  # \"tab.activeBackground\": \"#000000\"
-
-  cat ~/.config/vscode-settings.json > "$HOME/.config/$code/User/settings.json"
-  cat ~/.config/vscode-keybindings.json > "$HOME/.config/$code/User/keybindings.json"
+  # Vesktop
+  cat $HOME/.config/vesktop.css > "$HOME/.config/vesktop/settings/quickCss.css"
 }
 
 themes
 settings
+screens
 

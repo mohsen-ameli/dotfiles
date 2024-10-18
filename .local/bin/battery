@@ -14,7 +14,7 @@ arguments:
     --text-icon: \t print both icon and percentage"""
 }
 
-UPDATE_TIME=5
+UPDATE_TIME=2
 
 get_icon() {
   capacity=$(cat /sys/class/power_supply/BAT0/capacity)

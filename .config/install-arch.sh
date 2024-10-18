@@ -56,8 +56,8 @@ Server = https://arch.asus-linux.org
 """ | sudo tee /etc/pacman.conf
 
 # Setting mirrorlist to canada
-curl "https://archlinux.org/mirrorlist/?country=CA&protocol=http&protocol=https&ip_version=4" > /etc/pacman.d/mirrorlist
-sed 's/#Server/Server/g' -i /etc/pacman.d/mirrorlist
+curl "https://archlinux.org/mirrorlist/?country=CA&protocol=http&protocol=https&ip_version=4" | sudo tee /etc/pacman.d/mirrorlist
+sudo sed 's/#Server/Server/g' -i /etc/pacman.d/mirrorlist
 
 echo ":: Starting installation"
 pacstrap -K /mnt base base-devel linux linux-firmware grub efibootmgr networkmanager vim htop wget terminus-fonts

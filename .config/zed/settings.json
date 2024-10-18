@@ -7,6 +7,29 @@
 // custom settings, run `zed: open default settings` from the
 // command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "show_inline_completions": true,
+  "languages": {
+    "Python": {
+      "tab_size": 4,
+      "formatter": "language_server"
+    }
+    // "JavaScript": {
+    //   "tab_size": 2,
+    //   "formatter": {
+    //     "external": {
+    //       "command": "prettier",
+    //       "arguments": ["--stdin-filepath", "--no-semi", "{buffer_path}"]
+    //     }
+    //   }
+    // }
+  },
+  "assistant": {
+    "default_model": {
+      "provider": "copilot_chat",
+      "model": "gpt-4o"
+    },
+    "version": "2"
+  },
   "buffer_font_family": "JetBrainsMonoNL Nerd Font",
   "ui_font_family": "JetBrainsMonoNL Nerd Font",
   "project_panel": {
@@ -21,6 +44,6 @@
   "theme": {
     "mode": "dark",
     "light": "One Light",
-    "dark": "One Dark"
+    "dark": "VSCode Dark Modern"
   }
 }

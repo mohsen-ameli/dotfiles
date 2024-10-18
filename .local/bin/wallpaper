@@ -78,9 +78,8 @@ fi
 wal -n -q -s -t -i $wallpaper
 
 # Genearting colors, restarting bar
-$HOME/.local/bin/generate-wal
+# $HOME/.local/bin/generate-wal
 # . "$HOME/.cache/wal/colors.sh"
-# $HOME/.local/bin/run-bar
 
 # Copy selected wallpaper into .cache folder
 cp $wallpaper ~/.cache/current_wallpaper.jpg

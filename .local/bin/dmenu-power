@@ -10,6 +10,7 @@ shutdown_="⏻  Shutdown"
 reboot_="󰑓  Restart"
 logout_="󰍃  Logout"
 suspend_="󰒲  Suspend"
+wayland=$($HOME/.local/bin/is-wayland)
 
 if [ $# -gt 0 ]; then
   choice="$1"
@@ -40,11 +41,11 @@ confirm=$(echo -e "$action\nCancel" | /bin/sh -c "$schema2")
 # if [ $(cat /tmp/confirm) = "1" ]; then
 if [ "$confirm" = "$action" ]; then
   if [ "$action_lower" = "lock" ]; then
-    hyprlock
+    [ $wayland -eq 1 ] && hyprlock || betterlockscreen -l blur 
   elif [ "$action_lower" = "suspend" ]; then
     systemctl suspend
   elif [ "$action_lower" = "logout" ]; then
-    [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl dispatch exit || killall Xorg
+    [ $wayland -eq 1 ] && hyprctl dispatch exit || killall Xorg
   elif [ "$action_lower" = "shutdown" ]; then
     sudo shutdown now
   elif [ "$action_lower" = "restart" ]; then

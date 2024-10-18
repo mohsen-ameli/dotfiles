@@ -35,7 +35,7 @@
     :monitor 0
     :geometry (geometry 
                 :anchor "top right"
-                :width "600px"
+                :width "650px"
                 :x "-430px"
                 :y "55px"
             )

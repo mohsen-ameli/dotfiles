@@ -7,4 +7,23 @@
 xidlehook --timer 30 "brightnessctl --device='asus::kbd_backlight' -s set 0" "brightnessctl --device='asus::kbd_backlight' -r" &
 xidlehook --not-when-audio --not-when-fullscreen --timer 240 "brightnessctl -s set 10" "brightnessctl -r" &
 xidlehook --not-when-audio --not-when-fullscreen --timer 300 "betterlockscreen -l blur" "" &
-xidlehook --not-when-audio --not-when-fullscreen --timer 600 "systemctl suspend" "" &
+# xidlehook --not-when-audio --not-when-fullscreen --timer 600 "systemctl suspend" "" &
+
+
+# Manual approach
+# timeout=3000
+# rm /tmp/$timeout
+# i=0
+#
+# while true; do
+#   sleep 0.5
+#   if [ $(xprintidle) -gt $timeout ] && [ $i -ne 1 ]; then
+#     echo "Sleep"
+#     brightnessctl --device='asus::kbd_backlight' -s set 0
+#     i=1
+#   elif [ $(xprintidle) -lt $timeout ] && [ $i -eq 1 ]; then
+#     echo "awake"
+#     brightnessctl --device='asus::kbd_backlight' -r
+#     i=0
+#   fi
+# done

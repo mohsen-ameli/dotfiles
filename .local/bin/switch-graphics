@@ -75,7 +75,7 @@ interactive() {
 }
 
 get() {
-  mode=$(lspci -k | grep -A3 VGA | grep -A3 NVIDIA | grep "in use:" | cut -f5 -d" " > /dev/null)
+  mode=$(lspci -k | grep -A3 VGA | grep -A3 NVIDIA | grep "in use:" > /dev/null)
   if [ $? -eq 0 ]; then
     [ "$mode" = "nouveau" ] && echo "Nouveau 󰔑" || echo "Hybrid "
   else

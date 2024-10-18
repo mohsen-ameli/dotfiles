@@ -58,32 +58,61 @@
     {
       "name": "bibtex",
       "command": "bibtex",
-      "args": ["%DOCFILE%"],
+      "args": [
+        "%DOCFILE%"
+      ],
       "env": {}
     }
   ],
   "latex-workshop.latex.recipes": [
     {
       "name": "pdfLaTeX",
-      "tools": ["pdflatex"]
+      "tools": [
+        "pdflatex"
+      ]
     },
     {
       "name": "latexmk 🔃",
-      "tools": ["latexmk"]
+      "tools": [
+        "latexmk"
+      ]
     },
     {
       "name": "xelatex",
-      "tools": ["xelatex"]
+      "tools": [
+        "xelatex"
+      ]
     },
     {
       "name": "pdflatex ➞ bibtex ➞ pdflatex`×2",
-      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
+      "tools": [
+        "pdflatex",
+        "bibtex",
+        "pdflatex",
+        "pdflatex"
+      ]
     },
     {
       "name": "xelatex ➞ bibtex ➞ xelatex`×2",
-      "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
+      "tools": [
+        "xelatex",
+        "bibtex",
+        "xelatex",
+        "xelatex"
+      ]
     }
   ],
+  "workbench.colorCustomizations": {
+    "editor.background": "#2e3440",
+    "activityBar.background": "#2e3440",
+    "sideBar.background": "#363c48",
+    "statusBar.background": "#2e3440",
+    "editorGroupHeader.tabsBackground": "#2e3440",
+    "tab.inactiveBackground": "#2e3440",
+    "tab.activeBackground": "#1c1d20",
+    "terminal.background": "#2e3440",
+    "panel.background": "#3b4252"
+  },
   "[latex]": {
     "editor.defaultFormatter": "James-Yu.latex-workshop"
   },

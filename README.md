@@ -135,6 +135,9 @@ tab --> switch between tabs
 
 ## Graphics/nvidia
 
+Suspense issues:
+run the script at `.local/bin/nvidia-suspense`
+
 Switching between integrated and hybrid in nvidia:
 https://www.reddit.com/r/rogflow/comments/ri9mf5/making_dgpu_enablingdisabling_on_linux_work_on/
 
@@ -199,3 +202,101 @@ echo "allow-preset-passphrase" > ~/.gnupg/gpg-agent.conf
 ```
 
 run `gpg -K --with-keygrip` and copy the keygrip within the block that has [E] in it and paste it into ~/.pam-gnupg.
+
+## Tor Browser (Security)
+
+to connect to a specific country, you must specify it in the "ExitNodes" like this:
+
+```
+EntryNodes {ca} StrictNodes 1
+ExitNodes {it},{de} StrictNodes 1
+```
+
+add this to "torrc" file, in windows it is located in the default tor folder
+and in linux it is in /etc/tor/torrc-defaults
+
+1 means it is forced
+0 means it can also use other nodes, if they one specified does not work.
+
+in windows go to internet options > connections > LAN settings > Advanced and make sure "Use the same proxy server ..."
+is checked off, then delete everything and add this to socks (last option):
+socks: localhost port: 9050
+
+## Colours
+
+Nord
+
+```
+--nord0: #2e3440;
+--nord1: #3b4252;
+--nord2: #434c5e;
+--nord3: #4c566a;
+--nord4: #d8dee9;
+--nord5: #e5e9f0;
+--nord6: #eceff4;
+--nord7: #8fbcbb;
+--nord8: #88c0d0;
+--nord9: #81a1c1;
+--nord10: #5e81ac;
+--nord11: #bf616a;
+--nord12: #d08770;
+--nord13: #ebcb8b;
+--nord14: #a3be8c;
+--nord15: #b48ead;
+```
+
+Nord modified by me
+
+```
+$nord0: #2e3440;
+$nord1: #3b4252;
+$nord2: #434c5e;
+$nord3: #4c566a;
+$nord4: #d8dee9;
+$nord5: #e5e9f0;
+$nord6: #eceff4;
+$nord7: #8fbcbb;
+$nord8: #88c0d0;
+$nord9: #81a1c1;
+$nord10: #5e81ac;
+$nord11: #bf616a;
+$nord12: #d08770;
+$nord13: #ebcb8b;
+$nord14: #a3be8c;
+$nord15: #b48ead;
+```
+
+One dark
+
+```
+[colors]
+# special
+foreground      = #abb2bf
+foreground_bold = #abb2bf
+# cursor          = #111111
+background      = rgba(16, 16, 16, 0.9)
+# black
+color0  = #282c34
+color8  = #5c6370
+# red
+color1  = #e06c75
+color9  = #be5046
+# green
+color2  = #98c379
+color10 = #7a9f60
+# yellow
+color3  = #e5c07b
+color11 = #d19a66
+# blue
+color4  = #61afef
+color12 = #3b84c0
+# magenta
+color5  = #c678dd
+color13 = #9a52af
+# cyan
+color6  = #56b6c2
+color14 = #3c909b
+# white
+color7  = #abb2bf
+color15 = #828997
+```
