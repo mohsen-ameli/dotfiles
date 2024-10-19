@@ -1,61 +1,61 @@
 (defwidget control []
-    (revealer :reveal {matches(curr_window,"control")}
-        (box :orientation "v" :space-evenly false :spacing 6
-            (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
-                (box :orientation "h" :space-evenly true :spacing 12
-                    (button :class "control-box" :timeout "24h" :onclick "../scripts/toggle_updates.sh" "${updates.text}")
-                    (button :class "control-box" :timeout "24h" :onclick "$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/dmenu-power" "Power  ")
-                )
-                (box :orientation "h" :space-evenly true :spacing 12
-                    (button :class "control-box" :timeout "5s" :onclick "$HOME/.local/bin/rog --profile-toggle" rog)
-                    (button :class "control-box" :timeout "600s" :onclick "$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/open-window \"$HOME/.local/bin/launch-in-terminal $HOME/.local/bin/switch-graphics --interactive\"" {graphics})
-                )
-                (box :orientation "h" :space-evenly true :spacing 12
-                (label :class "control-box" :text {kernel})
-                (button :class "control-box" :timeout "1s" :onclick "$HOME/.local/bin/keyboard --next" {keyboard})
-                )
-                (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
-                    (metric :first "" :last "" :onchange "pamixer --set-volume {}" :value {volume.text})
-                )
-                (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
-                    (metric :first "" :last "" :onchange "brightnessctl set {}%" :value {brightness})
-                )
-            )
-            (box
-                :class "time-reveal"
-                :visible {music.title != ""}
-                (box :class "music-box" :orientation "v"
-                :space-evenly false
-                :spacing 10
-                    (box :class "music-img" :style 'background-image: url(\'${replace(music.artUrl, "file://", "")}\')')
-                    (box :orientation "v" :space-evenly false
-                        (label :markup {'<b><span size="large">' + music.title + '</span></b>'})
-                        {music.artist}
-                        {music.album}
-                    )
-                    (box
-                        :orientation "h"
-                        :class "music-bar"
-                        :space-evenly false
-                        (scale
-                            :min 0
-                            :max {music.length}
-                            :onchange 'playerctl position {}'
-                            :value {music_position.position}
-                        )
-                    )
-                    (centerbox
-                        :orientation "h"
-                        (label :text {music_position.positionStr} :class "music-time-left")
-                        (box :orientation "h" :space-evenly false :spacing 5
-                            (button :class "music-btn" :css "button {padding: 10px 20px 10px 15px;}" :onclick "playerctl previous" "")
-                            (button :class "music-btn" :css "button {padding: 10px 15px;}" :onclick "playerctl play-pause" {music.status == "Playing" ? "" : ""})
-                            (button :class "music-btn" :css "button {padding: 10px 20px 10px 15px;}" :onclick "playerctl next" "")
-                        )
-                        (label :text {music.lengthStr} :class "music-time-right")
-                    )
-                )
-            )
+  (revealer :reveal {matches(curr_window,"control")}
+    (box :orientation "v" :space-evenly false :spacing 6
+      (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
+        (box :orientation "h" :space-evenly true :spacing 12
+          (button :class "control-box" :timeout "24h" :onclick "../scripts/toggle_updates.sh" "${updates.text}")
+          (button :class "control-box" :timeout "24h" :onclick "$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/dmenu-power" "Power  ")
         )
+        (box :orientation "h" :space-evenly true :spacing 12
+          (button :class "control-box" :timeout "5s" :onclick "$HOME/.local/bin/rog --profile-toggle" rog)
+          (button :class "control-box" :timeout "600s" :onclick "$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/open-window \"$HOME/.local/bin/launch-in-terminal $HOME/.local/bin/manage-gpu --interactive\"" {graphics})
+        )
+        (box :orientation "h" :space-evenly true :spacing 12
+          (label :class "control-box" :text {kernel})
+          (button :class "control-box" :timeout "1s" :onclick "$HOME/.local/bin/keyboard --next" {keyboard})
+        )
+        (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
+          (metric :first "" :last "" :onchange "pamixer --set-volume {}" :value {volume.text})
+        )
+        (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
+          (metric :first "" :last "" :onchange "brightnessctl set {}%" :value {brightness})
+        )
+      )
+      (box
+        :class "time-reveal"
+        :visible {music.title != ""}
+        (box :class "music-box" :orientation "v"
+          :space-evenly false
+          :spacing 10
+          (box :class "music-img" :style 'background-image: url(\'${replace(music.artUrl, "file://", "")}\')')
+          (box :orientation "v" :space-evenly false
+            (label :markup {'<b><span size="large">' + music.title + '</span></b>'})
+            {music.artist}
+            {music.album}
+          )
+          (box
+            :orientation "h"
+            :class "music-bar"
+            :space-evenly false
+            (scale
+              :min 0
+              :max {music.length}
+              :onchange 'playerctl position {}'
+              :value {music_position.position}
+            )
+          )
+          (centerbox
+            :orientation "h"
+            (label :text {music_position.positionStr} :class "music-time-left")
+            (box :orientation "h" :space-evenly false :spacing 5
+              (button :class "music-btn" :css "button {padding: 10px 20px 10px 15px;}" :onclick "playerctl previous" "")
+              (button :class "music-btn" :css "button {padding: 10px 15px;}" :onclick "playerctl play-pause" {music.status == "Playing" ? "" : ""})
+              (button :class "music-btn" :css "button {padding: 10px 20px 10px 15px;}" :onclick "playerctl next" "")
+            )
+            (label :text {music.lengthStr} :class "music-time-right")
+          )
+        )
+      )
     )
+  )
 )

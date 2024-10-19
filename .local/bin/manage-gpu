@@ -86,7 +86,7 @@ get() {
 if [ "$1" = "--get" ]; then
   get
 elif [ "$1" = "--pci" ]; then
-  lspci | grep -i vga
+  lspci -k | grep -A 3 -i vga
 elif [ "$1" = "--integrated" ]; then
   integrated
 elif [ "$1" = "--hybrid" ]; then

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Grabbed it from mr.nvidia on discord
+# Grabbed this from mr.nvidia on discord
 # Run this script if suspense is not working with nvidia drivers
 
 TMP_PATH=/var/tmp

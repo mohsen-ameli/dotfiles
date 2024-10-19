@@ -135,6 +135,21 @@ tab --> switch between tabs
 
 ## Graphics/nvidia
 
+Make a file `/etc/modprobe.d/nvidia.conf`
+and put the following in it:
+
+```
+options nvidia_drm modeset=1 fbdev=1
+options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
+```
+
+and `/etc/modprobe.d/blacklist.conf`
+
+```
+blacklist nouveau
+options nouveau modeset=0
+```
+
 Suspense issues:
 run the script at `.local/bin/nvidia-suspense`
 

@@ -1,7 +1,0 @@
-#!/bin/sh
-
-find . -type f -name '*.jpg' | \
-while IFS= read file_name; do
-  mv "$file_name" "windows11_${file_name##*\/}";
-done
-

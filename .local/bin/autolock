@@ -7,7 +7,7 @@
 xidlehook --timer 30 "brightnessctl --device='asus::kbd_backlight' -s set 0" "brightnessctl --device='asus::kbd_backlight' -r" &
 xidlehook --not-when-audio --not-when-fullscreen --timer 240 "brightnessctl -s set 10" "brightnessctl -r" &
 xidlehook --not-when-audio --not-when-fullscreen --timer 300 "betterlockscreen -l blur" "" &
-# xidlehook --not-when-audio --not-when-fullscreen --timer 600 "systemctl suspend" "" &
+xidlehook --not-when-audio --not-when-fullscreen --timer 600 "systemctl suspend" "" &
 
 
 # Manual approach

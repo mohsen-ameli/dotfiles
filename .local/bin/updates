@@ -11,7 +11,13 @@ import sys
 import time
 from tabulate import tabulate
 
-pkg_manager="paru"
+aur_updates = 0
+arch_updates = 0
+updates = 0
+threshhold_green=0
+threshhold_yellow=25
+threshhold_red=100
+rows = []
 
 def print_usage():
     print("Usage: updates [--help | --live | --count]")
@@ -36,54 +42,39 @@ elif "--live" not in sys.argv:
 elif len(sys.argv) <= 1 and sys.argv[1] != "--live":
     print_usage()
 
-aur_updates = 0
-arch_updates = 0
-updates = 0
-threshhold_green=0
-threshhold_yellow=25
-threshhold_red=100
-rows = []
-
-# Check if we are on wayland
-p = subprocess.Popen("$HOME/.local/bin/is-wayland", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-line = p.stdout.readlines()[0]
-is_wayland = line.decode("UTF-8").split("\n")[0]
+# Getting package manager
+paru_installed = subprocess.Popen("which paru &> /dev/null && echo 1 || echo 0", shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.readlines()[0].decode("UTF-8").strip()
+if paru_installed == "1":
+    pkg_manager = "paru"
+else:
+    pkg_manager = "yay"
 
 # Getting AUR updates
-p = subprocess.Popen(f'{pkg_manager} -Qua -i 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-lines = p.stdout.readlines()
+lines = subprocess.Popen(f'{pkg_manager} -Qua 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.readlines()
 aur_updates = len(lines)
-for i in range(0, len(lines)):
+for i in range(0, aur_updates):
     name, curr_v, _, update_v = str(lines[i].decode("UTF-8")).strip().split(" ")
     rows.append([f"{name} (AUR)", update_v])
-retval = p.wait()
 
 # Getting pacman updates
-p = subprocess.Popen('checkupdates 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-lines = []
-ll = p.stdout.readlines()
-arch_updates = len(ll)
+lines = subprocess.Popen('checkupdates 2> /dev/null', shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT).stdout.readlines()
+arch_updates = len(lines)
+for i in range(0, arch_updates):
+    name, curr_v, _, update_v = str(lines[i].decode("UTF-8")).strip().split(" ")
+    if "lib" not in name and "qt" not in name:
+        rows.append([name, update_v])
 
 updates = aur_updates + arch_updates
 
 if (len(sys.argv) > 1 and sys.argv[1] == "--count"):
     print(updates)
-elif updates == 0:
+    exit(0)
+
+if updates == 0:
     tooltip = "0 Updates... Yay!"
 else:
-    # Not showing lib and qt updates in tooltip
-    for line in ll:
-        name = str(line.decode("UTF-8")).strip().split(" ")[0]
-        if "lib" not in name and "qt" not in name:
-            lines.append(line)
-
-    for i in range(0, len(lines)):
-        name, curr_v, _, update_v = str(lines[i].decode("UTF-8")).strip().split(" ")
-        rows.append([name, update_v[:12]])
-    retval = p.wait()
-
     tooltip = "<tt>"
-    tooltip += tabulate(rows, ['Name', 'New Version', 'Name', 'New Version'], tablefmt='rounded_outline')
+    tooltip += tabulate(rows, ['Name', 'New Version'], tablefmt='rounded_outline')
     tooltip += "</tt>"
 
 data = json.dumps({
