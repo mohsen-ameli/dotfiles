@@ -5,6 +5,8 @@
 # Charging cap
 export CHARGE_LIMIT=81
 
+source $HOME/.zsh_secret
+
 if [ $($HOME/.local/bin/is-wayland) -eq 0 ]; then
   echo "configuration {dpi: 120;}" > $HOME/.config/rofi/hybrid.rasi
   # Swallow

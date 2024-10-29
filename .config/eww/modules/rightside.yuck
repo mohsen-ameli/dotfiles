@@ -9,7 +9,7 @@
             :onscroll "[ \"{}\" = \"up\" ] && $HOME/.local/bin/volume --inc || $HOME/.local/bin/volume --dec"
             (box :class "audio" :orientation "h" :space-evenly false :spacing 8 :halign "center"
                 (label :text {volume.text + "%"})
-                (label :text "" :class {'volume vol-' + volume.class})
+                (label :text "" :class {'volume volume-' + volume.class})
             )
         )
         (button

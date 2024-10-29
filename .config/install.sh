@@ -66,7 +66,7 @@ setup_packages() {
 	notify ":: Installing packages."
 	$pkg_manager --noconfirm -Syyu base-devel git $network $themes $shell $file_explorer $image_viewer \
 	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $extra \
-	  zip dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker python-pywal eww swww swaybg \
+	  zip dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker hyprutils hyprwayland-scanner python-pywal eww swww swaybg \
     zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools \
     # AUR below
     $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
@@ -103,7 +103,7 @@ setup_xorg() {
   confirm "Do you want to install i3 Window Manger?" || return
   notify ":: Installing Xorg and i3"
 	$pkg_manager xorg xclip mutter-x11-scaling i3-wm i3-swallow-git betterlockscreen \
-    lxappearance clipcat maim xcolor autotiling xidlehook
+    lxappearance clipmenu maim xcolor autotiling xidlehook
   echo """[Desktop Entry]
 Encoding=UTF-8
 Name=i3

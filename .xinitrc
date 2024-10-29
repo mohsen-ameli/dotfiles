@@ -18,7 +18,8 @@ $HOME/.local/bin/run-bar &
 
 # 3rd party
 dunst -config ~/.config/dunst/dunstrcx11 &
-clipcatd &
+rm -rf $XDG_RUNTIME_DIR/clipmenu*
+clipmenud &
 picom &
 sxhkd &
 asusctl profile --profile-set Quiet &

@@ -6,76 +6,66 @@
 # gum spin -s dot -- "$ping_hi"
 
 integrated() {
-  echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  echo 0 | sudo tee /sys/bus/pci/rescan
-  echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  sudo envycontrol -s integrated
-
-  echo "0"
+  # echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
+  # echo 0 | sudo tee /sys/bus/pci/rescan
+  # echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
+  sudo supergfxctl -m Integrated
+  # sudo envycontrol -s integrated
 }
 
 hybrid() {
-  # --force-comp
-  sudo envycontrol -s hybrid
-  success=$(printf $?)
-  echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  echo 0 | sudo tee /sys/bus/pci/rescan
-  echo 1 | sudo tee /sys/bus/pci/rescan
-  echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
+  # sudo envycontrol -s hybrid # --force-comp
+  sudo supergfxctl -m Hybrid
+  # success=$(printf $?)
+  # echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
+  # echo 0 | sudo tee /sys/bus/pci/rescan
+  # echo 1 | sudo tee /sys/bus/pci/rescan
+  # echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
+  #
+  # if [ $success -ne 0 ]; then
+  #   sudo envycontrol -s hybrid
+  # fi
+}
 
-  if [ $success -ne 0 ]; then
-    sudo envycontrol -s hybrid
+log_out() {
+  if gum confirm "Do you want to log out? (recommended)" ;then
+    [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl dispatch exit || killall Xorg
   fi
+  exit
+}
 
-  echo "0"
+reboot() {
+  if gum confirm "Do you want to restart now? (recommended)" ;then
+    sudo reboot now
+  fi
+  exit
 }
 
 interactive() {
   if [ "$(gum choose "Integrated" "Hybrid")" = "Integrated" ]; then
-    if gum confirm "Do you want to switch to integrated graphics?" ;then
-      echo
-      echo ":: Switching to integrated graphics."
+    if gum confirm "(WARNING: this might log you out) Do you want to switch to integrated graphics?" ;then
+      echo -e "\n:: Switching to integrated graphics.\n"
       integrated
       if [ $? -eq 0 ]; then
-        echo ":: Success!"
-        echo 
-        if gum confirm "HIGHLY RECOMMENDED: Do you want to restart now?" ;then
-          sudo reboot now
-          exit
-        else
-          exit
-        fi
+        echo -e "\n:: Success!\n"
+        log_out
       fi
-    else
-      echo
-      echo ":: Switch canceled."
-      exit;
     fi
   else
-    if gum confirm "Do you want to switch to hybrid graphics?" ;then
-      echo
-      echo ":: Switching to hybrid graphics."
+    if gum confirm "(WARNING: this might log you out) Do you want to switch to hybrid graphics?" ;then
+      echo -e "\n:: Switching to hybrid graphics.\n"
       hybrid
       if [ $? -eq 0 ]; then
-        echo ":: Success!"
-        echo 
-        if gum confirm "HIGHLY RECOMMENDED: Do you want to restart now?" ;then
-          sudo reboot now
-          exit
-        else
-          exit
-        fi
+        echo -e "\n:: Success!\n"
+        reboot
       fi
-    else
-      echo
-      echo ":: Switch canceled."
-      exit;
     fi
   fi
+  exit
 }
 
 get() {
-  mode=$(lspci -k | grep -A3 VGA | grep -A3 NVIDIA | grep "in use:" > /dev/null)
+  mode=$(lspci -k | grep -A3 VGA | grep -A3 NVIDIA > /dev/null)
   if [ $? -eq 0 ]; then
     [ "$mode" = "nouveau" ] && echo "Nouveau 󰔑" || echo "Hybrid "
   else

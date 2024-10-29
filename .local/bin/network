@@ -7,13 +7,13 @@ print_usage() {
 	printf """Usage: network [arguments]
 	
 arguments:
-	--live: \t\t Prints the info for live
-	--full: \t\t Shows wifi icon and strength percentage
-	--icon: \t\t Shows only the wifi icon
-	--info: \t\t Shows all the information
+    --live: \t\t Prints the info for live
+    --full: \t\t Shows wifi icon and strength percentage
+    --icon: \t\t Shows only the wifi icon
+    --info: \t\t Shows all the information
     --status: \t\t Shows the status of the connection
-    --strength: \t The strength of the network
-    --interface: \t The interface that the network is connected to
+    --strength: \t\t The strength of the network
+    --interface: \t\t The interface that the network is connected to
 """
 }
 

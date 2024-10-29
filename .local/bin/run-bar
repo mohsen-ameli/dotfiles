@@ -5,5 +5,11 @@
 
 killall eww
 sleep 1
-eww open bar -c "$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)" --screen 0 --id primary
-eww open bar -c "$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)" --screen 1 --id secondary
+# eww open bar -c "$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)" --screen 0 --id primary
+
+if [ "$($HOME/.local/bin/is-wayland)" = "0" ]; then
+  eww open bar -c "$HOME/.config/eww/x11"
+  eww open bar_second -c "$HOME/.config/eww/x11"
+else
+  eww open bar -c "$HOME/.config/eww/wayland"
+fi

@@ -58,48 +58,30 @@
     {
       "name": "bibtex",
       "command": "bibtex",
-      "args": [
-        "%DOCFILE%"
-      ],
+      "args": ["%DOCFILE%"],
       "env": {}
     }
   ],
   "latex-workshop.latex.recipes": [
     {
       "name": "pdfLaTeX",
-      "tools": [
-        "pdflatex"
-      ]
+      "tools": ["pdflatex"]
     },
     {
       "name": "latexmk 🔃",
-      "tools": [
-        "latexmk"
-      ]
+      "tools": ["latexmk"]
     },
     {
       "name": "xelatex",
-      "tools": [
-        "xelatex"
-      ]
+      "tools": ["xelatex"]
     },
     {
       "name": "pdflatex ➞ bibtex ➞ pdflatex`×2",
-      "tools": [
-        "pdflatex",
-        "bibtex",
-        "pdflatex",
-        "pdflatex"
-      ]
+      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
     },
     {
       "name": "xelatex ➞ bibtex ➞ xelatex`×2",
-      "tools": [
-        "xelatex",
-        "bibtex",
-        "xelatex",
-        "xelatex"
-      ]
+      "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
     }
   ],
   "workbench.colorCustomizations": {
