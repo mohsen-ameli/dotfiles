@@ -1,30 +1,30 @@
 (defwidget time_cal []
-    (revealer :reveal {matches(curr_window,"time_cal")}
-        (box :orientation "v" :space-evenly false :spacing 6
-            (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
-                (label :text {'󰥔  ' + full_time} :class "control-box" :xalign 0.5)
-                (box :class "calendar-wrap" (calendar :class "calendar"))
-                (box :orientation "h" :space-evenly true :spacing 12
-                    (button :visible {arraylength(notifications.data[0]) != 0} :class "control-box" :onclick "../scripts/notification.sh --update" "󰃢 Clear")
-                    (button :class "control-box" :onclick "../scripts/notification.sh --dnd" {dnd == 0 ? "  DND Off" : "   DND On"})
-                )
-            )
-            (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 12 :visible {arraylength(notifications.data[0]) != 0}
-                (scroll
-                    ;; :height {arraylength(notifications.data[0]) <= 5 ? arraylength(notifications.data[0]) * 80 : 400}
-                    :height 300
-                    (box :orientation "v" :space-evenly false :spacing 8
-                        (for notif in {notifications.data[0]}
-                            (button :class "control-box notif" :onclick "../scripts/notification.sh --remove ${notif.id.data}" 
-                                (box :space-evenly false :spacing 12 :orientation "h"
-                                    (image :path {notif.icon_path.data} :image-width 40 :image-height 40)
-                                    (label :markup {notif.message.data})
-                                )
-                            )
-                        )
-                    )
-                )
-            )
+  (revealer :reveal {matches(curr_window,"time_cal")}
+    (box :orientation "v" :space-evenly false :spacing 6
+      (box :orientation "v" :class "control-container" :space-evenly false :spacing 12
+        (label :text {'󰥔  ' + full_time} :class "control-box" :xalign 0.5)
+        (box :class "calendar-wrap" (calendar :class "calendar"))
+        (box :orientation "h" :space-evenly true :spacing 12
+          (button :visible {arraylength(notifications.data[0]) != 0} :class "control-box" :onclick "../scripts/notification.sh --update" "󰃢 Clear")
+          (button :class "control-box" :onclick "../scripts/notification.sh --dnd" {dnd == 0 ? "  DND Off" : "   DND On"})
         )
+      )
+      (box :class "control-container" :orientation "v" :space-evenly false :spacing 12 :visible {arraylength(notifications.data[0]) != 0}
+        (scroll
+          ;; :height {arraylength(notifications.data[0]) <= 5 ? arraylength(notifications.data[0]) * 80 : 400}
+          :height 300
+          (box :orientation "v" :space-evenly false :spacing 8
+            (for notif in {notifications.data[0]}
+              (button :class "control-box notif" :onclick "../scripts/notification.sh --remove ${notif.id.data}"
+                (box :space-evenly false :spacing 12 :orientation "h"
+                  (image :path {notif.icon_path.data} :image-width 40 :image-height 40)
+                  (label :markup {notif.message.data})
+                )
+              )
+            )
+          )
+        )
+      )
     )
+  )
 )

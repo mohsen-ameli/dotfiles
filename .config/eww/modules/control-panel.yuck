@@ -1,7 +1,7 @@
 (defwidget control []
   (revealer :reveal {matches(curr_window,"control")}
     (box :orientation "v" :space-evenly false :spacing 6
-      (box :orientation "v" :class "time-reveal" :space-evenly false :spacing 12
+      (box :orientation "v" :class "control-container" :space-evenly false :spacing 12
         (box :orientation "h" :space-evenly true :spacing 12
           (button :class "control-box" :timeout "24h" :onclick "../scripts/toggle_updates.sh" "${updates.text}")
           (button :class "control-box" :timeout "24h" :onclick "$HOME/.config/eww/scripts/toggle_control.sh; $HOME/.local/bin/dmenu-power" "Power  ")
@@ -12,7 +12,7 @@
         )
         (box :orientation "h" :space-evenly true :spacing 12
           (label :class "control-box" :text {kernel})
-          (button :class "control-box" :timeout "1s" :onclick "$HOME/.local/bin/keyboard --next" {keyboard})
+          (button :class "control-box" :timeout "1s" :onclick "$HOME/.local/bin/keyboard --next" "${keyboard} ")
         )
         (box :orientation "h" :space-evenly false :spacing 5 :class "control-box"
           (metric :first "" :last "" :onchange "pamixer --set-volume {}" :value {volume.text})
@@ -22,7 +22,7 @@
         )
       )
       (box
-        :class "time-reveal"
+        :class "control-container"
         :visible {music.title != ""}
         (box :class "music-box" :orientation "v"
           :space-evenly false

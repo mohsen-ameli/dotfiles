@@ -69,7 +69,7 @@ setup_packages() {
 	  zip dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker hyprutils hyprwayland-scanner python-pywal eww swww swaybg \
     zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools \
     # AUR below
-    $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio
+    $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio envycontrol
 }
 
 setup_amdgpu() {

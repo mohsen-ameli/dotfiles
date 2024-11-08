@@ -13,11 +13,9 @@ if [ "$1" = "--player" ]; then
         album=$(echo $line | cut -d~ -f3)
         artist=$(echo $line | cut -d~ -f4)
         artUrl=$(echo $line | cut -d~ -f5)
-        artUrl=$(echo "${artUrl##*://}")
         status=$(echo $line | cut -d~ -f6)
         length=$(echo $line | cut -d~ -f7)
         lengthStr=$(echo $line | cut -d~ -f8)
-
         [ "$length" != "" ] && length=$(($length / 1000000))
 
         echo "{\"name\": \"$name\", \"album\": \"$album\", \"title\": \"$title\", \"artist\": \"$artist\", \"artUrl\": \"$artUrl\", \"status\": \"$status\", \"length\": \"$length\", \"lengthStr\": \"$lengthStr\"}"
@@ -31,7 +29,6 @@ elif [ "$1" = "--position" ]; then
         positionStr=$(echo $line | cut -d~ -f2)
 
         echo "{\"position\": \"$position\", \"positionStr\": \"$positionStr\"}"
-        
         # JSON_STRING=$( jq -n \
         #             --arg position "$position" \
         #             --arg positionStr "$positionStr" \

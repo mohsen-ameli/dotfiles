@@ -10,7 +10,7 @@ echo ""
 printf ":: Please specify the drive to use to install Arch Linux on: "
 read drive
 echo ""
-if [ ! -b "$drive" ]; then
+if [ ! -b "/dev/$drive" ]; then
   echo "drive doesn't exist"
   exit 1
 fi
@@ -18,7 +18,7 @@ fi
 echo "Selected drive is $drive"
 echo ""
 echo "Starting partitioning..."
-sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo fdisk $drive
+sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | fdisk /dev/$drive
   o # clear the in memory partition table
   n # new partition
   p # primary partition
@@ -38,34 +38,32 @@ sed -e 's/\s*\([\+0-9a-zA-Z]*\).*/\1/' << EOF | sudo fdisk $drive
 EOF
 
 echo ":: Formatting drives"
-mkfs.fat -F 32 $drive"1"
-mkfs.ext4 $drive"2"
+mkfs.fat -F 32 /dev/$drive"1"
+mkfs.ext4 /dev/$drive"2"
 
 echo ":: Mounting drives"
-mount $drive"2" /mnt
+mount /dev/$drive"2" /mnt
 mkdir /mnt/boot
-mount $drive"1" /mnt/boot
+mount /dev/$drive"1" /mnt/boot
 
-# Enabling multilib and g14
+# Enabling multilib 
 echo -e """
 [multilib]
 Include = /etc/pacman.d/mirrorlist
+""" >> /etc/pacman.conf
 
-[g14]
-Server = https://arch.asus-linux.org
-""" | sudo tee /etc/pacman.conf
-
-# Setting mirrorlist to canada
-curl "https://archlinux.org/mirrorlist/?country=CA&protocol=http&protocol=https&ip_version=4" | sudo tee /etc/pacman.d/mirrorlist
-sudo sed 's/#Server/Server/g' -i /etc/pacman.d/mirrorlist
+# Setting the mirrorlist
+# reflector | tee /etc/pacman.d/mirrorlist
+curl "https://archlinux.org/mirrorlist/?country=CA&protocol=http&protocol=https&ip_version=4" | tee /etc/pacman.d/mirrorlist
+sed 's/#Server/Server/g' -i /etc/pacman.d/mirrorlist
 
 echo ":: Starting installation"
-pacstrap -K /mnt base base-devel linux linux-firmware grub efibootmgr networkmanager vim htop wget terminus-fonts
+pacstrap -K /mnt base base-devel linux linux-firmware grub efibootmgr networkmanager vim htop wget 
 genfstab -U /mnt >> /mnt/etc/fstab
 
 echo ":: Setting locale"
 echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
-echo """
+echo -e """
 export LANG=\"en_US.UTF-8\"
 export LC_COLLATE=\"C\"
 """ > /mnt/etc/locale.conf
@@ -77,7 +75,7 @@ echo "$hostname" > /mnt/etc/conf.d/hostname
 echo "$hostname" > /mnt/etc/hostname
 
 echo ":: Setting up network"
-echo """
+echo -e """
 127.0.0.1        localhost
 ::1              localhost
 127.0.1.1        $hostname.localdomain  $hostname
@@ -107,9 +105,18 @@ echo ":: Enabling services"
 systemctl enable NetworkManager
 
 echo "Finished !"
+exit
 EOF
 
-arch-chroot /mnt /mnt/install-arch-chroot.sh
-umount -a
-reboot now
+chmod +x /mnt/install-arch-chroot.sh
+arch-chroot /mnt /install-arch-chroot.sh
+
+echo ""
+echo ":: Installation complete!"
+echo ":: Would you like to unmount all and reboot (Y/n)? (Recommended)"
+read inp
+if [ "$inp" = "y" ] || [ "$inp" = "Y" ] || [ "$inp" = "" ]; then
+  umount -a
+  reboot now
+fi
 

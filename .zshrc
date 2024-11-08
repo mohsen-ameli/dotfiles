@@ -5,7 +5,9 @@
 # Charging cap
 export CHARGE_LIMIT=81
 
+# For development
 source $HOME/.zsh_secret
+source $HOME/.env_vars
 
 if [ $($HOME/.local/bin/is-wayland) -eq 0 ]; then
   echo "configuration {dpi: 120;}" > $HOME/.config/rofi/hybrid.rasi
@@ -14,14 +16,11 @@ if [ $($HOME/.local/bin/is-wayland) -eq 0 ]; then
   alias steam="swallow steam"
   alias xdg-open="swallow xdg-open"
   alias wine="swallow wine"
+  alias gedit="swallow gedit"
 else
   echo "configuration {}" > $HOME/.config/rofi/hybrid.rasi
 fi
 
-# Enabling syntax highliting for nano
-# ls -1 /usr/share/nano/*.nanorc | sed 's/^\//include \//' > ~/.nanorc
-
-# Running electron apps in wayland needs this
 export ELECTRON_OZONE_PLATFORM_HINT="wayland"
 export VCPKG_ROOT="/opt/vcpkg"
 export VCPKG_DOWNLOADS="/var/cache/vcpkg"
@@ -32,8 +31,6 @@ export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
 export WINEPREFIX="$XDG_DATA_HOME/wine"
-export HISTFILE="$XDG_CACHE_HOME/zsh/history"
-export ZSH="$XDG_DATA_HOME/oh-my-zsh"
 export _Z_DATA="$XDG_DATA_HOME/z"
 export MYPY_CACHE_DIR="$XDG_CACHE_HOME/mypy"
 export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
@@ -42,7 +39,6 @@ export GOPATH="$XDG_DATA_HOME/go"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
 alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
-#alias nvidia-settings=nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings"
 alias feh="feh --no-fehbg"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
@@ -55,6 +51,8 @@ export PYTHONSTARTUP="$XDG_DATA_HOME/python/pythonrc"
 export GRIPHOME="$XDG_CONFIG_HOME/grip"
 
 # oh-my-zsh
+export HISTFILE="$XDG_CACHE_HOME/zsh/history"
+export ZSH="$XDG_DATA_HOME/oh-my-zsh"
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search z)
 # ZSH_THEME="af-magic"
@@ -67,9 +65,6 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-s
 # ZSH_THEME="jaischeema"
 # ZSH_THEME="pygmalion"
 source $ZSH/oh-my-zsh.sh
-
-# Environment variables for development
-source $HOME/.env_vars
 
 if which vscodium > /dev/null; then
   alias code="vscodium"
@@ -85,14 +80,48 @@ alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias ssh='TERM=xterm-256color ssh'
 alias lsblock='lsblk -o name,fstype,size,mountpoints -e 7'
 alias grep='grep --color=auto'
+alias fastfetch='fastfetch --config examples/17'
 alias ex='chmod u+x'
 alias ls='ls --color=auto'
-#alias ls='eza -l --color=always --group-directories-first'
-alias la='eza -la --color=always --group-directories-first'  # all files and dirs
-alias ll='eza -a --color=always --group-directories-first'  # long format
+alias la='eza -la --color=always --group-directories-first'
+alias ll='eza -a --color=always --group-directories-first'
 alias cp="cp -i"
 alias mv="mv -i"
 alias sr="sudo reboot now"
+
+# Starship
+eval "$(starship init zsh)"
+
+# idk man
+# cowsay -f ~/.config/sodomized.cow "Welcome Back Soldier" | lolcat
+cowsay "Welcome Back Soldier" | lolcat
+
+# pnpm
+export PNPM_HOME="/home/moe/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+
+# fnm
+fnm env > /tmp/fnm
+. /tmp/fnm
+
+# Auto starting window managers
+tty_session=$(echo "${$(tty)##*/}")
+if [ "$tty_session" = "tty1" ]; then
+  startx 
+elif [ "$tty_session" = "tty2" ]; then
+  Hyprland
+fi
+
+# bun
+[ -s "/home/moe/.bun/_bun" ] && source "/home/moe/.bun/_bun"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# Ctrl + Backspace kill a word
+bindkey '^H' backward-kill-word
 
 function copyfile {
   [[ "$#" != 1 ]] && return 1
@@ -103,11 +132,6 @@ function copyfile {
 function copydir {
   pwd | tr -d "\r\n" | wl-copy
 }
-
-# function exp {
-#   [[ "$#" != 1 ]] && local path_to_open="." || local path_to_open=$1
-#   nohup thunar $path_to_open > /dev/null &
-# }
 
 # ARCHIVE EXTRACTION usage: extract <file>
 function extract {
@@ -146,42 +170,4 @@ function extract {
     done
   fi
 }
-
-# Starship
-eval "$(starship init zsh)"
-
-# idk man
-# cowsay -f ~/.config/sodomized.cow "Welcome Back Soldier" | lolcat
-cowsay "Welcome Back Soldier" | lolcat
-
-# pnpm
-export PNPM_HOME="/home/moe/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-# fnm
-fnm env > /tmp/fnm
-. /tmp/fnm
-
-# Auto starting window managers
-tty_session=$(echo "${$(tty)##*/}")
-if [ "$tty_session" = "tty1" ]; then
-  startx 
-elif [ "$tty_session" = "tty2" ]; then
-  Hyprland
-fi
-
-
-# bun completions
-[ -s "/home/moe/.bun/_bun" ] && source "/home/moe/.bun/_bun"
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
-# Ctrl + Backspace kill a word
-bindkey '^H' backward-kill-word
-
 

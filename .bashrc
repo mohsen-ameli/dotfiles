@@ -12,21 +12,6 @@ export PATH="$PATH:/usr/bin/latex:/usr/bin/pdflatex"
 
 bind '"\C-h": backward-kill-word'
 
-function copyfile {
-  [[ "$#" != 1 ]] && return 1
-  local file_to_copy=$1
-  cat $file_to_copy | wl-copy
-}
-
-function copydir {
-  pwd | tr -d "\r\n" | wl-copy
-}
-
-function exp {
-  [[ "$#" != 1 ]] && local path_to_open="." || local path_to_open=$1
-  nohup thunar $path_to_open > /dev/null &
-}
-
 export XCURSOR_PATH=/usr/share/icons:$XDG_DATA_HOME/icons
 export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
 alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
@@ -44,17 +29,29 @@ alias copydir='copydir'
 alias copyfile='copyfile'
 alias exp='exp'
 alias lsblock='lsblk -o name,fstype,size,mountpoints -e 7'
-#alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias ex='chmod u+x'
-alias ls='eza -l --color=always --group-directories-first' # my preferred listing
-alias la='eza -la --color=always --group-directories-first'  # all files and dirs
-alias ll='eza -a --color=always --group-directories-first'  # long format
+alias ls='ls --color=auto'
+alias la='eza -la --color=always --group-directories-first'
+alias ll='eza -a --color=always --group-directories-first'
 alias cp="cp -i"
 alias mv="mv -i"
 
-### ARCHIVE EXTRACTION
-# usage: extract <file>
+# Starship
+PS1='[\u@\h \W]\$ '
+eval "$(starship init bash)"
+
+function copyfile {
+  [[ "$#" != 1 ]] && return 1
+  local file_to_copy=$1
+  cat $file_to_copy | wl-copy
+}
+
+function copydir {
+  pwd | tr -d "\r\n" | wl-copy
+}
+
+# ARCHIVE EXTRACTION usage: extract <file>
 function extract {
  if [ -z "$1" ]; then
     # display usage if no parameters given
@@ -92,6 +89,3 @@ function extract {
 fi
 }
 
-# Starship
-PS1='[\u@\h \W]\$ '
-eval "$(starship init bash)"

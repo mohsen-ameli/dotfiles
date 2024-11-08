@@ -1,34 +1,34 @@
 (defwidget wifi []
-    (revealer :reveal {matches(curr_window,"wifi")}
-        (box :orientation "v" :space-evenly false :spacing 6
-            (box :class "time-reveal" :orientation "v" :space-evenly false :spacing 8
-                (button
-                    :class "control-box"
-                    :onclick {network.status == "disconnected" ? "nmcli r wifi on" : "nmcli r wifi off"}
-                    {network.status == "disconnected" ? "Power On WiFi  " : "Power Off WiFi  "}
-                )
-                (button
-                    :class "control-box"
-                    :timeout "1h"
-                    :onclick "$HOME/.config/eww/scripts/toggle.sh wifi; $HOME/.local/bin/dmenu-wifi"
-                    "Dmenu WiFi"
-                )
-                (button
-                    :class "control-box"
-                    :timeout "1h"
-                    :onclick "$HOME/.config/eww/scripts/toggle.sh wifi; $HOME/.local/bin/open-window \"$HOME/.local/bin/launch-in-terminal nmtui\""
-                    "Network Manager TUI"
-                )
-                (button
-                    :class "control-box"
-                    :timeout "2s"
-                    :onclick "$HOME/.config/eww/scripts/toggle.sh wifi; (curl icanhazip.com | xargs wl-copy) && notify-send 'WiFi' 'Public IP Address Copied\!' -i 'wifi-icon'"
-                    "Copy Public Ip"
-                )
-            )
-            (box :class "time-reveal" :orientation "v" :space-evenly false :visible {network.status != "disconnected"}
-                (label :class "control-box" :markup {'<span size="medium">' + network.info + '</span>'} :xalign 0)
-            )
+  (revealer :reveal {matches(curr_window,"wifi")}
+    (box :orientation "v" :space-evenly false :spacing 6
+      (box :class "control-container" :orientation "v" :space-evenly false :spacing 8
+        (button
+          :class "control-box"
+          :onclick {network.status == "disconnected" ? "nmcli r wifi on" : "nmcli r wifi off"}
+          {network.status == "disconnected" ? "Power On WiFi  " : "Power Off WiFi  "}
         )
+        (button
+          :class "control-box"
+          :timeout "1h"
+          :onclick "$HOME/.config/eww/scripts/toggle.sh wifi; $HOME/.local/bin/dmenu-wifi"
+          "Dmenu WiFi"
+        )
+        (button
+          :class "control-box"
+          :timeout "1h"
+          :onclick "$HOME/.config/eww/scripts/toggle.sh wifi; $HOME/.local/bin/open-window \"$HOME/.local/bin/launch-in-terminal nmtui\""
+          "Network Manager TUI"
+        )
+        (button
+          :class "control-box"
+          :timeout "2s"
+          :onclick "$HOME/.config/eww/scripts/toggle.sh wifi; (curl icanhazip.com | xargs wl-copy) && notify-send 'WiFi' 'Public IP Address Copied\!' -i 'wifi-icon'"
+          "Copy Public Ip"
+        )
+      )
+      (box :class "control-container" :orientation "v" :space-evenly false :visible {network.status != "disconnected"}
+        (label :class "control-box" :markup {'<span size="medium">' + network.info + '</span>'} :xalign 0)
+      )
     )
+  )
 )

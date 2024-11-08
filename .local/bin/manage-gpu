@@ -9,22 +9,17 @@ integrated() {
   # echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   # echo 0 | sudo tee /sys/bus/pci/rescan
   # echo 1 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  sudo supergfxctl -m Integrated
-  # sudo envycontrol -s integrated
+  sudo envycontrol -s integrated
 }
 
 hybrid() {
-  # sudo envycontrol -s hybrid # --force-comp
-  sudo supergfxctl -m Hybrid
-  # success=$(printf $?)
+  sudo envycontrol -s hybrid # --force-comp
+  success=$(printf $?)
   # echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   # echo 0 | sudo tee /sys/bus/pci/rescan
   # echo 1 | sudo tee /sys/bus/pci/rescan
   # echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
-  #
-  # if [ $success -ne 0 ]; then
-  #   sudo envycontrol -s hybrid
-  # fi
+  [ $success -ne 0 ] && sudo envycontrol -s hybrid
 }
 
 log_out() {
@@ -43,16 +38,16 @@ reboot() {
 
 interactive() {
   if [ "$(gum choose "Integrated" "Hybrid")" = "Integrated" ]; then
-    if gum confirm "(WARNING: this might log you out) Do you want to switch to integrated graphics?" ;then
+    if gum confirm "(WARNING: this may restart your computer) Do you want to switch to integrated graphics?" ;then
       echo -e "\n:: Switching to integrated graphics.\n"
       integrated
       if [ $? -eq 0 ]; then
         echo -e "\n:: Success!\n"
-        log_out
+        reboot
       fi
     fi
   else
-    if gum confirm "(WARNING: this might log you out) Do you want to switch to hybrid graphics?" ;then
+    if gum confirm "(WARNING: this may restart your computer) Do you want to switch to hybrid graphics?" ;then
       echo -e "\n:: Switching to hybrid graphics.\n"
       hybrid
       if [ $? -eq 0 ]; then
@@ -83,7 +78,9 @@ elif [ "$1" = "--hybrid" ]; then
   hybrid
 elif [ "$1" = "--interactive" ]; then
   interactive
+elif [ "$1" = "--on-start" ]; then
+  on_start
 else
-  echo "Usage: switch-graphics [--get] [--pci] [--integrated] [--hybrid]"
+  echo "Usage: switch-graphics [--get] [--pci] [--integrated] [--hybrid] [--on-start]"
 fi
 
