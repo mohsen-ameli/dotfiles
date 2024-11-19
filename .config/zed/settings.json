@@ -1,27 +1,15 @@
-// Zed settings
-//
-// For information on how to configure Zed, see the Zed
-// documentation: https://zed.dev/docs/configuring-zed
-//
-// To see all of Zed's default settings without changing your
-// custom settings, run `zed: open default settings` from the
-// command palette (cmd-shift-p / ctrl-shift-p)
 {
+  "features": {
+    "inline_completion_provider": "copilot"
+  },
+  "base_keymap": "VSCode",
   "show_inline_completions": true,
+  // "git_status": true,
   "languages": {
     "Python": {
       "tab_size": 4,
       "formatter": "language_server"
     }
-    // "JavaScript": {
-    //   "tab_size": 2,
-    //   "formatter": {
-    //     "external": {
-    //       "command": "prettier",
-    //       "arguments": ["--stdin-filepath", "--no-semi", "{buffer_path}"]
-    //     }
-    //   }
-    // }
   },
   "assistant": {
     "default_model": {

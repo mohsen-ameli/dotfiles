@@ -15,13 +15,11 @@ BASE="/sys/class/power_supply/BAT0"
 BATTERY_LEVEL=$(cat $BASE/capacity)
 FULLY_CHARGED=79
 
-# My battery takes a couple of seconds to recognize as charging, so this is a hacky way to deal with it
 case "$BATTERY_STATE" in
 	"charging") BATTERY_CHARGING="Charging" ; BATTERY_ICON="charging" ;;
 	"discharging") BATTERY_CHARGING="Disharging" ; BATTERY_ICON="full" ;;
 esac
 
-# Send notification
 if [ $BATTERY_LEVEL -ge $FULLY_CHARGED ]; then
   notify-send "Battery Charged" "Battery is fully charged." -i "battery-full" -r 9991
 else

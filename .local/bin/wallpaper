@@ -60,7 +60,6 @@ else
   exit 0
 fi
 
-# Kill old background daemons
 if [ $wayland -eq 1 ]; then
   echo "$wallpaper"
   if [ "$engine" = "swaybg" ]; then
@@ -74,14 +73,11 @@ else
   feh --no-fehbg --bg-fill $wallpaper
 fi
 
-# Select random wallpaper and create color scheme
 wal -n -q -s -t -i $wallpaper
 
-# Genearting colors, restarting bar
 # $HOME/.local/bin/generate-wal
 # . "$HOME/.cache/wal/colors.sh"
 
-# Copy selected wallpaper into .cache folder
 cp $wallpaper ~/.cache/current_wallpaper.jpg
 magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png &
 if [ $wayland -eq 0 ]; then

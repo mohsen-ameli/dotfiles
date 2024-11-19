@@ -1,6 +1,6 @@
 #!/bin/sh
-
 # name,url,username,password,note
+# Imports the exported passwords from chrome (must have a csv extension) into pass
 
 usage() {
   echo "Usage: chrome-to-pass <file>.csv"

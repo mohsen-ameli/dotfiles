@@ -4,7 +4,7 @@
 ##########################
 
 iDIR="$HOME/.config/icons"
-segment="10%" # How much to increase or decrease the brightness by
+segment="10%"
 
 print_usage() {
 	printf """Usage: brightness [arguments]
@@ -36,17 +36,6 @@ get_brightness() {
 get_icon() {
 	icon="brightness-custom"
 	current=$(get_brightness_text)
-	# if   [ "$current" -le "20" ]; then
-	# 	icon="$iDIR/brightness-20.png"
-	# elif [ "$current" -le "40" ]; then
-	# 	icon="$iDIR/brightness-40.png"
-	# elif [ "$current" -le "60" ]; then
-	# 	icon="$iDIR/brightness-60.png"
-	# elif [ "$current" -le "80" ]; then
-	# 	icon="$iDIR/brightness-80.png"
-	# else
-	# 	icon="$iDIR/brightness-100.png"
-	# fi
 }
 
 inc_backlight() {
@@ -59,13 +48,11 @@ dec_backlight() {
   notify_user
 }
 
-# Notify
 notify_user() {
 	get_icon
 	notify-send -h string:x-canonical-private-synchronous:sys-notify -h int:value:$current -u low -i $icon "Brightness: $current%"
 }
 
-# Execute accordingly
 if [ "$1" = "--live" ]; then
 	live
 elif [ "$1" = "--get" ]; then

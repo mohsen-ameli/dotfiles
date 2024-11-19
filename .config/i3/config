@@ -9,7 +9,6 @@ for_window [class="floating"] floating enable, resize set 1250 900, move positio
 for_window [class="qimgv"] floating enable
 for_window [class="mpv"] floating enable
 for_window [class="vlc"] floating enable
-for_window [class="Gedit"] floating enable
 for_window [class="^.*"] border pixel 0
 
 #workspace_layout stacking

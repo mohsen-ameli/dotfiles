@@ -3,6 +3,8 @@
 ## Get the battery capacity and its icon
 ##########################
 
+UPDATE_TIME=2
+
 print_usage() {
 	printf """Usage: battery [arguments]
 	
@@ -13,8 +15,6 @@ arguments:
     --info: \t print battery info
     --text-icon: \t print both icon and percentage"""
 }
-
-UPDATE_TIME=2
 
 get_icon() {
   capacity=$(cat /sys/class/power_supply/BAT0/capacity)

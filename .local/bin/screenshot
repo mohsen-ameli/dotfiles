@@ -32,7 +32,6 @@ fi
 
 [ $wayland -eq 1 ] && wl-copy < "$name" || xclip -selection clipboard -target image/png -i "$name"
 
-# Show a notification with dunst, if it's clicked on then open the image
 if [ $? -eq 0 ]; then
   out=$(dunstify --action="default,Reply" "Click to view screenshot" "Saved and copied to clipboard")
   if [ "$out" = "default" ]; then

@@ -25,32 +25,18 @@ if [ "$choice" = "" ]; then
   exit 0
 fi
 
-# opening zenity in the right workspace
-# $HOME/.local/bin/open-window "zenity --question --text=\"Are you sure you want to $action?\" --title=\"$action\" --ok-label=\"$action\" --cancel-label=\"Cancel\" && echo 1 > /tmp/confirm || echo 0 > /tmp/confirm"
 confirm=$(echo -e "$action\nCancel" | /bin/sh -c "$schema2")
 
-# making sure zenity is closed, since the above script doesn't block the flow
-# sleep 1
-# while true; do
-#   if [ "$(ps aux | pgrep zenity)" = "" ]; then
-#     break
-#   fi
-#   sleep 1
-# done
-
-# if [ $(cat /tmp/confirm) = "1" ]; then
-if [ "$confirm" = "$action" ]; then
-  if [ "$action_lower" = "lock" ]; then
-    [ $wayland -eq 1 ] && hyprlock || betterlockscreen -l blur 
-  elif [ "$action_lower" = "suspend" ]; then
-    systemctl suspend
-  elif [ "$action_lower" = "logout" ]; then
-    [ $wayland -eq 1 ] && hyprctl dispatch exit || killall Xorg
-  elif [ "$action_lower" = "shutdown" ]; then
-    sudo shutdown now
-  elif [ "$action_lower" = "restart" ]; then
-    sudo reboot now
-  fi
-else
-  exit 0
+if [ "$confirm" != "$action" ]; then
+  exit
+elif [ "$action_lower" = "lock" ]; then
+  [ $wayland -eq 1 ] && hyprlock || betterlockscreen -l blur 
+elif [ "$action_lower" = "suspend" ]; then
+  systemctl suspend
+elif [ "$action_lower" = "logout" ]; then
+  [ $wayland -eq 1 ] && hyprctl dispatch exit || killall Xorg
+elif [ "$action_lower" = "shutdown" ]; then
+  sudo shutdown now
+elif [ "$action_lower" = "restart" ]; then
+  sudo reboot now
 fi

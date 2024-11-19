@@ -16,8 +16,6 @@ themes() {
   cursor=$(grep "cursor-theme" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
   cursor_size=$(grep "cursor-size" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
   schema="gsettings set org.gnome.desktop.interface"
-  # gsettings set org.gnome.desktop.interface document-font-name 'JetBrainsMonoNL NF 10'
-  # gsettings set org.gnome.desktop.interface monospace-font-name 'JetBrainsMonoNL NF 11'
 
   $schema gtk-theme "$theme"
 	$schema icon-theme "$icons"
@@ -27,7 +25,6 @@ themes() {
   $schema color-scheme "prefer-dark"
   [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl setcursor $cursor $cursor_size
 
-	# Set xcursor themes in .bashprofile
 	echo """[ -f $HOME/.bashrc ] && . $HOME/.bashrc
 export XCURSOR_THEME=\"$cursor\"
 export XCURSOR_SIZE=\"$cursor_size\"
@@ -48,12 +45,8 @@ Xft.rgba: rgb
 Xcursor.theme: $cursor
 Xcursor.size: $cursor_size""" > $HOME/.Xresources
 
-	# Adding current cursor theme as default to .icons folder
 	[ ! -d $HOME/.local/share/icons/default ] && mkdir -p $HOME/.local/share/icons/default
 	echo -e """[Icon Theme]\nInherits=$cursor""" > $HOME/.local/share/icons/default/index.theme
-
-	# getting rid of an unnecessary default theme directory that gets set by nwg look. 
-	# [ -d $HOME/.local/share/icons/default ] && mv $HOME/.local/share/icons/default $HOME/.local/share/icons/tmp
 
 	echo "Done!"
 }
@@ -72,8 +65,6 @@ settings() {
   
   cat $HOME/.config/vscode-settings.json > "$HOME/.config/$code/User/settings.json"
   cat $HOME/.config/vscode-keybindings.json > "$HOME/.config/$code/User/keybindings.json"
-
-  # Vesktop
   cat $HOME/.config/vesktop.css > "$HOME/.config/vesktop/settings/quickCss.css"
 }
 

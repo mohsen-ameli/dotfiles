@@ -17,8 +17,8 @@
   "files.associations": {
     "dunstrc": "properties"
   },
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
+  "editor.formatOnSave": false,
+  "editor.formatOnPaste": false,
   "latex-workshop.latex.tools": [
     {
       "name": "latexmk",

@@ -1,8 +1,4 @@
-# Managing GPU
-# $HOME/.local/bin/manage-gpu --on-start
-
 # Rendering
-# nvidia-settings --load-config-only
 xrdb -merge ~/.Xresources
 
 # Misc

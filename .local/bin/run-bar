@@ -5,7 +5,6 @@
 
 killall eww
 sleep 1
-# eww open bar -c "$HOME/.config/eww/$($HOME/.local/bin/is-wayland --name)" --screen 0 --id primary
 
 if [ "$($HOME/.local/bin/is-wayland)" = "0" ]; then
   eww open bar -c "$HOME/.config/eww/x11"

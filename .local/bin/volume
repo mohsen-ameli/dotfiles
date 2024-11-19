@@ -5,7 +5,7 @@
 ##########################
 
 iDIR="$HOME/.config/icons"
-vol_segment=2 # How much to increase or decrease the volume by
+vol_segment=2
 
 print_usage() {
 	printf """Usage: volume [arguments]
@@ -161,7 +161,6 @@ inc_volume() {
 	else
 		toggle_mute
 	fi
-#   kill -37 $(pidof dwmblocks)
 }
 
 dec_volume() {
@@ -171,7 +170,6 @@ dec_volume() {
 	else
 		toggle_mute
 	fi
-#   kill -37 $(pidof dwmblocks)
 }
 
 toggle_mute() {
@@ -180,7 +178,6 @@ toggle_mute() {
 	else
 		pamixer -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i volume-disabled "Volume: OFF"
 	fi
-#   kill -37 $(pidof dwmblocks)
 }
 
 toggle_mic() {
@@ -189,7 +186,6 @@ toggle_mic() {
 	else
 		pamixer --default-source -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone-mute "Microphone: OFF"
 	fi
-#   kill -41 $(pidof dwmblocks)
 }
 
 notify_mic_user() {
