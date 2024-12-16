@@ -5,7 +5,7 @@
 (defwindow bar
     :monitor 0
     :geometry (geometry :anchor "top center" :width "1920px" :height "50px")
-    :reserve (struts :side "top" :distance "0px")
+    :reserve (struts :side "top" :distance "55px")
     (bar)
 )
 
@@ -17,14 +17,12 @@
 )
 
 (defwindow menu-closer
-    ; :monitor 0
     :windowtype "desktop"
-    :geometry (geometry :anchor "bottom center" :width "1920px" :height "1030px" )
+    :geometry (geometry :anchor "bottom center" :width "1920px" :height "1030px")
     (button :onclick "../scripts/toggle.sh \"${curr_window}\"")
 )
   
 (defwindow time_cal
-    ; :monitor 0
     :geometry (geometry 
                 :anchor "top right"
                 :width "420px"
@@ -35,7 +33,6 @@
 )
 
 (defwindow control
-    ; :monitor 0
     :geometry (geometry
                 :anchor "top right"
                 :width "420px"
@@ -46,7 +43,6 @@
 )
 
 (defwindow updates
-    ; :monitor 0
     :geometry (geometry 
                 :anchor "top right"
                 :width "650px"
@@ -57,7 +53,6 @@
 )
 
 (defwindow wifi
-    ; :monitor 0
     :stacking "bg"
     :geometry (geometry 
                 :anchor "top right"
@@ -69,7 +64,6 @@
 )
 
 (defwindow bluetooth
-    ; :monitor 0
     :geometry (geometry 
                 :anchor "top right"
                 :width "450px"
@@ -80,7 +74,6 @@
 )
 
 (defwindow battery
-    ; :monitor 0
     :geometry (geometry 
                 :anchor "top right"
                 :width "400px"
@@ -91,7 +84,6 @@
 )
 
 (defwindow weather
-    ; :monitor 0
     :geometry (geometry 
                 :anchor "top left"
                 :width "450px"

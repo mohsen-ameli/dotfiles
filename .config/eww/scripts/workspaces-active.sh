@@ -3,7 +3,7 @@
 ## All active workspaces
 ##########################
 
-if [ $($HOME/.local/bin/is-wayland) -eq 1 ]; then
+if pgrep -x Hyprland >/dev/null; then
     active=$(hyprctl workspaces | grep "^workspace ID " | cut -d" " -f 3 | xargs)
     echo "$active"
     handle() {
@@ -18,8 +18,7 @@ if [ $($HOME/.local/bin/is-wayland) -eq 1 ]; then
         fi
     }
     socat -U - UNIX-CONNECT:$XDG_RUNTIME_DIR/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock | while read -r line; do handle "$line"; done
-else
-    # i want this to be in one line
+elif pgrep -x i3 >/dev/null; then
     active=$(i3-msg -t get_workspaces | jq -r '.[] | .name' | xargs)
     echo "$active"
     handle() {
@@ -35,4 +34,7 @@ else
         fi
     }
     i3-msg -t subscribe -m '[ "workspace" ]' | while read -r line; do handle "$line"; done
+elif pgrep -x openbox >/dev/null; then
+    # echo "1 2 3 4 5"
+    echo ""
 fi

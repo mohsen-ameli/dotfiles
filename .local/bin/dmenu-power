@@ -34,7 +34,7 @@ elif [ "$action_lower" = "lock" ]; then
 elif [ "$action_lower" = "suspend" ]; then
   systemctl suspend
 elif [ "$action_lower" = "logout" ]; then
-  [ $wayland -eq 1 ] && hyprctl dispatch exit || killall Xorg
+  [ $wayland -eq 1 ] && hyprctl dispatch exit || sudo killall Xorg
 elif [ "$action_lower" = "shutdown" ]; then
   sudo shutdown now
 elif [ "$action_lower" = "restart" ]; then

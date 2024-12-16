@@ -1,6 +1,7 @@
 #!/bin/bash
 
-xidlehook --timer 30 "brightnessctl --device='asus::kbd_backlight' -s set 0" "brightnessctl --device='asus::kbd_backlight' -r" &
+# xidlehook --timer 30 "brightnessctl --device='asus::kbd_backlight' -s set 0" "brightnessctl --device='asus::kbd_backlight' -r" &
+xidlehook --timer 30 "asusctl led-pow-2 keyboard --sleep" "asusctl led-pow-2 keyboard --awake" &
 xidlehook --not-when-audio --timer 240 "brightnessctl -s set 10" "brightnessctl -r" &
 xidlehook --not-when-audio --not-when-fullscreen --timer 300 "betterlockscreen -l blur" "" &
 xidlehook --not-when-audio --not-when-fullscreen --timer 600 "systemctl suspend" "" &

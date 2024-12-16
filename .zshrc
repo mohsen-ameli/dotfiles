@@ -2,34 +2,32 @@
 # ~/.zshrc
 #
 
-# Charging cap
 export CHARGE_LIMIT=81
 
 # For development
 source $HOME/.zsh_secret
 source $HOME/.env_vars
 
-if [ $($HOME/.local/bin/is-wayland) -eq 0 ]; then
-  echo "configuration {dpi: 120;}" > $HOME/.config/rofi/hybrid.rasi
-  # Swallow
+if pgrep -x i3 > /dev/null; then
   alias mpv="swallow mpv"
   alias steam="swallow steam"
   alias xdg-open="swallow xdg-open"
   alias wine="swallow wine"
   alias gedit="swallow gedit"
-else
-  echo "configuration {}" > $HOME/.config/rofi/hybrid.rasi
+elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+  export ELECTRON_OZONE_PLATFORM_HINT="wayland"
 fi
 
-export ELECTRON_OZONE_PLATFORM_HINT="wayland"
-export VCPKG_ROOT="/opt/vcpkg"
-export VCPKG_DOWNLOADS="/var/cache/vcpkg"
-export EDITOR="/bin/nvim"
-export PATH="$PATH:/home/moe/.local/bin:/usr/bin/pdflatex:/usr/bin/latex"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
+alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
+alias feh="feh --no-fehbg"
+export VCPKG_ROOT="/opt/vcpkg"
+export VCPKG_DOWNLOADS="/var/cache/vcpkg"
+export EDITOR="/bin/nvim"
+export PATH="$PATH:/home/moe/.local/bin:/usr/bin/pdflatex:/usr/bin/latex"
 export WINEPREFIX="$XDG_DATA_HOME/wine"
 export _Z_DATA="$XDG_DATA_HOME/z"
 export MYPY_CACHE_DIR="$XDG_CACHE_HOME/mypy"
@@ -38,8 +36,6 @@ export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
 export GOPATH="$XDG_DATA_HOME/go"
 export CUDA_CACHE_PATH="$XDG_CACHE_HOME/nv"
 export CARGO_HOME="$XDG_DATA_HOME/cargo"
-alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
-alias feh="feh --no-fehbg"
 export TEXMFVAR="$XDG_CACHE_HOME/texlive/texmf-var"
 export RUSTUP_HOME="$XDG_DATA_HOME"/rustup
 export XCURSOR_PATH="/usr/share/icons:$XDG_DATA_HOME/icons"
@@ -69,6 +65,7 @@ source $ZSH/oh-my-zsh.sh
 if which vscodium > /dev/null; then
   alias code="vscodium"
 fi
+alias lsh="du -sh * | sort -h"
 alias docker="sudo docker"
 alias sm="sudo make clean install"
 alias sudo="sudo -EH"
@@ -82,18 +79,14 @@ alias lsblock='lsblk -o name,fstype,size,mountpoints -e 7'
 alias grep='grep --color=auto'
 alias fastfetch='fastfetch --config examples/17'
 alias ex='chmod u+x'
-alias ls='ls --color=auto'
+alias ls='ls --color=auto --group-directories-first'
 alias la='eza -la --color=always --group-directories-first'
 alias ll='eza -a --color=always --group-directories-first'
 alias cp="cp -i"
 alias mv="mv -i"
 alias sr="sudo reboot now"
 
-# Starship
 eval "$(starship init zsh)"
-
-# idk man
-# cowsay -f ~/.config/sodomized.cow "Welcome Back Soldier" | lolcat
 cowsay "Welcome Back Soldier" | lolcat
 
 # pnpm
@@ -120,7 +113,6 @@ fi
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# Ctrl + Backspace kill a word
 bindkey '^H' backward-kill-word
 
 function copyfile {
@@ -133,10 +125,8 @@ function copydir {
   pwd | tr -d "\r\n" | wl-copy
 }
 
-# ARCHIVE EXTRACTION usage: extract <file>
 function extract {
  if [ -z "$1" ]; then
-    # display usage if no parameters given
     echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
     echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
  else

@@ -1,14 +1,13 @@
 /* Inspired from Stephan Raabe */
 
 configuration {
+    dpi: 120;
     modi: "drun,run";
     show-icons: true;
     me-select-entry: "";
     me-accept-entry: "MousePrimary";
     drun-display-format: "{name}";
 }
-
-@import "hybrid"
 
 // Dynamic colors from pywal
 // @theme "~/.cache/wal/colors.rofi"

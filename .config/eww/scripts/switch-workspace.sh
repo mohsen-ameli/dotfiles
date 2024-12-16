@@ -3,8 +3,10 @@
 ## Switches workspaces
 ##########################
 
-if [ $($HOME/.local/bin/is-wayland) -eq 1 ]; then
+if pgrep -x Hyprland >/dev/null; then
     hyprctl dispatch workspace $1
-else
+elif pgrep -x i3 >/dev/null; then
     i3-msg workspace $1
+elif pgrep -x openbox >/dev/null; then
+    wmctrl -s $(($1 - 1))
 fi

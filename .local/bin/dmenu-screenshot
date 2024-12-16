@@ -3,8 +3,8 @@
 ## Dmenu screenshot script.
 ##########################
 
-schema="rofi -dmenu -no-show-icons -i -p Select:"
-base="$HOME/Pictures/screenshots"
+schema="rofi -dmenu -no-show-icons -i -p Screenshot"
+base="$HOME/Pictures/Screenshots"
 name="$base/$(date +'%F_%T').png"
 
 # Rofi menu

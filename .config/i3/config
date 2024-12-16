@@ -2,6 +2,25 @@
 #
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# Startup
+exec sxhkd
+exec xrdb -merge ~/.Xresources
+exec xset r rate 300 50 &
+exec $HOME/.local/bin/wallpaper --random &
+exec $HOME/.local/bin/apply-settings &
+exec $HOME/.local/bin/autolock &
+exec $HOME/.local/bin/battery-alert &
+exec $HOME/.local/bin/run-bar &
+
+# -config $HOME/.config/dunst/dunstrcx11
+exec dunst
+exec rm -rf $XDG_RUNTIME_DIR/clipmenu*
+exec clipmenud 
+exec picom
+ 
+exec asusctl profile --profile-set Quiet &
+exec asusctl --chg-limit $CHARGE_LIMIT &
+
 set $mod Mod4
 
 # define width and height for the window

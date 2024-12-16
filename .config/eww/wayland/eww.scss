@@ -262,34 +262,34 @@ tooltip label {
   background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");
 }
 
-.vol-mute {
+.volume-mute {
   background-image: url("/home/moe/.local/share/icons/custom/volume/volume-mute.svg");
 }
 
 @if $text_color == white {
-  .vol-off {
+  .volume-off {
     background-image: url("/home/moe/.local/share/icons/custom/volume/volume-off.svg");
   }
-  .vol-low {
+  .volume-low {
     background-image: url("/home/moe/.local/share/icons/custom/volume/volume-low.svg");
   }
-  .vol-mid {
+  .volume-mid {
     background-image: url("/home/moe/.local/share/icons/custom/volume/volume-mid.svg");
   }
-  .vol-high {
+  .volume-high {
     background-image: url("/home/moe/.local/share/icons/custom/volume/volume-high.svg");
   }
 } @else {
-  .vol-off {
+  .volume-off {
     background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-off.svg");
   }
-  .vol-low {
+  .volume-low {
     background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-low.svg");
   }
-  .vol-mid {
+  .volume-mid {
     background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-mid.svg");
   }
-  .vol-high {
+  .volume-high {
     background-image: url("/home/moe/.local/share/icons/custom/volume-dark/volume-high.svg");
   }
 }

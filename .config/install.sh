@@ -12,7 +12,7 @@ media_player="mpv vlc amberol rhythmbox"
 network="networkmanager net-tools"
 bluetooth="bluez bluez-utils bluez-obex"
 audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pavucontrol"
-rofi="rofi-wayland rofi-calc-git"
+rofi="rofi rofi-calc"
 
 notify() {
 	echo -e "\n-----------------------------------------------"
@@ -65,11 +65,13 @@ setup_packages() {
   confirm "Do you want to install the main packages?" || return
 	notify ":: Installing packages."
 	$pkg_manager --noconfirm -Syyu base-devel git $network $themes $shell $file_explorer $image_viewer \
-	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $extra \
+	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $rofi $extra \
 	  zip dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker hyprutils hyprwayland-scanner python-pywal eww swww swaybg \
-    zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools \
+    zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools discord \
     # AUR below
-    $rofi hyprlock hypridle vesktop bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio python-beautifulsoup4 envycontrol
+    hyprlock hypridle bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio python-beautifulsoup4 envycontrol
+  
+  sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
 }
 
 setup_amdgpu() {

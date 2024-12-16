@@ -4,7 +4,7 @@
 ## Need grim, slurp (wayland), scrop (x11) and dunst installed.
 ##########################
 
-base="$HOME/Pictures/screenshots"
+base="$HOME/Pictures/Screenshots"
 wayland=$($HOME/.local/bin/is-wayland)
 if [ $# -ge 2 ]; then
   name="$2"
