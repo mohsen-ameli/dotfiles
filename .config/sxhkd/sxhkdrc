@@ -1,5 +1,5 @@
 super + Return
-  alacritty
+  kitty
 super + d
   rofi -show drun
 super + j

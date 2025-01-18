@@ -174,8 +174,19 @@ Games with easy anti-cheat
 https://www.reddit.com/r/linux_gaming/comments/1cvrvyg/psa_easy_anticheat_eac_failed_to_initialize/
 
 To run games well on steam, add the following to a game. This setting is located in (gear icon in any game) > properties > general > launch options
-This halped a lot with scaling issues with Overwatch 2
+
+Generally we use gamescope and gamemoderun to tackle issues.
 `gamescope -W 1920 -H 1080 -r 144 -- %command%`
+
+Overwatch 2:
+`gamemoderun %command% LD_PRELOAD="" DXVK_HUD=compiler PULSE_LATENCY_MSEC=60`
+
+The Witcher 3:
+`gamemoderun %command% --launcher-skip`
+
+Marvel Rivals:
+Proton GE
+`LD_PRELOAD=""  force_vk_vendor=-1 gamemoderun %command% -dx12 -ngxdisableota`
 
 ## udev rules
 

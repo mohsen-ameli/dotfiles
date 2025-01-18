@@ -1,0 +1,131 @@
+[ActionsWidget]
+ColumnState=AAAA/wAAAAAAAAABAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYwAAAACAQAAAQAAAAAAAAAAAAAAAGT/////AAAAgQAAAAAAAAACAAAA+gAAAAEAAAAAAAAAkgAAAAEAAAAAAAAD6AAAAABkAAAAAA==
+
+[Applets][171][Configuration]
+PreloadWeight=42
+
+[Applets][174]
+immutability=1
+plugin=org.kde.plasma.weather
+
+[Applets][174][Configuration]
+PreloadWeight=5
+popupHeight=405
+popupWidth=424
+
+[Applets][174][Configuration][Appearance]
+showTemperatureInCompactMode=true
+
+[Applets][174][Configuration][ConfigDialog]
+DialogHeight=540
+DialogWidth=720
+
+[Applets][174][Configuration][Units]
+pressureUnit=5028
+speedUnit=9001
+temperatureUnit=6001
+visibilityUnit=2007
+
+[Applets][174][Configuration][WeatherStation]
+source=envcan|weather|Toronto, ON
+
+[ConfigDialog]
+1536x864 screen: Height=550
+1536x864 screen: Width=772
+
+[General]
+Number of Actions=0
+
+[Notification Messages]
+klipperClearHistoryAskAgain=false
+
+[PlasmaViews][Panel 113]
+floating=1
+
+[PlasmaViews][Panel 113][Defaults]
+thickness=27
+
+[PlasmaViews][Panel 116]
+floating=1
+
+[PlasmaViews][Panel 116][Defaults]
+thickness=36
+
+[PlasmaViews][Panel 118]
+floating=1
+
+[PlasmaViews][Panel 118][Defaults]
+maxLength=2640
+minLength=2640
+offset=0
+thickness=35
+
+[PlasmaViews][Panel 118][Horizontal1536]
+maxLength=2640
+minLength=2640
+
+[PlasmaViews][Panel 138]
+floating=1
+
+[PlasmaViews][Panel 138][Defaults]
+maxLength=1094
+minLength=660
+offset=0
+thickness=71
+
+[PlasmaViews][Panel 138][Horizontal1536]
+maxLength=1094
+minLength=660
+
+[PlasmaViews][Panel 146]
+floating=0
+
+[PlasmaViews][Panel 146][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 2]
+floating=1
+
+[PlasmaViews][Panel 2][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 28]
+floating=1
+
+[PlasmaViews][Panel 28][Defaults]
+maxLength=2160
+minLength=2160
+offset=0
+thickness=29
+
+[PlasmaViews][Panel 28][Horizontal1920]
+maxLength=2160
+minLength=2160
+
+[PlasmaViews][Panel 48]
+floating=1
+
+[PlasmaViews][Panel 48][Defaults]
+maxLength=895
+minLength=540
+offset=0
+thickness=58
+
+[PlasmaViews][Panel 48][Horizontal1920]
+maxLength=895
+minLength=540
+
+[PlasmaViews][Panel 56]
+floating=1
+
+[PlasmaViews][Panel 56][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 82]
+floating=0
+
+[PlasmaViews][Panel 82][Defaults]
+thickness=44
+
+[Updates]
+performed=/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/keyboardlayout_migrateiconsetting.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/digitalclock_migrate_showseconds_setting.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/maintain_existing_desktop_icon_sizes.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/systemloadviewer_systemmonitor.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/digitalclock_rename_timezonedisplay_key.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/klipper_clear_config.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/digitalclock_migrate_font_settings.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/no_middle_click_paste_on_panels.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/migrate_font_weights.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/unlock_widgets.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/move_desktop_layout_config.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/folderview_fix_recursive_screenmapping.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/mediaframe_migrate_useBackground_setting.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/containmentactions_middlebutton.js,/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/keyboardlayout_remove_shortcut.js
