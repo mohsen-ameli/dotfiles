@@ -167,26 +167,28 @@ https://github.com/Frogging-Family/nvidia-all.git
 
 ## Games
 
-Plants Vs Zombies
+To run games well on steam, add the following to a game. This setting is located in (gear icon in any game) > properties > general > launch options
+Generally we use gamescope and gamemoderun to tackle issues.
+`gamescope -W 1920 -H 1080 -r 144 -- gamemoderun %command%`
+
+Plants Vs Zombies:
+Fix for slow animation during plant select
 https://www.protondb.com/app/3590#dYYLZr30F2
 
 Games with easy anti-cheat
 https://www.reddit.com/r/linux_gaming/comments/1cvrvyg/psa_easy_anticheat_eac_failed_to_initialize/
 
-To run games well on steam, add the following to a game. This setting is located in (gear icon in any game) > properties > general > launch options
-
-Generally we use gamescope and gamemoderun to tackle issues.
-`gamescope -W 1920 -H 1080 -r 144 -- %command%`
-
 Overwatch 2:
+Proton 9.0-4
 `gamemoderun %command% LD_PRELOAD="" DXVK_HUD=compiler PULSE_LATENCY_MSEC=60`
 
 The Witcher 3:
+Experimental
 `gamemoderun %command% --launcher-skip`
 
 Marvel Rivals:
 Proton GE
-`LD_PRELOAD=""  force_vk_vendor=-1 gamemoderun %command% -dx12 -ngxdisableota`
+`gamemoderun %command% LD_PRELOAD="" force_vk_vendor=-1 -dx12 -ngxdisableota`
 
 ## udev rules
 

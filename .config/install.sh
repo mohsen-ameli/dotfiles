@@ -70,6 +70,19 @@ setup_packages() {
     zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools discord \
     # AUR below
     hyprlock hypridle bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio python-beautifulsoup4 envycontrol
+
+  sudo pacman-key --delete dragonn@op.pl
+  sudo pacman-key --recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
+  sudo pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
+  sudo pacman-key --lsign-key 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
+  sudo pacman-key --finger 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
+  wget "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x8b15a6b0e9a3fa35" -O g14.sec
+  sudo pacman-key -a g14.sec
+  rm g14.sec
+  echo """
+  [g14]
+  Server = https://arch.asus-linux.org
+  """ >> sudo tee /etc/pacman.conf
   
   sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
 }

@@ -3,6 +3,7 @@
 #
 
 export CHARGE_LIMIT=81
+alias pseudocode=python
 
 # For development
 source $HOME/.zsh_secret
