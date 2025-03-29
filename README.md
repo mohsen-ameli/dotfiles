@@ -77,6 +77,8 @@ https://mathjiajia.github.io/vscode-and-latex/
 
 ## General Notes
 
+To check which apps are running on XWayland, run `xlsclients`
+
 To force an app to use wayland, add this line to the "exec" option of the app
 found in either `/usr/share/applications` or `/usr/share/local/applications`:\
 `--enable-features=UseOzonePlatform --ozone-platform=wayland`
@@ -95,6 +97,26 @@ run it, and try to connect now (I had success with nmtui).
 Run apps as sudo on hyprland\
 `xhost si:localuser:root`\
 `xhost | DISPLAY=:0 sudo command`
+
+# PostgreSQL
+
+If you're having trouble try restarting postgresql, or reininstalling it.
+You can also nuke the folders containing postgres (WARNING: this will remove everything!!!).
+`sudo rm -rf /var/lib/postgres/`
+
+Switch to the postgres user
+`sudo su postgres`
+Then make a new user (call it the same as your main user's name)
+`createuser --interactive`
+Exit
+
+To make a new database:
+`createdb <db-name>`
+You can also use -h <server>
+-p <port>
+
+Connect to it:
+`psql -d boomerang`
 
 # fonts and icons
 
@@ -189,6 +211,9 @@ Experimental
 Marvel Rivals:
 Proton GE
 `gamemoderun %command% LD_PRELOAD="" force_vk_vendor=-1 -dx12 -ngxdisableota`
+
+Limbo (Controls don't work because of screen being 144hz):
+`gamescope -W 1920 -H 1080 -r 60 -- gamemoderun %command%`
 
 ## udev rules
 

@@ -2,12 +2,7 @@
 # ~/.zshrc
 #
 
-export CHARGE_LIMIT=81
-alias pseudocode=python
-
-# For development
-source $HOME/.zsh_secret
-source $HOME/.env_vars
+export CHARGE_LIMIT=80
 
 if pgrep -x i3 > /dev/null; then
   alias mpv="swallow mpv"

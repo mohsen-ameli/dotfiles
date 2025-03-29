@@ -8,7 +8,7 @@ sleep 1
 
 if [ "$($HOME/.local/bin/is-wayland)" = "0" ]; then
   eww open bar -c "$HOME/.config/eww/x11"
-  eww open bar_second -c "$HOME/.config/eww/x11"
+  # eww open bar_second -c "$HOME/.config/eww/x11"
 else
   eww open bar -c "$HOME/.config/eww/wayland"
 fi

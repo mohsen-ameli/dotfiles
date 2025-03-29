@@ -5,7 +5,7 @@
 ## Inspired by Stephan Raabe (2023)
 ##########################
 
-engine="swww" # swww | swaybg
+engine="swaybg" # swww | swaybg
 
 print_usage() {
   printf """Usage: wallpaper [arguments] 

@@ -1,6 +1,6 @@
-;; :monitor '["<primary>", "HDMI-A-0"]'
+;; :monitor '["<primary>"]'
 
-; menu-closer's height should be <device height> - <bar height>
+;; ; menu-closer's height should be <device height> - <bar height>
 
 (defwindow bar
     :monitor 0
@@ -9,12 +9,12 @@
     (bar)
 )
 
-(defwindow bar_second
-    :monitor 1
-    :geometry (geometry :anchor "top center" :width "1920px" :height "50px")
-    :reserve (struts :side "top" :distance "0px")
-    (bar)
-)
+;; (defwindow bar_second
+;;     :monitor 1
+;;     :geometry (geometry :anchor "top center" :width "1920px" :height "50px")
+;;     :reserve (struts :side "top" :distance "0px")
+;;     (bar)
+;; )
 
 (defwindow menu-closer
     :windowtype "desktop"

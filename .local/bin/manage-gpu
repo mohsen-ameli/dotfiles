@@ -37,7 +37,8 @@ reboot() {
 }
 
 interactive() {
-  if [ "$(gum choose "Integrated" "Hybrid")" = "Integrated" ]; then
+  choice=$(gum choose "Integrated" "Hybrid")
+  if [ "$choice" = "Integrated" ]; then
     if gum confirm "(WARNING: this may restart your computer) Do you want to switch to integrated graphics?" ;then
       echo -e "\n:: Switching to integrated graphics.\n"
       integrated
@@ -46,7 +47,7 @@ interactive() {
         reboot
       fi
     fi
-  else
+  elif [ "$choice" = "Hybrid" ]; then
     if gum confirm "(WARNING: this may restart your computer) Do you want to switch to hybrid graphics?" ;then
       echo -e "\n:: Switching to hybrid graphics.\n"
       hybrid
@@ -76,11 +77,11 @@ elif [ "$1" = "--integrated" ]; then
   integrated
 elif [ "$1" = "--hybrid" ]; then
   hybrid
-elif [ "$1" = "--interactive" ]; then
-  interactive
+elif [ "$1" = "--help" ]; then
+  echo "Usage: switch-graphics [--get] [--pci] [--integrated] [--hybrid] [--on-start]"
 elif [ "$1" = "--on-start" ]; then
   on_start
 else
-  echo "Usage: switch-graphics [--get] [--pci] [--integrated] [--hybrid] [--on-start]"
+  interactive
 fi
 
