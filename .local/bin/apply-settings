@@ -4,9 +4,11 @@
 ##########################
 
 screens() {
-  xrandr --output eDP --mode 1920x1080 --rate 144 --dpi 120
-  # xrandr --output DP-1-0 --mode 3840x2160 --rate 60 --left-of eDP
-  xrandr --setprovideroutputsource modesetting NVIDIA-0
+  if [ $($HOME/.local/bin/is-wayland) -eq 0 ]; then
+    xrandr --output eDP --mode 1920x1080 --rate 144 --dpi 120
+    # xrandr --output DP-1-0 --mode 3840x2160 --rate 60 --left-of eDP
+    xrandr --setprovideroutputsource modesetting NVIDIA-0
+  fi
 }
 
 default_apps() {
@@ -29,7 +31,7 @@ themes() {
 	$schema cursor-theme "$cursor"
 	$schema cursor-size "$cursor_size"
   $schema color-scheme "prefer-dark"
-  [ $($HOME/.local/bin/is-wayland) -eq 1 ] && hyprctl setcursor $cursor $cursor_size
+  pgrep Hyprland && hyprctl setcursor $cursor $cursor_size
 
 	echo """[ -f $HOME/.bashrc ] && . $HOME/.bashrc
 export XCURSOR_THEME=\"$cursor\"
@@ -53,8 +55,11 @@ Xcursor.size: $cursor_size""" > $HOME/.Xresources
 
 	[ ! -d $HOME/.local/share/icons/default ] && mkdir -p $HOME/.local/share/icons/default
 	echo -e """[Icon Theme]\nInherits=$cursor""" > $HOME/.local/share/icons/default/index.theme
+}
 
-	echo "Done!"
+apply_vscode() {
+  cat $HOME/.config/vscode-settings.json > "$HOME/.config/$1/User/settings.json"
+  cat $HOME/.config/vscode-keybindings.json > "$HOME/.config/$1/User/keybindings.json"
 }
 
 settings() {
@@ -62,19 +67,20 @@ settings() {
   background=$(cat $HOME/.cache/wal/colors | head -n 1)
 
   if [ -d "$HOME/.config/Code - OSS" ]; then
-    code="Code - OSS"
-  elif [ -d "$HOME/.config/Code" ]; then
-    code="Code"
-  elif [ -d "$HOME/.config/VSCodium" ]; then
-    code="VSCodium"
+    apply_vscode "Code - OSS"
   fi
-  
-  cat $HOME/.config/vscode-settings.json > "$HOME/.config/$code/User/settings.json"
-  cat $HOME/.config/vscode-keybindings.json > "$HOME/.config/$code/User/keybindings.json"
+  if [ -d "$HOME/.config/Code" ]; then
+    apply_vscode "Code"
+  fi
+  if [ -d "$HOME/.config/VSCodium" ]; then
+    apply_vscode "VSCodium"
+  fi
 }
 
 themes
 settings
 screens
 default_apps
+
+echo "Done!"
 

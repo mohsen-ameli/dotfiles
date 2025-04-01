@@ -122,5 +122,8 @@
     "*.pdf": "latex-workshop-pdf-hook"
   },
   "window.zoomLevel": 1,
-  "redhat.telemetry.enabled": false
+  "redhat.telemetry.enabled": false,
+  "window.commandCenter": false,
+  "workbench.layoutControl.enabled": false,
+  "chat.commandCenter.enabled": false
 }
