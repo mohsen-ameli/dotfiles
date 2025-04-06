@@ -95,6 +95,9 @@
     "terminal.background": "#2e3440",
     "panel.background": "#3b4252"
   },
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
   "[latex]": {
     "editor.defaultFormatter": "James-Yu.latex-workshop"
   },
@@ -127,5 +130,6 @@
   "workbench.layoutControl.enabled": false,
   "chat.commandCenter.enabled": false,
   "telemetry.feedback.enabled": false,
-  "telemetry.telemetryLevel": "off"
+  "telemetry.telemetryLevel": "off",
+  "extensions.ignoreRecommendations": true
 }
