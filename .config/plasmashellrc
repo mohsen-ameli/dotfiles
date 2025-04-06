@@ -10,8 +10,8 @@ plugin=org.kde.plasma.weather
 
 [Applets][174][Configuration]
 PreloadWeight=5
-popupHeight=410
-popupWidth=424
+popupHeight=414
+popupWidth=428
 
 [Applets][174][Configuration][Appearance]
 showTemperatureInCompactMode=true

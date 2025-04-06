@@ -58,9 +58,6 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-s
 # ZSH_THEME="pygmalion"
 source $ZSH/oh-my-zsh.sh
 
-if which vscodium > /dev/null; then
-  alias code="vscodium"
-fi
 alias lsh="du -sh * | sort -h"
 alias docker="sudo docker"
 alias sm="sudo make clean install"
@@ -119,6 +116,16 @@ function copyfile {
 
 function copydir {
   pwd | tr -d "\r\n" | wl-copy
+}
+
+function genpass() {
+  pass=$(tr -dc 'a-zA-Z0-9_#@.-' < /dev/random | head -c ${1:-16})
+  echo -n "$pass"
+  if [ $($HOME/.local/bin/is-wayland) -eq 0 ]; then
+    echo -n "$pass" | xclip -sel clip
+  else
+    echo -n "$pass" | wl-copy
+  fi
 }
 
 function extract {

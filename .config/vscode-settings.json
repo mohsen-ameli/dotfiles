@@ -17,7 +17,7 @@
   "files.associations": {
     "dunstrc": "properties"
   },
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
   "latex-workshop.latex.tools": [
     {
@@ -125,5 +125,7 @@
   "redhat.telemetry.enabled": false,
   "window.commandCenter": false,
   "workbench.layoutControl.enabled": false,
-  "chat.commandCenter.enabled": false
+  "chat.commandCenter.enabled": false,
+  "telemetry.feedback.enabled": false,
+  "telemetry.telemetryLevel": "off"
 }

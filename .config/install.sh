@@ -195,6 +195,13 @@ setup_firewall() {
   confirm "Do you want to enable the UFW firewall?" || return
 	notify ":: Setting up UFW firewall"
   $pkg_manager ufw
+
+  sudo ufw limit 22/tcp
+  sudo ufw allow 80/tcp
+  sudo ufw allow 443/tcp
+  sudo ufw deny incoming
+  sudo ufw default deny incoming
+  sudo ufw default allow outgoing
 	sudo ufw enable
 	sudo systemctl enable --now ufw
 }
