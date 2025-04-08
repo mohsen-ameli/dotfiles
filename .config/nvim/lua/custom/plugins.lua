@@ -44,14 +44,7 @@ local plugins = {
     "nvimtools/none-ls.nvim",
     ft = {"python"},
     opts = function()
-      return require "custom.configs.null-ls"
-    end,
-  },
-  {
-    "jose-elias-alvarez/null-ls.nvim",
-    event = "VeryLazy",
-    opts = function()
-      return require "custom.configs.null-ls"
+      return require "custom.configs.none-ls"
     end,
   },
   {

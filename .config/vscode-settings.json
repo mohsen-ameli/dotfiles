@@ -19,71 +19,6 @@
   },
   "editor.formatOnSave": true,
   "editor.formatOnPaste": false,
-  "latex-workshop.latex.tools": [
-    {
-      "name": "latexmk",
-      "command": "latexmk",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "-pdf",
-        "-outdir=%OUTDIR%",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "xelatex",
-      "command": "xelatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "pdflatex",
-      "command": "pdflatex",
-      "args": [
-        "-synctex=1",
-        "-interaction=nonstopmode",
-        "-file-line-error",
-        "%DOC%"
-      ],
-      "env": {}
-    },
-    {
-      "name": "bibtex",
-      "command": "bibtex",
-      "args": ["%DOCFILE%"],
-      "env": {}
-    }
-  ],
-  "latex-workshop.latex.recipes": [
-    {
-      "name": "pdfLaTeX",
-      "tools": ["pdflatex"]
-    },
-    {
-      "name": "latexmk 🔃",
-      "tools": ["latexmk"]
-    },
-    {
-      "name": "xelatex",
-      "tools": ["xelatex"]
-    },
-    {
-      "name": "pdflatex ➞ bibtex ➞ pdflatex`×2",
-      "tools": ["pdflatex", "bibtex", "pdflatex", "pdflatex"]
-    },
-    {
-      "name": "xelatex ➞ bibtex ➞ xelatex`×2",
-      "tools": ["xelatex", "bibtex", "xelatex", "xelatex"]
-    }
-  ],
   "workbench.colorCustomizations": {
     "editor.background": "#2e3440",
     "activityBar.background": "#2e3440",
@@ -124,7 +59,7 @@
   "workbench.editorAssociations": {
     "*.pdf": "latex-workshop-pdf-hook"
   },
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 0.5,
   "redhat.telemetry.enabled": false,
   "window.commandCenter": false,
   "workbench.layoutControl.enabled": false,
