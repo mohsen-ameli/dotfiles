@@ -1,13 +1,8 @@
 ## Screenshot
 
 ![Image](.config/desktop.png)
-![Image](.config/desktop2.png)
 
 # TODO
-
-There should be an easier way to set default applications (maybe in the apply-themes script)
-i3 sleep should lock the screen and set keyboard lights off after a 30 seconds
-eww on xorg, the :visible property doesn't work properly
 
 ## Dotfiles inspired from:
 
@@ -18,6 +13,7 @@ https://github.com/linkfrg/dotfiles
 https://discord.com/channels/961691461554950145/1230259386535120926
 
 ## Github
+
 To add ssh support for ease of use to login and use github, first do the following.
 `ssh-keygen -t ed25519 -C "your_email@example.com"`
 This will generate an id_rsa and id_rsa.pub files in the ~/.ssh folder.
@@ -30,6 +26,7 @@ Now you can clone and use any repos you have.
 
 NOTE: when cloning, use the ssh option when you press on "Code".
 NOTE: If you have multiple ssh keys, make a "config" file (just name it config in ~/.ssh), and put the following per account
+
 ```
 # Personal
 Host github.com
@@ -74,6 +71,8 @@ EndSection
 
 ## Default apps
 
+Set in `~/.local/bin/apply-settings`
+
 ```
 xdg-settings set default-web-browser brave-browser.desktop
 xdg-mime default $file_explorer.desktop inode/directory
@@ -98,16 +97,16 @@ https://mathjiajia.github.io/vscode-and-latex/
 
 ## General Notes
 
-To check which apps are running on XWayland, run `xlsclients`
+To check which apps are running on XWayland, run `xlsclients` or `xeyes`
 
 To force an app to use wayland, add this line to the "exec" option of the app
 found in either `/usr/share/applications` or `/usr/share/local/applications`:\
 `--enable-features=UseOzonePlatform --ozone-platform=wayland`
 
-If clock is messed up, run the following to enable network based time
+If the system clock is messed up, run the following to enable network based time
 `sudo timedatectl set-ntp 1`
 
-Conencting to WiFi automatically with nmcli
+Connect to WiFi automatically with nmcli
 `nmcli connection modify SSID connection.autoconnect yes`
 
 Connecting to eduroam:
@@ -125,16 +124,16 @@ do the following
 `sudo pacman-key --populate`
 `sudo pacman -S archlinux-keyring`
 
-# Cool Things
+## Cool Things
 
 Use `fbgrab <image>.png` to take a picture of the tty
 
 Use `mpv <video or image or url>` to view videos or images (this works on the tty as well).
-Can use `timg` as well though it doesn't work well on tty.
+Can use `timg` if tty is iffy.
 
-Use `yt-dlp <url>` to download any video online.
+Use `yt-dlp <url>` to download any video online (including YouTube).
 
-# PostgreSQL
+## PostgreSQL
 
 If you're having trouble try restarting postgresql, or reininstalling it.
 You can also nuke the folders containing postgres (WARNING: this will remove everything!!!).
@@ -154,7 +153,7 @@ You can also use -h <server>
 Connect to it:
 `psql -d boomerang`
 
-# fonts and icons
+## fonts and icons
 
 Downloads fonts into either /usr/share/fonts or .local/share/fonts
 use sudo fc-cache -fv to install all fonts
@@ -184,16 +183,19 @@ https://www.gnome-look.org/p/2142488
 Add windows 11 to grub
 https://askubuntu.com/questions/1425637/how-can-i-add-windows-11-to-grub-menu
 
-## nvim stuff
+## neovim
 
-control + h|l --> go between editor and file manager
-control + b --> toggle file manager
-control + j --> open terminal
-tab --> switch between tabs
+control + h or control + l -> switch between editor and file manager
 
-## Graphics/nvidia
+control + b -> toggle file manager
 
-Make a file `/etc/modprobe.d/nvidia.conf`
+control + j -> open terminal
+
+tab -> switch between tabs
+
+## Nvidia
+
+If the drivers are not working, make a file `/etc/modprobe.d/nvidia.conf`
 and put the following in it:
 
 ```
@@ -208,8 +210,7 @@ blacklist nouveau
 options nouveau modeset=0
 ```
 
-Suspense issues:
-run the script at `.local/bin/nvidia-suspense`
+Suspense issues: Run the script at `.local/bin/nvidia-suspense`
 
 Switching between integrated and hybrid in nvidia:
 https://www.reddit.com/r/rogflow/comments/ri9mf5/making_dgpu_enablingdisabling_on_linux_work_on/
@@ -223,17 +224,19 @@ https://wiki.archlinux.org/title/Vulkan#AMDGPU_-_Vulkan_applications_launch_slow
 Installing (older) drivers
 https://github.com/Frogging-Family/nvidia-all.git
 
-## GPU Passthrough
+### GPU Passthrough
 
 Run `lspci -nn` you can also use grep to filter. `lspci -nn | grep NVIDIA`.
 Note the values inside brackets [] at the end.
 Grab the card's id as well as the video device's id associated with it.
 Go to `/etc/modprobe.d/` and make a file `vfio.conf` (or whatever else you'd like)
 Paste the following into it:
+
 ```
 options vfio-pci ids=10de:2520,10de:228e
 softdep nvidia pre: vfio-pci
 ```
+
 Replaces ids with your card's ids.
 Run `sudo mkinitcpio -P`
 
@@ -242,16 +245,18 @@ And see if the "kernel in use" is set to "vfio-pci"
 
 ## Games
 
-To run games well on steam, add the following to a game. This setting is located in (gear icon in any game) > properties > general > launch options
-Generally we use gamescope and gamemoderun to tackle issues.
+To better run games on steam, the following settings can be changed located in `(gear icon in any game) > properties > general > launch options`
+
+Generally I use gamescope and gamemoderun to solve common issues:
+
 `gamescope -W 1920 -H 1080 -r 144 -- gamemoderun %command%`
+
+Games with easy anti-cheat
+https://www.reddit.com/r/linux_gaming/comments/1cvrvyg/psa_easy_anticheat_eac_failed_to_initialize/
 
 Plants Vs Zombies:
 Fix for slow animation during plant select
 https://www.protondb.com/app/3590#dYYLZr30F2
-
-Games with easy anti-cheat
-https://www.reddit.com/r/linux_gaming/comments/1cvrvyg/psa_easy_anticheat_eac_failed_to_initialize/
 
 Overwatch 2:
 Proton 9.0-4
@@ -269,6 +274,8 @@ Limbo (Controls don't work because of screen being 144hz):
 `gamescope -W 1920 -H 1080 -r 60 -- gamemoderun %command%`
 
 ## udev rules
+
+This is to have notifications when the battery hits a certain percent, to tell you to plug the power.
 
 Go in /etc/udev/rules.d and create two files. (replace USERNAME with your username). This will make sure to give notifications whenever a device is plugged or unplugged in (as well as charging/discharging).
 
@@ -288,17 +295,18 @@ ACTION=="remove",SUBSYSTEM=="usb",ENV{DISPLAY}=":0", ENV{XAUTHORITY}="/home/USER
 
 ## Unix Password Manager
 
-download pass
+Install pass
+
 `sudo pacman -S pass pass-otp`
 
-plugins for chromium browsers
-`sudo pacman -S browserpass browserpass-chromium`
+Plugin for firefox
 
-plugin for firefox browsers
 `sudo pacman -S passff-host`
+
 `curl -sSL https://codeberg.org/PassFF/passff-host/releases/download/latest/install_host_app.sh | bash -s -- librewolf`
 
-# Export GPG keys 
+### Export GPG keys
+
 Run this to first see a list of keys
 `gpg --list-keys`
 Then find the one that you need (usually the email you used to make the keys)
@@ -308,22 +316,23 @@ Eeport public key.
 Export private key
 `gpg --export-secret-subkeys -a KEY_HERE > subkey`
 
-## Tor Browser (Security)
+## Tor Browser
 
-to connect to a specific country, you must specify it in the "ExitNodes" like this:
+To connect to a specific country, you must specify it in the "ExitNodes" like this:
 
 ```
 EntryNodes {ca} StrictNodes 1
 ExitNodes {it},{de} StrictNodes 1
 ```
 
-add this to "torrc" file, in windows it is located in the default tor folder
+Add this to "torrc" file, in windows it is located in the default tor folder
 and in linux it is in /etc/tor/torrc-defaults
 
 1 means it is forced
+
 0 means it can also use other nodes, if they one specified does not work.
 
-in windows go to internet options > connections > LAN settings > Advanced and make sure "Use the same proxy server ..."
+In windows go to internet options > connections > LAN settings > Advanced and make sure "Use the same proxy server ..."
 is checked off, then delete everything and add this to socks (last option):
 socks: localhost port: 9050
 
