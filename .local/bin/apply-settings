@@ -60,9 +60,7 @@ Xcursor.size: $cursor_size""" > $HOME/.Xresources
 apply_vscode() {
   cat $HOME/.config/vscode-settings.json > "$HOME/.config/$1/User/settings.json"
   cat $HOME/.config/vscode-keybindings.json > "$HOME/.config/$1/User/keybindings.json"
-}
 
-settings() {
   font="JetBrainsMono NF"
   background=$(cat $HOME/.cache/wal/colors | head -n 1)
 
@@ -78,7 +76,6 @@ settings() {
 }
 
 themes
-settings
 screens
 default_apps
 

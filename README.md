@@ -17,6 +17,27 @@ https://github.com/linkfrg/dotfiles
 
 https://discord.com/channels/961691461554950145/1230259386535120926
 
+## Github
+To add ssh support for ease of use to login and use github, first do the following.
+`ssh-keygen -t ed25519 -C "your_email@example.com"`
+This will generate an id_rsa and id_rsa.pub files in the ~/.ssh folder.
+Then run these two commands:
+`eval "$(ssh-agent -s)"`
+`ssh-add ~/.ssh/whatever-you-named-id_rsa`
+Then copy the public `~/.ssh/id_rsa.pub` and open a browser and go to github.com > settings > ssh and gpg keys > new ssh key and paste the
+public id rsa in there.
+Now you can clone and use any repos you have.
+
+NOTE: when cloning, use the ssh option when you press on "Code".
+NOTE: If you have multiple ssh keys, make a "config" file (just name it config in ~/.ssh), and put the following per account
+```
+# Personal
+Host github.com
+HostName github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa_personal
+```
+
 ## Secure Boot
 
 If dual booting, make sure to have windows's Bitlock password.
@@ -97,6 +118,21 @@ run it, and try to connect now (I had success with nmtui).
 Run apps as sudo on hyprland\
 `xhost si:localuser:root`\
 `xhost | DISPLAY=:0 sudo command`
+
+If having issues with updating packages with pacman, or if you're getting keyring/"unkown trust" issues,
+do the following
+`sudo pacman-key --init`
+`sudo pacman-key --populate`
+`sudo pacman -S archlinux-keyring`
+
+# Cool Things
+
+Use `fbgrab <image>.png` to take a picture of the tty
+
+Use `mpv <video or image or url>` to view videos or images (this works on the tty as well).
+Can use `timg` as well though it doesn't work well on tty.
+
+Use `yt-dlp <url>` to download any video online.
 
 # PostgreSQL
 
@@ -187,6 +223,23 @@ https://wiki.archlinux.org/title/Vulkan#AMDGPU_-_Vulkan_applications_launch_slow
 Installing (older) drivers
 https://github.com/Frogging-Family/nvidia-all.git
 
+## GPU Passthrough
+
+Run `lspci -nn` you can also use grep to filter. `lspci -nn | grep NVIDIA`.
+Note the values inside brackets [] at the end.
+Grab the card's id as well as the video device's id associated with it.
+Go to `/etc/modprobe.d/` and make a file `vfio.conf` (or whatever else you'd like)
+Paste the following into it:
+```
+options vfio-pci ids=10de:2520,10de:228e
+softdep nvidia pre: vfio-pci
+```
+Replaces ids with your card's ids.
+Run `sudo mkinitcpio -P`
+
+To check if you're in vfio mode, run `lspci -k | grep NVIDIA -A3`
+And see if the "kernel in use" is set to "vfio-pci"
+
 ## Games
 
 To run games well on steam, add the following to a game. This setting is located in (gear icon in any game) > properties > general > launch options
@@ -245,16 +298,15 @@ plugin for firefox browsers
 `sudo pacman -S passff-host`
 `curl -sSL https://codeberg.org/PassFF/passff-host/releases/download/latest/install_host_app.sh | bash -s -- librewolf`
 
-use pam-gnupg to not enter password everytime
-make sure to have the same password for the gpg key and the user you log in as.
-
-```
-paru -S pam-gnupg
-echo -e "auth     optional  pam_gnupg.so store-only\nsession  optional  pam_gnupg.so" | sudo tee /etc/pam.d/system-login
-echo "allow-preset-passphrase" > ~/.gnupg/gpg-agent.conf
-```
-
-run `gpg -K --with-keygrip` and copy the keygrip within the block that has [E] in it and paste it into ~/.pam-gnupg.
+# Export GPG keys 
+Run this to first see a list of keys
+`gpg --list-keys`
+Then find the one that you need (usually the email you used to make the keys)
+Then copy the line under pub.
+Eeport public key.
+`gpg --export -a KEY_HERE > subkey.pub`
+Export private key
+`gpg --export-secret-subkeys -a KEY_HERE > subkey`
 
 ## Tor Browser (Security)
 

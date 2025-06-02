@@ -1,0 +1,18 @@
+#!/bin/bash
+
+name="discord.tar.gz"
+cd /tmp
+rm "$name"
+wget -O "$name" "https://discord.com/api/download?platform=linux&format=tar.gz"
+sleep 1
+tar -xf /tmp/"$name"
+sudo rm -rf /usr/share/discord/
+sudo mv Discord /usr/share/discord/
+sudo mv /usr/share/discord/discord.desktop /usr/share/applications/
+
+# Enable wayland support. but x11 won't work
+# sudo sed -i 's|^Exec=/usr/share/discord/Discord$|Exec=/usr/share/discord/Discord --enable-features=UseOzonePlatform --ozone-platform=wayland|' /usr/share/applications/discord.desktop
+
+# # install vencord
+sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
+

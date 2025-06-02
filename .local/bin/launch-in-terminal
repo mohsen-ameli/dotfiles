@@ -1,0 +1,11 @@
+#!/bin/sh
+
+terminal=$(gsettings get org.gnome.desktop.default-applications.terminal exec)
+
+if which alacritty 2> /dev/null; then
+  alacritty --class floating -e $@
+elif which kitty 2> /dev/null; then
+  kitty --class floating -e $@
+else
+  $terminal --class floating -e $@
+fi

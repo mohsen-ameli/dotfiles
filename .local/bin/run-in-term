@@ -1,0 +1,11 @@
+#!/bin/sh
+
+clear
+$@
+echo -e "Press Ctrl+c or q to quit\n"
+
+while true; do
+  read -n 1 input
+  [ "$input" = "q" ] && break
+done
+

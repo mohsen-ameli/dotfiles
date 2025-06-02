@@ -25,6 +25,8 @@ clear_cache() {
 
   echo "Clearing $HELPER cache."
 
+  $HELPER -Scc
+
   # The location of the cache for your aur helper
   AUR_CACHE_DIR=$HOME/.cache/$HELPER
 

@@ -10,8 +10,10 @@ if pgrep -x i3 > /dev/null; then
   alias xdg-open="swallow xdg-open"
   alias wine="swallow wine"
   alias gedit="swallow gedit"
+  alias copy="xclip"
 elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
   export ELECTRON_OZONE_PLATFORM_HINT="wayland"
+  alias copy="wl-copy"
 fi
 
 export XDG_DATA_HOME="$HOME/.local/share"
