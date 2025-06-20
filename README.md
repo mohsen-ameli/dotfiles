@@ -299,11 +299,21 @@ Install pass
 
 `sudo pacman -S pass pass-otp`
 
-Plugin for firefox
+### Setup for firefox
 
 `sudo pacman -S passff-host`
 
 `curl -sSL https://codeberg.org/PassFF/passff-host/releases/download/latest/install_host_app.sh | bash -s -- librewolf`
+
+### Setup for chrome
+
+Download extention: https://chromewebstore.google.com/detail/chrome-pass-zx2c4/oblajhnjmknenodebpekmkliopipoolo 
+
+Github page for the host python package: https://github.com/hsanson/chrome-pass
+
+`pipx install chrome-pass==1.0.1`
+
+`chrome_pass install`
 
 ### Export GPG keys
 
