@@ -35,6 +35,14 @@ PreferredAuthentications publickey
 IdentityFile ~/.ssh/id_rsa_personal
 ```
 
+### Remote origin url
+
+To view the origin url of a git directory run:
+`git remote -v`
+
+To change the origin url run:
+`git remote set-url origin new-url`
+
 ## Secure Boot
 
 If dual booting, make sure to have windows's Bitlock password.
@@ -49,6 +57,7 @@ sudo sbctl enroll-keys -m
 sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
 sudo sbctl sign -s <path-to-kernel> # path to kernel for me was /boot/vmlinuz-linux-lts
 sudo sbctl sign -s <path-to-boot-manager> # path to boot manager for me was /boot/efi/EFI/GRUB/grubx64.EFI
+sudo bootctl install
 sudo sbctl verify # make sure it's all green
 ```
 
@@ -175,6 +184,9 @@ https://icons8.com/icon/86864/audio
 Cursor theme from KDE Store
 Bibata-Modern-Ice https://store.kde.org/p/1197198
 
+Koi for automatic dark/white theme switching
+https://github.com/baduhai/Koi
+
 ## GRUB
 
 Download the aesthetic file and use grub-customizer to load it
@@ -243,6 +255,9 @@ Run `sudo mkinitcpio -P`
 To check if you're in vfio mode, run `lspci -k | grep NVIDIA -A3`
 And see if the "kernel in use" is set to "vfio-pci"
 
+Next go in virtual manager and open the configuration for the vm. Add hardware and select "PCI Host device".
+Then select your graphics card to add it, then finish.
+
 ## Games
 
 To better run games on steam, the following settings can be changed located in `(gear icon in any game) > properties > general > launch options`
@@ -272,6 +287,11 @@ Proton GE
 
 Limbo (Controls don't work because of screen being 144hz):
 `gamescope -W 1920 -H 1080 -r 60 -- gamemoderun %command%`
+
+Red dead redemption 2
+Just works with no tinkering
+This link is for best graphics. I chose level 2 for ~60fps
+https://docs.google.com/spreadsheets/d/11rvsM0p9aWZb2_QwQToYvrOjPXR7BJes2586uo4Dxuw/edit?gid=402472305#gid=402472305
 
 ## udev rules
 
