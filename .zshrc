@@ -61,7 +61,6 @@ plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-s
 source $ZSH/oh-my-zsh.sh
 
 alias lsh="find -maxdepth 1 -exec du -sh "{}" 2> /dev/null \; | sort -h"
-alias docker="docker"
 alias sm="sudo make clean install"
 alias sudo="sudo -EH"
 alias serve='sudo python -m http.server'

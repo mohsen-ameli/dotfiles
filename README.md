@@ -127,11 +127,27 @@ Run apps as sudo on hyprland\
 `xhost si:localuser:root`\
 `xhost | DISPLAY=:0 sudo command`
 
+### Pacman
+
 If having issues with updating packages with pacman, or if you're getting keyring/"unkown trust" issues,
 do the following
 `sudo pacman-key --init`
 `sudo pacman-key --populate`
 `sudo pacman -S archlinux-keyring`
+
+If there's a dependancy issue with 2 conflicting packages, 
+you could either add the packages involved to the "IgnorePkg=" list in `/etc/pacman.conf`.
+Or you could try installing both conflicting packages with `sudo pacman -S pkg1 pkg2`.
+Or you could downgrade (not a very good option).
+Or perhaps wait for the arch team to resolve the issu.
+
+### Cleaning system (Arch)
+
+Run `pacman-mange --clear-cache` inside `~/.local/bin/`.
+Run `gdu / -i /media,/run/timeshift` to get file sizes.
+`/opt` usually has external programs, maybe check that out.
+`~/.cache` might have some things to clean up.
+`~/.local` is where all the steam games are, so check that out.
 
 ## Cool Things
 

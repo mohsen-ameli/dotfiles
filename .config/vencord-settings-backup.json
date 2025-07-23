@@ -111,7 +111,7 @@
                 "enabled": false
             },
             "ClientTheme": {
-                "enabled": true,
+                "enabled": false,
                 "color": "13171b"
             },
             "ColorSighted": {
@@ -136,9 +136,6 @@
                 "enabled": false
             },
             "DisableCallIdle": {
-                "enabled": false
-            },
-            "EmoteCloner": {
                 "enabled": false
             },
             "Experiments": {
@@ -302,7 +299,7 @@
                 "allowEveryone": false
             },
             "oneko": {
-                "enabled": false
+                "enabled": true
             },
             "OpenInApp": {
                 "enabled": false
@@ -625,6 +622,9 @@
             },
             "IrcColors": {
                 "enabled": false
+            },
+            "ExpressionCloner": {
+                "enabled": false
             }
         },
         "notifications": {
@@ -637,9 +637,9 @@
             "authenticated": false,
             "url": "https://api.vencord.dev/",
             "settingsSync": false,
-            "settingsSyncVersion": 1745552687373
+            "settingsSyncVersion": 1753134668801
         },
         "eagerPatches": false
     },
-    "quickCss": "/**\n * @name midnight (nord)\n * @description a dark, customizable discord theme. based on nord theme (https://nordtheme.com).\n * @author refact0r\n * @version 2.1.1\n * @invite nz87hXyvcy\n * @website https://github.com/refact0r/midnight-discord\n * @source https://github.com/refact0r/midnight-discord/blob/master/themes/flavors/midnight-nord.theme.css\n * @authorId 508863359777505290\n * @authorLink https://www.refact0r.dev\n*/\n\n/* import theme modules */\n@import url('https://refact0r.github.io/midnight-discord/build/midnight.css');\n\nbody {\n    /* font, change to '' for default discord font */\n    --font: 'figtree'; /* change to '' for default discord font */\n    --code-font: ''; /* change to '' for default discord font */\n    font-weight: 400 /* normal text font weight. DOES NOT AFFECT BOLD TEXT */;\n\n    /* sizes */\n    --gap: 12px; /* spacing between panels */\n    --divider-thickness: 2px; /* thickness of unread messages divider and highlighted message borders */\n    --border-thickness: 1px; /* thickness of borders around main panels. DOES NOT AFFECT OTHER BORDERS */\n\n    /* animation/transition options */\n    --animations: on; /* off: disable animations/transitions, on: enable animations/transitions */\n    --list-item-transition: 0.2s ease; /* transition for list items */\n    --dms-icon-svg-transition: 0.4s ease; /* transition for the dms icon */\n    --border-hover-transition: 0.2s ease; /* transition for borders when hovered */\n\n    /* top bar options */\n    --top-bar-height: var(--gap); /* height of the top bar (discord default is 36px, old discord style is 24px, var(--gap) recommended if button position is set to titlebar) */\n    --top-bar-button-position: titlebar; /* off: default position, hide: hide buttons completely, serverlist: move inbox button to server list, titlebar: move inbox button to channel titlebar (will hide title) */\n    --top-bar-title-position: off; /* off: default centered position, hide: hide title completely, left: left align title (like old discord) */\n    --subtle-top-bar-title: off; /* off: default, on: hide the icon and use subtle text color (like old discord) */\n\n    /* window controls */\n    --custom-window-controls: on; /* off: default window controls, on: custom window controls */\n    --window-control-size: 14px; /* size of custom window controls */\n\n    /* dms button options */\n    --custom-dms-icon: off; /* off: use default discord icon, hide: remove icon entirely, custom: use custom icon */\n    --dms-icon-svg-url: url('https://upload.wikimedia.org/wikipedia/commons/c/c4/Font_Awesome_5_solid_moon.svg'); /* icon svg url. MUST BE A SVG. */\n    --dms-icon-svg-size: 90%; /* size of the svg (css mask-size property) */\n    --dms-icon-color-before: var(--icon-secondary); /* normal icon color */\n    --dms-icon-color-after: var(--white); /* icon color when button is hovered/selected */\n    --custom-dms-background: off; /* off to disable, image to use a background image (must set url variable below), color to use a custom color/gradient */\n    --dms-background-image-url: url(''); /* url of the background image */\n    --dms-background-image-size: cover; /* size of the background image (css background-size property) */\n    --dms-background-color: linear-gradient(70deg, var(--blue-2), var(--purple-2), var(--red-2)); /* fixed color/gradient (css background property) */\n\n    /* background image options */\n    --background-image: off; /* off: no background image, on: enable background image (must set url variable below) */\n    --background-image-url: url(''); /* url of the background image */\n\n    /* transparency/blur options */\n    /* NOTE: TO USE TRANSPARENCY/BLUR, YOU MUST HAVE TRANSPARENT BG COLORS. FOR EXAMPLE: --bg-4: hsla(220, 15%, 10%, 0.7); */\n    --transparency-tweaks: off; /* off: no changes, on: remove some elements for better transparency */\n    --remove-bg-layer: off; /* off: no changes, on: remove the base --bg-3 layer for use with window transparency (WILL OVERRIDE BACKGROUND IMAGE) */\n    --panel-blur: off; /* off: no changes, on: blur the background of panels */\n    --blur-amount: 12px; /* amount of blur */\n    --bg-floating: var(--bg-3); /* set this to a more opaque color if floating panels look too transparent. only applies if panel blur is on  */\n\n    /* chatbar options */\n    --custom-chatbar: aligned; /* off: default chatbar, aligned: chatbar aligned with the user panel, separated: chatbar separated from chat */\n    --chatbar-height: 47px; /* height of the chatbar (52px by default, 47px recommended for aligned, 56px recommended for separated) */\n    --chatbar-padding: 2px; /* padding of the chatbar. only applies in aligned mode. */\n\n    /* other options */\n    --small-user-panel: on; /* off: default user panel, on: smaller user panel like in old discord */\n}\n\n/* color options */\n:root {\n    --colors: on; /* off: discord default colors, on: midnight custom colors */\n\n    /* text colors */\n    --text-0: var(--bg-3); /* text on colored elements */\n    --text-1: #eceff4; /* other normally white text */\n    --text-2: #e5e9f0; /* headings and important text */\n    --text-3: #d8dee9; /* normal text */\n    --text-4: hsl(220, 20%, 67%); /* icon buttons and channels */\n    --text-5: rgb(101, 107, 120); /* muted channels/chats and timestamps */\n\n    /* background and dark colors */\n    --bg-1: #434c5e; /* dark buttons when clicked */\n    --bg-2: #3b4252; /* dark buttons */\n    --bg-3: #272b35; /* spacing, secondary elements */\n    --bg-4: #2e3440; /* main background color */\n    --hover: hsla(220, 20%, 50%, 0.1); /* channels and buttons when hovered */\n    --active: hsla(220, 20%, 50%, 0.2); /* channels and buttons when clicked or selected */\n    --active-2: hsla(220, 20%, 50%, 0.3); /* extra state for transparent buttons */\n    --message-hover: hsla(0, 0%, 0%, 0.1); /* messages when hovered */\n\n    /* accent colors */\n    --accent-1: var(--blue-1); /* links and other accent text */\n    --accent-2: var(--blue-2); /* small accent elements */\n    --accent-3: var(--blue-3); /* accent buttons */\n    --accent-4: var(--blue-4); /* accent buttons when hovered */\n    --accent-5: var(--blue-5); /* accent buttons when clicked */\n    --accent-new: var(--accent-2); /* stuff that's normally red like mute/deafen buttons */\n    --mention: linear-gradient(to right, color-mix(in hsl, var(--accent-2), transparent 90%) 40%, transparent); /* background of messages that mention you */\n    --mention-hover: linear-gradient(to right, color-mix(in hsl, var(--accent-2), transparent 95%) 40%, transparent); /* background of messages that mention you when hovered */\n    --reply: linear-gradient(to right, color-mix(in hsl, var(--text-3), transparent 90%) 40%, transparent); /* background of messages that reply to you */\n    --reply-hover: linear-gradient(to right, color-mix(in hsl, var(--text-3), transparent 95%) 40%, transparent); /* background of messages that reply to you when hovered */\n\n    /* status indicator colors */\n    --online: var(--green-2); /* change to #43a25a for default */\n    --dnd: var(--red-2); /* change to #d83a42 for default */\n    --idle: var(--yellow-2); /* change to #ca9654 for default */\n    --streaming: var(--purple-2); /* change to #593695  for default */\n    --offline: var(--text-4); /* change to #83838b for default offline color */\n\n    /* border colors */\n    --border-light: hsla(220, 20%, 50%, 0.05); /* general light border color */\n    --border: hsla(220, 20%, 50%, 0.1); /* general normal border color */\n    --border-hover: hsla(220, 20%, 50%, 0.1); /* border color of panels when hovered */\n    --button-border: hsl(0, 0%, 100%, 0.1); /* neutral border color of buttons */\n\n    /* base colors */\n    --red-1: hsl(354, 42%, 61%);\n    --red-2: #bf616a;\n    --red-3: #bf616a;\n    --red-4: hsl(354, 42%, 51%);\n    --red-5: hsl(354, 42%, 46%);\n\n    --green-1: hsl(92, 28%, 70%);\n    --green-2: #a3be8c;\n    --green-3: #a3be8c;\n    --green-4: hsl(92, 28%, 60%);\n    --green-5: hsl(92, 28%, 55%);\n\n    --blue-1: hsl(193, 43%, 72%);\n    --blue-2: #88c0d0;\n    --blue-3: #88c0d0;\n    --blue-4: hsl(193, 43%, 62%);\n    --blue-5: hsl(193, 43%, 57%);\n\n    --yellow-1: hsl(40, 71%, 78%);\n    --yellow-2: #ebcb8b;\n    --yellow-3: #ebcb8b;\n    --yellow-4: hsl(40, 71%, 68%);\n    --yellow-5: hsl(40, 71%, 63%);\n\n    --purple-1: hsl(311, 20%, 68%);\n    --purple-2: #b48ead;\n    --purple-3: #b48ead;\n    --purple-4: hsl(311, 20%, 58%);\n    --purple-5: hsl(311, 20%, 53%);\n}\n"
+    "quickCss": ""
 }

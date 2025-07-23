@@ -1,0 +1,63 @@
+#!/bin/bash
+
+function unmount_drive {
+  drive=$(lsblk -nr | gum choose --header "Choose a drive to unmount" | cut -d " " -f1)
+  sudo udisksctl unmount -b /dev/$drive
+  if [ $? -eq 0 ]; then
+    echo "Drive unmounted."
+  else
+    echo "Failed to unmount drive!"
+  fi
+}
+
+function mount_drive {
+  drive=$(lsblk -nr | gum choose --header "Choose a drive to mount" | cut -d " " -f1)
+  mount_point=$(gum input --placeholder "Enter mount point (e.g., /mnt/$drive)")
+  if [ -z "$mount_point" ]; then
+    mount_point="/mnt/$drive"
+  fi
+  if [ ! -d "$mount_point" ]; then
+    sudo mkdir -p $mount_point
+  fi
+  sudo mount /dev/$drive $mount_point
+  if [ $? -eq 0 ]; then
+    echo "Drive mounted at $mount_point."
+  else
+    echo "Failed to mount drive!"
+  fi
+}
+
+function detach_drive {
+  drive=$(lsblk -nr | gum choose --header "Choose a drive to detach" | cut -d " " -f1)
+  sudo udisksctl power-off -b /dev/$drive
+  if [ $? -eq 0 ]; then
+    echo "Drive detached."
+  else
+    echo "Failed to detach drive!"
+  fi
+}
+
+main_loop=1
+while [[ $main_loop -eq 1 ]]; do
+  choice=$(gum choose --header "Select an option" "List Drives" "Mount Drive" "Unmount Drive" "Detach Drive" "Exit")
+  case $choice in
+    "List Drives")
+      lsblk -o NAME,SIZE,TYPE,MOUNTPOINT
+      ;;
+    "Mount Drive")
+      mount_drive
+      ;;
+    "Unmount Drive")
+      unmount_drive
+      ;;
+    "Detach Drive")
+      detach_drive
+      ;;
+    "Exit")
+      main_loop=0
+      ;;
+    *)
+      echo "Invalid option. Please try again."
+      ;;
+  esac
+done

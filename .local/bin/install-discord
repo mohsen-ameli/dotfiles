@@ -11,8 +11,10 @@ sudo mv Discord /usr/share/discord/
 sudo mv /usr/share/discord/discord.desktop /usr/share/applications/
 
 # Enable wayland support. but x11 won't work
-# sudo sed -i 's|^Exec=/usr/share/discord/Discord$|Exec=/usr/share/discord/Discord --enable-features=UseOzonePlatform --ozone-platform=wayland|' /usr/share/applications/discord.desktop
+sudo sed -i 's|^Exec=/usr/share/discord/Discord$|Exec=/usr/share/discord/Discord --enable-features=UseOzonePlatform --ozone-platform=wayland|' /usr/share/applications/discord.desktop
 
-# # install vencord
-sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
+# install vencord
+if gum confirm "Do you want to install vencord?"; then
+  sh -c "$(curl -sS https://raw.githubusercontent.com/Vendicated/VencordInstaller/main/install.sh)"
+fi
 

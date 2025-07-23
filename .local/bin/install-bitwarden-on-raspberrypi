@@ -40,5 +40,7 @@ docker run --name vaultwarden -d -e SIGNUPS_ALLOWED=true -e ROCKET_TLS='{certs="
 # Now go to YOUR_DOMAIN.com and register for an account. Then run the following lines
 #docker stop vaultwarden
 #docker rm vaultwarden
-#docker run --name vaultwarden -d -e SIGNUPS_ALLOWED=false -e ROCKET_TLS='{certs="/ssl/certs.pem",key="/ssl/key.pem"}' -v /ssl/keys/:/ssl/ -v /vw-data/:/data/ -p 443:80 vaultwarden/server:latest
+#docker run --name vaultwarden -d -e SIGNUPS_ALLOWED=false \
+#-e ROCKET_TLS='{certs="/ssl/certs.pem",key="/ssl/key.pem"}' \
+#-v /ssl/keys/:/ssl/ -v /vw-data/:/data/ -p 443:80 vaultwarden/server:latest
 

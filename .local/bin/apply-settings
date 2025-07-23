@@ -12,9 +12,12 @@ screens() {
 }
 
 default_apps() {
-  terminal="ghostty"
-  schema="gsettings set org.gnome.desktop.default-applications.terminal"
-  $schema exec "$terminal"
+  path_to_terminal="/usr/bin/kgx" # change
+  gsettings set org.gnome.desktop.default-applications.terminal exec $path_to_terminal
+  gsettings set org.gnome.desktop.default-applications.terminal exec-arg "-x"
+
+  #sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator $path_to_terminal 50
+  #sudo update-alternatives --config x-terminal-emulator
 }
 
 themes() {
@@ -25,12 +28,12 @@ themes() {
   cursor_size=$(grep "cursor-size" $HOME/.local/share/nwg-look/gsettings | cut -f2 -d=)
   schema="gsettings set org.gnome.desktop.interface"
 
-  $schema gtk-theme "$theme"
+  #$schema gtk-theme "$theme"
 	$schema icon-theme "$icons"
 	$schema font-name "$font"
 	$schema cursor-theme "$cursor"
 	$schema cursor-size "$cursor_size"
-  $schema color-scheme "prefer-dark"
+  #$schema color-scheme "prefer-dark"
   pgrep Hyprland && hyprctl setcursor $cursor $cursor_size
 
 	echo """[ -f $HOME/.bashrc ] && . $HOME/.bashrc
@@ -78,6 +81,7 @@ apply_vscode() {
 themes
 screens
 default_apps
+#apply_vscode
 
 echo "Done!"
 
