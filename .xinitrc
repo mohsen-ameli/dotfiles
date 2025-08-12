@@ -26,5 +26,4 @@
 
 # Environment
 #exec i3
-# exec startplasma-x11 
-exec cinnamon-session
+exec startplasma-x11 

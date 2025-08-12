@@ -37,7 +37,7 @@ reboot() {
 }
 
 interactive() {
-  choice=$(gum choose "Integrated" "Hybrid")
+  choice=$(gum choose --header "Select GPU mode:" "Integrated" "Hybrid")
   if [ "$choice" = "Integrated" ]; then
     if gum confirm "(WARNING: this may restart your computer) Do you want to switch to integrated graphics?" ;then
       echo -e "\n:: Switching to integrated graphics.\n"

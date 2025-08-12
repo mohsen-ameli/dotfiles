@@ -46,18 +46,28 @@ To change the origin url run:
 ## Secure Boot
 
 If dual booting, make sure to have windows's Bitlock password.
-Then go to bios and remove secure boot keys (aka put into setup mode)
-Then do the following:
+Then go to bios and remove secure boot keys (Put the secure boot into setup mode)
+
+Install sbctl.
+`sudo pacman -S sbctl`
+
+Then run:
 
 ```shell
-sudo pacman -S sbctl
-sudo sbctl status # Make sure you are in setup mode
+sudo grub-install --target=x86_64-efi --efi-directory=<path-to-efi> --bootloader-id=GRUB --modules="tpm" --disable-shim-lock # path to efi for me is /boot/efi
+sudo sbctl status 
 sudo sbctl create-keys
 sudo sbctl enroll-keys -m
 sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
 sudo sbctl sign -s <path-to-kernel> # path to kernel for me was /boot/vmlinuz-linux-lts
 sudo sbctl sign -s <path-to-boot-manager> # path to boot manager for me was /boot/efi/EFI/GRUB/grubx64.EFI
 sudo bootctl install
+```
+
+Restart and you will get a new GRUB boot entry when you boot up. Select that as your main way to boot up.
+
+Run this and make sure it says "setup mode disabled" and "secure boot enabled"
+```shell
 sudo sbctl verify # make sure it's all green
 ```
 
@@ -115,6 +125,11 @@ found in either `/usr/share/applications` or `/usr/share/local/applications`:\
 If the system clock is messed up, run the following to enable network based time
 `sudo timedatectl set-ntp 1`
 
+Run apps as sudo on hyprland\
+`xhost si:localuser:root`\
+`xhost | DISPLAY=:0 sudo command`
+
+### WiFi Connectivity
 Connect to WiFi automatically with nmcli
 `nmcli connection modify SSID connection.autoconnect yes`
 
@@ -123,9 +138,12 @@ go to https://cat.eduroam.org/
 select the university/college you go to and download the executable python script.
 run it, and try to connect now (I had success with nmtui).
 
-Run apps as sudo on hyprland\
-`xhost si:localuser:root`\
-`xhost | DISPLAY=:0 sudo command`
+If the WiFi is disconnecting randomly, I turned off powersave by adding the following to `/etc/NetworkManager/NetworkManager.conf`
+```
+[connection]
+wifi.powersave = 2
+```
+Also see: https://unix.stackexchange.com/questions/269661/how-to-turn-off-wireless-power-management-permanently
 
 ### Pacman
 
@@ -148,6 +166,13 @@ Run `gdu / -i /media,/run/timeshift` to get file sizes.
 `/opt` usually has external programs, maybe check that out.
 `~/.cache` might have some things to clean up.
 `~/.local` is where all the steam games are, so check that out.
+
+## Wallpaper Engine
+Go here and download and install it.
+
+https://github.com/slynobody/SteamOS-wallpaper-engine-kde-plugin
+
+If kde crashes, run `~/.local/bin/recover-from-crash`
 
 ## Cool Things
 

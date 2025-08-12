@@ -105,13 +105,14 @@ ForegroundPositive=39,174,96
 ForegroundVisited=127,140,141
 
 [DirSelect Dialog]
-DirSelectDialog Size=1536,792
-History Items[$e]=file:$HOME,file:$HOME,file:///home,file:$HOME,file:$HOME,file:$HOME/Pictures/wallpapers,file:$HOME/Pictures/wallpapers,file:$HOME/Pictures/wallpapers
+DirSelectDialog Size=786,584
+History Items[$e]=file:$HOME/.local/share/Steam,file:$HOME,file:$HOME,file:///home,file:$HOME,file:$HOME,file:$HOME/Pictures/wallpapers,file:$HOME/Pictures/wallpapers,file:$HOME/Pictures/wallpapers
 Splitter State=\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00j\x00\x00\x02\xa8\x00\xff\xff\xff\xff\x01\x00\x00\x00\x01\x00
 
 [General]
-BrowserApplication=brave-browser.desktop
-ColorSchemeHash=aa09630daf3d1fb034d66368a8638e880eacb92f
+BrowserApplication=google-chrome.desktop
+ColorScheme=BreezeClassic
+ColorSchemeHash=8ff306d9a93379c74540e00506966df24df1798b
 TerminalApplication=kgx
 TerminalService=org.gnome.Console.desktop
 UseSystemBell=true
@@ -134,7 +135,7 @@ Show Full Path=false
 Show Inline Previews=true
 Show Preview=false
 Show Speedbar=true
-Show hidden files=false
+Show hidden files=true
 Sort by=Name
 Sort directories first=true
 Sort hidden files last=false
