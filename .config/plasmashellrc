@@ -102,6 +102,27 @@ thickness=29
 maxLength=2160
 minLength=2160
 
+[PlasmaViews][Panel 347]
+floating=1
+
+[PlasmaViews][Panel 372]
+floating=0
+panelLengthMode=0
+panelOpacity=0
+panelVisibility=0
+
+[PlasmaViews][Panel 372][Defaults]
+thickness=44
+
+[PlasmaViews][Panel 401]
+floating=0
+panelLengthMode=0
+panelOpacity=0
+panelVisibility=0
+
+[PlasmaViews][Panel 401][Defaults]
+thickness=44
+
 [PlasmaViews][Panel 48]
 floating=1
 

@@ -2,7 +2,7 @@
 
 ![Image](.config/desktop.png)
 
-# TODO
+## TODO
 
 ## Dotfiles inspired from:
 
@@ -55,7 +55,7 @@ Then run:
 
 ```shell
 sudo grub-install --target=x86_64-efi --efi-directory=<path-to-efi> --bootloader-id=GRUB --modules="tpm" --disable-shim-lock # path to efi for me is /boot/efi
-sudo sbctl status 
+sudo sbctl status
 sudo sbctl create-keys
 sudo sbctl enroll-keys -m
 sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
@@ -66,9 +66,10 @@ sudo bootctl install
 
 Restart and you will get a new GRUB boot entry when you boot up. Select that as your main way to boot up.
 
-Run this and make sure it says "setup mode disabled" and "secure boot enabled"
+Run this and make sure it says "setup mode disabled" and "secure boot enabled" and everything is green:
+
 ```shell
-sudo sbctl verify # make sure it's all green
+sudo sbctl verify
 ```
 
 ## Xorg
@@ -102,18 +103,6 @@ sudo ln -s /usr/bin/$emulator /usr/bin/xdg-terminal-exec
 gsettings set org.gnome.desktop.default-applications.terminal exec $terminal
 ```
 
-Start samba/smb service (also remember to turn off ufw)\
-`sudo ufw disable`\
-`sudo systemctl start smb`
-
-## Screen sharing on hyprland
-
-https://gist.github.com/brunoanc/2dea6ddf6974ba4e5d26c3139ffb7580
-
-## latex
-
-https://mathjiajia.github.io/vscode-and-latex/
-
 ## General Notes
 
 To check which apps are running on XWayland, run `xlsclients` or `xeyes`
@@ -130,6 +119,7 @@ Run apps as sudo on hyprland\
 `xhost | DISPLAY=:0 sudo command`
 
 ### WiFi Connectivity
+
 Connect to WiFi automatically with nmcli
 `nmcli connection modify SSID connection.autoconnect yes`
 
@@ -139,10 +129,12 @@ select the university/college you go to and download the executable python scrip
 run it, and try to connect now (I had success with nmtui).
 
 If the WiFi is disconnecting randomly, I turned off powersave by adding the following to `/etc/NetworkManager/NetworkManager.conf`
+
 ```
 [connection]
 wifi.powersave = 2
 ```
+
 Also see: https://unix.stackexchange.com/questions/269661/how-to-turn-off-wireless-power-management-permanently
 
 ### Pacman
@@ -153,7 +145,7 @@ do the following
 `sudo pacman-key --populate`
 `sudo pacman -S archlinux-keyring`
 
-If there's a dependancy issue with 2 conflicting packages, 
+If there's a dependancy issue with 2 conflicting packages,
 you could either add the packages involved to the "IgnorePkg=" list in `/etc/pacman.conf`.
 Or you could try installing both conflicting packages with `sudo pacman -S pkg1 pkg2`.
 Or you could downgrade (not a very good option).
@@ -167,14 +159,19 @@ Run `gdu / -i /media,/run/timeshift` to get file sizes.
 `~/.cache` might have some things to clean up.
 `~/.local` is where all the steam games are, so check that out.
 
-## Wallpaper Engine
-Go here and download and install it.
+### Gnome
 
-https://github.com/slynobody/SteamOS-wallpaper-engine-kde-plugin
+Good extensions:
 
-If kde crashes, run `~/.local/bin/recover-from-crash`
+- systray: AppIndicator and KStatus NotifierItem Support
+- Dash to Dock
+- Desktop Icons NG (DING)
+- Weather O'Clock
 
-## Cool Things
+Run the following to enable experimental fractional scaling:
+`gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"`
+
+### Cool Things
 
 Use `fbgrab <image>.png` to take a picture of the tty
 
@@ -182,6 +179,29 @@ Use `mpv <video or image or url>` to view videos or images (this works on the tt
 Can use `timg` if tty is iffy.
 
 Use `yt-dlp <url>` to download any video online (including YouTube).
+
+Use `curl -F'file=@FILE.EXT' https://0x0.st` to upload any file temporarily online.
+
+Koi for automatic dark/white theme switching
+https://github.com/baduhai/Koi
+
+### Screen sharing on hyprland
+
+https://gist.github.com/brunoanc/2dea6ddf6974ba4e5d26c3139ffb7580
+
+### Latex
+
+https://mathjiajia.github.io/vscode-and-latex/
+
+## Wallpaper Engine on Linux
+
+Go here and download and install it:
+`https://github.com/slynobody/SteamOS-wallpaper-engine-kde-plugin`
+
+This is the main github used for this plugin, but installing it from here didn't work for me:
+`https://github.com/catsout/wallpaper-engine-kde-plugin`
+
+If kde crashes, run `~/.local/bin/recover-from-crash`
 
 ## PostgreSQL
 
@@ -225,9 +245,6 @@ https://icons8.com/icon/86864/audio
 Cursor theme from KDE Store
 Bibata-Modern-Ice https://store.kde.org/p/1197198
 
-Koi for automatic dark/white theme switching
-https://github.com/baduhai/Koi
-
 ## GRUB
 
 Download the aesthetic file and use grub-customizer to load it
@@ -246,7 +263,7 @@ control + j -> open terminal
 
 tab -> switch between tabs
 
-## Nvidia
+## Graphics (Nvidia)
 
 If the drivers are not working, make a file `/etc/modprobe.d/nvidia.conf`
 and put the following in it:
@@ -299,7 +316,7 @@ And see if the "kernel in use" is set to "vfio-pci"
 Next go in virtual manager and open the configuration for the vm. Add hardware and select "PCI Host device".
 Then select your graphics card to add it, then finish.
 
-## Games
+### Games
 
 To better run games on steam, the following settings can be changed located in `(gear icon in any game) > properties > general > launch options`
 
@@ -368,7 +385,7 @@ Install pass
 
 ### Setup for chrome
 
-Download extention: https://chromewebstore.google.com/detail/chrome-pass-zx2c4/oblajhnjmknenodebpekmkliopipoolo 
+Download extention: https://chromewebstore.google.com/detail/chrome-pass-zx2c4/oblajhnjmknenodebpekmkliopipoolo
 
 Github page for the host python package: https://github.com/hsanson/chrome-pass
 

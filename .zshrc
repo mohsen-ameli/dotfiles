@@ -16,6 +16,9 @@ elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
   alias copy="wl-copy"
 fi
 
+export QT_QPA_PLATFORM=xcb
+export GTK_USE_PORTAL=1
+export MANPAGER="nvim +Man!"
 export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
