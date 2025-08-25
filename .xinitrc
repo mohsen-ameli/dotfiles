@@ -9,7 +9,7 @@
 #$HOME/.local/bin/apply-settings &
 #$HOME/.local/bin/autolock &
 #$HOME/.local/bin/battery-alert &
-# $HOME/.local/bin/run-bar &
+#$HOME/.local/bin/run-bar &
 
 # 3rd party
 #dunst -config ~/.config/dunst/dunstrcx11 &
@@ -26,4 +26,5 @@
 
 # Environment
 #exec i3
-exec startplasma-x11 
+#exec startplasma-x11 
+#exec dwm
