@@ -4,7 +4,7 @@
     :geometry (geometry :anchor "top center" :height "43px")
     :wm-ignore false
     :exclusive true
-    :reserve (struts :side "top" :distance "4%")
+    :reserve (struts :side "top" :distance "3%")
     (bar)
 )
   

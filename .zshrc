@@ -16,6 +16,22 @@ elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
   alias copy="wl-copy"
 fi
 
+# Auto starting window managers
+tty_session=$(echo "${$(tty)##*/}")
+if [ "$tty_session" = "tty1" ]; then
+  startx 
+elif [ "$tty_session" = "tty2" ]; then
+  Hyprland
+fi
+
+# If not running interactively, do not do anything
+#[[ $- != *i* ]] && return
+# Otherwise start tmux
+#if [ -z "$TMUX" ] && [[ $- == *i* ]]; then
+#  tmux attach -d || tmux new
+#fi
+
+####### EXPORTS #######
 export QT_QPA_PLATFORM=xcb
 export GTK_USE_PORTAL=1
 export MANPAGER="nvim +Man!"
@@ -23,8 +39,6 @@ export XDG_DATA_HOME="$HOME/.local/share"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CACHE_HOME="$HOME/.cache"
 export XDG_STATE_HOME="$HOME/.local/state"
-alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
-alias feh="feh --no-fehbg"
 export VCPKG_ROOT="/opt/vcpkg"
 export VCPKG_DOWNLOADS="/var/cache/vcpkg"
 export EDITOR="/bin/nvim"
@@ -47,22 +61,7 @@ export PYTHONUSERBASE="$XDG_DATA_HOME/python"
 export PYTHONSTARTUP="$XDG_DATA_HOME/python/pythonrc"
 export GRIPHOME="$XDG_CONFIG_HOME/grip"
 
-# oh-my-zsh
-export HISTFILE="$XDG_CACHE_HOME/zsh/history"
-export ZSH="$XDG_DATA_HOME/oh-my-zsh"
-export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
-plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search z)
-# ZSH_THEME="af-magic"
-# ZSH_THEME="afowler"
-# ZSH_THEME="alanpeabody"
-# ZSH_THEME="bira"
-# ZSH_THEME="fishy"
-# ZSH_THEME="gallifrey"
-# ZSH_THEME="gallois"
-# ZSH_THEME="jaischeema"
-# ZSH_THEME="pygmalion"
-source $ZSH/oh-my-zsh.sh
-
+####### ALIASES #######
 alias lsh="find -maxdepth 1 -exec du -sh "{}" 2> /dev/null \; | sort -h"
 alias sm="sudo make clean install"
 alias sudo="sudo -EH"
@@ -71,56 +70,56 @@ alias sv='sudo nvim'
 alias p="sudo pacman"
 alias sc="sudo systemctl"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias ssh='TERM=xterm-256color ssh'
-alias lsblock='lsblk -o name,fstype,size,mountpoints -e 7'
+alias lsbc='lsblk -o name,fstype,size,mountpoints,uuid -e 7 | bat -l conf -p'
 alias grep='grep --color=auto'
 alias fastfetch='fastfetch --config examples/17'
 alias ex='chmod u+x'
 alias ls='ls --color=auto --group-directories-first'
 alias la='eza -la --color=always --group-directories-first'
 alias ll='eza -a --color=always --group-directories-first'
-alias cp="cp -i"
+#alias cp="cp -i"
+alias cp="rsync -avh --partial --info=progress2"
 alias mv="mv -i"
 alias sr="sudo reboot now"
+alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
+alias feh="feh --no-fehbg"
+alias ssh='TERM=xterm-256color ssh'
 
+####### OH MY ZSH #######
+export HISTFILE="$XDG_CACHE_HOME/zsh/history"
+export ZSH="$XDG_DATA_HOME/oh-my-zsh"
+export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting zsh-history-substring-search z)
+# Themes that are good in oh-my-zsh, but I still prefer starship
+# ZSH_THEME="af-magic", "afowler", "alanpeabody", "bira", "fishy", "gallifrey", "gallois", "jaischeema", "pygmalion"
+source $ZSH/oh-my-zsh.sh
+
+####### STARSHIP (TERMINAL LOOKS) #######
 eval "$(starship init zsh)"
 cowsay "Welcome Back Soldier" | lolcat
 
-# pnpm
-export PNPM_HOME="/home/moe/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-
-# fnm
+####### FNM #######
 fnm env > /tmp/fnm
 . /tmp/fnm
 
-# Auto starting window managers
-tty_session=$(echo "${$(tty)##*/}")
-if [ "$tty_session" = "tty1" ]; then
-  startx 
-elif [ "$tty_session" = "tty2" ]; then
-  Hyprland
-fi
-
-# bun
+####### BUN #######
 [ -s "/home/moe/.bun/_bun" ] && source "/home/moe/.bun/_bun"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# pyenv
+####### PYENV #######
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init - zsh)"
 
+####### KEYBINDS ########
 bindkey '^H' backward-kill-word
 
+####### CUSTOM FUNCTIONS #######
 function copyfile {
   [[ "$#" != 1 ]] && return 1
   local file_to_copy=$1
-  cat $file_to_copy | wl-copy
+  wl-copy < $file_to_copy
 }
 
 function copydir {

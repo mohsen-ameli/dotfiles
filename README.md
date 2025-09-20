@@ -3,6 +3,8 @@
 ![Image](.config/desktop.png)
 
 ## TODO
+- Cast screen to wireless display
+- Connect to wireguard vpn seamlessly
 
 ## Dotfiles inspired from:
 
@@ -60,7 +62,7 @@ sudo sbctl create-keys
 sudo sbctl enroll-keys -m
 sudo sbctl sign -s -o /usr/lib/systemd/boot/efi/systemd-bootx64.efi.signed /usr/lib/systemd/boot/efi/systemd-bootx64.efi
 sudo sbctl sign -s <path-to-kernel> # path to kernel for me was /boot/vmlinuz-linux-lts
-sudo sbctl sign -s <path-to-boot-manager> # path to boot manager for me was /boot/efi/EFI/GRUB/grubx64.EFI
+sudo sbctl sign -s <path-to-boot-manager> # path to boot manager for me was /boot/efi/EFI/GRUB/grubx64.efi
 sudo bootctl install
 ```
 
@@ -102,6 +104,22 @@ xdg-mime default org.gnome.Loupe.desktop image/jpeg
 sudo ln -s /usr/bin/$emulator /usr/bin/xdg-terminal-exec
 gsettings set org.gnome.desktop.default-applications.terminal exec $terminal
 ```
+
+## Wireguard
+On server use the pivpn tool to setup wireguard:
+`curl -L https://install.pivpn.io | bash`
+
+For every client you need to add a user by running the following on the server:
+`pivpn -a`
+
+Then their profile can be shared either via QR-code or by accessing it in `~/configs/something.conf`
+
+On a client then, either scan the QR-code or share the config file and have them imported.
+On linux you can run this to activate a certain config file:
+`wg-quick up something.conf`
+
+and to disconnect run:
+`wg-quick down something.conf`
 
 ## General Notes
 
@@ -184,6 +202,9 @@ Use `curl -F'file=@FILE.EXT' https://0x0.st` to upload any file temporarily onli
 
 Koi for automatic dark/white theme switching
 https://github.com/baduhai/Koi
+
+### QR-code decode
+Use `zbar image.jpg`
 
 ### Screen sharing on hyprland
 

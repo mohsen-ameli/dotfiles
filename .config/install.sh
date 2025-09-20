@@ -1,7 +1,7 @@
 #!/bin/bash
 
 curr_dir=$(dirname "$0")
-emulator="alacritty"
+emulator="gnome-console"
 shell="zsh"
 editor="code nano vim gedit"
 file_explorer="thunar lc tumbler ffmpegthumbnailer"
@@ -65,7 +65,7 @@ setup_packages() {
   confirm "Do you want to install the main packages?" || return
 	notify ":: Installing packages."
 	$pkg_manager --noconfirm -Syyu base-devel git $network $themes $shell $file_explorer $image_viewer \
-	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $rofi $extra \
+	  $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $rofi \
 	  zip dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker hyprutils hyprwayland-scanner python-pywal eww swww swaybg \
     zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools discord \
     # AUR below
@@ -97,7 +97,7 @@ setup_extra_optional() {
   confirm "Do you want to install packages that are usefull?" || return
   notify ":: Installing extra packages"
   $pkg_manager -S eza btop yt-dlp fastfetch neofetch bat tldr cowsay pipes.sh unimatrix \
-    lolcat cava usbimager speedtest wget glmark2 xdg-ninja
+    lolcat cava usbimager speedtest wget glmark2 xdg-ninja termdown
 }
 
 setup_pentest() {
@@ -112,6 +112,12 @@ setup_vm() {
   echo -e """unix_sock_group = \"libvirt\"
 unix_sock_ro_perms = \"0777\"
 unix_sock_rw_perms = \"0770\"""" >> sudo tee /etc/libvirt/libvirtd.conf
+}
+
+setup_office() {
+  confirm "Do you want to install onlyoffice?" || return
+  notify ":: Installing onlyoffice"
+  $pkg_manager -S onlyoffice-bin
 }
 
 setup_xorg() {
@@ -283,6 +289,7 @@ setup_packages
 setup_dotfiles
 setup_amdgpu
 setup_latex
+setup_office
 setup_zsh
 setup_cursor
 setup_shell

@@ -106,12 +106,12 @@ ForegroundVisited=127,140,141
 
 [DirSelect Dialog]
 DirSelectDialog Size=864,540
-History Items[$e]=file:$HOME/Desktop,file:$HOME/.local/share/Steam,file:$HOME/.local/share/Steam,file:$HOME,file:$HOME,file:///home,file:$HOME,file:$HOME,file:$HOME/Pictures/wallpapers,file:$HOME/Pictures/wallpapers,file:$HOME/Pictures/wallpapers
+History Items[$e]=file:$HOME/Dev/echo360-downloader/dist,file:$HOME/Dev/echo360-downloader/release/echo360-downloader,file:$HOME/Dev/echo360-downloader/dist,file:$HOME/Dev/echo360-downloader/release/echo360-downloader,file:$HOME/Dev/echo360-downloader/dist,file:$HOME/Dev/echo360-downloader/release/echo360-downloader,file:$HOME/Dev/echo360-downloader/release/echo360-downloader,file:$HOME/Dev/echo360-downloader/release/echo360-downloader,file:$HOME/Dev/echo360-downloader/dist,file:$HOME/Dev/echo360-downloader/release/echo360-downloader,file:$HOME/Dev/echo360-downloader/dist,file:$HOME/Dev/echo360-downloader/release/release/dist,file:$HOME/Dev/echo360-downloader/release/release,file:$HOME/Dev/echo360-downloader/dist,file:$HOME/Dev/echo360-downloader/dist,file:$HOME/Dev/echo360-downloader/public,file:$HOME/Dev/echo360-downloader,file:$HOME/Dev/echo360-downloader/public,file:$HOME/Dev/echo360-downloader/public,file:$HOME/Dev/echo360-downloader,file:///run/media/moe/External 2/Family Pictures/تولد ها/تولد محسن/mohsen 15 salegi,file:$HOME/Desktop,file:$HOME/Desktop,file:$HOME/Desktop,file:$HOME/Desktop,file:$HOME/.local/share/Steam,file:$HOME/.local/share/Steam,file:$HOME,file:$HOME,file:///home,file:$HOME,file:$HOME,file:$HOME/Pictures/wallpapers,file:$HOME/Pictures/wallpapers,file:$HOME/Pictures/wallpapers
 Splitter State=\x00\x00\x00\xff\x00\x00\x00\x01\x00\x00\x00\x02\x00\x00\x00j\x00\x00\x02\xa8\x00\xff\xff\xff\xff\x01\x00\x00\x00\x01\x00
 
 [General]
 BrowserApplication=google-chrome.desktop
-ColorSchemeHash=aa09630daf3d1fb034d66368a8638e880eacb92f
+ColorSchemeHash=b06aba260488fc495d1c2e8a062537753fbc403a
 TerminalApplication=kgx
 TerminalService=org.gnome.Console.desktop
 UseSystemBell=true
@@ -129,12 +129,11 @@ Breadcrumb Navigation=false
 Decoration position=2
 LocationCombo Completionmode=5
 PathCombo Completionmode=5
-Show Bookmarks=false
 Show Full Path=false
 Show Inline Previews=true
 Show Preview=false
 Show Speedbar=true
-Show hidden files=true
+Show hidden files=false
 Sort by=Name
 Sort directories first=true
 Sort hidden files last=false
