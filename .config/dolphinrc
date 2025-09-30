@@ -21,8 +21,5 @@ ToolButtonStyle=IconOnly
 [PreviewSettings]
 Plugins=ffmpegthumbnailer,appimagethumbnail,evince,audiothumbnail,avif,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,fontthumbnail,heif,imagethumbnail,jpegthumbnail,jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail,gdk-pixbuf-thumbnailer
 
-[Search]
-Location=Everywhere
-
 [Toolbar mainToolBar]
 ToolButtonStyle=IconOnly

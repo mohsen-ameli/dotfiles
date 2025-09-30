@@ -37,6 +37,11 @@ function detach_drive {
   fi
 }
 
+if ! gum -h >/dev/null 2>&1; then
+  echo "Please install the program \"gum\" then try again."
+  exit 1
+fi
+
 main_loop=1
 while [[ $main_loop -eq 1 ]]; do
   choice=$(gum choose --header "Select an option" "List Drives" "Mount Drive" "Unmount Drive" "Detach Drive" "Exit")

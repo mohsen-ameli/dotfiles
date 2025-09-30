@@ -203,8 +203,11 @@ Use `curl -F'file=@FILE.EXT' https://0x0.st` to upload any file temporarily onli
 Koi for automatic dark/white theme switching
 https://github.com/baduhai/Koi
 
-### QR-code decode
-Use `zbar image.jpg`
+Use `zbar image.jpg` for QR-code decode
+
+Use `gdu / -i /media,/run/timeshift` to get disk space usage.
+
+Use `df -h` to get a general disk space size.
 
 ### Screen sharing on hyprland
 

@@ -69,7 +69,7 @@ setup_packages() {
 	  zip dunst htop asusctl rog-control-center nwg-look libva-nvidia-driver hyprland hyprpicker hyprutils hyprwayland-scanner python-pywal eww swww swaybg \
     zenity pacman-contrib ffmpeg jq grim slurp cliphist brightnessctl ntfs-3g socat inotify-tools discord \
     # AUR below
-    hyprlock hypridle bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio python-beautifulsoup4 envycontrol koi
+    hyprlock hypridle bluetuith xdg-desktop-portal-hyprland-git python-pulsectl-asyncio python-beautifulsoup4 envycontrol koi localsend
 
   sudo pacman-key --delete dragonn@op.pl
   sudo pacman-key --recv-keys 8F654886F17D497FEFE3DB448B15A6B0E9A3FA35
