@@ -16,12 +16,12 @@ BATTERY_LEVEL=$(cat $BASE/capacity)
 FULLY_CHARGED=79
 
 case "$BATTERY_STATE" in
-	"charging") BATTERY_CHARGING="Charging" ; BATTERY_ICON="charging" ;;
-	"discharging") BATTERY_CHARGING="Disharging" ; BATTERY_ICON="full" ;;
+    "charging") BATTERY_CHARGING="Charging" ; BATTERY_ICON="charging" ;;
+    "discharging") BATTERY_CHARGING="Disharging" ; BATTERY_ICON="full" ;;
 esac
 
 if [ $BATTERY_LEVEL -ge $FULLY_CHARGED ]; then
-  notify-send "Battery Charged" "Battery is fully charged." -i "battery-full" -r 9991
+    notify-send "Battery Charged" "Battery is fully charged." -i "battery-full" -r 9991
 else
-  notify-send "$BATTERY_CHARGING" "$BATTERY_LEVEL% of battery charged." -u normal -i "battery-$BATTERY_ICON" -t 5000 -r 9991
+    notify-send "$BATTERY_CHARGING" "$BATTERY_LEVEL% of battery charged." -u normal -i "battery-$BATTERY_ICON" -t 5000 -r 9991
 fi

@@ -136,6 +136,8 @@ Run apps as sudo on hyprland\
 `xhost si:localuser:root`\
 `xhost | DISPLAY=:0 sudo command`
 
+Use `kitten themes` to change kitty themes
+
 ### WiFi Connectivity
 
 Connect to WiFi automatically with nmcli

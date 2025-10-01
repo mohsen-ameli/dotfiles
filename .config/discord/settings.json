@@ -7,12 +7,12 @@
   "MIN_WIDTH": 940,
   "MIN_HEIGHT": 500,
   "WINDOW_BOUNDS": {
-    "x": 192,
-    "y": 93,
-    "width": 1161,
-    "height": 683
+    "x": 185,
+    "y": 85,
+    "width": 1163,
+    "height": 684
   },
-  "BACKGROUND_COLOR": "#2c2d32",
+  "BACKGROUND_COLOR": "#f3f3f4",
   "offloadAdmControls": true,
   "enableHardwareAcceleration": true
 }
