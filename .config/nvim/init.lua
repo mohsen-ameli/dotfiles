@@ -137,7 +137,7 @@ require("lazy").setup({
 	checker = { enabled = true, notify = false },
 })
 
----------------------------------- AUTO DARK-MODE ----------------------------------------
+---------------------------------- AUTO DARK MODE ----------------------------------------
 local lualine_conf = {
 	options = {
 		theme = "tokyonight",
@@ -153,22 +153,25 @@ local lualine_conf = {
 		lualine_z = { "" },
 	},
 }
-local result = vim.fn.system({
-	"busctl",
-	"--user",
-	"call",
-	"org.freedesktop.portal.Desktop",
-	"/org/freedesktop/portal/desktop",
-	"org.freedesktop.portal.Settings",
-	"ReadOne",
-	"ss",
-	"org.freedesktop.appearance",
-	"color-scheme",
-})
+-- local result = vim.fn.system({
+-- 	"busctl",
+-- 	"--user",
+-- 	"call",
+-- 	"org.freedesktop.portal.Desktop",
+-- 	"/org/freedesktop/portal/desktop",
+-- 	"org.freedesktop.portal.Settings",
+-- 	"ReadOne",
+-- 	"ss",
+-- 	"org.freedesktop.appearance",
+-- 	"color-scheme",
+-- })
+-- local color_scheme = vim.fn.system({ "cat", "~/.theme" })
+-- print(color_scheme)
 -- The result is in the form of "v u 0" for light and "v u 1" for dark
-local color_scheme = result:match("u%s+(%d+)")
+-- local color_scheme = result:match("u%s+(%d+)")
+local color_scheme = vim.fn.system({ "cat", "/etc/theme" })
 
-if color_scheme == "1" then
+if color_scheme == "dark\n" then
 	vim.cmd.colorscheme("tokyonight-moon")
 	lualine_conf.options.theme = "tokyonight"
 else
@@ -234,7 +237,6 @@ require("mason-tool-installer").setup({
 		-- Linters
 		"shellcheck",
 		"editorconfig-checker",
-		"json-to-struct",
 		"misspell",
 		"revive",
 		"shellcheck",

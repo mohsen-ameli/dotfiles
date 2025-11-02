@@ -3,6 +3,7 @@
 #
 
 export CHARGE_LIMIT=80
+export THEME="dark"
 
 if pgrep -x i3 > /dev/null; then
   alias mpv="swallow mpv"
@@ -96,7 +97,7 @@ source $ZSH/oh-my-zsh.sh
 
 ####### STARSHIP (TERMINAL LOOKS) #######
 eval "$(starship init zsh)"
-cowsay "Welcome Back Soldier" | lolcat
+cowsay "Welcome Back $USER" | lolcat
 
 ####### FNM #######
 fnm env > /tmp/fnm
@@ -172,3 +173,7 @@ function extract {
   fi
 }
 
+
+####### OVERRIDE #######
+export HISTSIZE=999999999
+export SAVEHIST=$HISTSIZE

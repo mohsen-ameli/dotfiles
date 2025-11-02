@@ -1,7 +1,6 @@
 MenuBar=Disabled
 
 [General]
-ConfirmClosingMultipleTabs=false
 Version=202
 ViewPropsTimestamp=2024,12,5,23,3,38.426
 
@@ -19,7 +18,7 @@ MenuBar=Disabled
 ToolButtonStyle=IconOnly
 
 [PreviewSettings]
-Plugins=ffmpegthumbnailer,appimagethumbnail,evince,audiothumbnail,avif,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,fontthumbnail,heif,imagethumbnail,jpegthumbnail,jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,svgthumbnail,gdk-pixbuf-thumbnailer
+Plugins=ffmpegthumbnailer,appimagethumbnail,audiothumbnail,avif,glycin-heif,comicbookthumbnail,cursorthumbnail,djvuthumbnail,ebookthumbnail,exrthumbnail,fontthumbnail,heif,imagethumbnail,glycin-image-rs,jpegthumbnail,glycin-jxl,jxl,kraorathumbnail,windowsexethumbnail,windowsimagethumbnail,opendocumentthumbnail,glycin-svg,librsvg,svgthumbnail
 
 [Toolbar mainToolBar]
 ToolButtonStyle=IconOnly

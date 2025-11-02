@@ -1,10 +1,21 @@
+hello
+hellotheree
+hello
+hellotheree
+hellotheree
+hellotheree
+hellotheree
+hellotheree
+hellotheree
+hellothereehellothereehellothereehellothereehellothereehellothereehellothereehellotheree
+hellotheree
+
 ## Screenshot
 
 ![Image](.config/desktop.png)
 
 ## TODO
-- Cast screen to wireless display
-- Connect to wireguard vpn seamlessly
+Laggy when selecting .desktop files on desktop: https://bugs.kde.org/show_bug.cgi?id=493376
 
 ## Dotfiles inspired from:
 
@@ -115,11 +126,23 @@ For every client you need to add a user by running the following on the server:
 Then their profile can be shared either via QR-code or by accessing it in `~/configs/something.conf`
 
 On a client then, either scan the QR-code or share the config file and have them imported.
-On linux you can run this to activate a certain config file:
-`wg-quick up something.conf`
+
+### Linux Client
+IMPORTANT: I don't know why but put the raw ip address of the server in the config file, not the domain name.
+For some reason I had my duckdns domain and it didn't work. 
+
+On a linux client you can install wireguid from `https://github.com/UnnoTed/wireguird`.
+
+For a more command line approach, install `wireguard-tools` if on arch.
+Then put the config file in `/etc/wireguard/something.conf`
+To connect run:
+`wg-quick up <name-of-vpn>`
 
 and to disconnect run:
-`wg-quick down something.conf`
+`wg-quick down <name-of-vpn>`
+
+You could also just keep the original .conf file handy and run:
+`wg-quick up /path/to/file.conf`
 
 ## General Notes
 
@@ -137,6 +160,8 @@ Run apps as sudo on hyprland\
 `xhost | DISPLAY=:0 sudo command`
 
 Use `kitten themes` to change kitty themes
+
+Use `sudo systemctl poweroff --when="+60min"` to schedule shutdown in X minutes
 
 ### WiFi Connectivity
 
@@ -170,6 +195,9 @@ you could either add the packages involved to the "IgnorePkg=" list in `/etc/pac
 Or you could try installing both conflicting packages with `sudo pacman -S pkg1 pkg2`.
 Or you could downgrade (not a very good option).
 Or perhaps wait for the arch team to resolve the issu.
+
+If you want to update mirrorlist, either run the script at `.local/bin/manage-pacman --update-mirrorlist`
+or use `rate-mirrors` to get the fastest mirrors.
 
 ### Cleaning system (Arch)
 
@@ -207,7 +235,7 @@ https://github.com/baduhai/Koi
 
 Use `zbar image.jpg` for QR-code decode
 
-Use `gdu / -i /media,/run/timeshift` to get disk space usage.
+Use `gdu / -i /media,/run/timeshift` to get disk space usage #storage.
 
 Use `df -h` to get a general disk space size.
 
@@ -221,11 +249,13 @@ https://mathjiajia.github.io/vscode-and-latex/
 
 ## Wallpaper Engine on Linux
 
-Go here and download and install it:
-`https://github.com/slynobody/SteamOS-wallpaper-engine-kde-plugin`
+<!-- Go here and download and install it: -->
+<!-- `https://github.com/slynobody/SteamOS-wallpaper-engine-kde-plugin` -->
 
-This is the main github used for this plugin, but installing it from here didn't work for me:
+<!-- This is the main github used for this plugin, but installing it from here didn't work for me: -->
+Go here and download and install it:
 `https://github.com/catsout/wallpaper-engine-kde-plugin`
+Then install the wallpaper engine plugin from kde store.
 
 If kde crashes, run `~/.local/bin/recover-from-crash`
 
@@ -332,8 +362,11 @@ Paste the following into it:
 options vfio-pci ids=10de:2520,10de:228e
 softdep nvidia pre: vfio-pci
 ```
-
 Replaces ids with your card's ids.
+
+Add the following to the MODULE line in `/etc/mkinitcpio.conf`
+
+`MODULES=(... vfio_pci vfio vfio_iommu_type1)`
 Run `sudo mkinitcpio -P`
 
 To check if you're in vfio mode, run `lspci -k | grep NVIDIA -A3`
@@ -341,6 +374,15 @@ And see if the "kernel in use" is set to "vfio-pci"
 
 Next go in virtual manager and open the configuration for the vm. Add hardware and select "PCI Host device".
 Then select your graphics card to add it, then finish.
+
+### Looking Glass
+https://looking-glass.io/
+https://www.reddit.com/r/VFIO/comments/qyju69/nvidia_optimus_muxless_laptop_gpu_passthrough_and/
+https://wiki.archlinux.org/title/QEMU/Guest_graphics_acceleration
+
+### Windows VM
+After installing windows, install the virtio drivers from here:
+`https://github.com/virtio-win/virtio-win-pkg-scripts`
 
 ### Games
 
@@ -376,6 +418,11 @@ Red dead redemption 2
 Just works with no tinkering
 This link is for best graphics. I chose level 2 for ~60fps
 https://docs.google.com/spreadsheets/d/11rvsM0p9aWZb2_QwQToYvrOjPXR7BJes2586uo4Dxuw/edit?gid=402472305#gid=402472305
+
+Baldur's Gate 3
+`prime-run %command%`
+Proton GE
+Use directX option. vulkan doesn't work.
 
 ## udev rules
 
