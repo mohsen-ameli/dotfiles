@@ -1,4 +1,6 @@
----------------------------------- OPTIONS     --------------------------------------
+-------------------------------------------------------------------------------------
+---------------------------------- OPTIONS ------------------------------------------
+-------------------------------------------------------------------------------------
 vim.opt.number = true
 vim.opt.wrap = false
 vim.opt.scrolloff = 5
@@ -8,46 +10,38 @@ vim.opt.mousemoveevent = true
 vim.opt.ignorecase = true
 vim.opt.whichwrap = "h,l,<,>,[,]"
 vim.opt.cursorline = true
-
--- add space to the left of the line numbers
-vim.wo.signcolumn = "yes"
-
--- set tab size to 2 spaces
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smartindent = true
-
--- use system keyboard for yank
 vim.opt.clipboard = "unnamedplus"
 vim.opt.termguicolors = true
+
+-- add space to the left of the line numbers
+vim.wo.signcolumn = "yes"
 
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.o.undofile = true
 
------------------------------------- PLUGINS   --------------------------------------
+-------------------------------------------------------------------------------------
+---------------------------------- PLUGINS ------------------------------------------
+-------------------------------------------------------------------------------------
 local plugins = {
 	{
 		"folke/tokyonight.nvim",
 		lazy = false,
 		priority = 1000,
-		opts = {},
 	},
-	{
-		"numToStr/Comment.nvim",
-		opts = {},
-	},
+	{ "numToStr/Comment.nvim" },
 	{
 		"nvim-treesitter/nvim-treesitter",
 		branch = "master",
 		lazy = false,
 		build = ":TSUpdate",
 	},
-	{
-		"nvim-telescope/telescope.nvim",
-	},
+	{ "nvim-telescope/telescope.nvim" },
 	{
 		"nvim-tree/nvim-tree.lua",
 		version = "*",
@@ -64,11 +58,9 @@ local plugins = {
 	{
 		"Aasim-A/scrollEOF.nvim",
 		event = { "CursorMoved", "WinScrolled" },
-		opts = {},
 	},
 	{
 		"mason-org/mason-lspconfig.nvim",
-		opts = {},
 		dependencies = {
 			{
 				"mason-org/mason.nvim",
@@ -86,10 +78,7 @@ local plugins = {
 		},
 	},
 	{ "github/copilot.vim" },
-	{
-		"stevearc/conform.nvim",
-		opts = {},
-	},
+	{ "stevearc/conform.nvim" },
 	{ "WhoIsSethDaniel/mason-tool-installer.nvim" },
 	{ "petertriho/nvim-scrollbar" },
 	{ "jiangmiao/auto-pairs" },
@@ -100,8 +89,9 @@ local plugins = {
 	{ "lewis6991/gitsigns.nvim" },
 }
 
-------------------------------------- LAZY.NVIM PLUGIN MANAGER -------------------------------------
--- Bootstrap lazy.nvim
+-------------------------------------------------------------------------------------
+---------------------------------- LAZY.NVIM PLUGIN MANAGER--------------------------
+-------------------------------------------------------------------------------------
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -117,27 +107,22 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 		os.exit(1)
 	end
 end
-vim.opt.rtp:prepend(lazypath)
 
--- Make sure to setup `mapleader` and `maplocalleader` before
--- loading lazy.nvim so that mappings are correct.
--- This is also a good place to setup other settings (vim.opt)
+vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
 
--- Setup lazy.nvim
 require("lazy").setup({
 	spec = {
 		plugins,
 	},
-	-- Configure any other settings here. See the documentation for more details.
-	-- colorscheme that will be used when installing plugins.
 	install = { colorscheme = { "habamax" } },
-	-- automatically check for plugin updates
 	checker = { enabled = true, notify = false },
 })
 
----------------------------------- AUTO DARK MODE ----------------------------------------
+-------------------------------------------------------------------------------------
+---------------------------------- AUTO DARK MODE -----------------------------------
+-------------------------------------------------------------------------------------
 local lualine_conf = {
 	options = {
 		theme = "tokyonight",
@@ -153,22 +138,6 @@ local lualine_conf = {
 		lualine_z = { "" },
 	},
 }
--- local result = vim.fn.system({
--- 	"busctl",
--- 	"--user",
--- 	"call",
--- 	"org.freedesktop.portal.Desktop",
--- 	"/org/freedesktop/portal/desktop",
--- 	"org.freedesktop.portal.Settings",
--- 	"ReadOne",
--- 	"ss",
--- 	"org.freedesktop.appearance",
--- 	"color-scheme",
--- })
--- local color_scheme = vim.fn.system({ "cat", "~/.theme" })
--- print(color_scheme)
--- The result is in the form of "v u 0" for light and "v u 1" for dark
--- local color_scheme = result:match("u%s+(%d+)")
 local color_scheme = vim.fn.system({ "cat", "/etc/theme" })
 
 if color_scheme == "dark\n" then
@@ -179,7 +148,9 @@ else
 	lualine_conf.options.theme = "tokyonight-day"
 end
 
---------------------------------- PLUGIN SETUP -------------------------------------
+----------------------------------------------------------------------------------------
+--------------------------------- PLUGIN SETUP -----------------------------------------
+----------------------------------------------------------------------------------------
 require("Comment").setup()
 
 require("nvim-treesitter.configs").setup({
@@ -204,8 +175,15 @@ require("nvim-tree").setup({
 	},
 })
 
+vim.opt.termguicolors = true
 require("bufferline").setup({
-	options = { hover = { enabled = true, delay = 0, reveal = { "close" } } },
+	options = {
+		hover = { enabled = true, delay = 0, reveal = { "close" } },
+		separator_style = { "", "" },
+		indicator = {
+			style = "underline",
+		},
+	},
 })
 
 require("scrollEOF").setup()
@@ -217,6 +195,7 @@ vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Telescope live gr
 vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Telescope buffers" })
 vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Telescope help tags" })
 
+-- LSP
 require("mason-tool-installer").setup({
 	ensure_installed = {
 		-- LSP
@@ -301,7 +280,9 @@ require("scrollbar").setup({
 
 require("lualine").setup(lualine_conf)
 
+-------------------------------------------------------------------------------------
 ----------------------------------- KEYMAPS    --------------------------------------
+-------------------------------------------------------------------------------------
 vim.api.nvim_set_keymap("n", "<C-b>", ":NvimTreeFindFileToggle<CR>", { noremap = true, silent = true })
 vim.keymap.set("n", "<Leader><Leader>", "<cmd>:source $MYVIMRC<CR>", { desc = "Reload Neovim config" })
 vim.keymap.set("n", "<C-s>", "<cmd>:w<CR>", {})
@@ -312,7 +293,9 @@ vim.keymap.set("v", ">", ">gv", {})
 vim.keymap.set("v", "<S-Tab>", "<gv", {})
 vim.keymap.set("v", "<Tab>", ">gv", {})
 
+-------------------------------------------------------------------------------------------------------------
 ----------------------------------- CLOSE NVIM WHEN THE EDITOR IS THE LAST BUFFER ---------------------------
+-------------------------------------------------------------------------------------------------------------
 -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Auto-Close
 vim.api.nvim_create_autocmd({ "QuitPre" }, {
 	callback = function()

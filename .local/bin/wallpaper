@@ -1,15 +1,15 @@
 #!/bin/sh
 ##########################
 ## Chooses a random wallpaper, sets it as the background, generates
-## color scheme using wal, 
+## color scheme using wal,
 ## Inspired by Stephan Raabe (2023)
 ##########################
 
 engine="swaybg" # swww | swaybg
 
 print_usage() {
-  printf """Usage: wallpaper [arguments] 
-	
+    printf """Usage: wallpaper [arguments]
+
 arguments:
     --random: \t\t\t get a random wallpaper
     --img [path-to-image]: \t specify an image inside ~/Pictures/wallpapers/
@@ -26,51 +26,49 @@ examples:
 # $2: text
 # $3: progress
 notify() {
-  notify-send "$1" "$2" -h string:x-canonical-private-synchronous:sys-notify -h int:value:$3
+    notify-send "$1" "$2" -h string:x-canonical-private-synchronous:sys-notify -h int:value:$3
 }
 
 path_to_wallpapers="$HOME/Pictures/wallpapers/"
 wayland=$($HOME/.local/bin/is-wayland)
 
 if [ "$1" = "--random" ]; then
-  if [ ! $2 ]; then
-    wallpaper="$(ls $path_to_wallpapers | shuf -n 1)"
-    wallpaper_name=$wallpaper
-    wallpaper=$path_to_wallpapers$wallpaper
-  else
-    wallpaper=$(ls $2 | shuf -n 1)
-    wallpaper_name=$wallpaper
-  fi
+    if [ ! $2 ]; then
+        wallpaper="$(ls $path_to_wallpapers | shuf -n 1)"
+        wallpaper_name=$wallpaper
+        wallpaper=$path_to_wallpapers$wallpaper
+    else
+        wallpaper=$(ls $2 | shuf -n 1)
+        wallpaper_name=$wallpaper
+    fi
 elif [ "$1" = "--img" ]; then
-  if [ ! $2 ]; then
-    echo "Please specify the path to the wallpaper."
-    exit 1
-  elif [ ! -f $path_to_wallpapers$2 ]; then
-    echo "Wallpaper path is not valid :("
-    exit 1
-  fi
-  wallpaper_name=$2
-  wallpaper=$path_to_wallpapers$2
+    if [ ! $2 ]; then
+        echo "Please specify the path to the wallpaper."
+        exit 1
+    elif [ ! -f $path_to_wallpapers$2 ]; then
+        echo "Wallpaper path is not valid :("
+        exit 1
+    fi
+    wallpaper_name=$2
+    wallpaper=$path_to_wallpapers$2
 elif [ -f "$1" ]; then
-  echo "Wallpaper path: $1"
-  wallpaper_name=$1
-  wallpaper=$1
+    echo "Wallpaper path: $1"
+    wallpaper_name=$1
+    wallpaper=$1
 else
-  print_usage
-  exit 0
+    print_usage
+    exit 0
 fi
 
 if [ $wayland -eq 1 ]; then
-  echo "$wallpaper"
-  if [ "$engine" = "swaybg" ]; then
-    killall swaybg
-    swaybg -m fill -i $wallpaper &
-  elif [ "$engine" = "swww" ]; then
-    sleep 3
-    swww img $wallpaper --transition-fps 60 --transition-type wipe
-  fi
+    echo "$wallpaper"
+    if [ "$engine" = "swaybg" ]; then
+        swaybg -m fill -i $wallpaper &
+    elif [ "$engine" = "swww" ]; then
+        swww img $wallpaper --transition-fps 60 --transition-type center
+    fi
 else
-  feh --no-fehbg --bg-fill $wallpaper
+    feh --no-fehbg --bg-fill $wallpaper
 fi
 
 wal -n -q -s -t -i $wallpaper
@@ -81,7 +79,7 @@ wal -n -q -s -t -i $wallpaper
 cp $wallpaper ~/.cache/current_wallpaper.jpg
 magick ~/.cache/current_wallpaper.jpg ~/.cache/current_wallpaper.png &
 if [ $wayland -eq 0 ]; then
-  betterlockscreen -u ~/.cache/current_wallpaper.jpg --span --fx blur &
+    betterlockscreen -u ~/.cache/current_wallpaper.jpg --span --fx blur &
 fi
 notify-send "Wallpaper Changed Successfully!" "$wallpaper_name"
 

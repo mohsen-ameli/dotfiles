@@ -8,8 +8,8 @@ iDIR="$HOME/.config/icons"
 vol_segment=2
 
 print_usage() {
-	printf """Usage: volume [arguments]
-	
+    printf """Usage: volume [arguments]
+
 arguments:
 	--live-volume: \t live current volume status in JSON
 	--live-mic: \t live current mic status in JSON
@@ -29,203 +29,203 @@ arguments:
 }
 
 live_volume() {
-	vol=$(get_volume)
-	echo "{ \"text\": \"$vol\", \"class\": \"$(get_class $vol)\" }"
-	pactl subscribe | while read -r event; do
-		if echo "$event" | grep -q "sink #"; then
-			vol=$(get_volume)
-			echo "{ \"text\": \"$vol\", \"class\": \"$(get_class $vol)\" }"
-		fi
-	done
+    vol=$(get_volume)
+    echo "{ \"text\": \"$vol\", \"class\": \"$(get_class $vol)\" }"
+    pactl subscribe | while read -r event; do
+        if echo "$event" | grep -q "sink #"; then
+            vol=$(get_volume)
+            echo "{ \"text\": \"$vol\", \"class\": \"$(get_class $vol)\" }"
+        fi
+    done
 }
 
 live_mic() {
-	echo "{ \"text\": \"$(get_mic_mute)\", \"icon\": \"$(get_mic_mute --icon)\" }"
-  pactl subscribe | while read -r event; do
-      if echo "$event" | grep -q "source #"; then
     echo "{ \"text\": \"$(get_mic_mute)\", \"icon\": \"$(get_mic_mute --icon)\" }"
-      fi
-  done
+    pactl subscribe | while read -r event; do
+        if echo "$event" | grep -q "source #"; then
+            echo "{ \"text\": \"$(get_mic_mute)\", \"icon\": \"$(get_mic_mute --icon)\" }"
+        fi
+    done
 }
 
 get_volume() {
-	vol=$(pamixer --get-volume-human)
-	if [ $vol = "muted" ]; then
-		echo "0"
-		return
-	fi
-	echo $vol | cut -d "%" -f 1
+    vol=$(pamixer --get-volume-human)
+    if [ $vol = "muted" ]; then
+        echo "0"
+        return
+    fi
+    echo $vol | cut -d "%" -f 1
 }
 
 get_volume_full() {
-	if [ "$(pamixer --get-mute)" = "true" ]; then
-		echo "󰖁"
-		return
-	fi
-	vol=$(get_volume)
-	if [ $vol -lt 25 ]; then
-		icon="󰕿"
-	elif [ $vol -lt 50 ]; then
-		icon="󰖀"
-	elif [ $vol -lt 75 ]; then
-		icon="󰕾"
-	else
-		icon=""
-	fi
-	echo "$vol% $icon" 
+    if [ "$(pamixer --get-mute)" = "true" ]; then
+        echo "󰖁"
+        return
+    fi
+    vol=$(get_volume)
+    if [ $vol -lt 25 ]; then
+        icon="󰕿"
+    elif [ $vol -lt 50 ]; then
+        icon="󰖀"
+    elif [ $vol -lt 75 ]; then
+        icon="󰕾"
+    else
+        icon=""
+    fi
+    echo "$vol% $icon"
 }
 
 get_mic_mute() {
-	if [ "$(pamixer --default-source --get-mute)" = "true" ]; then
-		[ "$1" = "--icon" ] && echo "" || echo "0"
-	else
-		[ "$1" = "--icon" ] && echo "" || echo "1"
-	fi
-	return
+    if [ "$(pamixer --default-source --get-mute)" = "true" ]; then
+        [ "$1" = "--icon" ] && echo "" || echo "0"
+    else
+        [ "$1" = "--icon" ] && echo "" || echo "1"
+    fi
+    return
 }
 
 get_mic() {
-	out=$(pamixer --default-source --get-mute)
-	if [ $out = "true" ]; then
-		echo "{\"text\": \"\", \"class\": \"muted\"}"
-	else
-		echo "{\"text\": \"\", \"class\": \"\"}"
-	fi
+    out=$(pamixer --default-source --get-mute)
+    if [ $out = "true" ]; then
+        echo "{\"text\": \"\", \"class\": \"muted\"}"
+    else
+        echo "{\"text\": \"\", \"class\": \"\"}"
+    fi
 }
 
 get_mic_icon() {
-	current=$(pamixer --default-source --get-volume)
-	if [ $current -eq 0 ]; then
-		echo "$iDIR/microphone.png"
-	elif [ $current -ge 0 ] && [ $current -le 30 ]; then
-		echo "$iDIR/microphone.png"
-	elif [ $current -ge 30 ] && [ $current -le 60 ]; then
-		echo "$iDIR/microphone.png"
-	elif [ $current -ge 60 ] && [ $current -le 100 ]; then
-		echo "$iDIR/microphone.png"
-	fi
+    current=$(pamixer --default-source --get-volume)
+    if [ $current -eq 0 ]; then
+        echo "$iDIR/microphone.png"
+    elif [ $current -ge 0 ] && [ $current -le 30 ]; then
+        echo "$iDIR/microphone.png"
+    elif [ $current -ge 30 ] && [ $current -le 60 ]; then
+        echo "$iDIR/microphone.png"
+    elif [ $current -ge 60 ] && [ $current -le 100 ]; then
+        echo "$iDIR/microphone.png"
+    fi
 }
 
 get_icon() {
-	current=$(get_volume)
-	if [ $current -eq 0 ]; then
-		echo "󰖁"
-	elif [ $current -ge 0 ] && [ $current -le 25 ]; then
-		echo ""
-	elif [ $current -ge 25 ] && [ $current -le 50 ]; then
-		echo "󱄠"
-	else
-		echo ""
-	fi
+    current=$(get_volume)
+    if [ $current -eq 0 ]; then
+        echo "󰖁"
+    elif [ $current -ge 0 ] && [ $current -le 25 ]; then
+        echo ""
+    elif [ $current -ge 25 ] && [ $current -le 50 ]; then
+        echo "󱄠"
+    else
+        echo ""
+    fi
 }
 
 get_class() {
-	current=$1
-	if [ $current -eq 0 ]; then
-		echo "mute"
-	elif [ $current -ge 0 ] && [ $current -le 25 ]; then
-		echo "off"
-	elif [ $current -ge 25 ] && [ $current -le 50 ]; then
-		echo "low"
-	elif [ $current -ge 50 ] && [ $current -le 75 ]; then
-		echo "mid"
-	else
-		echo "high"
-	fi
+    current=$1
+    if [ $current -eq 0 ]; then
+        echo "mute"
+    elif [ $current -ge 0 ] && [ $current -le 25 ]; then
+        echo "off"
+    elif [ $current -ge 25 ] && [ $current -le 50 ]; then
+        echo "low"
+    elif [ $current -ge 50 ] && [ $current -le 75 ]; then
+        echo "mid"
+    else
+        echo "high"
+    fi
 }
 
 get_icon_name() {
-	current=$(get_volume)
-	if [ $current -eq 0 ]; then
-		echo "volume-disabled"
-	elif [ $current -ge 0 ] && [ $current -le 25 ]; then
-		echo "volume-none"
-	elif [ $current -ge 25 ] && [ $current -le 50 ]; then
-		echo "volume-low"
-	elif [ $current -ge 50 ] && [ $current -le 75 ]; then
-		echo "volume-mid"
-	else
-		echo "volume-high"
-	fi
+    current=$(get_volume)
+    if [ $current -eq 0 ]; then
+        echo "volume-disabled"
+    elif [ $current -ge 0 ] && [ $current -le 25 ]; then
+        echo "volume-none"
+    elif [ $current -ge 25 ] && [ $current -le 50 ]; then
+        echo "volume-low"
+    elif [ $current -ge 50 ] && [ $current -le 75 ]; then
+        echo "volume-mid"
+    else
+        echo "volume-high"
+    fi
 }
 
 notify_user() {
-	vol=$(get_volume)
-	notify-send -h string:x-canonical-private-synchronous:sys-notify -h int:value:$vol -u low -r 521 -i "$(get_icon_name)" "Volume: $vol%"
+    vol=$(get_volume)
+    notify-send -h string:x-canonical-private-synchronous:sys-notify -h int:value:$vol -u low -r 521 -i "$(get_icon_name)" "Volume: $vol%"
 }
 
 inc_volume() {
-	if [ "$(pamixer --get-mute)" = "false" ]; then
-		pamixer -i $vol_segment
-		notify_user
-	else
-		toggle_mute
-	fi
+    if [ "$(pamixer --get-mute)" = "false" ]; then
+        pamixer -i $vol_segment
+        notify_user
+    else
+        toggle_mute
+    fi
 }
 
 dec_volume() {
-	if [ "$(pamixer --get-mute)" = "false" ]; then
-		pamixer -d $vol_segment
-		notify_user
-	else
-		toggle_mute
-	fi
+    if [ "$(pamixer --get-mute)" = "false" ]; then
+        pamixer -d $vol_segment
+        notify_user
+    else
+        toggle_mute
+    fi
 }
 
 toggle_mute() {
-	if [ "$(pamixer --get-mute)" = "true" ]; then
-		pamixer -u && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_icon_name)" "Volume: ON"
-	else
-		pamixer -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i volume-disabled "Volume: OFF"
-	fi
+    if [ "$(pamixer --get-mute)" = "true" ]; then
+        pamixer -u && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -r 521 -i "$(get_icon_name)" "Volume: ON"
+    else
+        pamixer -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -r 521 -i volume-disabled "Volume: OFF"
+    fi
 }
 
 toggle_mic() {
-	if [ "$(pamixer --default-source --get-mute)" = "true" ]; then
-		pamixer -u --default-source u && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone "Microphone: ON"
-	else
-		pamixer --default-source -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone-mute "Microphone: OFF"
-	fi
+    if [ "$(pamixer --default-source --get-mute)" = "true" ]; then
+        pamixer -u --default-source u && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone "Microphone: ON"
+    else
+        pamixer --default-source -m && notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i microphone-mute "Microphone: OFF"
+    fi
 }
 
 notify_mic_user() {
-	notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_mic_icon)" "Mic-Level : $(pamixer --default-source --get-volume) %"
+    notify-send -h string:x-canonical-private-synchronous:sys-notify -u low -i "$(get_mic_icon)" "Mic-Level : $(pamixer --default-source --get-volume) %"
 }
 
 inc_mic_volume() {
-	pamixer --default-source -i $vol_segment && notify_mic_user
+    pamixer --default-source -i $vol_segment && notify_mic_user
 }
 
 dec_mic_volume() {
-	pamixer --default-source -d $vol_segment && notify_mic_user
+    pamixer --default-source -d $vol_segment && notify_mic_user
 }
 
 if [ "$1" = "--live-volume" ]; then
-	live_volume
+    live_volume
 elif [ "$1" = "--live-mic" ]; then
-	live_mic
+    live_mic
 elif [ "$1" = "--get" ]; then
-	get_volume
+    get_volume
 elif [ "$1" = "--get-full" ]; then
-	get_volume_full
+    get_volume_full
 elif [ "$1" = "--get-mic" ]; then
-	get_mic
+    get_mic
 elif [ "$1" = "--get-mic-full" ]; then
-  get_mic_mute --icon
+    get_mic_mute --icon
 elif [ "$1" = "--inc" ]; then
-	inc_volume
+    inc_volume
 elif [ "$1" = "--dec" ]; then
-	dec_volume
+    dec_volume
 elif [ "$1" = "--toggle" ]; then
-	toggle_mute
+    toggle_mute
 elif [ "$1" = "--toggle-mic" ]; then
-	toggle_mic
+    toggle_mic
 elif [ "$1" = "--get-icon" ]; then
-	get_icon_name
+    get_icon_name
 elif [ "$1" = "--get-mic-icon" ]; then
-	get_mic_icon
+    get_mic_icon
 elif [ "$1" = "--mic-dec" ]; then
-	dec_mic_volume
+    dec_mic_volume
 else
-	print_usage
+    print_usage
 fi

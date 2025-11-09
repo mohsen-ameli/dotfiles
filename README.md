@@ -1,15 +1,3 @@
-hello
-hellotheree
-hello
-hellotheree
-hellotheree
-hellotheree
-hellotheree
-hellotheree
-hellotheree
-hellothereehellothereehellothereehellothereehellothereehellothereehellothereehellotheree
-hellotheree
-
 ## Screenshot
 
 ![Image](.config/desktop.png)
@@ -379,6 +367,7 @@ Then select your graphics card to add it, then finish.
 https://looking-glass.io/
 https://www.reddit.com/r/VFIO/comments/qyju69/nvidia_optimus_muxless_laptop_gpu_passthrough_and/
 https://wiki.archlinux.org/title/QEMU/Guest_graphics_acceleration
+https://asus-linux.org/guides/vfio-guide/#using-looking-glass-with-a-virtual-display-driver
 
 ### Windows VM
 After installing windows, install the virtio drivers from here:
@@ -482,8 +471,9 @@ Export private key
 To connect to a specific country, you must specify it in the "ExitNodes" like this:
 
 ```
-EntryNodes {ca} StrictNodes 1
-ExitNodes {it},{de} StrictNodes 1
+EntryNodes {ca}
+ExitNodes {it},{de}
+StrictNodes 1
 ```
 
 Add this to "torrc" file, in windows it is located in the default tor folder
@@ -496,6 +486,9 @@ and in linux it is in /etc/tor/torrc-defaults
 In windows go to internet options > connections > LAN settings > Advanced and make sure "Use the same proxy server ..."
 is checked off, then delete everything and add this to socks (last option):
 socks: localhost port: 9050
+
+## Get current country and city based on IP
+`curl http://ip-api.com/json\?fields\=country,city`
 
 ## Colours
 

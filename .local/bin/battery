@@ -6,8 +6,8 @@
 UPDATE_TIME=2
 
 print_usage() {
-	printf """Usage: battery [arguments]
-	
+    printf """Usage: battery [arguments]
+
 arguments:
     --live: \t print live battery info
     --text: \t print battery percentage text only
@@ -17,86 +17,86 @@ arguments:
 }
 
 get_icon() {
-  capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-  status=$(cat /sys/class/power_supply/BAT0/status)
-  
-  if [ "$status" = "Charging" ]; then
-    icon=""
-  elif [ $capacity -lt 10 ]; then
-    icon=" "
-  elif [ $capacity -lt 35 ]; then
-    icon=" "
-  elif [ $capacity -lt 50 ]; then
-    icon=" "
-  elif [ $capacity -lt 75 ]; then
-    icon=" "
-  else
-    icon=" "
-  fi
-  echo "$icon"
+    capacity=$(cat /sys/class/power_supply/BAT0/capacity)
+    status=$(cat /sys/class/power_supply/BAT0/status)
+
+    if [ "$status" = "Charging" ]; then
+        icon=""
+    elif [ $capacity -lt 10 ]; then
+        icon=" "
+    elif [ $capacity -lt 35 ]; then
+        icon=" "
+    elif [ $capacity -lt 50 ]; then
+        icon=" "
+    elif [ $capacity -lt 75 ]; then
+        icon=" "
+    else
+        icon=" "
+    fi
+    echo "$icon"
 }
 
 live() {
-  while true; do
-    capacity=$(cat /sys/class/power_supply/BAT0/capacity)
-    s=$(cat /sys/class/power_supply/BAT0/status)
+    while true; do
+        capacity=$(cat /sys/class/power_supply/BAT0/capacity)
+        s=$(cat /sys/class/power_supply/BAT0/status)
 
-    if [ "$s" = "Discharging" ]; then
-      if [ $capacity -le 5 ]; then
-        status="critical"
-      elif [ $capacity -le 15 ]; then
-        status="low"
-      elif [ $capacity -le 25 ]; then
-        status="warning"
-      else
-        status="discharging"
-      fi
-    else
-      status="charging"
-    fi
+        if [ "$s" = "Discharging" ]; then
+            if [ $capacity -le 5 ]; then
+                status="critical"
+            elif [ $capacity -le 15 ]; then
+                status="low"
+            elif [ $capacity -le 25 ]; then
+                status="warning"
+            else
+                status="discharging"
+            fi
+        else
+            status="charging"
+        fi
 
-    echo '{ "capacity": '$capacity', "status": "'$status'", "icon": "'$capacity% $(get_icon)'"}'
-    sleep $UPDATE_TIME
-  done
+        echo '{ "capacity": '$capacity', "status": "'$status'", "icon": "'$capacity% $(get_icon)'"}'
+        sleep $UPDATE_TIME
+    done
 }
 
 info() {
-  bat=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
-  capacity=$(echo "$bat" | awk '/percentage/ {print $2}')
-  status=$(echo "$bat" | awk '/state/ {print toupper(substr($2,1,1)) tolower(substr($2,2))}')
-  time_to=$(echo "$bat" | awk '/time to/ {print int($4) " " toupper(substr($5,1,1)) tolower(substr($5,2))}')
-  time_to_text=$(echo "$bat" | awk '/time to/ {print toupper(substr($3,1,1)) tolower(substr($3,2))}')
-  health=$(echo "$bat" | awk '/capacity/ {print $2}' | cut -d. -f1)
+    bat=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
+    capacity=$(echo "$bat" | awk '/percentage/ {print $2}')
+    status=$(echo "$bat" | awk '/state/ {print toupper(substr($2,1,1)) tolower(substr($2,2))}')
+    time_to=$(echo "$bat" | awk '/time to/ {print int($4) " " toupper(substr($5,1,1)) tolower(substr($5,2))}')
+    time_to_text=$(echo "$bat" | awk '/time to/ {print toupper(substr($3,1,1)) tolower(substr($3,2))}')
+    health=$(echo "$bat" | awk '/capacity:/ {print $2}' | cut -d. -f1)
 
-  if echo "$bat" | grep "time to" > /dev/null; then
-    printf "%b\n" "<tt>Capacity: \t$capacity\nBattery Health: $health%\nStatus: \t$status\nTime To $time_to_text \t$time_to</tt>"
-  else
-    printf "%b\n" "<tt>Capacity: \t$capacity\nStatus: \tFully Charged\nBattery Health: $health%</tt>"
-  fi
+    if echo "$bat" | grep "time to" > /dev/null; then
+        printf "%b\n" "<tt>Capacity: \t$capacity\nBattery Health: $health%\nStatus: \t$status\nTime To $time_to_text \t$time_to</tt>"
+    else
+        printf "%b\n" "<tt>Capacity: \t$capacity\nStatus: \tFully Charged\nBattery Health: $health%</tt>"
+    fi
 }
 
 text() {
-  bat=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
-  capacity=$(echo "$bat" | awk '/percentage/ {printf $2}')
-  echo "$capacity"
+    bat=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
+    capacity=$(echo "$bat" | awk '/percentage/ {printf $2}')
+    echo "$capacity"
 }
 
 text_icon() {
-  bat=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
-  capacity=$(echo "$bat" | awk '/percentage/ {printf $2}')
-  echo "$capacity $(get_icon)"
+    bat=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
+    capacity=$(echo "$bat" | awk '/percentage/ {printf $2}')
+    echo "$capacity $(get_icon)"
 }
 
 if [ "$1" = "--text" ]; then
-  text
+    text
 elif [ "$1" = "--icon" ]; then
-  get_icon
+    get_icon
 elif [ "$1" = "--text-icon" ]; then
-  text_icon
+    text_icon
 elif [ "$1" = "--live" ]; then
-  live
+    live
 elif [ "$1" = "--info" ]; then
-  info
+    info
 else
-  print_usage
+    print_usage
 fi
