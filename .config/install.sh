@@ -12,8 +12,8 @@ fonts="noto-fonts noto-fonts-emoji ttf-jetbrains-mono-nerd vazirmatn-fonts"
 media_player="mpv vlc" #amberol rhythmbox
 network="networkmanager iwd net-tools"
 bluetooth="bluez bluez-utils bluez-obex bluetuith"
-audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pavucontrol"
-rofi="rofi rofi-calc"
+audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack pavucontrol"
+# rofi="rofi rofi-calc"
 display_manager="sddm"
 
 notify() {

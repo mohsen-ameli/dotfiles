@@ -4,6 +4,10 @@
 
 export CHARGE_LIMIT=80
 export THEME="dark"
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$HOME/.local/share/cargo/bin
 
 if pgrep -x i3 > /dev/null; then
   alias mpv="swallow mpv"
@@ -18,12 +22,12 @@ elif [ "$XDG_SESSION_TYPE" = "wayland" ]; then
 fi
 
 # Auto starting window managers
-tty_session=$(echo "${$(tty)##*/}")
-if [ "$tty_session" = "tty1" ]; then
-  startx 
-elif [ "$tty_session" = "tty2" ]; then
-  Hyprland
-fi
+# tty_session=$(echo "${$(tty)##*/}")
+# if [ "$tty_session" = "tty1" ]; then
+#   startx 
+# elif [ "$tty_session" = "tty2" ]; then
+#   Hyprland
+# fi
 
 # If not running interactively, do not do anything
 [[ $- != *i* ]] && return
@@ -64,27 +68,32 @@ export GRIPHOME="$XDG_CONFIG_HOME/grip"
 
 ####### ALIASES #######
 alias lsh="find -maxdepth 1 -exec du -sh "{}" 2> /dev/null \; | sort -h"
+alias zed="zeditor"
 alias sm="sudo make clean install"
 alias sudo="sudo -EH"
 alias serve='sudo python -m http.server'
 alias sv='sudo nvim'
-alias p="sudo pacman"
+alias p="paru"
 alias sc="sudo systemctl"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias lsbc='lsblk -o name,fstype,size,mountpoints,uuid -e 7 | bat -l conf -p'
+alias lsbc='lsblk -o name,fstype,size,mountpoints,uuid -e 7'
 alias grep='grep --color=auto'
 alias fastfetch='fastfetch --config examples/17'
 alias ex='chmod u+x'
 alias ls='ls --color=auto --group-directories-first'
 alias la='eza -la --color=always --group-directories-first'
 alias ll='eza -a --color=always --group-directories-first'
-#alias cp="cp -i"
+# alias cp="cp -i"
 alias cp="rsync -avh --partial --info=progress2"
 alias mv="mv -i"
-alias sr="sudo reboot now"
 alias wget=wget --hsts-file="$XDG_DATA_HOME/wget-hsts"
 alias feh="feh --no-fehbg"
 alias ssh='TERM=xterm-256color ssh'
+alias osage='echo $((($(date +%s) - $(stat -c %W /)) / 86400)) days'
+
+alias hows-my-gpu='echo "NVIDIA Dedicated Graphics" | grep "NVIDIA" && lspci -nnk | grep "NVIDIA Corporation GA107M" -A 2 | grep "Kernel driver in use" && echo "Intel Integrated Graphics" | grep "Intel" && lspci -nnk | grep "Intel.*Integrated Graphics Controller" -A 3 | grep "Kernel driver in use" && echo "Enable and disable the dedicated NVIDIA GPU with nvidia-enable and nvidia-disable"'
+alias nvidia-enable='sudo virsh nodedev-reattach pci_0000_01_00_0 && echo "GPU reattached (now host ready)" && sudo rmmod vfio_pci vfio_pci_core vfio_iommu_type1 && echo "VFIO drivers removed" && sudo modprobe -i nvidia_modeset nvidia_uvm nvidia && echo "NVIDIA drivers added" && echo "COMPLETED!"'
+alias nvidia-disable='sudo rmmod nvidia_modeset nvidia_uvm nvidia && echo "NVIDIA drivers removed" && sudo modprobe -i vfio_pci vfio_pci_core vfio_iommu_type1 && echo "VFIO drivers added" && sudo virsh nodedev-detach pci_0000_01_00_0 && echo "GPU detached (now vfio ready)" && echo "COMPLETED!"'
 
 ####### OH MY ZSH #######
 export HISTFILE="$XDG_CACHE_HOME/zsh/history"

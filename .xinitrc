@@ -25,6 +25,5 @@ sudo xinput set-prop $(xinput list | grep Touchpad | awk '{print $6}' | cut -f2 
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # Environment
-exec i3
-#exec startplasma-x11 
-#exec dwm
+#exec i3
+exec dwm

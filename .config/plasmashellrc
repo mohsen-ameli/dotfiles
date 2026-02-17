@@ -123,6 +123,15 @@ panelVisibility=0
 [PlasmaViews][Panel 401][Defaults]
 thickness=44
 
+[PlasmaViews][Panel 411]
+floating=0
+panelLengthMode=0
+panelOpacity=0
+panelVisibility=0
+
+[PlasmaViews][Panel 411][Defaults]
+thickness=44
+
 [PlasmaViews][Panel 432]
 floating=0
 panelOpacity=2

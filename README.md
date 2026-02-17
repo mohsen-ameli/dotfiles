@@ -3,7 +3,9 @@
 ![Image](.config/desktop.png)
 
 ## TODO
-Laggy when selecting .desktop files on desktop: https://bugs.kde.org/show_bug.cgi?id=493376
+
+Laggy when selecting .desktop files on desktop:
+https://bugs.kde.org/show_bug.cgi?id=493376
 
 ## Dotfiles inspired from:
 
@@ -13,20 +15,20 @@ https://github.com/linkfrg/dotfiles
 
 https://discord.com/channels/961691461554950145/1230259386535120926
 
-## Github
+# Github
 
-To add ssh support for ease of use to login and use github, first do the following.
-`ssh-keygen -t ed25519 -C "your_email@example.com"`
-This will generate an id_rsa and id_rsa.pub files in the ~/.ssh folder.
-Then run these two commands:
-`eval "$(ssh-agent -s)"`
-`ssh-add ~/.ssh/whatever-you-named-id_rsa`
-Then copy the public `~/.ssh/id_rsa.pub` and open a browser and go to github.com > settings > ssh and gpg keys > new ssh key and paste the
-public id rsa in there.
-Now you can clone and use any repos you have.
+To add ssh support for ease of use to login and use github, first do the
+following. `ssh-keygen -t ed25519 -C "your_email@example.com"` This will
+generate an id_rsa and id_rsa.pub files in the ~/.ssh folder. Then run these two
+commands: `eval "$(ssh-agent -s)"` `ssh-add ~/.ssh/whatever-you-named-id_rsa`
+Then copy the public `~/.ssh/id_rsa.pub` and open a browser and go to github.com
 
-NOTE: when cloning, use the ssh option when you press on "Code".
-NOTE: If you have multiple ssh keys, make a "config" file (just name it config in ~/.ssh), and put the following per account
+> settings > ssh and gpg keys > new ssh key and paste the public id rsa in
+> there. Now you can clone and use any repos you have.
+
+NOTE: when cloning, use the ssh option when you press on "Code". NOTE: If you
+have multiple ssh keys, make a "config" file (just name it config in ~/.ssh),
+and put the following per account
 
 ```
 # Personal
@@ -36,21 +38,37 @@ PreferredAuthentications publickey
 IdentityFile ~/.ssh/id_rsa_personal
 ```
 
+### Fix merge conflicts
+```
+git checkout master
+git pull
+git checkout <branch>
+git pull origin master
+<Fix the conflicts DO NOT HIT CONTINUE in vscode>
+git add .
+git commit -m "<message>"
+git pushgit checkout master
+git pull
+git checkout <branch>
+git pull origin master
+<Fix the conflicts DO NOT HIT CONTINUE>
+git add .
+git commit -m "<message>"
+git push
+```
+
 ### Remote origin url
 
-To view the origin url of a git directory run:
-`git remote -v`
+To view the origin url of a git directory run: `git remote -v`
 
-To change the origin url run:
-`git remote set-url origin new-url`
+To change the origin url run: `git remote set-url origin new-url`
 
 ## Secure Boot
 
-If dual booting, make sure to have windows's Bitlock password.
-Then go to bios and remove secure boot keys (Put the secure boot into setup mode)
+If dual booting, make sure to have windows's Bitlock password. Then go to bios
+and remove secure boot keys (Put the secure boot into setup mode)
 
-Install sbctl.
-`sudo pacman -S sbctl`
+Install sbctl. `sudo pacman -S sbctl`
 
 Then run:
 
@@ -65,9 +83,11 @@ sudo sbctl sign -s <path-to-boot-manager> # path to boot manager for me was /boo
 sudo bootctl install
 ```
 
-Restart and you will get a new GRUB boot entry when you boot up. Select that as your main way to boot up.
+Restart and you will get a new GRUB boot entry when you boot up. Select that as
+your main way to boot up.
 
-Run this and make sure it says "setup mode disabled" and "secure boot enabled" and everything is green:
+Run this and make sure it says "setup mode disabled" and "secure boot enabled"
+and everything is green:
 
 ```shell
 sudo sbctl verify
@@ -105,29 +125,33 @@ gsettings set org.gnome.desktop.default-applications.terminal exec $terminal
 ```
 
 ## Wireguard
+
 On server use the pivpn tool to setup wireguard:
 `curl -L https://install.pivpn.io | bash`
 
 For every client you need to add a user by running the following on the server:
 `pivpn -a`
 
-Then their profile can be shared either via QR-code or by accessing it in `~/configs/something.conf`
+Then their profile can be shared either via QR-code or by accessing it in
+`~/configs/something.conf`
 
-On a client then, either scan the QR-code or share the config file and have them imported.
+On a client then, either scan the QR-code or share the config file and have them
+imported.
 
 ### Linux Client
-IMPORTANT: I don't know why but put the raw ip address of the server in the config file, not the domain name.
-For some reason I had my duckdns domain and it didn't work. 
 
-On a linux client you can install wireguid from `https://github.com/UnnoTed/wireguird`.
+IMPORTANT: I don't know why but put the raw ip address of the server in the
+config file, not the domain name. For some reason I had my duckdns domain and it
+didn't work.
 
-For a more command line approach, install `wireguard-tools` if on arch.
-Then put the config file in `/etc/wireguard/something.conf`
-To connect run:
+On a linux client you can install wireguid from
+`https://github.com/UnnoTed/wireguird`.
+
+For a more command line approach, install `wireguard-tools` if on arch. Then put
+the config file in `/etc/wireguard/something.conf` To connect run:
 `wg-quick up <name-of-vpn>`
 
-and to disconnect run:
-`wg-quick down <name-of-vpn>`
+and to disconnect run: `wg-quick down <name-of-vpn>`
 
 You could also just keep the original .conf file handy and run:
 `wg-quick up /path/to/file.conf`
@@ -151,48 +175,51 @@ Use `kitten themes` to change kitty themes
 
 Use `sudo systemctl poweroff --when="+60min"` to schedule shutdown in X minutes
 
+The KDE audio icon in the taskbar is from the package `plasma-pa`
+
 ### WiFi Connectivity
 
 Connect to WiFi automatically with nmcli
 `nmcli connection modify SSID connection.autoconnect yes`
 
-Connecting to eduroam:
-go to https://cat.eduroam.org/
-select the university/college you go to and download the executable python script.
-run it, and try to connect now (I had success with nmtui).
+Connecting to eduroam: go to https://cat.eduroam.org/ select the
+university/college you go to and download the executable python script. run it,
+and try to connect now (I had success with nmtui).
 
-If the WiFi is disconnecting randomly, I turned off powersave by adding the following to `/etc/NetworkManager/NetworkManager.conf`
+If the WiFi is disconnecting randomly, I turned off powersave by adding the
+following to `/etc/NetworkManager/NetworkManager.conf`
 
 ```
 [connection]
 wifi.powersave = 2
 ```
 
-Also see: https://unix.stackexchange.com/questions/269661/how-to-turn-off-wireless-power-management-permanently
+Also see:
+https://unix.stackexchange.com/questions/269661/how-to-turn-off-wireless-power-management-permanently
 
 ### Pacman
 
-If having issues with updating packages with pacman, or if you're getting keyring/"unkown trust" issues,
-do the following
-`sudo pacman-key --init`
-`sudo pacman-key --populate`
-`sudo pacman -S archlinux-keyring`
+If having issues with updating packages with pacman, or if you're getting
+keyring/"unkown trust" issues, do the following `sudo pacman-key --init`
+`sudo pacman-key --populate` `sudo pacman -S archlinux-keyring`
 
-If there's a dependancy issue with 2 conflicting packages,
-you could either add the packages involved to the "IgnorePkg=" list in `/etc/pacman.conf`.
-Or you could try installing both conflicting packages with `sudo pacman -S pkg1 pkg2`.
-Or you could downgrade (not a very good option).
-Or perhaps wait for the arch team to resolve the issu.
+If there's a dependancy issue with 2 conflicting packages, you could either add
+the packages involved to the "IgnorePkg=" list in `/etc/pacman.conf`. Or you
+could try installing both conflicting packages with `sudo pacman -S pkg1 pkg2`.
+Or you could downgrade (not a very good option). Or perhaps wait for the arch
+team to resolve the issu.
 
-If you want to update mirrorlist, either run the script at `.local/bin/manage-pacman --update-mirrorlist`
-or use `rate-mirrors` to get the fastest mirrors.
+If you want to update mirrorlist, either run the script at
+`.local/bin/manage-pacman --update-mirrorlist` or use `rate-mirrors` to get the
+fastest mirrors.
+
+To sort packages based on size, run `expac -H M '%m\t%n' | sort -h`
 
 ### Cleaning system (Arch)
 
-Run `pacman-mange --clear-cache` inside `~/.local/bin/`.
-Run `gdu / -i /media,/run/timeshift` to get file sizes.
-`/opt` usually has external programs, maybe check that out.
-`~/.cache` might have some things to clean up.
+Run `pacman-mange --clear-cache` inside `~/.local/bin/`. Run
+`gdu / -i /media,/run/timeshift` to get file sizes. `/opt` usually has external
+programs, maybe check that out. `~/.cache` might have some things to clean up.
 `~/.local` is where all the steam games are, so check that out.
 
 ### Gnome
@@ -207,25 +234,34 @@ Good extensions:
 Run the following to enable experimental fractional scaling:
 `gsettings set org.gnome.mutter experimental-features "['scale-monitor-framebuffer']"`
 
+### MongoDB
+
+If mongo is not starting, lookg at the following post #6:
+https://bbs.archlinux.org/viewtopic.php?id=233435
+
 ### Cool Things
 
 Use `fbgrab <image>.png` to take a picture of the tty
 
-Use `mpv <video or image or url>` to view videos or images (this works on the tty as well).
-Can use `timg` if tty is iffy.
+Use `mpv <video or image or url>` to view videos or images (this works on the
+tty as well). Can use `timg` if tty is iffy.
 
 Use `yt-dlp <url>` to download any video online (including YouTube).
 
-Use `curl -F'file=@FILE.EXT' https://0x0.st` to upload any file temporarily online.
+Use `curl -F'file=@FILE.EXT' https://0x0.st` to upload any file temporarily
+online.
 
-Koi for automatic dark/white theme switching
-https://github.com/baduhai/Koi
+Koi for automatic dark/white theme switching https://github.com/baduhai/Koi
 
 Use `zbar image.jpg` for QR-code decode
 
 Use `gdu / -i /media,/run/timeshift` to get disk space usage #storage.
 
 Use `df -h` to get a general disk space size.
+
+Use `streamlink twitch.tv/hi best` to watch streams (twitch with no ads) last
+argument is quality (best, worst, 720p, 480p, 1080p60, audio)
+https://wiki.archlinux.org/title/Streamlink
 
 ### Screen sharing on hyprland
 
@@ -235,59 +271,57 @@ https://gist.github.com/brunoanc/2dea6ddf6974ba4e5d26c3139ffb7580
 
 https://mathjiajia.github.io/vscode-and-latex/
 
+### Generating passwords or random stuff
+
+`openssl rand -base64 12` `< /dev/urandom tr -dc 'A-Za-z0-9' | head -c 12; echo`
+`< /dev/urandom tr -dc '[:graph:]' | head -c 12; echo` or use genpass included
+in .zshrc
+
+FYI, JWT tokens are usually 128 character.
+
 ## Wallpaper Engine on Linux
 
 <!-- Go here and download and install it: -->
 <!-- `https://github.com/slynobody/SteamOS-wallpaper-engine-kde-plugin` -->
 
 <!-- This is the main github used for this plugin, but installing it from here didn't work for me: -->
+
 Go here and download and install it:
-`https://github.com/catsout/wallpaper-engine-kde-plugin`
-Then install the wallpaper engine plugin from kde store.
+`https://github.com/catsout/wallpaper-engine-kde-plugin` Then install the
+wallpaper engine plugin from kde store.
 
 If kde crashes, run `~/.local/bin/recover-from-crash`
 
 ## PostgreSQL
 
-If you're having trouble try restarting postgresql, or reininstalling it.
-You can also nuke the folders containing postgres (WARNING: this will remove everything!!!).
-`sudo rm -rf /var/lib/postgres/`
+If you're having trouble try restarting postgresql, or reininstalling it. You
+can also nuke the folders containing postgres (WARNING: this will remove
+everything!!!). `sudo rm -rf /var/lib/postgres/`
 
-Switch to the postgres user
-`sudo su postgres`
-Then make a new user (call it the same as your main user's name)
-`createuser --interactive`
-Exit
+Switch to the postgres user `sudo su postgres` Then make a new user (call it the
+same as your main user's name) `createuser --interactive` Exit
 
-To make a new database:
-`createdb <db-name>`
-You can also use -h <server>
--p <port>
+To make a new database: `createdb <db-name>` You can also use -h <server> -p
+<port>
 
-Connect to it:
-`psql -d boomerang`
+Connect to it: `psql -d boomerang`
 
 ## fonts and icons
 
-Downloads fonts into either /usr/share/fonts or .local/share/fonts
-use sudo fc-cache -fv to install all fonts
-use fc-list to list the installed fonts
-fc-list : family style
-edit .config/fontconfig/fonts.conf to use different fonts:
-https://www.baeldung.com/linux/configure-multilingual-fonts
+Downloads fonts into either /usr/share/fonts or .local/share/fonts use sudo
+fc-cache -fv to install all fonts use fc-list to list the installed fonts
+fc-list : family style edit .config/fontconfig/fonts.conf to use different
+fonts: https://www.baeldung.com/linux/configure-multilingual-fonts
 
 wifi icons:
 https://www.figma.com/file/eJgx1YTG2WdQ41B1fZ2wd8/Wifi?type=design&node-id=0%3A1&mode=design&t=Rfg5ME7eZDOHPh7k-1
 https://www.iconfinder.com/search?q=wifi&iconset=phosphor-bold-vol-4
 
-volume icons:
-https://www.iconfinder.com/search?q=volume&family=ionicons-fill
+volume icons: https://www.iconfinder.com/search?q=volume&family=ionicons-fill
 
-Good icons:
-https://icons8.com/icon/86864/audio
+Good icons: https://icons8.com/icon/86864/audio
 
-Cursor theme from KDE Store
-Bibata-Modern-Ice https://store.kde.org/p/1197198
+Cursor theme from KDE Store Bibata-Modern-Ice https://store.kde.org/p/1197198
 
 ## GRUB
 
@@ -309,8 +343,8 @@ tab -> switch between tabs
 
 ## Graphics (Nvidia)
 
-If the drivers are not working, make a file `/etc/modprobe.d/nvidia.conf`
-and put the following in it:
+If the drivers are not working, make a file `/etc/modprobe.d/nvidia.conf` and
+put the following in it:
 
 ```
 options nvidia_drm modeset=1 fbdev=1
@@ -329,53 +363,57 @@ Suspense issues: Run the script at `.local/bin/nvidia-suspense`
 Switching between integrated and hybrid in nvidia:
 https://www.reddit.com/r/rogflow/comments/ri9mf5/making_dgpu_enablingdisabling_on_linux_work_on/
 
-Nvidia drivers on wayland:
-https://comfy.guide/client/nvidia/
+Nvidia drivers on wayland: https://comfy.guide/client/nvidia/
 
 Apps (chromuim and electron based usually) openening slowly:
 https://wiki.archlinux.org/title/Vulkan#AMDGPU_-_Vulkan_applications_launch_slowly
 
-Installing (older) drivers
-https://github.com/Frogging-Family/nvidia-all.git
+Installing (older) drivers https://github.com/Frogging-Family/nvidia-all.git
 
 ### GPU Passthrough
 
-Run `lspci -nn` you can also use grep to filter. `lspci -nn | grep NVIDIA`.
-Note the values inside brackets [] at the end.
-Grab the card's id as well as the video device's id associated with it.
-Go to `/etc/modprobe.d/` and make a file `vfio.conf` (or whatever else you'd like)
-Paste the following into it:
+Run `lspci -nn` you can also use grep to filter. `lspci -nn | grep NVIDIA`. Note
+the values inside brackets [] at the end. Grab the card's id as well as the
+video device's id associated with it. Go to `/etc/modprobe.d/` and make a file
+`vfio.conf` (or whatever else you'd like) Paste the following into it:
 
 ```
 options vfio-pci ids=10de:2520,10de:228e
 softdep nvidia pre: vfio-pci
 ```
+
 Replaces ids with your card's ids.
 
 Add the following to the MODULE line in `/etc/mkinitcpio.conf`
 
-`MODULES=(... vfio_pci vfio vfio_iommu_type1)`
-Run `sudo mkinitcpio -P`
+`MODULES=(... vfio_pci vfio vfio_iommu_type1)` Run `sudo mkinitcpio -P`
 
-To check if you're in vfio mode, run `lspci -k | grep NVIDIA -A3`
-And see if the "kernel in use" is set to "vfio-pci"
+To check if you're in vfio mode, run `lspci -k | grep NVIDIA -A3` And see if the
+"kernel in use" is set to "vfio-pci"
 
-Next go in virtual manager and open the configuration for the vm. Add hardware and select "PCI Host device".
-Then select your graphics card to add it, then finish.
+Next go in virtual manager and open the configuration for the vm. Add hardware
+and select "PCI Host device". Then select your graphics card to add it, then
+finish.
 
 ### Looking Glass
+
 https://looking-glass.io/
 https://www.reddit.com/r/VFIO/comments/qyju69/nvidia_optimus_muxless_laptop_gpu_passthrough_and/
 https://wiki.archlinux.org/title/QEMU/Guest_graphics_acceleration
 https://asus-linux.org/guides/vfio-guide/#using-looking-glass-with-a-virtual-display-driver
 
+Use this to override the capture key (56 = left-alt) (right control = 97)
+```looking-glass-client -m 56```
+
 ### Windows VM
+
 After installing windows, install the virtio drivers from here:
 `https://github.com/virtio-win/virtio-win-pkg-scripts`
 
 ### Games
 
-To better run games on steam, the following settings can be changed located in `(gear icon in any game) > properties > general > launch options`
+To better run games on steam, the following settings can be changed located in
+`(gear icon in any game) > properties > general > launch options`
 
 Generally I use gamescope and gamemoderun to solve common issues:
 
@@ -384,40 +422,35 @@ Generally I use gamescope and gamemoderun to solve common issues:
 Games with easy anti-cheat
 https://www.reddit.com/r/linux_gaming/comments/1cvrvyg/psa_easy_anticheat_eac_failed_to_initialize/
 
-Plants Vs Zombies:
-Fix for slow animation during plant select
+Plants Vs Zombies: Fix for slow animation during plant select
 https://www.protondb.com/app/3590#dYYLZr30F2
 
-Overwatch 2:
-Proton 9.0-4
+Overwatch 2: Proton 9.0-4
 `gamemoderun %command% LD_PRELOAD="" DXVK_HUD=compiler PULSE_LATENCY_MSEC=60`
 
-The Witcher 3:
-Experimental
-`gamemoderun %command% --launcher-skip`
+The Witcher 3: Experimental `gamemoderun %command% --launcher-skip`
 
-Marvel Rivals:
-Proton GE
+Marvel Rivals: Proton GE
 `gamemoderun %command% LD_PRELOAD="" force_vk_vendor=-1 -dx12 -ngxdisableota`
 
 Limbo (Controls don't work because of screen being 144hz):
 `gamescope -W 1920 -H 1080 -r 60 -- gamemoderun %command%`
 
-Red dead redemption 2
-Just works with no tinkering
-This link is for best graphics. I chose level 2 for ~60fps
+Red dead redemption 2 Just works with no tinkering This link is for best
+graphics. I chose level 2 for ~60fps
 https://docs.google.com/spreadsheets/d/11rvsM0p9aWZb2_QwQToYvrOjPXR7BJes2586uo4Dxuw/edit?gid=402472305#gid=402472305
 
-Baldur's Gate 3
-`prime-run %command%`
-Proton GE
-Use directX option. vulkan doesn't work.
+Baldur's Gate 3 `prime-run %command%` Proton GE Use directX option. vulkan
+doesn't work.
 
 ## udev rules
 
-This is to have notifications when the battery hits a certain percent, to tell you to plug the power.
+This is to have notifications when the battery hits a certain percent, to tell
+you to plug the power.
 
-Go in /etc/udev/rules.d and create two files. (replace USERNAME with your username). This will make sure to give notifications whenever a device is plugged or unplugged in (as well as charging/discharging).
+Go in /etc/udev/rules.d and create two files. (replace USERNAME with your
+username). This will make sure to give notifications whenever a device is
+plugged or unplugged in (as well as charging/discharging).
 
 power.rules:
 
@@ -447,7 +480,8 @@ Install pass
 
 ### Setup for chrome
 
-Download extention: https://chromewebstore.google.com/detail/chrome-pass-zx2c4/oblajhnjmknenodebpekmkliopipoolo
+Download extention:
+https://chromewebstore.google.com/detail/chrome-pass-zx2c4/oblajhnjmknenodebpekmkliopipoolo
 
 Github page for the host python package: https://github.com/hsanson/chrome-pass
 
@@ -457,18 +491,15 @@ Github page for the host python package: https://github.com/hsanson/chrome-pass
 
 ### Export GPG keys
 
-Run this to first see a list of keys
-`gpg --list-keys`
-Then find the one that you need (usually the email you used to make the keys)
-Then copy the line under pub.
-Eeport public key.
-`gpg --export -a KEY_HERE > subkey.pub`
-Export private key
-`gpg --export-secret-subkeys -a KEY_HERE > subkey`
+Run this to first see a list of keys `gpg --list-keys` Then find the one that
+you need (usually the email you used to make the keys) Then copy the line under
+pub. Eeport public key. `gpg --export -a KEY_HERE > subkey.pub` Export private
+key `gpg --export-secret-subkeys -a KEY_HERE > subkey`
 
 ## Tor Browser
 
-To connect to a specific country, you must specify it in the "ExitNodes" like this:
+To connect to a specific country, you must specify it in the "ExitNodes" like
+this:
 
 ```
 EntryNodes {ca}
@@ -476,19 +507,27 @@ ExitNodes {it},{de}
 StrictNodes 1
 ```
 
-Add this to "torrc" file, in windows it is located in the default tor folder
-and in linux it is in /etc/tor/torrc-defaults
+Add this to "torrc" file, in windows it is located in the default tor folder and
+in linux it is in /etc/tor/torrc-defaults
 
 1 means it is forced
 
 0 means it can also use other nodes, if they one specified does not work.
 
-In windows go to internet options > connections > LAN settings > Advanced and make sure "Use the same proxy server ..."
-is checked off, then delete everything and add this to socks (last option):
-socks: localhost port: 9050
+In windows go to internet options > connections > LAN settings > Advanced and
+make sure "Use the same proxy server ..." is checked off, then delete everything
+and add this to socks (last option): socks: localhost port: 9050
 
 ## Get current country and city based on IP
+
 `curl http://ip-api.com/json\?fields\=country,city`
+
+## VLC
+
+Change this setting to perhaps redue static noise when pausing/unpausing: Tools
+
+> Preferences > Audio > Output module: > ALSA audio output Restart VLC. Taken
+> from: https://askubuntu.com/a/1466289
 
 ## Colours
 

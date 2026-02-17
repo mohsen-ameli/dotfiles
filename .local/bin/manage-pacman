@@ -50,6 +50,11 @@ clear_cache() {
 
     sudo rm -rf $HOME/.cache/$HELPER
     sudo rm -rf /var/log/journal/*
+
+    echo "Removing orphaned packages."
+    sudo -- pacman --remove --nosave --recursive $(\
+      pacman --query --deps --unrequired | awk '{print $1}' \
+    )
 }
 
 update_mirrorlist() {

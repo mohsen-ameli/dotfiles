@@ -25,13 +25,13 @@
     width = (300, 600)
 
     # The maximum height of a single notification, excluding the frame.
-    height = 80
+    height = (80,80)
 
     # Position the notification in the top right corner
     origin = top-right
 
     # Offset from the origin
-    offset = 5x45
+    offset = (5,45)
 
     # Scale factor. It is auto-detected if value is 0.
     scale = 0
@@ -134,7 +134,7 @@
 
     ### Text ###
 
-    font = Monospace 13
+    font = Monospace 12
 
     # The spacing between lines.  If the height is smaller than the
     # font height, it will get raised to the font height.
@@ -222,10 +222,10 @@
     # Scale small icons up to this size, set to 0 to disable. Helpful
     # for e.g. small files or high-dpi screens. In case of conflict,
     # max_icon_size takes precedence over this.
-    min_icon_size = 45
+    min_icon_size = 35
 
     # Scale larger icons down to this size, set to 0 to disable
-    max_icon_size = 45
+    max_icon_size = 35
 
     # Paths to default icons (only necessary when not using recursive icon lookup)
     icon_path = /usr/share/icons/Papirus/64x64/apps/:/home/moe/.local/share/icons/custom/
@@ -346,7 +346,6 @@
 [urgency_critical]
     background="#900000"
     foreground="#ffffff"
-    frame_clr="#ff0000"
     timeout=4
     override_pause_level=60
     default_icon = /home/moe/.local/share/icons/custom/exclamation.svg

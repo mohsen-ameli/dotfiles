@@ -27,7 +27,7 @@ notify_user() {
 }
 
 get_profile() {
-  profile=$(asusctl profile -p | cut -f 4 -d ' ' | xargs)
+  profile=$(asusctl profile -p | grep "Active profile is" | cut -f 4 -d ' ')
 }
 
 get_data() {

@@ -1,4 +1,10 @@
 #!/bin/bash
-sed -i '/^WallpaperSource/d' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
-kquitapp5 plasmashell </dev/null &>/dev/null & disown
-kstart5 plasmashell </dev/null &>/dev/null & disown
+# sed -i '/^WallpaperSource/d' ~/.config/plasma-org.kde.plasma.desktop-appletsrc
+# kquitapp5 plasmashell </dev/null &>/dev/null & disown
+# kstart5 plasmashell </dev/null &>/dev/null & disown
+#
+# systemctl --user restart plasma-plasmashell
+#
+
+
+sed -i '/wallpaperEngineKde/d' ~/.config/plasma-org.kde.plasma.desktop-appletsrc & qdbus6 org.kde.Shutdown /Shutdown logout
