@@ -1,29 +1,69 @@
 #!/bin/bash
-# Switches to vfio drivers
 
-# echo "0000:01:00.0" | sudo tee /sys/bus/pci/devices/0000:01:00.0/driver/unbind
-# echo "0000:01:00.1" | sudo tee /sys/bus/pci/devices/0000:01:00.1/driver/unbind
+if [ "$EUID" -ne 0 ]; then
+    echo "Please run as root"
+    exit
+fi
 
-echo -n "remove" | sudo tee /sys/bus/pci/devices/0000:01:00.0/drm/card1/uevent
-# udevadm trigger --action=remove /dev/dri/card1
-# killall /usr/lib/org_kde_powerdevil #idk why, but this binds to some obscure file which not tested yet
-# lsof /dev/nvidia0 | awk '{print $2}' | xargs -I {} kill {}
-# lsof /dev/dri/card1 | awk '{print $2}' | xargs -I {} kill {}
-# lsof /dev/dri/renderD129 | awk '{print $2}' | xargs -I {} kill {}
-# sleep 5s #allow graceful shutdown
-# #if still alive
-lsof /dev/nvidia0 | awk '{print $2}' | xargs -I {} kill -9 {}
-lsof /dev/dri/card1 | awk '{print $2}' | xargs -I {} kill -9 {}
-lsof /dev/dri/renderD129 | awk '{print $2}' | xargs -I {} kill -9 {}
-sleep 2s #prevent unloading breaking
-rmmod nvidia_drm
-rmmod nvidia_modeset
-rmmod nvidia_uvm
-rmmod nvidia
-modprobe vfio_pci ids=10de:2520,10de:228e 
-modprobe vfio_pci_core vfio_iommu_type1 vfio
-#setup currentenv for gpuloder script
-# echo -n "__GLX_VENDOR_LIBRARY_NAME=mesa
-# __EGL_VENDOR_LIBRARY_FILENAMES=/usr/share/glvnd/egl_vendor.d/50_mesa.json
-# VK_DRIVER_FILES=/usr/share/vulkan/icd.d/radeon_icd.x86_64.json" > /tmp/gpuloader_currentenv
-# #replace above with your preffered path
+# confirm with user before proceeding
+read -p "This script will unbind the NVIDIA GPU and audio devices from their current drivers and bind them to vfio-pci. Do you want to continue? (Y/n) "
+if [[ "$REPLY" =~ ^[Nn]$ ]]; then
+    echo "Aborting."
+    exit
+fi
+
+#
+# ## Unbind VGA and audio from "standard" drivers
+# echo 0000:01:00.0 > /sys/bus/pci/devices/0000:01:00.0/driver/unbind
+# echo 0000:01:00.1 > /sys/bus/pci/devices/0000:01:00.1/driver/unbind
+#
+# ##Bind VGA and audio to vfio-pci
+# echo 0000:01:00.0 > /sys/bus/pci/drivers/vfio-pci/bind
+# echo 0000:01:00.1 > /sys/bus/pci/drivers/vfio-pci/bind
+
+
+
+display_manager="sddm"
+
+pci_bus_id_nvidia_gpu="0000:01:00.0"
+pci_bus_id_nvidia_audio="0000:01:00.1"
+
+device_id_nvidia_gpu="10de 2520"
+device_id_nvidia_audio="10de 228e"
+
+# stop xorg
+systemctl stop "$display_manager"
+
+modprobe vfio
+modprobe vfio_iommu_type1
+modprobe vfio_pci
+
+# unbind virtual console
+# echo 0 > /sys/class/vtconsole/vtcon1/bind
+
+# unbind efi framebuffer
+# echo "efi-framebuffer.0" > /sys/bus/platform/devices/efi-framebuffer.0/driver/unbind
+
+# create new vfio-pci devices with ids of gpu and hdmi audio
+# echo "$device_id_nvidia_gpu" > /sys/bus/pci/drivers/vfio-pci/bind
+# echo "$device_id_nvidia_audio" > /sys/bus/pci/drivers/vfio-pci/bind
+
+# unbind gpu and hdmi audio
+echo "$pci_bus_id_nvidia_gpu" > /sys/bus/pci/devices/"$pci_bus_id_nvidia_gpu"/driver/unbind
+echo "$pci_bus_id_nvidia_audio" > /sys/bus/pci/devices/"$pci_bus_id_nvidia_audio"/driver/unbind
+
+# bind gpu and hdmi audio to vfio-pci
+echo "$pci_bus_id_nvidia_gpu" > /sys/bus/pci/drivers/vfio-pci/bind
+echo "$pci_bus_id_nvidia_audio" > /sys/bus/pci/drivers/vfio-pci/bind
+
+# remove created ids
+# echo "$device_id_nvidia_gpu" > /sys/bus/pci/drivers/vfio-pci/remove_id
+# echo "$device_id_nvidia_audio" > /sys/bus/pci/drivers/vfio-pci/remove_id
+
+# bind virtual console to internal gpu
+# echo 1 > /sys/class/vtconsole/vtcon1/bind
+
+# start xorg again
+systemctl start "$display_manager"
+
+lspci -knn | grep -A 3 VGA
