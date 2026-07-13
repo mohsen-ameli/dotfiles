@@ -34,9 +34,9 @@ device_id_nvidia_audio="10de 228e"
 # stop xorg
 systemctl stop "$display_manager"
 
-modprobe vfio
-modprobe vfio_iommu_type1
-modprobe vfio_pci
+# modprobe vfio
+# modprobe vfio_iommu_type1
+# modprobe vfio_pci
 
 # unbind virtual console
 # echo 0 > /sys/class/vtconsole/vtcon1/bind

@@ -9,6 +9,8 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 export PATH=$PATH:$HOME/.local/share/cargo/bin
 
+. "$HOME/.env_vars"
+
 if pgrep -x i3 > /dev/null; then
   alias mpv="swallow mpv"
   alias steam="swallow steam"
@@ -78,7 +80,7 @@ alias sc="sudo systemctl"
 alias config='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias lsbc='lsblk -o name,fstype,size,mountpoints,uuid -e 7'
 alias grep='grep --color=auto'
-alias fastfetch='fastfetch --config examples/17'
+# alias fastfetch='fastfetch --config examples/17'
 alias ex='chmod u+x'
 alias ls='ls --color=auto --group-directories-first'
 alias la='eza -la --color=always --group-directories-first'
@@ -182,7 +184,42 @@ function extract {
   fi
 }
 
+COMMAND_EXECUTED=0
+function play_sound_on_error {
+  local last_status=$?
+  if [[ $last_status -ne 0 ]] && [[ $COMMAND_EXECUTED -ne 0 ]]; then
+    SOUND_FILE="/tmp/error.mp3"
+    if [[ ! -f "$SOUND_FILE" ]]; then
+      wget https://www.myinstants.com/media/sounds/faaah.mp3 -O "$SOUND_FILE" >/dev/null 2>&1 && chmod +x "$SOUND_FILE"
+    fi
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+      (afplay "$SOUND_FILE" &)  # macOS Native
+    elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
+      if command -v aplay >/dev/null 2>&1; then
+        (aplay "$SOUND_FILE" >/dev/null 2>&1 &) # Linux Native (WAV only)
+      else
+        (gst-play-1.0 "$SOUND_FILE" --no-interactive >/dev/null 2>&1 &) # Fallback to gst-play for MP3 support
+      fi
+    # elif [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" ]]; then
+      # powershell -c "(New-Object Media.SoundPlayer 'C:\Windows\Media\chimes.wav').Play()" & # Windows Native
+    fi
+  fi
+  COMMAND_EXECUTED=0
+}
+# if [[ -n "$ZSH_VERSION" ]]; then
+#   autoload -Uz add-zsh-hook
+#   preexec() { COMMAND_EXECUTED=1 }
+#   add-zsh-hook precmd play_sound_on_error
+# elif [[ -n "$BASH_VERSION" ]]; then
+#   trap 'COMMAND_EXECUTED=1' DEBUG
+#   trap 'play_sound_on_error' ERR
+# fi
 
 ####### OVERRIDE #######
 export HISTSIZE=999999999
 export SAVEHIST=$HISTSIZE
+
+
+# >>> railway initialize >>>
+source "$HOME/.railway/env"
+# <<< railway initialize <<<

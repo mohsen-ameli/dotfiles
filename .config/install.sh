@@ -15,6 +15,7 @@ bluetooth="bluez bluez-utils bluez-obex bluetuith"
 audio="pamixer pipewire wireplumber pipewire-audio pipewire-alsa pipewire-pulse pipewire-jack pavucontrol"
 # rofi="rofi rofi-calc"
 display_manager="sddm"
+email_client="thunderbird systray-x-kde"
 
 notify() {
     echo -e "\n-----------------------------------------------"
@@ -67,7 +68,7 @@ setup_packages() {
     confirm "Do you want to install the main packages?" || return
     notify ":: Installing packages."
     $pkg_manager --noconfirm -Syyu base-devel git $network $themes $shell $file_explorer $image_viewer \
-        $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $rofi $display_manager \
+        $media_player $emulator $editor $fonts $bluetooth $audio $app_launcher $rofi $display_manager $email_client \
         zenity pacman-contrib ffmpeg jq grim slurp brightnessctl ntfs-3g socat inotify-tools discord \
         zip dunst htop nwg-look koi localsend \
     }

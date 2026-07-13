@@ -20,6 +20,7 @@ hybrid() {
   # echo 1 | sudo tee /sys/bus/pci/rescan
   # echo 0 | sudo tee /sys/devices/platform/asus-nb-wmi/dgpu_disable
   # [ $success -ne 0 ] && sudo envycontrol -s hybrid
+  sudo cp /home/moe/nvidia.conf /etc/modprobe.d/
 }
 
 log_out() {

@@ -12,8 +12,8 @@ configuration {
 }
 
 // Dynamic colors from pywal
-// @theme "~/.cache/wal/colors.rofi"
-@theme "~/.config/rofi/colors.rofi"
+// @theme "themes/sidetab-nord.rasi"
+@theme "themes/sidetab-nord.rasi"
 
 * {
     text-color: white;

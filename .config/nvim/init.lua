@@ -2,7 +2,9 @@
 ---------------------------------- OPTIONS ------------------------------------------
 -------------------------------------------------------------------------------------
 vim.opt.number = true
-vim.opt.wrap = false
+vim.opt.wrap = true
+vim.opt.linebreak = true
+vim.opt.breakindent = true
 vim.opt.scrolloff = 5
 vim.opt.showmode = false
 vim.opt.termguicolors = true
@@ -60,7 +62,7 @@ local plugins = {
     event = { "CursorMoved", "WinScrolled" },
   },
   -- copilot
-  { "github/copilot.vim" },
+  -- { "github/copilot.vim" },
   -- formatter
   { "stevearc/conform.nvim" },
   -- scrollbar

@@ -89,3 +89,23 @@ function extract {
 fi
 }
 
+COMMAND_EXECUTED=0
+function play_sound_on_error {
+  local last_status=$?
+  if [[ $last_status -ne 0 ]] && [[ $COMMAND_EXECUTED -ne 0 ]]; then
+    SOUND_FILE="/tmp/error.mp3"
+    if [[ ! -f "$SOUND_FILE" ]]; then
+      wget https://www.myinstants.com/media/sounds/faaah.mp3 -O "$SOUND_FILE" >/dev/null 2>&1 && chmod +x "$SOUND_FILE"
+    fi
+    (gst-play-1.0 "$SOUND_FILE" --no-interactive >/dev/null 2>&1 &)
+  fi
+  COMMAND_EXECUTED=0
+}
+if [[ -n "$ZSH_VERSION" ]]; then
+  autoload -Uz add-zsh-hook
+  preexec() { COMMAND_EXECUTED=1 }
+  add-zsh-hook precmd play_sound_on_error
+elif [[ -n "$BASH_VERSION" ]]; then
+  trap 'COMMAND_EXECUTED=1' DEBUG
+  trap 'play_sound_on_error' ERR
+fi

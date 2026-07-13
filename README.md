@@ -39,19 +39,13 @@ IdentityFile ~/.ssh/id_rsa_personal
 ```
 
 ### Fix merge conflicts
+
 ```
 git checkout master
 git pull
 git checkout <branch>
 git pull origin master
 <Fix the conflicts DO NOT HIT CONTINUE in vscode>
-git add .
-git commit -m "<message>"
-git pushgit checkout master
-git pull
-git checkout <branch>
-git pull origin master
-<Fix the conflicts DO NOT HIT CONTINUE>
 git add .
 git commit -m "<message>"
 git push
@@ -62,6 +56,13 @@ git push
 To view the origin url of a git directory run: `git remote -v`
 
 To change the origin url run: `git remote set-url origin new-url`
+
+### Multiple PRs making changes to older PR
+
+If you make PR A, then PR B based on top of PR A. Then you decide to
+change code in PR A, merge it, your PR B will then need those updates.
+
+Do a git fetch, then pull from the HEAD.
 
 ## Secure Boot
 
@@ -91,6 +92,23 @@ and everything is green:
 
 ```shell
 sudo sbctl verify
+```
+
+# Fix dirty NTFS disk from Linux
+
+## The problem
+
+Sometimes when try to mount an NTFS disk in Linux, you get at journalctl the error:
+
+```
+ene 17 10:52:55 hp3nvyl17 kernel: ntfs3: sda1: It is recommened to use chkdsk.
+ene 17 10:52:55 hp3nvyl17 kernel: ntfs3: sda1: volume is dirty and "force" flag is not set!
+```
+
+## Possible solution: use this command
+
+```
+sudo ntfsfix --clear-dirty /dev/sda1
 ```
 
 ## Xorg
@@ -156,6 +174,15 @@ and to disconnect run: `wg-quick down <name-of-vpn>`
 You could also just keep the original .conf file handy and run:
 `wg-quick up /path/to/file.conf`
 
+## "A stop job is running for User Manager for UID 1000"
+Systemd waits for apps to finish closing for 2min. You can reduce the timer by settings the time in the file
+`/etc/systemd/system.conf`. Edit the following two lines:
+```
+DefaultTimeoutStartSec=5s
+DefaultTimeoutStopSec=5s
+```
+Then run `sudo systemctl daemon-reload`
+
 ## General Notes
 
 To check which apps are running on XWayland, run `xlsclients` or `xeyes`
@@ -197,6 +224,19 @@ wifi.powersave = 2
 Also see:
 https://unix.stackexchange.com/questions/269661/how-to-turn-off-wireless-power-management-permanently
 
+If wifi is down after sleep:
+`sudo modprobe -r mt7921e && sudo modprobe mt7921e`
+This is for temporary fix, the following is for permanent fix:
+Create a file: /usr/lib/systemd/system-sleep/mt7921_fix
+Add this code to it:
+```bash
+#!/bin/sh
+if [ "$1" = "post" ]; then
+    modprobe -r mt7921e && modprobe mt7921e
+fi
+```
+Make it executable: sudo chmod +x /usr/lib/systemd/system-sleep/mt7921_fix
+
 ### Pacman
 
 If having issues with updating packages with pacman, or if you're getting
@@ -209,9 +249,14 @@ could try installing both conflicting packages with `sudo pacman -S pkg1 pkg2`.
 Or you could downgrade (not a very good option). Or perhaps wait for the arch
 team to resolve the issu.
 
+### Mirrorlist
+
 If you want to update mirrorlist, either run the script at
 `.local/bin/manage-pacman --update-mirrorlist` or use `rate-mirrors` to get the
 fastest mirrors.
+
+To update mirrorlist every week, run
+`sudo systemctl enable --now reflector.timer`
 
 To sort packages based on size, run `expac -H M '%m\t%n' | sort -h`
 
@@ -221,6 +266,9 @@ Run `pacman-mange --clear-cache` inside `~/.local/bin/`. Run
 `gdu / -i /media,/run/timeshift` to get file sizes. `/opt` usually has external
 programs, maybe check that out. `~/.cache` might have some things to clean up.
 `~/.local` is where all the steam games are, so check that out.
+
+### zsh history is messedup
+run the script `~/.local/bin/fix-history.sh`
 
 ### Gnome
 
@@ -238,6 +286,10 @@ Run the following to enable experimental fractional scaling:
 
 If mongo is not starting, lookg at the following post #6:
 https://bbs.archlinux.org/viewtopic.php?id=233435
+
+### Audio crackling sounds when running android simulator
+
+Add `PULSE_LATENCY_MSEC=60` to `/etc/environment` and restart
 
 ### Cool Things
 
@@ -351,6 +403,12 @@ options nvidia_drm modeset=1 fbdev=1
 options nvidia NVreg_PreserveVideoMemoryAllocations=1 NVreg_TemporaryFilePath=/var/tmp
 ```
 
+https://ggwptech.com/fix-kde-wayland-stutter-on-nvidia-gpus
+If on KDE and the system is lagging, add the following to `/etc/modprobe.d/nvidia.conf`
+```
+options nvidia NVreg_RegistryDwords="PowerMizerEnable=0x1;PerfLevelSrc=0x3322;PowerMizerDefaultAC=0x3;PowerMizerDefault=0x3
+```
+
 and `/etc/modprobe.d/blacklist.conf`
 
 ```
@@ -403,7 +461,7 @@ https://wiki.archlinux.org/title/QEMU/Guest_graphics_acceleration
 https://asus-linux.org/guides/vfio-guide/#using-looking-glass-with-a-virtual-display-driver
 
 Use this to override the capture key (56 = left-alt) (right control = 97)
-```looking-glass-client -m 56```
+`looking-glass-client -m 56`
 
 ### Windows VM
 
