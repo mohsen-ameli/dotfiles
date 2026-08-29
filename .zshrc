@@ -2,6 +2,8 @@
 # ~/.zshrc
 #
 
+export WALLPIPER_PORTAL=kde
+
 export CHARGE_LIMIT=80
 export THEME="dark"
 export ANDROID_HOME=$HOME/Android/Sdk
@@ -34,9 +36,9 @@ fi
 # If not running interactively, do not do anything
 [[ $- != *i* ]] && return
 # Otherwise start tmux
-if [ -z "$TMUX" ] && [[ $- == *i* ]]; then
-  tmux attach -d || tmux new
-fi
+#if [ -z "$TMUX" ] && [[ $- == *i* ]]; then
+#  tmux attach -d || tmux new
+#fi
 
 ####### EXPORTS #######
 export QT_QPA_PLATFORM=xcb

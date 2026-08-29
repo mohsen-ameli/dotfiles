@@ -38,8 +38,7 @@ icons = {
 }
 
 if "--help" in sys.argv:
-    print(
-        """Usage: weather [OPTIONS] [ARGUMENTS]
+    print("""Usage: weather [OPTIONS] [ARGUMENTS]
 
 If no options or arguments are passed, weather will try to use cached data
 We save the time of the last request and if it is within an hour, we use that data
@@ -51,8 +50,7 @@ OPTIONS:
 ARGUMENTS:
     --icon: Show the weather icon
     --emoji: Show the weather emoji
-    --tooltip: Show the weather tooltip"""
-    )
+    --tooltip: Show the weather tooltip""")
     exit(0)
 
 if "--live" not in sys.argv and "--url" not in sys.argv:
@@ -76,20 +74,12 @@ if "--live" not in sys.argv and "--url" not in sys.argv:
 
 
 def get_metadata():
-    r = requests.get("https://whatismycountry.com/")
-    soup = bs4.BeautifulSoup(r.text, features="lxml")
-    i = 0
-    for div in soup.find_all("div", class_="card"):
-        i += 1
-        if i == 4:
-            city = div.h4.text
-            city = "".join(city.split("(")[:-1]).strip()
-        if i == 6:
-            lat_log = div.h4.text.split(",")
-            latitude = lat_log[0].strip()[:-1]
-            longitude = lat_log[1].strip()[:-1]
-        if i == 7:
-            timezone = div.h4.text
+    r = requests.get("http://ip-api.com/json")
+    j = json.loads(r.text)
+    latitude = j["lat"]
+    longitude = j["lon"]
+    city = j["city"]
+    timezone = j["timezone"]
 
     curr_time = int(datetime.now().strftime("%H"))
     url = f"https://api.open-meteo.com/v1/forecast?latitude={latitude}&longitude={longitude}&current=temperature_2m,is_day,precipitation,weather_code,wind_speed_10m&hourly=temperature_2m,weather_code,wind_speed_10m,is_day&daily=sunrise,sunset&timezone={timezone}&forecast_days=3"
@@ -212,9 +202,7 @@ def format_data(weather: dict):
         [f"{" "*10}H: {high}° L: {low}°"],
     ]
 
-    data[
-        "tooltip"
-    ] = f"""<tt>
+    data["tooltip"] = f"""<tt>
 {tabulate.tabulate(header, stralign="center", tablefmt="plain")}
 {tabulate.tabulate(table, tablefmt="plain", maxcolwidths=[4, 4, 4, 4, 4, 4])}
 

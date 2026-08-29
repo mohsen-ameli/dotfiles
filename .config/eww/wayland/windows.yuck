@@ -1,15 +1,15 @@
 (defwindow bar
-    :monitor 0
+    :monitor 1
     :windowtype "dock"
-    :geometry (geometry :anchor "top center" :height "43px")
+    :geometry (geometry :anchor "top center" :height "43px" :width "100%")
     :wm-ignore false
     :exclusive true
-    :reserve (struts :side "top" :distance "3%")
+    ; :reserve (struts :side "top" :distance "100px")
     (bar)
 )
   
 (defwindow time_cal
-    :monitor 0
+    :monitor 1
     :stacking "overlay"
     :geometry (geometry 
                 :anchor "top right"
@@ -21,7 +21,7 @@
 )
 
 (defwindow control
-    :monitor 0
+    :monitor 1
     :stacking "overlay"
     :geometry (geometry
                 :anchor "top right"
@@ -34,7 +34,7 @@
 )
 
 (defwindow wifi
-    :monitor 0
+    :monitor 1
     :stacking "overlay"
     :geometry (geometry 
                 :anchor "top right"
@@ -47,7 +47,7 @@
 )
 
 (defwindow bluetooth
-    :monitor 0
+    :monitor 1
     :stacking "overlay"
     :geometry (geometry 
                 :anchor "top right"
@@ -60,7 +60,7 @@
 )
 
 (defwindow battery
-    :monitor 0
+    :monitor 1
     :stacking "overlay"
     :geometry (geometry 
                 :anchor "top right"
@@ -73,7 +73,7 @@
 )
 
 (defwindow weather
-    :monitor 0
+    :monitor 1
     :stacking "overlay"
     :geometry (geometry 
                 :anchor "top left"
@@ -85,7 +85,7 @@
 )
 
 (defwindow updates
-    :monitor 0
+    :monitor 1
     :stacking "overlay"
     :geometry (geometry 
                 :anchor "top right"
@@ -97,7 +97,7 @@
 )
 
 (defwindow menu-closer
-    :monitor 0
+    :monitor 1
     :geometry (geometry
                 :width "1920px"
                 :height "1080px"

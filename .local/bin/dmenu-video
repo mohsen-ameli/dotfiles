@@ -3,7 +3,11 @@
 ## Shows a dmenu page with all available videos in a given directory
 ##########################
 
-p=$([ "$1" != "" ] && echo "$1" || echo ".")
+player="vlc" # "mpv"
 
-find "$p" -name "*.mp4" -or -name "*.mkv" -or -name "*.mov" | rofi -dmenu | xargs -I {} mpv "{}"
+while true; do
+  p=$([ "$1" != "" ] && echo "$1" || echo ".")
+
+  find "$p" -name "*.mp4" -or -name "*.mkv" -or -name "*.mov" | rofi -dmenu | xargs -I {} $player "{}"
+done
 

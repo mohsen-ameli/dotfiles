@@ -1,9 +1,9 @@
 configuration {
-    dpi: 90;
+    dpi: 144;
     display-drun: "Application:";
     display-window: "Windows:";
     drun-display-format: "{icon} {name}";
-    //hover-select: true;
+    // hover-select: true;
     me-select-entry: "";
     me-accept-entry: "MousePrimary";
     modes: [window,drun,run,ssh,calc,emoji];
@@ -11,88 +11,8 @@ configuration {
     scale: 2;
 }
 
-// Dynamic colors from pywal
-// @theme "themes/sidetab-nord.rasi"
-@theme "themes/sidetab-nord.rasi"
-
-* {
-    text-color: white;
-    background-color: @color4;
-    border: 0;
-    margin: 0;
-    padding: 0;
-    spacing: 0;
-    font-family: "JetBrains Mono Nerd Font", "Vazirmatn";
-}
-
-window {
-    width: 40%;
-    height: 47%;
-    border: 2px;
-    border-color: @color0;
-    border-radius: 10px;
-}
-
-textbox-prompt-colon {
-    enabled: true;
-    expand: false;
-    padding: 0px 5px 0px 0px;
-    str: " ";
-    background-color: transparent;
-    text-color: inherit;
-}
-
-inputbar {
-    padding: 12px;
-    //children: ["textbox-prompt-colon", "entry"];
-    padding: 12px;
-}
-
-entry {
-    enabled: true;
-    background-color: transparent;
-    text-color: inherit;
-    cursor: text;
-    //placeholder: "Search...";
-    placeholder-color: inherit;
-}
-
-element {
-    margin: 5px 10px;
-    padding: 7px;
-    border-radius: 10px;
-}
-
-element selected,
-element-text selected,
-element-icon selected {
-    background-color: @color3;
-    color: black;
-}
-
-element-text {
-    color: white;
-}
+@theme "themes/nord.rasi"
 
 element-icon {
-    size: 30;
-}
-
-prompt,
-entry {
-    color: white;
-    margin: 0px 2px;
-}
-
-#listview {
-    scrollbar: true;
-}
-
-scrollbar {
-    width: 4px;
-    border: 0;
-    handle-color: @color3;
-    handle-width: 8px;
-    padding: 0;
-    margin: 3px;
+    size: 32px; /* Change this value to scale icons up or down */
 }

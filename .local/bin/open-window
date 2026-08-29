@@ -4,8 +4,7 @@
 ##########################
 
 if [ $($HOME/.local/bin/is-wayland) -eq 1 ]; then
-  active=$(hyprctl activeworkspace | grep "^workspace ID " | cut -d" " -f3)
-  hyprctl dispatch exec [workspace $active silent] -q "$1"
+  hyprctl dispatch "hl.dsp.exec_cmd(\"[float; center; size 1200 800] $1\")"
 else
   $1
 fi

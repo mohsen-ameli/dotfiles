@@ -94,7 +94,7 @@ and everything is green:
 sudo sbctl verify
 ```
 
-# Fix dirty NTFS disk from Linux
+# Fix dirty NTFS partition/disk from Linux
 
 ## The problem
 
@@ -109,6 +109,12 @@ ene 17 10:52:55 hp3nvyl17 kernel: ntfs3: sda1: volume is dirty and "force" flag 
 
 ```
 sudo ntfsfix --clear-dirty /dev/sda1
+```
+
+or
+
+```
+sudo ntfsfix -d /dev/nvme0n1p4
 ```
 
 ## Xorg
@@ -203,6 +209,8 @@ Use `kitten themes` to change kitty themes
 Use `sudo systemctl poweroff --when="+60min"` to schedule shutdown in X minutes
 
 The KDE audio icon in the taskbar is from the package `plasma-pa`
+
+Use `caligula burn` to burn an iso to a flash drive
 
 ### WiFi Connectivity
 
