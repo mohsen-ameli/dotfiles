@@ -191,6 +191,8 @@ Then run `sudo systemctl daemon-reload`
 
 ## General Notes
 
+To check a hard drive's (HDD) health, use `smartctl -a /dev/sda1`
+
 To check which apps are running on XWayland, run `xlsclients` or `xeyes`
 
 To force an app to use wayland, add this line to the "exec" option of the app
@@ -475,6 +477,14 @@ Use this to override the capture key (56 = left-alt) (right control = 97)
 
 After installing windows, install the virtio drivers from here:
 `https://github.com/virtio-win/virtio-win-pkg-scripts`
+
+### Mac VM
+Install VM on virtual machine manager: https://github.com/Coopydood/ultimate-macOS-KVM/
+For Nvidia drivers: https://nullmothsystems.com/drivers
+Another guide on pass through (but it's basically the same as windows, just pass thro the card)
+
+Fix audio not working:
+https://github.com/Coopydood/ultimate-macOS-KVM/issues/139
 
 ### Games
 

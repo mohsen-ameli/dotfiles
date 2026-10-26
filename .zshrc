@@ -35,10 +35,11 @@ fi
 
 # If not running interactively, do not do anything
 [[ $- != *i* ]] && return
+
 # Otherwise start tmux
-#if [ -z "$TMUX" ] && [[ $- == *i* ]]; then
-#  tmux attach -d || tmux new
-#fi
+if [ -z "$TMUX" ] && [[ $- == *i* ]]; then
+  tmux attach -d || tmux new
+fi
 
 ####### EXPORTS #######
 export QT_QPA_PLATFORM=xcb
